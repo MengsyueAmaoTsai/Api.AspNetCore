@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 
 using FluentAssertions;
 
-using RichillCapital.Api.Endpoints;
 using RichillCapital.Contracts;
 
 namespace RichillCapital.Api.AcceptanceTests;
@@ -22,5 +21,7 @@ public sealed class GetProcessInfoTests(
         var processInfo = await response.Content.ReadFromJsonAsync<ProcessInfoResponse>();
 
         processInfo.Should().NotBeNull();
+        processInfo?.MachineName.Should().NotBeNullOrEmpty();
+        processInfo.UserName.Should().NotBeNullOrEmpty();
     }
 }

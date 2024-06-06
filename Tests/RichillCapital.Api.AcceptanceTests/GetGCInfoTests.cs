@@ -1,6 +1,9 @@
 using System.Net;
+using System.Net.Http.Json;
 
 using FluentAssertions;
+
+using RichillCapital.Contracts;
 
 namespace RichillCapital.Api.AcceptanceTests;
 
@@ -14,5 +17,10 @@ public sealed class GetGCInfoTests(
         var response = await Client.GetAsync("gc-info");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var gcInfo = await response.Content.ReadFromJsonAsync<GCInfoResponse>();
+
+        gcInfo.Should().NotBeNull();
+        gcInfo?.MachineName.Should().NotBeNullOrEmpty();
     }
 }
