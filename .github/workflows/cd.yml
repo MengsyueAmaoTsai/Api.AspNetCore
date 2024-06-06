@@ -1,10 +1,9 @@
-name: ASP.NET Docker Continuous Deployment
+name: ASP.NET Continuous Deployment
 
 on:
   push:
-    branches:
-      - master
-
+    tags:
+      - '*'
 env:
     IMAGE_NAME: api
     TAG: latest
