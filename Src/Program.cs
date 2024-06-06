@@ -1,23 +1,43 @@
 using RichillCapital.Api.Endpoints;
+using RichillCapital.Logging;
+using RichillCapital.UseCases;
+using RichillCapital.Api.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+// Application
+builder.Services.AddUseCases();
+
+// Infrastructure - Logging
+builder.WebHost.UseApiLogger();
+
+// Infrastructure - Identity
+
+// Infrastructure - Persistence
+
+builder.Services.AddEndpoints();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
-app.UseHttpsRedirection();
+app.UseExceptionHandler(options =>
+{
+});
+
+app.UseSwaggerDoc();
 
 app.MapGCInfoEndpoint();
 app.MapThreadPoolInfoEndpoint();
 app.MapProcessInfoEndpoint();
-app.MapControllers();
+
+app.MapEndpoints();
 
 await app.RunAsync();
+
 
 public partial class Program;
