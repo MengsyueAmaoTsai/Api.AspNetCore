@@ -12,6 +12,7 @@ ARG APP_NAME=RichillCapital.Api
 
 COPY ./build.cake ./${APP_NAME}.sln ./${APP_NAME}.csproj ./
 
+COPY ./Libs/RichillCapital.Contracts/RichillCapital.Contracts.csproj ./Libs/RichillCapital.Contracts/
 COPY ./Libs/RichillCapital.Domain/RichillCapital.Domain.csproj ./Libs/RichillCapital.Domain/
 COPY ./Libs/RichillCapital.UseCases/RichillCapital.UseCases.csproj ./Libs/RichillCapital.UseCases/
 COPY ./Libs/RichillCapital.Persistence/RichillCapital.Persistence.csproj ./Libs/RichillCapital.Persistence/

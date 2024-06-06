@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Logging", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Identity", "Libs\RichillCapital.Identity\RichillCapital.Identity.csproj", "{EDC75B38-989F-4C64-9CB5-0C988A373507}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Contracts", "Libs\RichillCapital.Contracts\RichillCapital.Contracts.csproj", "{162ACB3E-E373-455E-B27B-39E20B553488}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{EDC75B38-989F-4C64-9CB5-0C988A373507}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDC75B38-989F-4C64-9CB5-0C988A373507}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDC75B38-989F-4C64-9CB5-0C988A373507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{162ACB3E-E373-455E-B27B-39E20B553488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{162ACB3E-E373-455E-B27B-39E20B553488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{162ACB3E-E373-455E-B27B-39E20B553488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{162ACB3E-E373-455E-B27B-39E20B553488}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{65A9252B-D091-4363-B88F-CE0DB9863326} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
@@ -66,5 +72,6 @@ Global
 		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{0B3C3EB5-45B3-4E28-9A8D-EFEC371E3AE4} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{EDC75B38-989F-4C64-9CB5-0C988A373507} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
+		{162ACB3E-E373-455E-B27B-39E20B553488} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 	EndGlobalSection
 EndGlobal
