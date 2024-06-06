@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 
 using RichillCapital.Api.Endpoints;
+using RichillCapital.Contracts;
 
 namespace RichillCapital.Api.AcceptanceTests;
 
