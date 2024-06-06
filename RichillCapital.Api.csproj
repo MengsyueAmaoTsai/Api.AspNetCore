@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="Libs\RichillCapital.UseCases\RichillCapital.UseCases.csproj" />
     <ProjectReference Include="Libs\RichillCapital.Persistence\RichillCapital.Persistence.csproj" />
+    <ProjectReference Include="Libs\RichillCapital.Logging\RichillCapital.Logging.csproj" />
   </ItemGroup>
 
 </Project>

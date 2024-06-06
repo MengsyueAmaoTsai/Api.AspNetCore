@@ -14,8 +14,8 @@ COPY ./build.cake ./${APP_NAME}.sln ./${APP_NAME}.csproj ./
 
 COPY ./Libs/RichillCapital.Domain/RichillCapital.Domain.csproj ./Libs/RichillCapital.Domain/
 COPY ./Libs/RichillCapital.UseCases/RichillCapital.UseCases.csproj ./Libs/RichillCapital.UseCases/
-
 COPY ./Libs/RichillCapital.Persistence/RichillCapital.Persistence.csproj ./Libs/RichillCapital.Persistence/
+COPY ./Libs/RichillCapital.Logging/RichillCapital.Logging.csproj ./Libs/RichillCapital.Logging/
 
 COPY ./Tests/RichillCapital.Api.AcceptanceTests/RichillCapital.Api.AcceptanceTests.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
 RUN dotnet cake --target restore 

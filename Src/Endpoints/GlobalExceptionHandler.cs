@@ -4,7 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-// using RichillCapital.Logging;
+using RichillCapital.Logging;
 using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Api.Endpoints;
@@ -13,6 +13,8 @@ internal sealed class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> _logger) :
     IExceptionHandler
 {
+    private const string ContentType = "application/problem+json";
+
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
@@ -37,12 +39,13 @@ internal sealed class GlobalExceptionHandler(
         };
 
         problemDetails.Extensions.Add("message", exception.Message);
-        // problemDetails.Extensions.Add("traceId", Activity.Current?.GetTraceId());
+        problemDetails.Extensions.Add("traceId", Activity.Current?.GetTraceId());
 
-        response.ContentType = "application/problem+json";
+        response.ContentType = ContentType;
         response.StatusCode = problemDetails.Status.Value;
 
         await response.WriteAsJsonAsync(problemDetails, cancellationToken);
+
         return true;
     }
 }
