@@ -13,6 +13,6 @@ public sealed class GetProcessInfoTests(
     {
         var response = await Client.GetAsync("process-info");
 
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }

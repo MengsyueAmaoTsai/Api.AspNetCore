@@ -13,6 +13,6 @@ public sealed class GetGCInfoTests(
     {
         var response = await Client.GetAsync("gc-info");
 
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }

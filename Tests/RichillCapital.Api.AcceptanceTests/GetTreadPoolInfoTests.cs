@@ -13,6 +13,6 @@ public sealed class GetThreadPoolInfoTests(
     {
         var response = await Client.GetAsync("thread-pool-info");
 
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }
