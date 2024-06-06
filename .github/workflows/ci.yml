@@ -1,0 +1,30 @@
+name: ASP.NET Continuous Integration
+
+on:
+  push:
+    branches: 
+      - master
+
+env:
+  Build_Configuration: Release
+  Cake_File: build.cake
+  Build_Target: Default
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+          
+    - name: Build and Test
+      uses: cake-build/cake-action@v2
+      with:
+        script-path: ${{ env.Cake_File }}
+        target: ${{ env.Build_Target }}
+        verbosity: Diagnostic
+        arguments: |
+          configuration: ${{ env.Build_Configuration }}

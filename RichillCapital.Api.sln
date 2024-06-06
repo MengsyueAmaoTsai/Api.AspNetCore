@@ -5,6 +5,18 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api", "RichillCapital.Api.csproj", "{2DB24727-41B2-49FA-B8A3-E72DC10F1259}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api.AcceptanceTests", "Tests\RichillCapital.Api.AcceptanceTests\RichillCapital.Api.AcceptanceTests.csproj", "{65A9252B-D091-4363-B88F-CE0DB9863326}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{14B14710-2CBF-4CF7-A6E1-8A97335D724F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Domain", "Libs\RichillCapital.Domain\RichillCapital.Domain.csproj", "{053A9AE7-FFED-4C69-8605-0484901CD58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.UseCases", "Libs\RichillCapital.UseCases\RichillCapital.UseCases.csproj", "{DDB28433-407E-4415-B90B-2229EDC7E5D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Persistence", "Libs\RichillCapital.Persistence\RichillCapital.Persistence.csproj", "{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +30,27 @@ Global
 		{2DB24727-41B2-49FA-B8A3-E72DC10F1259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB24727-41B2-49FA-B8A3-E72DC10F1259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DB24727-41B2-49FA-B8A3-E72DC10F1259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65A9252B-D091-4363-B88F-CE0DB9863326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65A9252B-D091-4363-B88F-CE0DB9863326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65A9252B-D091-4363-B88F-CE0DB9863326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65A9252B-D091-4363-B88F-CE0DB9863326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053A9AE7-FFED-4C69-8605-0484901CD58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053A9AE7-FFED-4C69-8605-0484901CD58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053A9AE7-FFED-4C69-8605-0484901CD58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053A9AE7-FFED-4C69-8605-0484901CD58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB28433-407E-4415-B90B-2229EDC7E5D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB28433-407E-4415-B90B-2229EDC7E5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB28433-407E-4415-B90B-2229EDC7E5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB28433-407E-4415-B90B-2229EDC7E5D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65A9252B-D091-4363-B88F-CE0DB9863326} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
+		{053A9AE7-FFED-4C69-8605-0484901CD58B} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
+		{DDB28433-407E-4415-B90B-2229EDC7E5D2} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
+		{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 	EndGlobalSection
 EndGlobal
