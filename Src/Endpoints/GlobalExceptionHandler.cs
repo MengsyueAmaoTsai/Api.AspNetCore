@@ -13,6 +13,7 @@ internal sealed class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> _logger) :
     IExceptionHandler
 {
+    private const string InternalServerErrorType = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1";
     private const string ContentType = "application/problem+json";
 
     public async ValueTask<bool> TryHandleAsync(
@@ -29,13 +30,14 @@ internal sealed class GlobalExceptionHandler(
             Environment.CurrentManagedThreadId);
 
         var error = Error.Unexpected(exception.Message);
+
         var problemDetails = new ProblemDetails
         {
             Title = error.Code,
             Detail = error.Message,
             Status = (int)HttpStatusCode.InternalServerError,
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",
-            Instance = null,
+            Type = InternalServerErrorType,
+            Instance = default,
         };
 
         problemDetails.Extensions.Add("message", exception.Message);
