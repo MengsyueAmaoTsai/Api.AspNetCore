@@ -1,4 +1,4 @@
 {
   "dotnet.defaultSolution": "./RichillCapital.Api.sln",
-  "cSpell.words": ["ASPNETCORE", "Mediat", "Testcontainers"]
+  "cSpell.words": ["ASPNETCORE", "Mediat", "Serilog", "Testcontainers"]
 }

@@ -2,6 +2,7 @@ using RichillCapital.Api.Endpoints;
 using RichillCapital.Logging;
 using RichillCapital.UseCases;
 using RichillCapital.Api.OpenApi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddUseCases();
 
 // Infrastructure - Logging
+builder.Services.AddSerilog();
 builder.WebHost.UseApiLogger();
 
 // Infrastructure - Identity
