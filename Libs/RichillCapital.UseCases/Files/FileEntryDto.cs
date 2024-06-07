@@ -33,6 +33,6 @@ internal static class FileEntryExtensions
             UploadedTime = file.UploadedTime,
             FileName = file.FileName,
             FileLocation = file.Location,
-            Encrypted = file.Encrypted,
+            Encrypted = file.Encrypt,
         };
 }

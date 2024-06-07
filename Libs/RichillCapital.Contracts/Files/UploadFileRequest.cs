@@ -9,7 +9,7 @@ public sealed record UploadFileRequest
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required IFormFile File { get; init; }
-    public required bool Encrypted { get; init; }
+    public required bool Encrypt { get; init; }
 }
 
 public static class UploadFileRequestMapping
@@ -22,7 +22,7 @@ public static class UploadFileRequestMapping
             Size = request.File.Length,
             UploadedTime = DateTimeOffset.UtcNow,
             FileName = request.File.FileName,
-            Encrypted = request.Encrypted,
+            Encrypt = request.Encrypt,
             Stream = request.File.OpenReadStream(),
         };
 }

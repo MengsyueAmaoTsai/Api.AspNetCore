@@ -17,7 +17,7 @@ public sealed record UploadFileCommand :
 
     public required string FileName { get; init; }
 
-    public required bool Encrypted { get; init; }
+    public required bool Encrypt { get; init; }
 
     public required Stream Stream { get; init; }
 }

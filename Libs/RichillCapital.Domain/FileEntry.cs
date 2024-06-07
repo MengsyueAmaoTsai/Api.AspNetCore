@@ -23,7 +23,7 @@ public sealed class FileEntry : Entity<FileEntryId>
         UploadedTime = uploadedTime;
         FileName = fileName;
         Location = location;
-        Encrypted = encrypted;
+        Encrypt = encrypted;
         EncryptionKey = encryptionKey;
         EncryptionIV = encryptionIV;
     }
@@ -40,7 +40,7 @@ public sealed class FileEntry : Entity<FileEntryId>
 
     public string Location { get; private set; }
 
-    public bool Encrypted { get; private set; }
+    public bool Encrypt { get; private set; }
 
     public string EncryptionKey { get; private set; }
 

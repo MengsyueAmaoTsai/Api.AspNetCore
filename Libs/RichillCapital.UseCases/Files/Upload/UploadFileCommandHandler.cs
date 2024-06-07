@@ -27,7 +27,7 @@ internal sealed class UploadFileCommandHandler(
             command.UploadedTime,
             location,
             command.FileName,
-            command.Encrypted,
+            command.Encrypt,
             string.Empty,
             string.Empty);
 
@@ -41,7 +41,7 @@ internal sealed class UploadFileCommandHandler(
 
         using var stream = command.Stream;
 
-        if (command.Encrypted)
+        if (command.Encrypt)
         {
             // var key = SymmetricCrypto.GenerateKey(32);
             // var iv = SymmetricCrypto.GenerateKey(16);
