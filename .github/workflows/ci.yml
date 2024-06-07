@@ -32,5 +32,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: RichillCapital.Api-${{ env.Build_Configuration }}-{{ metrics.os }}
+        name: RichillCapital.Api-${{ env.Build_Configuration }}-${{ matrix.os }}
         path: ./publish
