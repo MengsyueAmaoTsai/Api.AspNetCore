@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  Build_Configuration: Release
+  Build_Configuration: Debug
   Cake_File: build.cake
   Build_Target: Default
 
@@ -28,3 +28,9 @@ jobs:
         verbosity: Diagnostic
         arguments: |
           configuration: ${{ env.Build_Configuration }}
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: RichillCapital.Api-${{ env.Build_Configuration }}-{{ metrics.os }}
+        path: ./publish
