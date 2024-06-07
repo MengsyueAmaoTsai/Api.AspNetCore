@@ -4,5 +4,15 @@
 GET {{Localhost}}/api/v1/files
 
 ### Get File by ID
+@FileId = 123
+
+GET {{Localhost}}/api/v1/files/{{FileId}}
+
+### Delete File by ID
+DELETE {{Localhost}}/api/v1/files/{{FileId}}
 
 ### Upload File
+POST {{Localhost}}/api/v1/files
+
+### Download File
+GET {{Localhost}}/api/v1/files/{{FileId}}/download
