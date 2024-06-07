@@ -23,5 +23,6 @@ public static class UploadFileRequestMapping
             UploadedTime = DateTimeOffset.UtcNow,
             FileName = request.File.FileName,
             Encrypted = request.Encrypted,
+            Stream = request.File.OpenReadStream(),
         };
 }

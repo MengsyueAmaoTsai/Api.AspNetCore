@@ -1,4 +1,3 @@
-
 using RichillCapital.Domain;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
@@ -19,4 +18,6 @@ public sealed record UploadFileCommand :
     public required string FileName { get; init; }
 
     public required bool Encrypted { get; init; }
+
+    public required Stream Stream { get; init; }
 }
