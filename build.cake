@@ -27,6 +27,20 @@ Task("Build")
             });
     });
 
+
+Task("ArchitectureTests")
+    .Does(() =>
+    {
+        DotNetTest(
+            "./Tests/RichillCapital.Api.ArchitectureTests",
+            new DotNetTestSettings
+            {
+                Configuration = buildConfiguration,
+                NoBuild = true,
+                NoRestore = true,
+            });
+    });
+
 Task("AcceptanceTests")
     .Does(() =>
     {
@@ -39,6 +53,7 @@ Task("AcceptanceTests")
                 NoRestore = true,
             });
     });
+
 
 Task("Publish")
     .Does(() =>
@@ -60,6 +75,7 @@ Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("ArchitectureTests")
     .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
 

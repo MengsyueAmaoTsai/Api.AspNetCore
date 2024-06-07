@@ -20,6 +20,7 @@ COPY ./Libs/RichillCapital.Logging/*.csproj ./Libs/RichillCapital.Logging/
 COPY ./Libs/RichillCapital.Identity/*.csproj ./Libs/RichillCapital.Identity/
 
 COPY ./Tests/RichillCapital.Api.AcceptanceTests/*.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
+COPY ./Tests/RichillCapital.Api.ArchitectureTests/*.csproj ./Tests/RichillCapital.Api.ArchitectureTests/
 RUN dotnet cake --target restore 
 
 # Build and Publish Source Code
