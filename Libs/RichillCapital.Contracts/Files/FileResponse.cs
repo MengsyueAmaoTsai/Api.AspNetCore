@@ -2,7 +2,7 @@ using RichillCapital.UseCases.Files;
 
 namespace RichillCapital.Contracts.Files;
 
-public sealed record FileResponse
+public sealed record FileEntryResponse
 {
     public required Guid Id { get; set; }
 
@@ -21,9 +21,9 @@ public sealed record FileResponse
     public required bool Encrypted { get; set; }
 }
 
-public static class FileResponseMapping
+public static class FileEntryResponseMapping
 {
-    public static FileResponse ToResponse(this FileEntryDto dto) =>
+    public static FileEntryResponse ToResponse(this FileEntryDto dto) =>
         new()
         {
             Id = dto.Id,
@@ -36,6 +36,6 @@ public static class FileResponseMapping
             Encrypted = dto.Encrypted
         };
 
-    public static IEnumerable<FileResponse> ToResponse(this IEnumerable<FileEntryDto> files) =>
+    public static IEnumerable<FileEntryResponse> ToResponse(this IEnumerable<FileEntryDto> files) =>
         files.Select(ToResponse);
 }

@@ -17,7 +17,7 @@ namespace RichillCapital.Api.Endpoints.Files;
 [ApiVersion(EndpointVersions.V1)]
 public sealed class ListFilesEndpoint(IMediator _mediator) : AsyncEndpoint
     .WithoutRequest
-    .WithActionResult<IEnumerable<FileResponse>>
+    .WithActionResult<IEnumerable<FileEntryResponse>>
 {
     [HttpGet(ApiRoutes.Files.List)]
     [MapToApiVersion(EndpointVersions.V1)]
@@ -27,7 +27,7 @@ public sealed class ListFilesEndpoint(IMediator _mediator) : AsyncEndpoint
         Description = "List all files uploaded to the system.",
         OperationId = "Files.List",
         Tags = ["Files"])]
-    public override async Task<ActionResult<IEnumerable<FileResponse>>> HandleAsync(
+    public override async Task<ActionResult<IEnumerable<FileEntryResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await _mediator.Send(new ListFilesQuery(), cancellationToken)
             .Then(files => files.ToResponse())
