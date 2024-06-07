@@ -12,14 +12,14 @@ ARG APP_NAME=RichillCapital.Api
 
 COPY ./build.cake ./${APP_NAME}.sln ./${APP_NAME}.csproj ./
 
-COPY ./Libs/RichillCapital.Contracts/RichillCapital.Contracts.csproj ./Libs/RichillCapital.Contracts/
-COPY ./Libs/RichillCapital.Domain/RichillCapital.Domain.csproj ./Libs/RichillCapital.Domain/
-COPY ./Libs/RichillCapital.UseCases/RichillCapital.UseCases.csproj ./Libs/RichillCapital.UseCases/
-COPY ./Libs/RichillCapital.Persistence/RichillCapital.Persistence.csproj ./Libs/RichillCapital.Persistence/
-COPY ./Libs/RichillCapital.Logging/RichillCapital.Logging.csproj ./Libs/RichillCapital.Logging/
-COPY ./Libs/RichillCapital.Identity/RichillCapital.Identity.csproj ./Libs/RichillCapital.Identity/
+COPY ./Libs/RichillCapital.Contracts/*.csproj ./Libs/RichillCapital.Contracts/
+COPY ./Libs/RichillCapital.Domain/*.csproj ./Libs/RichillCapital.Domain/
+COPY ./Libs/RichillCapital.UseCases/*.csproj ./Libs/RichillCapital.UseCases/
+COPY ./Libs/RichillCapital.Persistence/*.csproj ./Libs/RichillCapital.Persistence/
+COPY ./Libs/RichillCapital.Logging/*.csproj ./Libs/RichillCapital.Logging/
+COPY ./Libs/RichillCapital.Identity/*.csproj ./Libs/RichillCapital.Identity/
 
-COPY ./Tests/RichillCapital.Api.AcceptanceTests/RichillCapital.Api.AcceptanceTests.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
+COPY ./Tests/RichillCapital.Api.AcceptanceTests/*.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
 RUN dotnet cake --target restore 
 
 # Build and Publish Source Code
