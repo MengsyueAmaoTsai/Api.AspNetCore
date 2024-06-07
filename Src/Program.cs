@@ -1,7 +1,10 @@
 using RichillCapital.Api.Endpoints;
-using RichillCapital.Logging;
-using RichillCapital.UseCases;
 using RichillCapital.Api.OpenApi;
+using RichillCapital.Logging;
+using RichillCapital.Persistence;
+using RichillCapital.Persistence.Seeds;
+using RichillCapital.UseCases;
+
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +19,14 @@ builder.WebHost.UseApiLogger();
 // Infrastructure - Identity
 
 // Infrastructure - Persistence
+builder.Services.AddDatabase();
 
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.PopulateSeed();
 
 if (app.Environment.IsDevelopment())
 {
