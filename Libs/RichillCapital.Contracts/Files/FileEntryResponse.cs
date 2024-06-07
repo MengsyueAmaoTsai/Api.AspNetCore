@@ -2,7 +2,7 @@ using RichillCapital.UseCases.Files;
 
 namespace RichillCapital.Contracts.Files;
 
-public sealed record FileEntryResponse
+public record FileEntryResponse
 {
     public required Guid Id { get; set; }
 

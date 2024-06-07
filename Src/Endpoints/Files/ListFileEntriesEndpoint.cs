@@ -15,7 +15,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.Files;
 
 [ApiVersion(EndpointVersions.V1)]
-public sealed class ListFilesEndpoint(IMediator _mediator) : AsyncEndpoint
+public sealed class ListFileEntriesEndpoint(
+    IMediator _mediator) : AsyncEndpoint
     .WithoutRequest
     .WithActionResult<IEnumerable<FileEntryResponse>>
 {
@@ -29,7 +30,7 @@ public sealed class ListFilesEndpoint(IMediator _mediator) : AsyncEndpoint
         Tags = ["Files"])]
     public override async Task<ActionResult<IEnumerable<FileEntryResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
-        await _mediator.Send(new ListFilesQuery(), cancellationToken)
+        await _mediator.Send(new ListFileEntriesQuery(), cancellationToken)
             .Then(files => files.ToResponse())
             .Match(HandleFailure, Ok);
 }

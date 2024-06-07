@@ -9,5 +9,7 @@ public static class ApiRoutes
         private const string FileBase = ApiBase + "/files";
 
         public const string List = FileBase;
+
+        public const string Get = FileBase + "/{fileId}";
     }
 }

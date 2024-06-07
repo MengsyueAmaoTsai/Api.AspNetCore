@@ -8,10 +8,10 @@ namespace RichillCapital.UseCases.Files.List;
 
 internal sealed class ListFilesQueryHandler(
     IReadOnlyRepository<FileEntry> _fileRepository) :
-    IQueryHandler<ListFilesQuery, ErrorOr<IEnumerable<FileEntryDto>>>
+    IQueryHandler<ListFileEntriesQuery, ErrorOr<IEnumerable<FileEntryDto>>>
 {
     public async Task<ErrorOr<IEnumerable<FileEntryDto>>> Handle(
-        ListFilesQuery query,
+        ListFileEntriesQuery query,
         CancellationToken cancellationToken)
     {
         var files = await _fileRepository.ListAsync(cancellationToken);
