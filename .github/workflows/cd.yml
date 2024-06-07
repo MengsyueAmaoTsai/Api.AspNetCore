@@ -1,4 +1,4 @@
-name: ASP.NET Continuous Deployment
+name: ASP.NET Web API Continuous Deployment
 
 on:
   push:

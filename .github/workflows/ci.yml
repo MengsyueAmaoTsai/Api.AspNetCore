@@ -1,4 +1,4 @@
-name: ASP.NET Continuous Integration
+name: ASP.NET Web API Continuous Integration
 
 on:
   push:
