@@ -1,10 +1,12 @@
+
+using RichillCapital.Domain;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Files.Upload;
 
 public sealed record UploadFileCommand :
-    ICommand<ErrorOr<string>>
+    ICommand<ErrorOr<FileEntryId>>
 {
     public required string Name { get; init; }
 

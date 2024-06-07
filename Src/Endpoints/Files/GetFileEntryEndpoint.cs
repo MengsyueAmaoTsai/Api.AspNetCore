@@ -5,13 +5,13 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using RichillCapital.Api.Endpoints;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Files;
 using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
+namespace RichillCapital.Api.Endpoints.Files;
 
 [ApiVersion(EndpointVersions.V1)]
 public sealed class GetFileEntryEndpoint(IMediator _mediator) : AsyncEndpoint
