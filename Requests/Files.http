@@ -1,0 +1,8 @@
+@Localhost = https://localhost:10000
+
+### List Files
+GET {{Localhost}}/api/v1/files
+
+### Get File by ID
+
+### Upload File
