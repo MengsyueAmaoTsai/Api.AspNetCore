@@ -1,18 +1,32 @@
 @Localhost = https://localhost:10000
 
+### Upload File
+POST {{Localhost}}/api/v1/files
+
+
+### Update File
+PUT {{Localhost}}/api/v1/files/{{FileId}}
+Content-Type: application/json
+
+{
+    "name": "Updated File Name",
+    "description": "Updated File Description"
+}
+
 ### List Files
 GET {{Localhost}}/api/v1/files
 
-### Get File by ID
-@FileId = 123
+### Get File by Id
+@FileId = 1
 
 GET {{Localhost}}/api/v1/files/{{FileId}}
 
 ### Delete File by ID
 DELETE {{Localhost}}/api/v1/files/{{FileId}}
 
-### Upload File
-POST {{Localhost}}/api/v1/files
 
 ### Download File
 GET {{Localhost}}/api/v1/files/{{FileId}}/download
+
+### List File Audit Logs
+GET {{Localhost}}/api/v1/files/{{FileId}}/audit-logs
