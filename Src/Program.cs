@@ -43,6 +43,7 @@ app.UseExceptionHandler(options =>
 
 app.UseSwaggerDoc();
 
+app.MapTestEndpoint();
 app.MapGCInfoEndpoint();
 app.MapThreadPoolInfoEndpoint();
 app.MapProcessInfoEndpoint();
