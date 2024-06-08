@@ -1,13 +1,9 @@
-using System.Runtime.CompilerServices;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.SharedKernel;
-
-[assembly: InternalsVisibleTo("RichillCapital.Api.AcceptanceTests")]
 
 namespace RichillCapital.Persistence.Seeds;
 
