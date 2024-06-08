@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.AuditLogs;
+using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,10 +27,13 @@ public sealed class ListAuditLogsEndpoint(IMediator _mediator) : AsyncEndpoint
         Description = "List audit logs",
         OperationId = "AuditLogs.List",
         Tags = ["AuditLogs"])]
-    public override Task<ActionResult<Paged<AuditLogResponse>>> HandleAsync(
+    public override async Task<ActionResult<Paged<AuditLogResponse>>> HandleAsync(
         [FromQuery] ListAuditLogsRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+        CancellationToken cancellationToken = default) =>
+        await request
+            .ToErrorOr()
+            .Then(req => req.ToQuery())
+            .Then(query => _mediator.Send(query, cancellationToken))
+            .Then(dto => dto.ToResponse())
+            .Match(HandleFailure, Ok);
 }
