@@ -11,7 +11,7 @@ internal sealed class LocalFileStorageManager(
     ILogger<LocalFileStorageManager> _logger) :
     IFileStorageManager
 {
-    private readonly string _managingDirectory = Assembly.GetExecutingAssembly().Location;
+    private readonly string _managingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
 
     public Task ArchiveAsync(
         FileEntry fileEntry,
