@@ -6,13 +6,13 @@ using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Files.Update;
 
-internal sealed class UpdateFileCommandHandler(
+internal sealed class UpdateFileEntryCommandHandler(
     IRepository<FileEntry> _fileRepository,
     IUnitOfWork _unitOfWork) :
-    ICommandHandler<UpdateFileCommand, ErrorOr<FileEntryDto>>
+    ICommandHandler<UpdateFileEntryCommand, ErrorOr<FileEntryDto>>
 {
     public async Task<ErrorOr<FileEntryDto>> Handle(
-        UpdateFileCommand command,
+        UpdateFileEntryCommand command,
         CancellationToken cancellationToken)
     {
         var idResult = FileEntryId.From(command.Id);

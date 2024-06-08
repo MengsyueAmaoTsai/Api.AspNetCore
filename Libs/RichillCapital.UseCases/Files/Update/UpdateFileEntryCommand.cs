@@ -3,7 +3,7 @@ using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Files.Update;
 
-public sealed record UpdateFileCommand :
+public sealed record UpdateFileEntryCommand :
     ICommand<ErrorOr<FileEntryDto>>
 {
     public required Guid Id { get; init; }

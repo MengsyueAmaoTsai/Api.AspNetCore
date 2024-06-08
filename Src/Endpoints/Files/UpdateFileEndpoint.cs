@@ -17,7 +17,7 @@ namespace Company.Files.Endpoints.Files;
 [ApiVersion(EndpointVersion.V1)]
 public sealed class UpdateFileEndpoint(
     IMediator _mediator) : AsyncEndpoint
-    .WithRequest<UpdateFileRequest>
+    .WithRequest<UpdateFileEntryRequest>
     .WithActionResult<FileEntryDetailsResponse>
 {
     [HttpPut(ApiRoutes.Files.Update)]
@@ -29,7 +29,7 @@ public sealed class UpdateFileEndpoint(
         OperationId = "Files.Update",
         Tags = ["Files"])]
     public override async Task<ActionResult<FileEntryDetailsResponse>> HandleAsync(
-        [FromRoute] UpdateFileRequest request,
+        [FromRoute] UpdateFileEntryRequest request,
         CancellationToken cancellationToken = default) =>
         await request
             .ToErrorOr()
