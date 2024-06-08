@@ -2,7 +2,7 @@
 
 using RichillCapital.Domain.Common.Storage;
 
-namespace RichillCapital.Storage;
+namespace RichillCapital.Storage.Local;
 
 public static class LocalFileStorageExtensions
 {

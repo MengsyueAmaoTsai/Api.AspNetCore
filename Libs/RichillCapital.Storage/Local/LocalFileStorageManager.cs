@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Storage;
 
-namespace RichillCapital.Storage;
+namespace RichillCapital.Storage.Local;
 
 internal sealed class LocalFileStorageManager(
     ILogger<LocalFileStorageManager> _logger) :

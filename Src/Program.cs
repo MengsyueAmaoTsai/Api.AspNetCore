@@ -3,7 +3,7 @@ using RichillCapital.Api.OpenApi;
 using RichillCapital.Logging;
 using RichillCapital.Persistence;
 using RichillCapital.Persistence.Seeds;
-using RichillCapital.Storage;
+using RichillCapital.Storage.Local;
 using RichillCapital.UseCases;
 
 using Serilog;
