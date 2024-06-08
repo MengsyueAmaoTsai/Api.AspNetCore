@@ -3,6 +3,7 @@ using RichillCapital.Api.OpenApi;
 using RichillCapital.Logging;
 using RichillCapital.Persistence;
 using RichillCapital.Persistence.Seeds;
+using RichillCapital.Storage;
 using RichillCapital.UseCases;
 
 using Serilog;
@@ -20,6 +21,9 @@ builder.WebHost.UseApiLogger();
 
 // Infrastructure - Persistence
 builder.Services.AddDatabase();
+
+// Infrastructure - Storage
+builder.Services.AddLocalFileStorageManager();
 
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();

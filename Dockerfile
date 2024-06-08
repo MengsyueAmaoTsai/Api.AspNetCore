@@ -18,6 +18,7 @@ COPY ./Libs/RichillCapital.UseCases/*.csproj ./Libs/RichillCapital.UseCases/
 COPY ./Libs/RichillCapital.Persistence/*.csproj ./Libs/RichillCapital.Persistence/
 COPY ./Libs/RichillCapital.Logging/*.csproj ./Libs/RichillCapital.Logging/
 COPY ./Libs/RichillCapital.Identity/*.csproj ./Libs/RichillCapital.Identity/
+COPY ./Libs/RichillCapital.Storage/*.csproj ./Libs/RichillCapital.Storage/
 
 COPY ./Tests/RichillCapital.Api.AcceptanceTests/*.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
 COPY ./Tests/RichillCapital.Api.ArchitectureTests/*.csproj ./Tests/RichillCapital.Api.ArchitectureTests/

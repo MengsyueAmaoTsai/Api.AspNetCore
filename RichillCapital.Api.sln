@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Contracts", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api.ArchitectureTests", "Tests\RichillCapital.Api.ArchitectureTests\RichillCapital.Api.ArchitectureTests.csproj", "{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Storage", "Libs\RichillCapital.Storage\RichillCapital.Storage.csproj", "{C8DB24AE-273E-4069-AF33-947FF1191240}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8DB24AE-273E-4069-AF33-947FF1191240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8DB24AE-273E-4069-AF33-947FF1191240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8DB24AE-273E-4069-AF33-947FF1191240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8DB24AE-273E-4069-AF33-947FF1191240}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{65A9252B-D091-4363-B88F-CE0DB9863326} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
@@ -80,5 +86,6 @@ Global
 		{EDC75B38-989F-4C64-9CB5-0C988A373507} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{162ACB3E-E373-455E-B27B-39E20B553488} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{15E33639-B37B-4DA0-9F78-C9D9DED15ACE} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
+		{C8DB24AE-273E-4069-AF33-947FF1191240} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 	EndGlobalSection
 EndGlobal
