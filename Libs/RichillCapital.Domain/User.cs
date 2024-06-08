@@ -35,6 +35,8 @@ public sealed class User : Entity<UserId>
             password,
             name);
 
+        newUser.RegisterDomainEvent(new UserCreatedDomainEvent());
+
         return newUser
             .ToErrorOr();
     }

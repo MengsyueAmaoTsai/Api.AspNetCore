@@ -1,10 +1,11 @@
 using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Domain;
+using RichillCapital.SharedKernel;
 
 [assembly: InternalsVisibleTo("RichillCapital.Api.AcceptanceTests")]
 
@@ -43,8 +44,22 @@ public static partial class Seed
     {
         using var context = serviceProvider.GetRequiredService<EFCoreDbContext>();
 
-        context.Set<User>().AddRange(CreateUsers());
+        context.AddEntitiesWithoutDomainEvents(CreateUsers());
 
         context.SaveChanges();
     }
+}
+
+internal static class DbContextExtensions
+{
+    internal static void AddEntitiesWithoutDomainEvents<TEntity>(
+        this DbContext context,
+        IEnumerable<TEntity> entities)
+        where TEntity : class, IEntity =>
+        context.Set<TEntity>().AddRange(
+            entities.Select(entity =>
+            {
+                entity.ClearDomainEvents();
+                return entity;
+            }));
 }
