@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using RichillCapital.UseCases.Users.Get;
+
 namespace RichillCapital.Contracts.Users;
 
 public sealed record GetUserByIdRequest
@@ -10,4 +12,9 @@ public sealed record GetUserByIdRequest
 
 public static class GetUserByIdRequestMapping
 {
+    public static GetUserByIdQuery ToQuery(this GetUserByIdRequest request) =>
+        new()
+        {
+            UserId = request.UserId,
+        };
 }

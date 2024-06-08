@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Users;
+using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,10 +27,13 @@ public sealed class ListUsersEndpoint(IMediator _mediator) : AsyncEndpoint
         Description = "List users",
         OperationId = "Users.List",
         Tags = ["Users"])]
-    public override Task<ActionResult<Paged<UserResponse>>> HandleAsync(
+    public override async Task<ActionResult<Paged<UserResponse>>> HandleAsync(
         [FromQuery] ListUsersRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+        CancellationToken cancellationToken = default) =>
+        await request
+            .ToErrorOr()
+            .Then(req => req.ToQuery())
+            .Then(query => _mediator.Send(query, cancellationToken))
+            .Then(dto => dto.ToResponse())
+            .Match(HandleFailure, Ok);
 }

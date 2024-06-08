@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Users;
+using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,10 +27,13 @@ public sealed class GetUserEndpoint(IMediator _mediator) : AsyncEndpoint
         Description = "Get a user by ID",
         OperationId = "Users.GetById",
         Tags = ["Users"])]
-    public override Task<ActionResult<UserDetailsResponse>> HandleAsync(
+    public override async Task<ActionResult<UserDetailsResponse>> HandleAsync(
         [FromRoute] GetUserByIdRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+        CancellationToken cancellationToken = default) =>
+        await request
+            .ToErrorOr()
+            .Then(req => req.ToQuery())
+            .Then(query => _mediator.Send(query, cancellationToken))
+            .Then(dto => dto.ToDetailsResponse())
+            .Match(HandleFailure, Ok);
 }

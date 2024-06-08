@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+using RichillCapital.Persistence;
+using RichillCapital.Persistence.Seeds;
+
 using Testcontainers.MsSql;
 
 namespace RichillCapital.Api.AcceptanceTests;
@@ -33,28 +36,28 @@ public sealed class AcceptanceTestWebApplicationFactory :
     {
         builder.ConfigureTestServices(services =>
        {
-           //    var descriptor = services
-           //        .SingleOrDefault(descriptor =>
-           //            descriptor.ServiceType == typeof(DbContextOptions<EFCoreDbContext>));
+           var descriptor = services
+               .SingleOrDefault(descriptor =>
+                   descriptor.ServiceType == typeof(DbContextOptions<EFCoreDbContext>));
 
-           //    if (descriptor is not null)
-           //    {
-           //        services.Remove(descriptor);
-           //    }
+           if (descriptor is not null)
+           {
+               services.Remove(descriptor);
+           }
 
-           //    services.AddDbContext<EFCoreDbContext>(options =>
-           //        options.UseSqlServer(_msSqlContainer.GetConnectionString(), options =>
-           //       {
-           //           options.EnableRetryOnFailure(3);
-           //           options.CommandTimeout(30);
-           //       }));
+           services.AddDbContext<EFCoreDbContext>(options =>
+               options.UseSqlServer(_msSqlContainer.GetConnectionString(), options =>
+              {
+                  options.EnableRetryOnFailure(3);
+                  options.CommandTimeout(30);
+              }));
 
-           //    using var scope = services.BuildServiceProvider().CreateScope();
-           //    var context = scope.ServiceProvider.GetRequiredService<EFCoreDbContext>();
+           using var scope = services.BuildServiceProvider().CreateScope();
+           var context = scope.ServiceProvider.GetRequiredService<EFCoreDbContext>();
 
-           //    context.Database.EnsureCreated();
+           context.Database.EnsureCreated();
 
-           //    services.BuildServiceProvider().AddInitialData();
+           services.BuildServiceProvider().AddInitialData();
        });
     }
 }

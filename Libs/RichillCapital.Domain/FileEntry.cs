@@ -13,7 +13,7 @@ public sealed class FileEntry : Entity<FileEntryId>
         DateTimeOffset uploadedTime,
         string fileName,
         string location,
-        bool encrypted,
+        bool encrypt,
         string encryptionKey,
         string encryptionIV) : base(id)
     {
@@ -23,7 +23,7 @@ public sealed class FileEntry : Entity<FileEntryId>
         UploadedTime = uploadedTime;
         FileName = fileName;
         Location = location;
-        Encrypt = encrypted;
+        Encrypt = encrypt;
         EncryptionKey = encryptionKey;
         EncryptionIV = encryptionIV;
     }

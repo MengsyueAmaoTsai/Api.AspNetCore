@@ -1,8 +1,12 @@
+using System.Runtime.CompilerServices;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
+
+[assembly: InternalsVisibleTo("RichillCapital.Api.AcceptanceTests")]
 
 namespace RichillCapital.Persistence.Seeds;
 
