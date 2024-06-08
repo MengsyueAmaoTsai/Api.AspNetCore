@@ -1,6 +1,6 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
-using RichillCapital.Domain.Storage;
+using RichillCapital.Domain.Common.Storage;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
