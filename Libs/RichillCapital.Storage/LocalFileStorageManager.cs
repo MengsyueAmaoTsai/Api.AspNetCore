@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+
+using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Storage;
@@ -9,7 +11,8 @@ internal sealed class LocalFileStorageManager(
     ILogger<LocalFileStorageManager> _logger) :
     IFileStorageManager
 {
-    private const string ManagingDirectory = @"R:/";
+    private readonly string _managingDirectory = Assembly.GetExecutingAssembly().Location;
+
     public Task ArchiveAsync(
         FileEntry fileEntry,
         CancellationToken cancellationToken = default)
@@ -23,7 +26,7 @@ internal sealed class LocalFileStorageManager(
         Stream stream,
         CancellationToken cancellationToken = default)
     {
-        var filePath = Path.Combine(ManagingDirectory, fileEntry.Location);
+        var filePath = Path.Combine(_managingDirectory, fileEntry.Location);
         var directoryName = Path.GetDirectoryName(filePath);
 
         if (!string.IsNullOrEmpty(directoryName) && !Directory.Exists(directoryName))
@@ -42,7 +45,7 @@ internal sealed class LocalFileStorageManager(
         await Task.Run(
             () =>
             {
-                var path = Path.Combine(ManagingDirectory, fileEntry.Location);
+                var path = Path.Combine(_managingDirectory, fileEntry.Location);
 
                 if (File.Exists(path))
                 {
@@ -55,7 +58,7 @@ internal sealed class LocalFileStorageManager(
         FileEntry fileEntry,
         CancellationToken cancellationToken = default) =>
         File.ReadAllBytesAsync(
-            Path.Combine(ManagingDirectory, fileEntry.Location),
+            Path.Combine(_managingDirectory, fileEntry.Location),
             cancellationToken);
 
     public Task UnArchiveAsync(
