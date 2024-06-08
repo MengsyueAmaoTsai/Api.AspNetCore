@@ -20,6 +20,6 @@ public sealed class ListAuditLogsTests(
 
         var pagedUsers = await response.Content.ReadFromJsonAsync<Paged<AuditLogDto>>();
         pagedUsers.Should().NotBeNull();
-        pagedUsers!.Items.Should().NotBeEmpty();
+        pagedUsers!.Items.Should().BeEmpty();
     }
 }

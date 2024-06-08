@@ -1,0 +1,10 @@
+@Localhost = https://localhost:10000
+
+### List Audit Logs
+GET {{Localhost}}/api/v1/users
+
+
+### Get User By Id
+@UserId = 1
+
+GET {{Localhost}}/api/v1/users/{{UserId}}
