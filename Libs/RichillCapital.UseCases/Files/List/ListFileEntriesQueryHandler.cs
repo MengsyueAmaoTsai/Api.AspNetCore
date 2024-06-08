@@ -6,7 +6,7 @@ using RichillCapital.UseCases.Common;
 namespace RichillCapital.UseCases.Files.List;
 
 
-internal sealed class ListFilesQueryHandler(
+internal sealed class ListFileEntriesQueryHandler(
     IReadOnlyRepository<FileEntry> _fileRepository) :
     IQueryHandler<ListFileEntriesQuery, ErrorOr<IEnumerable<FileEntryDto>>>
 {
