@@ -72,4 +72,8 @@ public sealed class FileEntry : Entity<FileEntryId>
 
         return file.ToErrorOr();
     }
+
+    public void WithName(string name) => Name = name;
+
+    public void WithDescription(string description) => Description = description;
 }

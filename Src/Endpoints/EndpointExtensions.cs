@@ -40,7 +40,7 @@ internal static class EndpointExtensions
         services
             .AddApiVersioning(options =>
             {
-                options.DefaultApiVersion = new ApiVersion(EndpointVersions.V1);
+                options.DefaultApiVersion = new ApiVersion(EndpointVersion.V1);
                 options.ReportApiVersions = true;
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
             })

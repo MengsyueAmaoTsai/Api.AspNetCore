@@ -14,14 +14,14 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace RichillCapital.Api.Endpoints.Files;
 
-[ApiVersion(EndpointVersions.V1)]
+[ApiVersion(EndpointVersion.V1)]
 public sealed class ListFileEntriesEndpoint(
     IMediator _mediator) : AsyncEndpoint
     .WithoutRequest
     .WithActionResult<IEnumerable<FileEntryResponse>>
 {
     [HttpGet(ApiRoutes.Files.List)]
-    [MapToApiVersion(EndpointVersions.V1)]
+    [MapToApiVersion(EndpointVersion.V1)]
     [AllowAnonymous]
     [SwaggerOperation(
         Summary = "List all files",

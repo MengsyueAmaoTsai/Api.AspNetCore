@@ -11,6 +11,7 @@ public static class ApiRoutes
         public const string List = FileBase;
         public const string Upload = FileBase;
         public const string Get = FileBase + "/{fileId}";
+        public const string Update = FileBase + "/{fileId}";
         public const string Download = Get + "/download";
     }
 }

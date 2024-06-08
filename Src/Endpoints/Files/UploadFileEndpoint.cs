@@ -13,13 +13,13 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.Files;
 
 
-[ApiVersion(EndpointVersions.V1)]
+[ApiVersion(EndpointVersion.V1)]
 public sealed class UploadFileEndpoint(IMediator _mediator) : AsyncEndpoint
     .WithRequest<UploadFileRequest>
     .WithActionResult<UploadFileResponse>
 {
     [HttpPost(ApiRoutes.Files.Upload)]
-    [MapToApiVersion(EndpointVersions.V1)]
+    [MapToApiVersion(EndpointVersion.V1)]
     [AllowAnonymous]
     [SwaggerOperation(
         Summary = "Upload a file",

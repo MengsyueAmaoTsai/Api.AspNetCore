@@ -17,13 +17,13 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.Files;
 
 
-[ApiVersion(EndpointVersions.V1)]
+[ApiVersion(EndpointVersion.V1)]
 public sealed class DownloadFileEndpoint(IMediator _mediator) : AsyncEndpoint
     .WithRequest<DownloadFileRequest>
     .WithActionResult
 {
     [HttpGet(ApiRoutes.Files.Download)]
-    [MapToApiVersion(EndpointVersions.V1)]
+    [MapToApiVersion(EndpointVersion.V1)]
     [AllowAnonymous]
     [SwaggerOperation(
         Summary = "Download a file",
