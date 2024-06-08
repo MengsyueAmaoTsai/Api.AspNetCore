@@ -22,4 +22,19 @@ public static class ApiRoutes
             public const string List = FileAuditLogsBase;
         }
     }
+
+    public static class AuditLogs
+    {
+        private const string AuditLogsBase = ApiBase + "/audit-logs";
+
+        public const string List = AuditLogsBase;
+    }
+
+    public static class Users
+    {
+        private const string UsersBase = ApiBase + "/users";
+
+        public const string List = UsersBase;
+        public const string Get = UsersBase + "/{userId}";
+    }
 }
