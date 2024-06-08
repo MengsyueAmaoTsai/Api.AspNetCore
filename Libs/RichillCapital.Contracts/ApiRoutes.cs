@@ -14,5 +14,12 @@ public static class ApiRoutes
         public const string Update = FileBase + "/{fileId}";
         public const string Delete = FileBase + "/{fileId}";
         public const string Download = Get + "/download";
+
+        public static class AuditLogs
+        {
+            private const string FileAuditLogsBase = FileBase + "/{fileId}/audit-logs";
+
+            public const string List = FileAuditLogsBase;
+        }
     }
 }
