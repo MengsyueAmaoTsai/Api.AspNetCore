@@ -5,8 +5,8 @@ on:
     tags:
       - '*'
 env:
-    IMAGE_NAME: api
-    TAG: latest
+    Image_Name: api
+    Tag: latest
 
 jobs:
   deploy:
@@ -17,10 +17,10 @@ jobs:
     
     - name: Docker Build
       run: |
-        docker build -t ${{ env.IMAGE_NAME }}:${{ env.TAG }} . 
-        docker tag ${{ env.IMAGE_NAME }}:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        docker build -t ${{ env.Image_Name }}:${{ env.Tag }} . 
+        docker tag ${{ env.Image_Name }}:${{ env.Tag }} ${{ secrets.DOCKER_USERNAME }}/${{ env.Image_Name }}:${{ env.Tag }}
 
     - name: Push to Docker Hub
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.Image_Name }}:${{ env.Tag }}

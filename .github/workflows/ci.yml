@@ -9,6 +9,8 @@ env:
   Build_Configuration: Debug
   Cake_File: build.cake
   Build_Target: Default
+  Image_Name: api
+  Tag: latest
 
 jobs:
   build:
@@ -29,6 +31,10 @@ jobs:
         arguments: |
           configuration: ${{ env.Build_Configuration }}
     
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ env.Image_Name }}:${{ env.Tag }} . 
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
