@@ -1,6 +1,8 @@
+using RichillCapital.SharedKernel.Monads;
+
 namespace RichillCapital.Notifications;
 
 public interface ILineNotifyClient
 {
-    Task NotifyAsync(string message);
+    Task<Result> NotifyAsync(string message, CancellationToken cancellationToken = default);
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Signals;
 using RichillCapital.Notifications;
+using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -39,12 +40,15 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
             .WithQuantity(request.Quantity)
             .Build();
 
-        await _lineNotification.NotifyAsync(notificationMessage);
+        var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
 
-        return Ok(new CreateSignalResponse
-        {
-            Id = Guid.NewGuid().ToString(),
-        });
+        return result
+            .Match(
+                () => Ok(new CreateSignalResponse
+                {
+                    Id = Guid.NewGuid().ToString(),
+                }),
+                HandleFailure);
     }
 }
 

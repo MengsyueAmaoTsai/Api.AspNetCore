@@ -2,6 +2,9 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.SharedKernel;
+using RichillCapital.SharedKernel.Monads;
+
 namespace RichillCapital.Notifications;
 
 internal sealed class LineNotifyClient(
@@ -14,7 +17,7 @@ internal sealed class LineNotifyClient(
         public const string Notify = "api/notify";
     }
 
-    public async Task NotifyAsync(string message)
+    public async Task<Result> NotifyAsync(string message, CancellationToken cancellationToken = default)
     {
         var content = new StringContent(
             $"message={message}",
@@ -23,15 +26,20 @@ internal sealed class LineNotifyClient(
 
         var response = await _httpClient.PostAsync(
             ApiRoutes.Notify,
-            content);
+            content,
+            cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogWarning(
                 "Failed to send notification. {StatusCode}",
                 response.StatusCode);
+
+            return Error
+                .Unexpected("LineNotify.Unexpected", "Failed to send notification.")
+                .ToResult();
         }
 
-        response.EnsureSuccessStatusCode();
+        return Result.Success;
     }
 }
