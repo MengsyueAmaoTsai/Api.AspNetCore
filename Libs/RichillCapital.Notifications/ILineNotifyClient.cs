@@ -1,5 +1,5 @@
 namespace RichillCapital.Notifications;
 
-internal interface ILineNotifyClient
+public interface ILineNotifyClient
 {
 }
