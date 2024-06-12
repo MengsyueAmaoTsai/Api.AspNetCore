@@ -13,10 +13,16 @@ public sealed class CreateSignalTests(
     [Fact]
     public async Task When_GivenValidRequest_Should_CreateSignal()
     {
-        var response = await Client.PostAsJsonAsync("api/v1/signals", new CreateSignalRequest
-        {
-            TradeType = "Buy",
-        });
+        var response = await Client.PostAsJsonAsync(
+            "api/v1/signals",
+            new CreateSignalRequest
+            {
+                Time = DateTimeOffset.UtcNow,
+                PositionBehavior = "Open",
+                TradeType = "Buy",
+                Symbol = "AAPL",
+                Quantity = 100,
+            });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
