@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
           
-    - name: Build and Test
+    - name: .NET Build and Test
       uses: cake-build/cake-action@v2
       with:
         script-path: ${{ env.Cake_File }}
