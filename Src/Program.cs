@@ -5,6 +5,7 @@ using RichillCapital.Persistence;
 using RichillCapital.Persistence.Seeds;
 using RichillCapital.Storage.Local;
 using RichillCapital.UseCases;
+using RichillCapital.Notifications;
 
 using Serilog;
 
@@ -24,6 +25,9 @@ builder.Services.AddDatabase();
 
 // Infrastructure - Storage
 builder.Services.AddLocalFileStorageManager();
+
+// Infrastructure - Notifications
+builder.Services.AddLineNotification();
 
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
