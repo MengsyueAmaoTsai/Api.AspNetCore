@@ -18,10 +18,12 @@ public sealed class CreateSignalTests(
             new CreateSignalRequest
             {
                 Time = DateTimeOffset.UtcNow,
-                PositionBehavior = "Open",
-                TradeType = "Buy",
+                Behavior = "Exit",
+                Side = "Long",
                 Symbol = "AAPL",
                 Quantity = 100,
+                Price = 150,
+                OrderType = "Limit",
             });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);

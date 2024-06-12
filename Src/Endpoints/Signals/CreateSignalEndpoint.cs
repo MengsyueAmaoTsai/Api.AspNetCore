@@ -34,10 +34,13 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
             .CreateBuilder()
             .AppendLine()
             .WithTime(request.Time)
-            .WithPositionBehavior(request.PositionBehavior)
-            .WithTradeType(request.TradeType)
+            .AppendLine()
+            .WithBehavior(request.Behavior)
+            .WithSide(request.Side)
             .WithSymbol(request.Symbol)
             .WithQuantity(request.Quantity)
+            .WithPrice(request.Price)
+            .WithOrderType(request.OrderType)
             .Build();
 
         var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
@@ -52,7 +55,6 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
     }
 }
 
-
 internal static class SignalNotification
 {
     internal static StringBuilder CreateBuilder() => new();
@@ -61,21 +63,27 @@ internal static class SignalNotification
 internal static class SignalNotificationMessageBuilderExtensions
 {
     internal static StringBuilder WithTime(this StringBuilder builder, DateTimeOffset time) =>
-        builder.AppendLine($"Time: {time:yyyy-MM-dd HH:mm:ss.fff zzz}");
+        builder.Append($"Time: {time:yyyy-MM-dd HH:mm:ss.fff zzz}");
 
-    internal static StringBuilder WithPositionBehavior(this StringBuilder builder, string positionBehavior) =>
-        builder.AppendLine($"Position Behavior: {positionBehavior}");
+    internal static StringBuilder WithBehavior(this StringBuilder builder, string behavior) =>
+        builder.Append($"{behavior} ");
 
-    internal static StringBuilder WithTradeType(this StringBuilder builder, string tradeType) =>
-        builder.AppendLine($"Trade Type: {tradeType}");
+    internal static StringBuilder WithSide(this StringBuilder builder, string side) =>
+        builder.Append($"{side} ");
 
     internal static StringBuilder WithSymbol(this StringBuilder builder, string symbol) =>
-        builder.AppendLine($"Symbol: {symbol}");
+        builder.Append($"{symbol} ");
 
     internal static StringBuilder WithQuantity(
         this StringBuilder builder,
         decimal quantity) =>
-        builder.AppendLine($"Quantity: {quantity}");
+        builder.Append($"{quantity}");
+
+    internal static StringBuilder WithPrice(this StringBuilder builder, decimal price) =>
+        builder.Append($"@{price} ");
+
+    internal static StringBuilder WithOrderType(this StringBuilder builder, string orderType) =>
+        builder.Append(orderType);
 
     internal static string Build(this StringBuilder builder) => builder.ToString();
 }
