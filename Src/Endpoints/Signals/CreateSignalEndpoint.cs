@@ -41,7 +41,7 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
 
         await _lineNotification.NotifyAsync(notificationMessage);
 
-        return await Task.FromResult(new CreateSignalResponse
+        return Ok(new CreateSignalResponse
         {
             Id = Guid.NewGuid().ToString(),
         });
