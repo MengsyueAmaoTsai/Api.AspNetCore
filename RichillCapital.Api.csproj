@@ -31,6 +31,7 @@
     <ProjectReference Include="Libs\RichillCapital.Contracts\RichillCapital.Contracts.csproj" />
     <ProjectReference Include="Libs\RichillCapital.Storage\RichillCapital.Storage.csproj" />
     <ProjectReference Include="Libs\RichillCapital.Notifications\RichillCapital.Notifications.csproj" />
+    <ProjectReference Include="Libs\RichillCapital.Monitoring\RichillCapital.Monitoring.csproj" />
   </ItemGroup>
 
 </Project>
