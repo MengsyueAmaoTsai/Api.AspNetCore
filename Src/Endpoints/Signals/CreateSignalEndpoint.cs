@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 
 using Asp.Versioning;
@@ -42,6 +41,7 @@ public sealed class CreateSignalEndpoint(
             .AppendLine()
             .WithBehavior(request.Behavior)
             .WithSide(request.Side)
+            .WithExchange(request.Exchange)
             .WithSymbol(request.Symbol)
             .WithQuantity(request.Quantity)
             .WithPrice(request.Price)
@@ -81,6 +81,9 @@ internal static class SignalNotificationMessageBuilderExtensions
 
     internal static StringBuilder WithSide(this StringBuilder builder, string side) =>
         builder.Append($"{side} ");
+
+    internal static StringBuilder WithExchange(this StringBuilder builder, string exchange) =>
+        builder.Append($"{exchange}:");
 
     internal static StringBuilder WithSymbol(this StringBuilder builder, string symbol) =>
         builder.Append($"{symbol} ");
