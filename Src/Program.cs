@@ -5,7 +5,8 @@ using RichillCapital.Persistence;
 using RichillCapital.Persistence.Seeds;
 using RichillCapital.Storage.Local;
 using RichillCapital.UseCases;
-using RichillCapital.Notifications;
+using RichillCapital.Notifications.Discord;
+using RichillCapital.Notifications.Line;
 
 using Serilog;
 

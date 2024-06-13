@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Signals;
-using RichillCapital.Notifications;
+using RichillCapital.Notifications.Discord;
+using RichillCapital.Notifications.Line;
 using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;

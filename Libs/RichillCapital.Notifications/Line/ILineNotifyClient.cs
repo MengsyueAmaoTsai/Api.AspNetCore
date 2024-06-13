@@ -1,6 +1,6 @@
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Notifications;
+namespace RichillCapital.Notifications.Line;
 
 public interface ILineNotifyClient
 {

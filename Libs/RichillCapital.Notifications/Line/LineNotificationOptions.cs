@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace RichillCapital.Notifications;
+namespace RichillCapital.Notifications.Line;
 
 internal sealed record LineNotificationOptions
 {

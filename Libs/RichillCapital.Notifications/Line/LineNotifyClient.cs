@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Notifications;
+namespace RichillCapital.Notifications.Line;
 
 internal sealed class LineNotifyClient(
     ILogger<LineNotifyClient> _logger,

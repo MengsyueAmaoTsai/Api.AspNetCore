@@ -5,13 +5,13 @@ using Microsoft.Extensions.Options;
 
 using RichillCapital.Extensions.Options;
 
-namespace RichillCapital.Notifications;
+namespace RichillCapital.Notifications.Line;
 
 public static class LineNotificationExtensions
 {
     private static readonly Uri BaseAddress = new("https://notify-api.line.me");
 
-    public static IServiceCollection AddDiscordNotification(this IServiceCollection services)
+    public static IServiceCollection AddLineNotification(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(
             typeof(LineNotificationExtensions).Assembly,
