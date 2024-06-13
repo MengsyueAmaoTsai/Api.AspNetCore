@@ -24,7 +24,9 @@ internal sealed class GetSignalSourceQueryHandler(
 
         var sourceId = idResult.Value;
 
-        var maybeSignalSource = await _signalSourceRepository.GetByIdAsync(sourceId, cancellationToken);
+        var maybeSignalSource = await _signalSourceRepository.FirstOrDefaultAsync(
+            new SignalSourceWithSignalsSpecification(sourceId),
+            cancellationToken);
 
         if (maybeSignalSource.IsNull)
         {
