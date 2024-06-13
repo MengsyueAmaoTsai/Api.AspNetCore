@@ -38,6 +38,13 @@ public static class ApiRoutes
         public const string Get = UsersBase + "/{userId}";
     }
 
+    public static class SignalSource
+    {
+        private const string SignalSourcesBase = ApiBase + "/signal-sources";
+
+        public const string Create = SignalSourcesBase;
+    }
+
     public static class Signals
     {
         private const string SignalsBase = ApiBase + "/signals";
