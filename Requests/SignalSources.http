@@ -1,0 +1,18 @@
+@Localhost = https://localhost:10000
+
+### List SignalSources
+GET {{Localhost}}/api/v1/signal-sources
+
+### Get SignalSource
+@SourceId = TV-BINANCE:ETHUSDT.P-PL-M15-001
+GET {{Localhost}}/api/v1/signal-sources/{{SourceId}}
+
+### Create SignalSource
+POST {{Localhost}}/api/v1/signal-sources
+Content-Type: application/json
+
+{
+    "id": "TV-BINANCE:ETHUSDT.P-PL-M15-001",
+    "name": "ETHUSDT",
+    "description": "ETHUSDT"
+}
