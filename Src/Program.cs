@@ -28,6 +28,7 @@ builder.Services.AddLocalFileStorageManager();
 
 // Infrastructure - Notifications
 builder.Services.AddLineNotification();
+builder.Services.AddDiscordNotification();
 
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();

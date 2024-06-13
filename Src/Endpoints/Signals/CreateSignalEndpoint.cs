@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 
 using Asp.Versioning;
@@ -15,7 +16,9 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.Signals;
 
 [ApiVersion(EndpointVersion.V1)]
-public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : AsyncEndpoint
+public sealed class CreateSignalEndpoint(
+    ILineNotifyClient _lineNotification,
+    IDiscordWebhookClient _discordWebhookClient) : AsyncEndpoint
     .WithRequest<CreateSignalRequest>
     .WithActionResult<CreateSignalResponse>
 {
@@ -28,7 +31,8 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
         OperationId = "Signals.Create",
         Tags = ["Signals"])]
     public override async Task<ActionResult<CreateSignalResponse>> HandleAsync(
-        [FromBody] CreateSignalRequest request, CancellationToken cancellationToken = default)
+        [FromBody] CreateSignalRequest request,
+        CancellationToken cancellationToken = default)
     {
         var notificationMessage = SignalNotification
             .CreateBuilder()
@@ -45,13 +49,19 @@ public sealed class CreateSignalEndpoint(ILineNotifyClient _lineNotification) : 
 
         var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
 
-        return result
-            .Match(
-                () => Ok(new CreateSignalResponse
-                {
-                    Id = Guid.NewGuid().ToString(),
-                }),
-                HandleFailure);
+        var discordResult = await _discordWebhookClient.SendAsync(
+            ApplicationInfo.GetDisplayName(),
+            notificationMessage,
+            cancellationToken);
+
+        var results = new List<Result> { result, discordResult };
+
+        return results.Any(result => result.IsFailure) ?
+            HandleFailure(results.FirstOrDefault(result => result.IsFailure).Error) :
+            Ok(new CreateSignalResponse
+            {
+                Id = Guid.NewGuid().ToString(),
+            });
     }
 }
 
