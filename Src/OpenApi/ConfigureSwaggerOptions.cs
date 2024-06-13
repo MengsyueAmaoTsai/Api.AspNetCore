@@ -29,9 +29,9 @@ internal sealed class ConfigureSwaggerOptions(
 
         var info = new OpenApiInfo
         {
-            Title = $"RichillCapital API v{description.ApiVersion}",
+            Title = $"{ApplicationInfo.GetDisplayName()} v{description.ApiVersion}",
             Version = description.ApiVersion.ToString(),
-            Description = $"RichillCapital Web API (AssemblyVersion: v.{assemblyVersion})",
+            Description = $"AssemblyVersion: {ApplicationInfo.GetAssemblyVersion()}",
             Contact = new OpenApiContact
             {
                 Name = "Mengsyue Amao Tsai",
