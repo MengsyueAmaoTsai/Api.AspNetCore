@@ -44,6 +44,7 @@ public static class ApiRoutes
 
         public const string Create = SignalSourcesBase;
         public const string List = SignalSourcesBase;
+        public const string Get = SignalSourcesBase + "/{signalSourceId}";
     }
 
     public static class Signals
