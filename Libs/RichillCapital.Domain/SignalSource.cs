@@ -5,6 +5,8 @@ namespace RichillCapital.Domain;
 
 public sealed class SignalSource : Entity<SignalSourceId>
 {
+    private readonly List<Signal> _signals = [];
+
     private SignalSource(
         SignalSourceId id,
         string name,
@@ -18,6 +20,8 @@ public sealed class SignalSource : Entity<SignalSourceId>
     public string Name { get; private set; }
 
     public string Description { get; private set; }
+
+    public IReadOnlyCollection<Signal> Signals => _signals;
 
     public static ErrorOr<SignalSource> Create(
         SignalSourceId id,
