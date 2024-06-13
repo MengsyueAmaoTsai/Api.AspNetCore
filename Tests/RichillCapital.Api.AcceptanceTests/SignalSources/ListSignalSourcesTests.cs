@@ -5,6 +5,7 @@ using FluentAssertions;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.SignalSources;
+using RichillCapital.Persistence.Seeds;
 
 namespace RichillCapital.Api.AcceptanceTests.SignalSources;
 
@@ -21,6 +22,6 @@ public sealed class ListSignalSourcesTests(
 
         var result = await response.Content.ReadFromJsonAsync<Paged<SignalSourceResponse>>();
         result.Should().NotBeNull();
-        result!.Items.Should().NotBeEmpty();
+        result!.Items.Should().NotBeEmpty().And.HaveCount(Seed.CreateSignalSources().Count());
     }
 }

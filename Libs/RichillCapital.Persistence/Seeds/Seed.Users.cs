@@ -6,7 +6,7 @@ public static partial class Seed
 {
     private const string DefaultPassword = "123";
 
-    private static IEnumerable<User> CreateUsers()
+    internal static IEnumerable<User> CreateUsers()
     {
         yield return CreateUser("1", "mengsyue.tsai@outlook.com", "Mengsyue Tsai");
         yield return CreateUser("2", "mengsyue.tsai@gmail.com", "Mengsyue Tsai");

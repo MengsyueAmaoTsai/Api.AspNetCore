@@ -5,6 +5,7 @@ using FluentAssertions;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Users;
+using RichillCapital.Persistence.Seeds;
 
 namespace RichillCapital.Api.AcceptanceTests.Users;
 
@@ -20,6 +21,6 @@ public sealed class ListUsersTests(
 
         var pagedUsers = await response.Content.ReadFromJsonAsync<Paged<UserResponse>>();
         pagedUsers.Should().NotBeNull();
-        pagedUsers!.Items.Should().NotBeEmpty();
+        pagedUsers!.Items.Should().NotBeEmpty().And.HaveCount(Seed.CreateUsers().Count());
     }
 }

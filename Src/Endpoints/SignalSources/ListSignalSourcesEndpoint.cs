@@ -1,17 +1,23 @@
 using Asp.Versioning;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.SignalSources;
+using RichillCapital.SharedKernel.Monads;
+using RichillCapital.UseCases.SignalSources;
 
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace RichillCapital.Api.Endpoints.SignalSources;
 
+
 [ApiVersion(EndpointVersion.V1)]
-public sealed class ListSignalSourcesEndpoint() : AsyncEndpoint
+public sealed class ListSignalSourcesEndpoint(
+    IMediator _mediator) : AsyncEndpoint
     .WithoutRequest
     .WithActionResult<Paged<SignalSourceResponse>>
 {
@@ -24,18 +30,8 @@ public sealed class ListSignalSourcesEndpoint() : AsyncEndpoint
         OperationId = "SignalSource.List",
         Tags = ["SignalSource"])]
     public override async Task<ActionResult<Paged<SignalSourceResponse>>> HandleAsync(
-        CancellationToken cancellationToken = default)
-    {
-        return Ok(new Paged<SignalSourceResponse>
-        {
-            Items =
-            [
-                new() {
-                    Id = "TV-BINANCE:ETHUSDT.P-PL-M15-001",
-                    Name = "ETHUSDT Strategy",
-                    Description = "ETHUSDT Strategy",
-                }
-            ]
-        });
-    }
+        CancellationToken cancellationToken = default) =>
+        await _mediator.Send(new ListSignalSourcesQuery(), cancellationToken)
+            .Then(paged => paged.ToPagedResponse())
+            .Match(HandleFailure, Ok);
 }

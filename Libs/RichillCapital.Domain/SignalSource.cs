@@ -1,0 +1,35 @@
+using RichillCapital.SharedKernel;
+using RichillCapital.SharedKernel.Monads;
+
+namespace RichillCapital.Domain;
+
+public sealed class SignalSource : Entity<SignalSourceId>
+{
+    private SignalSource(
+        SignalSourceId id,
+        string name,
+        string description)
+        : base(id)
+    {
+        Name = name;
+        Description = description;
+    }
+
+    public string Name { get; private set; }
+
+    public string Description { get; private set; }
+
+    public static ErrorOr<SignalSource> Create(
+        SignalSourceId id,
+        string name,
+        string description)
+    {
+        var source = new SignalSource(
+            id,
+            name,
+            description);
+
+        return source
+            .ToErrorOr();
+    }
+}

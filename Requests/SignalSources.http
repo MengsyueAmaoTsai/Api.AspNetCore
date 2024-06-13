@@ -4,7 +4,7 @@
 GET {{Localhost}}/api/v1/signal-sources
 
 ### Get SignalSource
-@SourceId = TV-BINANCE:ETHUSDT.P-PL-M15-001
+@SourceId = TV-Long-Task
 GET {{Localhost}}/api/v1/signal-sources/{{SourceId}}
 
 ### Create SignalSource

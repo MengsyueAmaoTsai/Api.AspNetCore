@@ -35,29 +35,34 @@ public sealed class AcceptanceTestWebApplicationFactory :
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
-       {
-           var descriptor = services
-               .SingleOrDefault(descriptor =>
-                   descriptor.ServiceType == typeof(DbContextOptions<EFCoreDbContext>));
+        {
+            var descriptor = services
+                .SingleOrDefault(descriptor =>
+                    descriptor.ServiceType == typeof(DbContextOptions<EFCoreDbContext>));
 
-           if (descriptor is not null)
-           {
-               services.Remove(descriptor);
-           }
+            if (descriptor is not null)
+            {
+                services.Remove(descriptor);
+            }
 
-           services.AddDbContext<EFCoreDbContext>(options =>
-               options.UseSqlServer(_msSqlContainer.GetConnectionString(), options =>
-              {
-                  options.EnableRetryOnFailure(3);
-                  options.CommandTimeout(30);
-              }));
+            services.AddDbContext<EFCoreDbContext>(options =>
+                options.UseSqlServer(_msSqlContainer.GetConnectionString(), options =>
+                {
+                    options.EnableRetryOnFailure(3);
+                    options.CommandTimeout(30);
+                }));
 
-           using var scope = services.BuildServiceProvider().CreateScope();
-           var context = scope.ServiceProvider.GetRequiredService<EFCoreDbContext>();
+            using var scope = services
+                .BuildServiceProvider()
+                .CreateScope();
 
-           context.Database.EnsureCreated();
+            var context = scope.ServiceProvider.GetRequiredService<EFCoreDbContext>();
 
-           services.BuildServiceProvider().AddInitialData();
-       });
+            context.Database.EnsureCreated();
+
+            services
+                .BuildServiceProvider()
+                .AddInitialData();
+        });
     }
 }
