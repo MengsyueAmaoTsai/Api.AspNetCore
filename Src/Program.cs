@@ -1,5 +1,6 @@
 using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.OpenApi;
+using RichillCapital.Identity;
 using RichillCapital.Logging;
 using RichillCapital.Persistence;
 using RichillCapital.Persistence.Seeds;
@@ -20,6 +21,7 @@ builder.Services.AddSerilog();
 builder.WebHost.UseApiLogger();
 
 // Infrastructure - Identity
+builder.Services.AddApiIdentity();
 
 // Infrastructure - Persistence
 builder.Services.AddDatabase();
