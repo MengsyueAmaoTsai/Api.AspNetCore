@@ -26,6 +26,7 @@ public sealed class GetSignalSourceTests(
         result!.Id.Should().Be(expectedSource.Id.Value);
         result!.Name.Should().Be(expectedSource.Name);
         result!.Description.Should().Be(expectedSource.Description);
+        result!.Signals.Should().BeEmpty();
     }
 
 }
