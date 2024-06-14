@@ -15,7 +15,7 @@ public sealed class GetUserTests(
     public async Task When_GivenValidRequest_Should_ReturnUser()
     {
         // Get the admin user
-        var adminUserId = "1";
+        var adminUserId = "UID0000001";
         var adminEmail = "mengsyue.tsai@outlook.com";
 
         var response = await Client.GetAsync($"api/v1/users/{adminUserId}");

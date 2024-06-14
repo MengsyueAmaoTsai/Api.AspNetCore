@@ -8,8 +8,8 @@ public static partial class Seed
 
     internal static IEnumerable<User> CreateUsers()
     {
-        yield return CreateUser("1", "mengsyue.tsai@outlook.com", "Mengsyue Tsai");
-        yield return CreateUser("2", "mengsyue.tsai@gmail.com", "Mengsyue Tsai");
+        yield return CreateUser("UID0000001", "mengsyue.tsai@outlook.com", "Mengsyue Tsai");
+        yield return CreateUser("UID0000002", "mengsyue.tsai@gmail.com", "Mengsyue Tsai");
     }
 
     private static User CreateUser(

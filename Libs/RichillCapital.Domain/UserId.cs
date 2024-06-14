@@ -5,7 +5,8 @@ namespace RichillCapital.Domain;
 
 public sealed class UserId : SingleValueObject<string>
 {
-    public const int MaxLength = 100;
+    private const string Prefix = "UID";
+    public const int MaxLength = 10;
 
     private UserId(string value)
         : base(value)
@@ -15,4 +16,14 @@ public sealed class UserId : SingleValueObject<string>
     public static Result<UserId> From(string value) => value
         .ToResult()
         .Then(id => new UserId(id));
+
+    public static UserId NewUserId()
+    {
+        string randomDigits = new Random()
+            .Next(0, (int)Math.Pow(10, MaxLength - 3))
+            .ToString()
+            .PadLeft(MaxLength - 3, '0');
+
+        return From($"{Prefix}{randomDigits}").Value;
+    }
 }
