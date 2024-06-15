@@ -1,5 +1,3 @@
-using System.Text;
-
 using Asp.Versioning;
 
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +7,7 @@ using RichillCapital.Contracts;
 using RichillCapital.Contracts.Signals;
 using RichillCapital.Notifications.Discord;
 using RichillCapital.Notifications.Line;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
@@ -34,19 +33,75 @@ public sealed class CreateSignalEndpoint(
         [FromBody] CreateSignalRequest request,
         CancellationToken cancellationToken = default)
     {
-        var notificationMessage = SignalNotification
-            .CreateBuilder()
-            .AppendLine()
-            .WithTime(request.CurrentTime)
-            .WithSourceId(request.SourceId)
-            // .WithBehavior(request.Behavior)
-            // .WithSide(request.Side)
-            // .WithExchange(request.Exchange)
-            // .WithSymbol(request.Symbol)
-            // .WithQuantity(request.Quantity)
-            // .WithPrice(request.Price)
-            // .WithOrderType(request.OrderType)
-            .Build();
+        var behavior = "None";
+        var side = "None";
+
+        if (request.MarketPositionSize == request.PreviousMarketPositionSize)
+        {
+            return HandleFailure(Error.Invalid("Market position size is the same as the previous market position size."));
+        }
+
+        if (request.MarketPositionSize > request.PreviousMarketPositionSize)
+        {
+            if (request.PreviousMarketPosition == "flat")
+            {
+                if (request.MarketPosition == "long")
+                {
+                    behavior = "Enter";
+                    side = "Long";
+                }
+
+                if (request.MarketPosition == "short")
+                {
+                    behavior = "Enter";
+                    side = "Short";
+                }
+            }
+
+            if (request.PreviousMarketPosition == "long" && request.MarketPosition == "long")
+            {
+                behavior = "Increase";
+                side = "Long";
+            }
+
+            if (request.PreviousMarketPosition == "short" && request.MarketPosition == "short")
+            {
+                behavior = "Increase";
+                side = "Short";
+            }
+        }
+
+        if (request.MarketPositionSize < request.PreviousMarketPositionSize)
+        {
+            if (request.PreviousMarketPosition == "long" && request.MarketPosition == "flat")
+            {
+                behavior = "Exit";
+                side = "Long";
+            }
+
+            if (request.PreviousMarketPosition == "short" && request.MarketPosition == "flat")
+            {
+                behavior = "Exit";
+                side = "Short";
+            }
+
+            if (request.PreviousMarketPosition == "long" && request.MarketPosition == "long")
+            {
+                behavior = "Decrease";
+                side = "Long";
+            }
+
+            if (request.PreviousMarketPosition == "short" && request.MarketPosition == "short")
+            {
+                behavior = "Decrease";
+                side = "Short";
+            }
+        }
+
+        var notificationMessage = "";
+        notificationMessage += $"Time: {request.CurrentTime:yyyy-MM-dd HH:mm:ss.fff zzz}\n";
+        notificationMessage += $"Source: {request.SourceId}\n";
+        notificationMessage += $"{behavior} {side} {request.Symbol} {request.Price}\n";
 
         var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
 
@@ -64,43 +119,4 @@ public sealed class CreateSignalEndpoint(
                 Id = Guid.NewGuid().ToString(),
             });
     }
-}
-
-internal static class SignalNotification
-{
-    internal static StringBuilder CreateBuilder() => new();
-}
-
-internal static class SignalNotificationMessageBuilderExtensions
-{
-    internal static StringBuilder WithTime(this StringBuilder builder, DateTimeOffset time) =>
-        builder.Append($"Time: {time:yyyy-MM-dd HH:mm:ss.fff zzz}").AppendLine();
-
-    internal static StringBuilder WithSourceId(this StringBuilder builder, string sourceId) =>
-        builder.Append($"SourceId: {sourceId}").AppendLine();
-
-    internal static StringBuilder WithBehavior(this StringBuilder builder, string behavior) =>
-        builder.Append($"{behavior} ");
-
-    internal static StringBuilder WithSide(this StringBuilder builder, string side) =>
-        builder.Append($"{side} ");
-
-    internal static StringBuilder WithExchange(this StringBuilder builder, string exchange) =>
-        builder.Append($"{exchange}:");
-
-    internal static StringBuilder WithSymbol(this StringBuilder builder, string symbol) =>
-        builder.Append($"{symbol} ");
-
-    internal static StringBuilder WithQuantity(
-        this StringBuilder builder,
-        decimal quantity) =>
-        builder.Append($"{quantity}");
-
-    internal static StringBuilder WithPrice(this StringBuilder builder, decimal price) =>
-        builder.Append($"@{price} ");
-
-    internal static StringBuilder WithOrderType(this StringBuilder builder, string orderType) =>
-        builder.Append(orderType);
-
-    internal static string Build(this StringBuilder builder) => builder.ToString();
 }

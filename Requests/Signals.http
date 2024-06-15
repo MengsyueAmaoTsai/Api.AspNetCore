@@ -6,5 +6,12 @@ Content-Type: application/json
 
 {
     "sourceId": "TV-Long-Task",
-    "currentTime": "2021-07-01T00:00:00Z"
+    "currentTime": "2021-07-01T00:00:00Z",
+    "tradeType": "buy",
+    "symbol": "BTCUSDT",
+    "price": 100,
+    "previousMarketPositionSize": 1,
+    "previousMarketPosition": "short",
+    "marketPositionSize": 0,
+    "marketPosition": "flat"
 }
