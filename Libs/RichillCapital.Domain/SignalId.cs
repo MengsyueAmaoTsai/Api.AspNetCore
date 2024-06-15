@@ -13,6 +13,8 @@ public sealed class SignalId :
     {
     }
 
+    public static SignalId NewSignalId() => From(Guid.NewGuid().ToString()).Value;
+
     public static Result<SignalId> From(string value) => value
         .ToResult()
         .Then(id => new SignalId(id));

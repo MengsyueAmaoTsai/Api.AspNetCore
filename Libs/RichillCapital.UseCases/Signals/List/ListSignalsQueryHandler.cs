@@ -14,7 +14,9 @@ internal sealed class ListSignalsQueryHandler(
         ListSignalsQuery query,
         CancellationToken cancellationToken)
     {
-        var signals = await _signalRepository.ListAsync(cancellationToken);
+        var signals = await _signalRepository.ListAsync(
+            new SignalsSpecification(),
+            cancellationToken);
 
         return new PagedDto<SignalDto>
         {

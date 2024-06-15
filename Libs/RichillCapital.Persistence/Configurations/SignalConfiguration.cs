@@ -22,5 +22,19 @@ internal sealed class SignalConfiguration :
                 id => id.Value,
                 value => SignalId.From(value).Value)
             .IsRequired();
+
+        builder
+            .Property(signal => signal.SourceId)
+            .HasColumnName("source_id")
+            .HasMaxLength(SignalSourceId.MaxLength)
+            .HasConversion(
+                sourceId => sourceId.Value,
+                value => SignalSourceId.From(value).Value)
+            .IsRequired();
+
+        builder
+            .HasOne<SignalSource>()
+            .WithMany()
+            .HasForeignKey("source_id");
     }
 }

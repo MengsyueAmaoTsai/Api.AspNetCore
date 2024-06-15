@@ -1,3 +1,5 @@
+using RichillCapital.UseCases.Signals.Create;
+
 namespace RichillCapital.Contracts.Signals;
 
 public sealed record CreateSignalRequest
@@ -17,7 +19,12 @@ public sealed record CreateSignalRequest
     public required decimal PreviousMarketPositionSize { get; init; }
 }
 
-public sealed record CreateSignalResponse
+public static class CreateSignalRequestMapping
 {
-    public required string Id { get; init; }
+    public static CreateSignalCommand ToCommand(this CreateSignalRequest request) =>
+        new()
+        {
+            SourceId = request.SourceId,
+            CurrentTime = request.CurrentTime,
+        };
 }

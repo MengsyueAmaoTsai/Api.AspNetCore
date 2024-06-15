@@ -1,5 +1,7 @@
 using Asp.Versioning;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +19,8 @@ namespace RichillCapital.Api.Endpoints.Signals;
 [ApiVersion(EndpointVersion.V1)]
 public sealed class CreateSignalEndpoint(
     ILineNotifyClient _lineNotification,
-    IDiscordWebhookClient _discordWebhookClient) : AsyncEndpoint
+    IDiscordWebhookClient _discordWebhookClient,
+    IMediator _mediator) : AsyncEndpoint
     .WithRequest<CreateSignalRequest>
     .WithActionResult<CreateSignalResponse>
 {
@@ -112,11 +115,11 @@ public sealed class CreateSignalEndpoint(
 
         var results = new List<Result> { result, discordResult };
 
-        return results.Any(result => result.IsFailure) ?
-            HandleFailure(results.FirstOrDefault(result => result.IsFailure).Error) :
-            Ok(new CreateSignalResponse
-            {
-                Id = Guid.NewGuid().ToString(),
-            });
+        return await request
+            .ToErrorOr()
+            .Then(req => req.ToCommand())
+            .Then(command => _mediator.Send(command, cancellationToken))
+            .Then(id => id.ToResponse())
+            .Match(HandleFailure, Ok);
     }
 }

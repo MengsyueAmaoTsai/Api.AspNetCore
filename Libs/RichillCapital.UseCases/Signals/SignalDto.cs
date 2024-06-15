@@ -5,6 +5,12 @@ namespace RichillCapital.UseCases.Signals;
 public sealed record SignalDto
 {
     public required string Id { get; init; }
+
+    public required string SourceId { get; init; }
+
+    public DateTimeOffset Time { get; init; }
+
+    public required int Latency { get; init; }
 }
 
 internal static class SignalExtensions
@@ -13,5 +19,8 @@ internal static class SignalExtensions
         new()
         {
             Id = signal.Id.Value,
+            SourceId = signal.SourceId.Value,
+            Time = signal.Time,
+            Latency = signal.Latency,
         };
 }
