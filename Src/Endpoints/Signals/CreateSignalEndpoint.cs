@@ -37,15 +37,15 @@ public sealed class CreateSignalEndpoint(
         var notificationMessage = SignalNotification
             .CreateBuilder()
             .AppendLine()
-            .WithTime(request.Time)
-            .AppendLine()
-            .WithBehavior(request.Behavior)
-            .WithSide(request.Side)
-            .WithExchange(request.Exchange)
-            .WithSymbol(request.Symbol)
-            .WithQuantity(request.Quantity)
-            .WithPrice(request.Price)
-            .WithOrderType(request.OrderType)
+            .WithTime(request.CurrentTime)
+            .WithSourceId(request.SourceId)
+            // .WithBehavior(request.Behavior)
+            // .WithSide(request.Side)
+            // .WithExchange(request.Exchange)
+            // .WithSymbol(request.Symbol)
+            // .WithQuantity(request.Quantity)
+            // .WithPrice(request.Price)
+            // .WithOrderType(request.OrderType)
             .Build();
 
         var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
@@ -74,7 +74,10 @@ internal static class SignalNotification
 internal static class SignalNotificationMessageBuilderExtensions
 {
     internal static StringBuilder WithTime(this StringBuilder builder, DateTimeOffset time) =>
-        builder.Append($"Time: {time:yyyy-MM-dd HH:mm:ss.fff zzz}");
+        builder.Append($"Time: {time:yyyy-MM-dd HH:mm:ss.fff zzz}").AppendLine();
+
+    internal static StringBuilder WithSourceId(this StringBuilder builder, string sourceId) =>
+        builder.Append($"SourceId: {sourceId}").AppendLine();
 
     internal static StringBuilder WithBehavior(this StringBuilder builder, string behavior) =>
         builder.Append($"{behavior} ");

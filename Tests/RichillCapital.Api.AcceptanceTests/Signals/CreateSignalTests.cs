@@ -7,6 +7,7 @@ using RichillCapital.Contracts.Signals;
 
 namespace RichillCapital.Api.AcceptanceTests.Signals;
 
+
 public sealed class CreateSignalTests(
     AcceptanceTestWebApplicationFactory factory) :
     AcceptanceTest(factory)
@@ -18,14 +19,8 @@ public sealed class CreateSignalTests(
             "api/v1/signals",
             new CreateSignalRequest
             {
-                Time = DateTimeOffset.UtcNow,
-                Behavior = "Exit",
-                Side = "Long",
-                Exchange = "NASDAQ",
-                Symbol = "AAPL",
-                Quantity = 100,
-                Price = 150,
-                OrderType = "Limit",
+                SourceId = "TV-Long-Task",
+                CurrentTime = DateTimeOffset.UtcNow
             });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
