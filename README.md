@@ -48,9 +48,24 @@
 ```json
 {
   "positionSize": "{{strategy.position_size}}",
-  "previousMarketPositionSize": "{{prev_market_position_size}}",
+  "previousMarketPositionSize": "{{strategy.prev_market_position_size}}",
   "previousMarketPosition": "{{strategy.prev_market_position}}",
   "marketPositionSize": "{{strategy.market_position_size}}",
   "marketPosition": "{{strategy.market_position}}"
+}
+```
+
+```
+{
+  "sourceId": "TV-Long-Task",
+  "currentTime": "{{timenow}}",
+  "tradeType": "{{strategy.order.action}}",
+  "symbol": "{{ticker}}",
+  "price": "{{strategy.order.price}}",
+  "marketPosition": "{{strategy.market_position}}",
+  "marketPositionSize": "{{strategy.market_position_size}}",
+  "previousMarketPosition": "{{strategy.prev_market_position}}",
+  "previousMarketPositionSize": "{{strategy.prev_market_position_size}}"
+
 }
 ```
