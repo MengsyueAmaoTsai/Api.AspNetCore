@@ -22,7 +22,7 @@ internal sealed class CreateSignalCommandHandler(
                 .ToErrorOr<SignalId>();
         }
 
-        var latency = (int)(DateTimeOffset.UtcNow - command.CurrentTime).TotalSeconds;
+        var latency = (int)(DateTimeOffset.UtcNow - command.CurrentTime).TotalMilliseconds;
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
