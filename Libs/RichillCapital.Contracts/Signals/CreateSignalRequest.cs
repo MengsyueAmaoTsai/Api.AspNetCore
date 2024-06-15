@@ -26,5 +26,6 @@ public static class CreateSignalRequestMapping
         {
             SourceId = request.SourceId,
             CurrentTime = request.CurrentTime,
+            Symbol = request.Symbol,
         };
 }

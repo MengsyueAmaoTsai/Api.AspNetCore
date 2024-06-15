@@ -9,11 +9,13 @@ public sealed class Signal : Entity<SignalId>
         SignalId id,
         SignalSourceId sourceId,
         DateTimeOffset time,
+        string symbol,
         int latency)
         : base(id)
     {
         SourceId = sourceId;
         Time = time;
+        Symbol = symbol;
         Latency = latency;
     }
 
@@ -21,18 +23,36 @@ public sealed class Signal : Entity<SignalId>
 
     public DateTimeOffset Time { get; private set; }
 
+    public string Symbol { get; private set; }
+
     public int Latency { get; private set; }
 
     public static ErrorOr<Signal> Create(
         SignalId id,
         SignalSourceId sourceId,
         DateTimeOffset time,
+        string symbol,
         int latency)
     {
+        if (time == default)
+        {
+            return Error
+                .Invalid("Signals.InvalidTime", "Signal time must be provided")
+                .ToErrorOr<Signal>();
+        }
+
+        if (latency <= 0)
+        {
+            return Error
+                .Invalid("Signals.InvalidLatency", "Signal latency must be greater than 0")
+                .ToErrorOr<Signal>();
+        }
+
         var signal = new Signal(
             id,
             sourceId,
             time,
+            symbol,
             latency);
 
         return signal

@@ -10,6 +10,8 @@ public sealed record SignalDto
 
     public DateTimeOffset Time { get; init; }
 
+    public required string Symbol { get; init; }
+
     public required int Latency { get; init; }
 }
 
@@ -21,6 +23,7 @@ internal static class SignalExtensions
             Id = signal.Id.Value,
             SourceId = signal.SourceId.Value,
             Time = signal.Time,
+            Symbol = signal.Symbol,
             Latency = signal.Latency,
         };
 }

@@ -9,4 +9,5 @@ public sealed record CreateSignalCommand :
 {
     public required string SourceId { get; init; }
     public required DateTimeOffset CurrentTime { get; init; }
+    public required string Symbol { get; init; }
 }

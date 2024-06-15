@@ -1,6 +1,5 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
 
@@ -30,8 +29,8 @@ internal sealed class GetSignalSourceQueryHandler(
 
         if (maybeSignalSource.IsNull)
         {
-            return Error
-                .NotFound("SignalSources.NotFound", $"Signal source with id {sourceId} not found")
+            return SignalSourceErrors
+                .NotFound(sourceId)
                 .ToErrorOr<SignalSourceDto>();
         }
 

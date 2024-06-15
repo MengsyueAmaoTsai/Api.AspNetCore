@@ -11,6 +11,8 @@ public sealed record SignalResponse
 
     public DateTimeOffset Time { get; init; }
 
+    public required string Symbol { get; init; }
+
     public required int Latency { get; init; }
 }
 
@@ -22,6 +24,7 @@ public static class SignalExtensions
             Id = signal.Id,
             SourceId = signal.SourceId,
             Time = signal.Time,
+            Symbol = signal.Symbol,
             Latency = signal.Latency,
         };
 
