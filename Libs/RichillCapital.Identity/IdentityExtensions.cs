@@ -8,7 +8,9 @@ public static class IdentityExtensions
 {
     public static IServiceCollection AddApiIdentity(this IServiceCollection services)
     {
-        services.AddScoped<ICurrentUser, FakeUser>();
+        // Current user context
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUser, CurrentApiUser>();
 
         return services;
     }

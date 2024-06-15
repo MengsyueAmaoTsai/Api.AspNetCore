@@ -1,7 +1,9 @@
+using RichillCapital.Domain;
+
 namespace RichillCapital.UseCases.Common;
 
 public interface ICurrentUser
 {
-    string Id { get; }
+    UserId Id { get; }
     bool IsAuthenticated { get; }
 }

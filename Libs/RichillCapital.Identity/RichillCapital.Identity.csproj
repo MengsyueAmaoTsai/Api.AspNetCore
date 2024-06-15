@@ -3,6 +3,11 @@
   <ItemGroup>
     <ProjectReference Include="..\RichillCapital.UseCases\RichillCapital.UseCases.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="RichillCapital.Extensions.Options" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+  </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
