@@ -10,6 +10,7 @@ using RichillCapital.Notifications.Discord;
 using RichillCapital.Notifications.Line;
 
 using Serilog;
+using RichillCapital.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,12 +34,17 @@ builder.Services.AddLocalFileStorageManager();
 builder.Services.AddLineNotification();
 builder.Services.AddDiscordNotification();
 
+// Presentation
+builder.Services.AddMiddlewares();
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 app.PopulateSeed();
+
+
+app.UseDebuggingRequestMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
