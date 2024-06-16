@@ -39,10 +39,22 @@ builder.Services.AddMiddlewares();
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
+
+builder.Services.AddCors(builder =>
+{
+    builder
+        .AddDefaultPolicy(policy =>
+        {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+        });
+});
+
 var app = builder.Build();
 
 app.PopulateSeed();
-
 
 app.UseDebuggingRequestMiddleware();
 
@@ -54,6 +66,10 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler(options =>
 {
 });
+
+app.UseRouting();
+
+app.UseCors();
 
 app.UseSwaggerDoc();
 
