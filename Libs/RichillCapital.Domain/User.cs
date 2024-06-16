@@ -7,35 +7,66 @@ public sealed class User : Entity<UserId>
 {
     private User(
         UserId id,
+        UserName name,
         Email email,
+        PhoneNumber phoneNumber,
         string password,
-        string name)
+        bool lockoutEnabled,
+        bool twoFactorEnabled,
+        bool emailConfirmed,
+        bool phoneNumberConfirmed,
+        int accessFailedCount,
+        DateTimeOffset lockoutEnd)
         : base(id)
     {
-        Email = email;
-        Password = password;
         Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Password = password;
+        LockoutEnabled = lockoutEnabled;
+        TwoFactorEnabled = twoFactorEnabled;
+        EmailConfirmed = emailConfirmed;
+        PhoneNumberConfirmed = phoneNumberConfirmed;
+        AccessFailedCount = accessFailedCount;
+        LockoutEnd = lockoutEnd;
     }
 
+    public UserName Name { get; private set; }
     public Email Email { get; private set; }
-
+    public PhoneNumber PhoneNumber { get; private set; }
     public string Password { get; private set; }
-
-    public string Name { get; private set; }
+    public bool LockoutEnabled { get; private set; }
+    public bool TwoFactorEnabled { get; private set; }
+    public bool EmailConfirmed { get; private set; }
+    public bool PhoneNumberConfirmed { get; private set; }
+    public int AccessFailedCount { get; private set; }
+    public DateTimeOffset LockoutEnd { get; private set; }
 
     public static ErrorOr<User> Create(
         UserId id,
+        UserName name,
         Email email,
+        PhoneNumber phoneNumber,
         string password,
-        string name)
+        bool lockoutEnabled,
+        bool twoFactorEnabled,
+        bool emailConfirmed,
+        bool phoneNumberConfirmed,
+        int accessFailedCount,
+        DateTimeOffset lockoutEnd)
     {
         var newUser = new User(
             id,
+            name,
             email,
+            phoneNumber,
             password,
-            name);
-
-        newUser.RegisterDomainEvent(new UserCreatedDomainEvent());
+            lockoutEnabled,
+            twoFactorEnabled,
+            emailConfirmed,
+            phoneNumberConfirmed,
+            accessFailedCount,
+            lockoutEnd);
 
         return newUser
             .ToErrorOr();

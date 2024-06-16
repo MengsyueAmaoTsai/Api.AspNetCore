@@ -24,12 +24,30 @@ internal sealed class UserConfiguration :
             .IsRequired();
 
         builder
+            .Property(user => user.Name)
+            .HasColumnName("name")
+            .HasMaxLength(UserName.MaxLength)
+            .HasConversion(
+                name => name.Value,
+                value => UserName.From(value).Value)
+            .IsRequired();
+
+        builder
             .Property(user => user.Email)
             .HasColumnName("email")
             .HasMaxLength(Email.MaxLength)
             .HasConversion(
                 email => email.Value,
                 value => Email.From(value).Value)
+            .IsRequired();
+
+        builder
+            .Property(user => user.PhoneNumber)
+            .HasColumnName("phone_number")
+            .HasMaxLength(PhoneNumber.MaxLength)
+            .HasConversion(
+                phoneNumber => phoneNumber.Value,
+                value => PhoneNumber.From(value).Value)
             .IsRequired();
     }
 }

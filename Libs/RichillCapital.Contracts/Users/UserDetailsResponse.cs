@@ -12,7 +12,14 @@ public static class UserDetailsResponseMapping
         new()
         {
             Id = user.Id,
-            Email = user.Email,
             Name = user.Name,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            LockoutEnabled = user.LockoutEnabled,
+            TwoFactorEnabled = user.TwoFactorEnabled,
+            EmailConfirmed = user.EmailConfirmed,
+            PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+            AccessFailedCount = user.AccessFailedCount,
+            LockoutEnd = user.LockoutEnd,
         };
 }
