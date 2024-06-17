@@ -1,12 +1,13 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Signals.Create;
 
 internal sealed class CreateSignalCommandHandler(
-    IRepository<Signal> _signalRepository,
+    IRepository<SignalSource> _signalSourceRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateSignalCommand, ErrorOr<SignalId>>
 {
@@ -14,6 +15,8 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
+        var requestLatency = (int)(DateTimeOffset.UtcNow - command.CurrentTime).TotalMilliseconds;
+
         var sourceIdResult = SignalSourceId.From(command.SourceId);
 
         if (sourceIdResult.IsFailure)
@@ -22,15 +25,15 @@ internal sealed class CreateSignalCommandHandler(
                 .ToErrorOr<SignalId>();
         }
 
-        var latency = (int)(DateTimeOffset.UtcNow - command.CurrentTime).TotalMilliseconds;
+        var sourceId = sourceIdResult.Value;
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
-            sourceIdResult.Value,
+            sourceId,
             command.CurrentTime,
             command.Exchange,
             command.Symbol,
-            latency);
+            requestLatency);
 
         if (errorOrSignal.HasError)
         {
@@ -40,7 +43,24 @@ internal sealed class CreateSignalCommandHandler(
 
         var signal = errorOrSignal.Value;
 
-        _signalRepository.Add(signal);
+        var maybeSignalSource = await _signalSourceRepository.FirstOrDefaultAsync(
+            source => source.Id == sourceId,
+            cancellationToken);
+
+        if (maybeSignalSource.IsNull)
+        {
+            return Error
+                .Invalid("Signals.UnknownSource", $"Signal source with id {sourceId} not found.")
+                .ToErrorOr<SignalId>();
+        }
+
+        var source = maybeSignalSource.Value;
+
+        source.AddSignal(signal);
+
+        // Persist to the database
+        _signalSourceRepository.Update(source);
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return signal.Id

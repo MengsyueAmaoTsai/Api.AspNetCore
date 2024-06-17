@@ -20,6 +20,7 @@ internal static class SignalSourceExtensions
             Id = source.Id.Value,
             Name = source.Name,
             Description = source.Description,
-            Signals = source.Signals.Select(signal => signal.ToDto()),
+            Signals = source.Signals
+                .Select(signal => signal.ToDto()),
         };
 }

@@ -36,4 +36,11 @@ public sealed class SignalSource : Entity<SignalSourceId>
         return source
             .ToErrorOr();
     }
+
+    public Result AddSignal(Signal signal)
+    {
+        _signals.Add(signal);
+
+        return Result.Success;
+    }
 }

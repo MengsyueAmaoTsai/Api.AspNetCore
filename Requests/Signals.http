@@ -8,6 +8,7 @@ Content-Type: application/json
     "sourceId": "TV-Long-Task",
     "currentTime": "2024-06-15T18:02:24Z",
     "tradeType": "buy",
+    "exchange": "BINANCE",
     "symbol": "BTCUSDT",
     "price": 100,
     "previousMarketPositionSize": 1,
