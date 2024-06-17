@@ -46,10 +46,10 @@ public sealed class Signal : Entity<SignalId>
                 .ToErrorOr<Signal>();
         }
 
-        if (latency <= 0)
+        if (latency < 0)
         {
             return Error
-                .Invalid("Signals.InvalidLatency", "Signal latency must be greater than 0")
+                .Invalid("Signals.InvalidLatency", "Signal latency must be greater than or equal to 0")
                 .ToErrorOr<Signal>();
         }
 
