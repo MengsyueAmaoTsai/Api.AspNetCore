@@ -104,7 +104,7 @@ public sealed class CreateSignalEndpoint(
         var notificationMessage = "";
         notificationMessage += $"Time: {request.CurrentTime:yyyy-MM-dd HH:mm:ss.fff zzz}\n";
         notificationMessage += $"Source: {request.SourceId}\n";
-        notificationMessage += $"{behavior} {side} {request.Symbol} {request.Price}\n";
+        notificationMessage += $"{behavior} {side} {request.Exchange}:{request.Symbol} {request.Price}\n";
 
         var result = await _lineNotification.NotifyAsync(notificationMessage, cancellationToken);
 

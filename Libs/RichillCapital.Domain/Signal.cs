@@ -9,12 +9,14 @@ public sealed class Signal : Entity<SignalId>
         SignalId id,
         SignalSourceId sourceId,
         DateTimeOffset time,
+        string exchange,
         string symbol,
         int latency)
         : base(id)
     {
         SourceId = sourceId;
         Time = time;
+        Exchange = exchange;
         Symbol = symbol;
         Latency = latency;
     }
@@ -22,6 +24,8 @@ public sealed class Signal : Entity<SignalId>
     public SignalSourceId SourceId { get; private set; }
 
     public DateTimeOffset Time { get; private set; }
+
+    public string Exchange { get; private set; }
 
     public string Symbol { get; private set; }
 
@@ -31,6 +35,7 @@ public sealed class Signal : Entity<SignalId>
         SignalId id,
         SignalSourceId sourceId,
         DateTimeOffset time,
+        string exchange,
         string symbol,
         int latency)
     {
@@ -52,6 +57,7 @@ public sealed class Signal : Entity<SignalId>
             id,
             sourceId,
             time,
+            exchange,
             symbol,
             latency);
 

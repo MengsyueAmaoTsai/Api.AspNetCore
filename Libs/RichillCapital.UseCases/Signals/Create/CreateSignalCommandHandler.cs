@@ -28,6 +28,7 @@ internal sealed class CreateSignalCommandHandler(
             SignalId.NewSignalId(),
             sourceIdResult.Value,
             command.CurrentTime,
+            command.Exchange,
             command.Symbol,
             latency);
 

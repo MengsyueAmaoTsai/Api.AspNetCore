@@ -8,6 +8,7 @@ public sealed record CreateSignalRequest
     public required string SourceId { get; init; }
     public required DateTimeOffset CurrentTime { get; init; }
     public required string TradeType { get; init; }
+    public required string Exchange { get; init; }
     public required string Symbol { get; init; }
     public required decimal Price { get; init; }
 
@@ -26,6 +27,7 @@ public static class CreateSignalRequestMapping
         {
             SourceId = request.SourceId,
             CurrentTime = request.CurrentTime,
+            Exchange = request.Exchange,
             Symbol = request.Symbol,
         };
 }

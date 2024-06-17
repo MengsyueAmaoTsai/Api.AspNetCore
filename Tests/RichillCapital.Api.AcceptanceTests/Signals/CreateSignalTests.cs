@@ -30,6 +30,7 @@ public sealed class CreateSignalTests(
         decimal marketPositionSize)
     {
         var sourceId = "TV-Long-Task";
+        var exchange = "BINANCE";
         var symbol = "BTCUSDT";
 
         var response = await Client.PostAsJsonAsync(
@@ -39,6 +40,7 @@ public sealed class CreateSignalTests(
                 SourceId = sourceId,
                 CurrentTime = DateTimeOffset.UtcNow,
                 TradeType = tradeType,
+                Exchange = exchange,
                 Symbol = symbol,
                 Price = 10000,
                 MarketPosition = marketPosition,

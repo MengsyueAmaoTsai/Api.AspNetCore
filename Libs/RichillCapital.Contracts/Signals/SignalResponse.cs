@@ -6,13 +6,10 @@ namespace RichillCapital.Contracts.Signals;
 public sealed record SignalResponse
 {
     public required string Id { get; init; }
-
     public required string SourceId { get; init; }
-
     public DateTimeOffset Time { get; init; }
-
+    public required string Exchange { get; init; }
     public required string Symbol { get; init; }
-
     public required int Latency { get; init; }
 }
 
@@ -24,6 +21,7 @@ public static class SignalExtensions
             Id = signal.Id,
             SourceId = signal.SourceId,
             Time = signal.Time,
+            Exchange = signal.Exchange,
             Symbol = signal.Symbol,
             Latency = signal.Latency,
         };
