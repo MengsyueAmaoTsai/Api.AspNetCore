@@ -1,6 +1,6 @@
 @Localhost = https://localhost:10000
 
-### List Audit Logs
+### List Users
 GET {{Localhost}}/api/v1/users
 
 

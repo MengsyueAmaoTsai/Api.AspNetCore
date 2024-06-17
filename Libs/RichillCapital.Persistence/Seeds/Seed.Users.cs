@@ -25,10 +25,10 @@ public static partial class Seed
             Email.From(email).Value,
             PhoneNumber.From(phoneNumber).Value,
             DefaultPassword,
-            false,
-            false,
-            false,
-            false,
-            0,
-            DateTimeOffset.UtcNow).Value;
+            lockoutEnabled: false,
+            twoFactorEnabled: false,
+            emailConfirmed: false,
+            phoneNumberConfirmed: false,
+            accessFailedCount: 0,
+            lockoutEnd: DateTimeOffset.UtcNow).Value;
 }
