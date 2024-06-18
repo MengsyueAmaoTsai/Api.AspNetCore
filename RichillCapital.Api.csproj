@@ -33,6 +33,7 @@
     <ProjectReference Include="Libs\RichillCapital.Notifications\RichillCapital.Notifications.csproj" />
     <ProjectReference Include="Libs\RichillCapital.Monitoring\RichillCapital.Monitoring.csproj" />
     <ProjectReference Include="Libs\RichillCapital.BackgroundJobs\RichillCapital.BackgroundJobs.csproj" />
+    <ProjectReference Include="Libs\RichillCapital.Messaging\RichillCapital.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Monitoring",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.BackgroundJobs", "Libs\RichillCapital.BackgroundJobs\RichillCapital.BackgroundJobs.csproj", "{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Messaging", "Libs\RichillCapital.Messaging\RichillCapital.Messaging.csproj", "{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{65A9252B-D091-4363-B88F-CE0DB9863326} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
@@ -108,5 +114,6 @@ Global
 		{641BD0DB-7699-46CB-813E-B57D81E49F2A} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{7D28CBC7-5E96-46FB-BB59-97A6592ED059} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{DF073B66-98E5-48D2-86E0-BCA24FB01DB5} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
+		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 	EndGlobalSection
 EndGlobal
