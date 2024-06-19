@@ -4,6 +4,7 @@ namespace RichillCapital.Contracts.Users;
 
 public sealed record UserDetailsResponse : UserResponse
 {
+    public required DateTimeOffset CreatedAt { get; init; }
 }
 
 public static class UserDetailsResponseMapping
@@ -21,5 +22,6 @@ public static class UserDetailsResponseMapping
             PhoneNumberConfirmed = user.PhoneNumberConfirmed,
             AccessFailedCount = user.AccessFailedCount,
             LockoutEnd = user.LockoutEnd,
+            CreatedAt = user.CreatedAt,
         };
 }

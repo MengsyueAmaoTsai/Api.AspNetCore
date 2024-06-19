@@ -30,5 +30,6 @@ public static partial class Seed
             emailConfirmed: false,
             phoneNumberConfirmed: false,
             accessFailedCount: 0,
-            lockoutEnd: DateTimeOffset.UtcNow).Value;
+            lockoutEnd: DateTimeOffset.UtcNow,
+            createdAt: DateTimeOffset.UtcNow).Value;
 }

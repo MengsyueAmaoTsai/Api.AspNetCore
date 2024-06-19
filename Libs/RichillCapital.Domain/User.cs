@@ -16,7 +16,8 @@ public sealed class User : Entity<UserId>
         bool emailConfirmed,
         bool phoneNumberConfirmed,
         int accessFailedCount,
-        DateTimeOffset lockoutEnd)
+        DateTimeOffset lockoutEnd,
+        DateTimeOffset createdAt)
         : base(id)
     {
         Name = name;
@@ -29,6 +30,7 @@ public sealed class User : Entity<UserId>
         PhoneNumberConfirmed = phoneNumberConfirmed;
         AccessFailedCount = accessFailedCount;
         LockoutEnd = lockoutEnd;
+        CreatedAt = createdAt;
     }
 
     public UserName Name { get; private set; }
@@ -41,6 +43,7 @@ public sealed class User : Entity<UserId>
     public bool PhoneNumberConfirmed { get; private set; }
     public int AccessFailedCount { get; private set; }
     public DateTimeOffset LockoutEnd { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
     public static ErrorOr<User> Create(
         UserId id,
@@ -53,7 +56,8 @@ public sealed class User : Entity<UserId>
         bool emailConfirmed,
         bool phoneNumberConfirmed,
         int accessFailedCount,
-        DateTimeOffset lockoutEnd)
+        DateTimeOffset lockoutEnd,
+        DateTimeOffset createdAt)
     {
         var newUser = new User(
             id,
@@ -66,7 +70,8 @@ public sealed class User : Entity<UserId>
             emailConfirmed,
             phoneNumberConfirmed,
             accessFailedCount,
-            lockoutEnd);
+            lockoutEnd,
+            createdAt);
 
         return newUser
             .ToErrorOr();

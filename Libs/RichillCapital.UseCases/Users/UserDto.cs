@@ -14,6 +14,7 @@ public sealed record UserDto
     public required bool PhoneNumberConfirmed { get; init; }
     public required int AccessFailedCount { get; init; }
     public required DateTimeOffset LockoutEnd { get; init; }
+    public required DateTimeOffset CreatedAt { get; init; }
 }
 
 internal static class UserExtensions
@@ -31,5 +32,6 @@ internal static class UserExtensions
             PhoneNumberConfirmed = user.PhoneNumberConfirmed,
             AccessFailedCount = user.AccessFailedCount,
             LockoutEnd = user.LockoutEnd,
+            CreatedAt = user.CreatedAt,
         };
 }
