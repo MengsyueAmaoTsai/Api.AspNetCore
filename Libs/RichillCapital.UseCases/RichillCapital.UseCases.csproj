@@ -1,11 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <ProjectReference Include="..\RichillCapital.Domain\RichillCapital.Domain.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="RichillCapital.Domain" Version="0.0.0.1" />
   </ItemGroup>
 
   <PropertyGroup>
