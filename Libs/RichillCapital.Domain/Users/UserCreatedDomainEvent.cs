@@ -1,6 +1,6 @@
 using RichillCapital.Domain.Common.Events;
 
-namespace RichillCapital.Domain;
+namespace RichillCapital.Domain.Users;
 
 public sealed record UserCreatedDomainEvent :
     DomainEvent

@@ -1,7 +1,6 @@
-
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Domain;
+using RichillCapital.Domain.Users;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Users.Events;

@@ -1,7 +1,7 @@
 ﻿using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Domain;
+namespace RichillCapital.Domain.Users;
 
 public sealed class Email : SingleValueObject<string>
 {

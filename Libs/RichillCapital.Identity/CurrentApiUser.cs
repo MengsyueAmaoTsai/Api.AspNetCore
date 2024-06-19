@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-using RichillCapital.Domain;
+using RichillCapital.Domain.Users;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.Identity;

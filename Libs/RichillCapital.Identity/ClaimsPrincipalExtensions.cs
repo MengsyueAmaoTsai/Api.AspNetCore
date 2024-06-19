@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-using RichillCapital.Domain;
+using RichillCapital.Domain.Users;
 
 namespace RichillCapital.Identity;
 
