@@ -42,8 +42,6 @@ public static partial class Seed
 
         context.AddEntitiesWithoutDomainEvents(CreateUsers());
 
-        context.AddEntitiesWithoutDomainEvents(CreateSignalSources());
-
         context.SaveChanges();
     }
 }

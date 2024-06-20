@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using RichillCapital.Domain.Common.Events;
-using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.Extensions.Options;
 using RichillCapital.SharedKernel.Specifications.Evaluators;
 

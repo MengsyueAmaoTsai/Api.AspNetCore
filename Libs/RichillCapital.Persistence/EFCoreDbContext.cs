@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using RichillCapital.Domain.Common.Events;
-using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Persistence;

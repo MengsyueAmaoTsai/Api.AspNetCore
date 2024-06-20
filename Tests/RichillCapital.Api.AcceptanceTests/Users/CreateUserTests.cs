@@ -1,6 +1,6 @@
 namespace RichillCapital.Api.AcceptanceTests.Users;
 
-public sealed class ListUsersTests(
+public sealed class CreateUserTests(
     AcceptanceTestWebApplicationFactory factory) :
     AcceptanceTest(factory)
 {
