@@ -10,8 +10,8 @@ public static partial class Seed
     {
         yield return CreateUser("UID0000001", "Mengsyue Tsai", "mengsyue.tsai@outlook.com", emailConfirmed: true, lockoutEnabled: false);
         yield return CreateUser("UID0000002", "Mengsyue Tsai", "mengsyue.tsai@gmail.com", emailConfirmed: true, lockoutEnabled: false);
-        yield return CreateUser("UID0000003", "Community User", "mengsyue.tsai@gmail.com", emailConfirmed: true, lockoutEnabled: false);
-        yield return CreateUser("UID0000004", "Copy Trader User", "mengsyue.tsai@gmail.com", emailConfirmed: false, lockoutEnabled: true);
+        yield return CreateUser("UID0000003", "Community User", "community-user@gmail.com", emailConfirmed: true, lockoutEnabled: false);
+        yield return CreateUser("UID0000004", "Copy Trader User", "copy-trader-user@gmail.com", emailConfirmed: false, lockoutEnabled: true);
     }
 
     internal static User CreateUser(
