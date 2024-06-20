@@ -22,6 +22,6 @@ public sealed class GetProcessInfoTests(
 
         processInfo.Should().NotBeNull();
         processInfo?.MachineName.Should().NotBeNullOrEmpty();
-        processInfo.UserName.Should().NotBeNullOrEmpty();
+        processInfo!.UserName.Should().NotBeNullOrEmpty();
     }
 }

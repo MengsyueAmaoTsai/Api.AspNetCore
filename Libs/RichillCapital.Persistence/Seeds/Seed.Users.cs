@@ -8,10 +8,24 @@ public static partial class Seed
 
     internal static IEnumerable<User> CreateUsers()
     {
-        // yield return CreateUser("UID0000001", "Mengsyue Tsai", "mengsyue.tsai@outlook.com", "+886903776473");
-        // yield return CreateUser("UID0000002", "Mengsyue Tsai", "mengsyue.tsai@gmail.com", "+886903776473");
-        // yield return CreateUser("UID0000003", "Copy Trader User", "copytrader@gmail.com", "+886903776473");
-        // yield return CreateUser("UID0000004", "Community User", "anonymous@gmail.com", "+886903776473");
-        return [];
+        yield return CreateUser("UID0000001", "Mengsyue Tsai", "mengsyue.tsai@outlook.com", emailConfirmed: true, lockoutEnabled: false);
+        yield return CreateUser("UID0000002", "Mengsyue Tsai", "mengsyue.tsai@gmail.com", emailConfirmed: true, lockoutEnabled: false);
+        yield return CreateUser("UID0000003", "Community User", "mengsyue.tsai@gmail.com", emailConfirmed: true, lockoutEnabled: false);
+        yield return CreateUser("UID0000004", "Copy Trader User", "mengsyue.tsai@gmail.com", emailConfirmed: false, lockoutEnabled: true);
     }
+
+    internal static User CreateUser(
+        string userId,
+        string name,
+        string email,
+        bool emailConfirmed,
+        bool lockoutEnabled) => User.Create(
+            id: UserId.From(userId).Value,
+            name: UserName.From(name).Value,
+            email: Email.From(email).Value,
+            emailConfirmed: emailConfirmed,
+            passwordHash: DefaultPassword,
+            lockoutEnabled: lockoutEnabled,
+            accessFailedCount: 0,
+            createdAt: DateTimeOffset.UtcNow).Value;
 }
