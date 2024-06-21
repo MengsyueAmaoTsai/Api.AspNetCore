@@ -36,15 +36,6 @@ jobs:
       id: version
       run: echo "::set-output name=version::$(git describe --tags --abbrev=0 || date +'%Y%m%d')-${{ steps.nbgv.outputs.GitCommitIdShort }}"
 
-    - name: Set up Docker for Windows
-      if: runner.os == 'Windows'
-      run: |
-        choco install docker-desktop --pre
-        powershell Start-Process 'C:\Program Files\Docker\Docker\Docker Desktop.exe' -WindowStyle Hidden
-        powershell Wait-Process -Name 'Docker Desktop'
-        powershell Start-Sleep -Seconds 15
-        powershell "& 'C:\Program Files\Docker\Docker\resources\com.docker.diagnose.exe' check"
-    
     - name: .NET Build and Test
       uses: cake-build/cake-action@v2
       with:
