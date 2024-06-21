@@ -35,7 +35,7 @@ internal sealed class AccountConfiguration :
 
         builder
             .HasOne<User>()
-            .WithMany(user => user.Accounts)
+            .WithMany()
             .HasForeignKey("user_id");
     }
 }

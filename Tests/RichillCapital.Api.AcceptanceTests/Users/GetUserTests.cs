@@ -26,4 +26,19 @@ public sealed class GetUserTests(
 
         problem!.Title.Should().Be("Users.NotFound");
     }
+
+    [Fact]
+    public async Task When_UserExists_Should_ReturnUser()
+    {
+        var userId = "UID0000001";
+
+        var response = await Client.GetAsync($"api/v1/users/{userId}");
+
+        response.EnsureSuccessStatusCode();
+
+        var user = await response.Content.ReadFromJsonAsync<UserDetailsResponse>();
+
+        user!.Id.Should().Be(userId);
+        user.Accounts.Should().HaveCount(2);
+    }
 }

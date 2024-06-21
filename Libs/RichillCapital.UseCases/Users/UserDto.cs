@@ -1,4 +1,5 @@
 using RichillCapital.Domain.Users;
+using RichillCapital.UseCases.Accounts;
 
 namespace RichillCapital.UseCases.Users;
 
@@ -17,6 +18,8 @@ public sealed record UserDto
     public required int AccessFailedCount { get; init; }
 
     public DateTimeOffset CreatedAt { get; init; }
+
+    public required IEnumerable<AccountDto> Accounts { get; init; }
 }
 
 internal static class UserExtensions
@@ -31,5 +34,7 @@ internal static class UserExtensions
             LockoutEnabled = user.LockoutEnabled,
             AccessFailedCount = user.AccessFailedCount,
             CreatedAt = user.CreatedAt,
+            Accounts = user.Accounts
+                .Select(account => account.ToDto())
         };
 }

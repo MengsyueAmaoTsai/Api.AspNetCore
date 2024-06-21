@@ -2,16 +2,18 @@
 using RichillCapital.Domain.Users;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
+using RichillCapital.SharedKernel.Specifications;
+using RichillCapital.SharedKernel.Specifications.Builders;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.UseCases.Users.Get;
 
 internal sealed class GetUserByIdQueryHandler(
-    IReadOnlyRepository<User> _userRepository) : 
+    IReadOnlyRepository<User> _userRepository) :
     IQueryHandler<GetUserByIdQuery, ErrorOr<UserDto>>
 {
     public async Task<ErrorOr<UserDto>> Handle(
-        GetUserByIdQuery query, 
+        GetUserByIdQuery query,
         CancellationToken cancellationToken)
     {
         var validationResult = UserId.From(query.UserId);
@@ -24,7 +26,9 @@ internal sealed class GetUserByIdQueryHandler(
 
         var userId = validationResult.Value;
 
-        var maybeUser = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        var maybeUser = await _userRepository.FirstOrDefaultAsync(
+            new UserDetailsSpecification(userId),
+            cancellationToken);
 
         if (maybeUser.IsNull)
         {
@@ -37,4 +41,13 @@ internal sealed class GetUserByIdQueryHandler(
         return ErrorOr<UserDto>
             .With(user.ToDto());
     }
+}
+
+internal sealed class UserDetailsSpecification :
+    Specification<User>
+{
+    public UserDetailsSpecification(UserId userId) =>
+        Query
+            .Where(user => user.Id == userId)
+            .Include(user => user.Accounts);
 }
