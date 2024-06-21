@@ -15,6 +15,7 @@ env:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -38,5 +39,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: RichillCapital.Api-${{ env.Build_Configuration }}-${{ matrix.os }}
+        name: RichillCapital.Api-${{ matrix.os }}-${{ env.Build_Configuration }}
         path: ./publish
