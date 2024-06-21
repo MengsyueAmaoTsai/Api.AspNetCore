@@ -8,3 +8,13 @@ GET {{Localhost}}/api/v1/users
 @UserId = UID0000001
 
 GET {{Localhost}}/api/v1/users/{{UserId}}
+
+### Create User
+POST {{Localhost}}/api/v1/users
+Content-Type: application/json
+
+{
+    "name": "test",
+    "email": "test@gmail.com",
+    "password": "123test"
+}
