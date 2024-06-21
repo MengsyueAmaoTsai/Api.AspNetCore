@@ -1,16 +1,20 @@
-name: ASP.NET Web API Continuous Integration
+name: RichillCapita.Api CI
 
 on:
   push:
     branches: 
       - master
+      - dev
+  pull_request:
+    branches: 
+      - master
+      - dev
 
 env:
-  Build_Configuration: Debug
-  Cake_File: build.cake
-  Build_Target: Default
-  Image_Name: api
-  Tag: latest
+  CAKE_FILE: build.cake
+  TARGET: Default
+  CONFIGuRATION: Debug
+  IMAGE_NAME: api
 
 jobs:
   build:
@@ -18,26 +22,45 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v4
-          
+
+    - name: Use Nerdbank.GitVersioning
+      uses: dotnet/nbgv@master
+      id: nbgv    
+
+    - name: Determine the Build Version
+      id: version
+      run: echo "::set-output name=version::$(git describe --tags --abbrev=0 || date +'%Y%m%d')-${{ steps.nbgv.outputs.GitCommitIdShort }}"
+
+    - name: Set up Docker for Windows
+      if: runner.os == 'Windows'
+      run: |
+        choco install docker-desktop --pre
+        powershell Start-Process 'C:\Program Files\Docker\Docker\Docker Desktop.exe' -WindowStyle Hidden
+        powershell Wait-Process -Name 'Docker Desktop'
+        powershell Start-Sleep -Seconds 15
+        powershell "& 'C:\Program Files\Docker\Docker\resources\com.docker.diagnose.exe' check"
+    
     - name: .NET Build and Test
       uses: cake-build/cake-action@v2
       with:
-        script-path: ${{ env.Cake_File }}
-        target: ${{ env.Build_Target }}
+        script-path: ${{ env.CAKE_FILE }}
+        target: ${{ env.TARGET }}
         verbosity: Diagnostic
         arguments: |
-          configuration: ${{ env.Build_Configuration }}
+          configuration: ${{ env.CONFIGuRATION }}
     
     - name: Build Docker Image
       run: |
-        docker build -t ${{ env.Image_Name }}:${{ env.Tag }} . 
+        docker build -t ${{ env.IMAGE_NAME }}:latest . 
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: RichillCapital.Api-${{ matrix.os }}-${{ env.Build_Configuration }}
-        path: ./publish
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: ${{ env.PACKAGE_ID }}-${{ steps.version.outputs.version }}-${{ steps.nbgv.outputs.GitCommitIdShort }}-${{ env.Configuration }}
+    #     path: ./publish          
+  
+  
