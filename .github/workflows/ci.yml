@@ -15,6 +15,7 @@ env:
   TARGET: Default
   CONFIGuRATION: Debug
   IMAGE_NAME: api
+  APPLICATION_NAME: RichillCapital.Api
 
 jobs:
   build:
@@ -22,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4
@@ -57,10 +58,10 @@ jobs:
       run: |
         docker build -t ${{ env.IMAGE_NAME }}:latest . 
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: ${{ env.PACKAGE_ID }}-${{ steps.version.outputs.version }}-${{ steps.nbgv.outputs.GitCommitIdShort }}-${{ env.Configuration }}
-    #     path: ./publish          
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ steps.nbgv.outputs.GitCommitIdShort }}-${{ matrix.os }}-${{ env.Configuration }}
+        path: ./publish          
   
   

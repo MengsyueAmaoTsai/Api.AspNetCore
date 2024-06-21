@@ -1,12 +1,11 @@
-name: ASP.NET Web API Continuous Deployment
+name: RichillCapital.Api CD
 
 on:
   push:
     tags:
       - '*'
 env:
-    Image_Name: api
-    Tag: latest
+    IMAGE_NAME: api
 
 jobs:
   deploy:
@@ -17,10 +16,10 @@ jobs:
     
     - name: Build Docker Image
       run: |
-        docker build -t ${{ env.Image_Name }}:${{ env.Tag }} . 
-        docker tag ${{ env.Image_Name }}:${{ env.Tag }} ${{ secrets.DOCKER_USERNAME }}/${{ env.Image_Name }}:${{ env.Tag }}
+        docker build -t ${{ env.IMAGE_NAME }}:latest . 
+        docker tag ${{ env.IMAGE_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
     - name: Push Docker Image
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.Image_Name }}:${{ env.Tag }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
