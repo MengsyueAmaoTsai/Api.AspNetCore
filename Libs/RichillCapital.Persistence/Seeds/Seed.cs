@@ -41,7 +41,7 @@ public static partial class Seed
         using var context = serviceProvider.GetRequiredService<EFCoreDbContext>();
 
         context.AddEntitiesWithoutDomainEvents(CreateUsers());
-
+        context.AddEntitiesWithoutDomainEvents(CreateAccounts());
         context.SaveChanges();
     }
 }

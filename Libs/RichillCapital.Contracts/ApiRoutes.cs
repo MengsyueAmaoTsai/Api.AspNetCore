@@ -12,4 +12,11 @@ public static class ApiRoutes
         public const string Create = UsersBase;
         public const string Get = UsersBase + "/{userId}";
     }
+
+    public static class Accounts
+    {
+        private const string AccountsBase = ApiBase + "/accounts";
+
+        public const string List = AccountsBase;
+    }
 }
