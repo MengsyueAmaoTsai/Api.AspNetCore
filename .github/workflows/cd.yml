@@ -5,6 +5,7 @@ on:
     tags:
       - '*'
 env:
+    PROJECT_PATH: ./RichillCapital.Api.csproj
     IMAGE_NAME: api
 
 jobs:
@@ -13,7 +14,17 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+
+    - name: Determine the Deploy Version
+      id: version
+      run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
     
+    - name: Update Version
+      run: |
+        sudo apt-get install -y xmlstarlet
+        assembly_version=${{ steps.version.outputs.version }}
+        xmlstarlet ed --inplace -u "/Project/PropertyGroup/AssemblyVersion" -v "${assembly_version}" ${{ env.PROJECT_PATH }}    
+
     - name: Build Docker Image
       run: |
         docker build -t ${{ env.IMAGE_NAME }}:latest . 
