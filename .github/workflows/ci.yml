@@ -52,7 +52,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ steps.nbgv.outputs.GitCommitIdShort }}-${{ matrix.os }}-${{ env.Configuration }}
+        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.Configuration }}
         path: ./publish          
   
   
