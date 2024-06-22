@@ -19,4 +19,18 @@ public static class ApiRoutes
 
         public const string List = AccountsBase;
     }
+
+    public static class SignalSource
+    {
+        private const string SignalSourceBase = ApiBase + "/signal-sources";
+
+        public const string List = SignalSourceBase;
+    }
+
+    public static class Signals
+    {
+        private const string SignalsBase = ApiBase + "/signals";
+
+        public const string List = SignalsBase;
+    }
 }
