@@ -1,18 +1,21 @@
 ﻿using Asp.Versioning;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Api.Endpoints;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.SignalSources;
+using RichillCapital.SharedKernel.Monads;
 
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace RichillCapital.Api.Src.Endpoints.SignalSources;
 
 [ApiVersion(EndpointVersion.V1)]
-public sealed class CreateSignalSourceEndpoint : AsyncEndpoint
+public sealed class CreateSignalSourceEndpoint(IMediator _mediator) : AsyncEndpoint
     .WithRequest<CreateSignalSourceRequest>
     .WithActionResult<CreateSignalSourceResponse>
 {
@@ -24,10 +27,13 @@ public sealed class CreateSignalSourceEndpoint : AsyncEndpoint
         Description = "Create a new signal source.",
         OperationId = "SignalSources.Create",
         Tags = ["SignalSources"])]
-    public override Task<ActionResult<CreateSignalSourceResponse>> HandleAsync(
+    public override async Task<ActionResult<CreateSignalSourceResponse>> HandleAsync(
         [FromBody] CreateSignalSourceRequest request,
-        CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+        CancellationToken cancellationToken = default) =>
+        await ErrorOr<CreateSignalSourceRequest>
+            .With(request)
+            .Then(req => req.ToCommand())
+            .Then(command => _mediator.Send(command, cancellationToken))
+            .Then(id => id.ToResponse())
+            .Match(HandleFailure, Ok);
 }
