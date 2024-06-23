@@ -16,6 +16,7 @@ env:
   CONFIGuRATION: Debug
   IMAGE_NAME: api
   APPLICATION_NAME: RichillCapital.Api
+  PUBLISH_DiRECTORY: ./publish
 
 jobs:
   build:
@@ -25,14 +26,17 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    steps:
-    - uses: actions/checkout@v4
+    steps: 
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Use Nerdbank.GitVersioning
       uses: dotnet/nbgv@master
       id: nbgv    
 
-    - name: Determine the Build Version
+    - name: Get Version
       id: version
       run: echo "::set-output name=version::$(git describe --tags --abbrev=0 || date +'%Y%m%d')-${{ steps.nbgv.outputs.GitCommitIdShort }}"
 
@@ -52,7 +56,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.Configuration }}
-        path: ./publish          
+        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.CONFIGuRATION }}
+        path: ${{ env.PUBLISH_DiRECTORY }}     
   
   
