@@ -3,7 +3,7 @@ using RichillCapital.Domain.Users;
 
 namespace RichillCapital.Persistence.Seeds;
 
-public static partial class Seed
+internal static partial class Seed
 {
     internal static IEnumerable<Account> CreateAccounts()
     {
@@ -20,5 +20,6 @@ public static partial class Seed
         Account.Create(
             AccountId.From(id).Value,
             UserId.From(userId).Value,
-            name).Value;
+            name,
+            DateTimeOffset.UtcNow).Value;
 }

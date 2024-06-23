@@ -1,3 +1,4 @@
+using RichillCapital.Domain;
 using RichillCapital.UseCases.Signals.Create;
 
 namespace RichillCapital.Contracts.Signals;

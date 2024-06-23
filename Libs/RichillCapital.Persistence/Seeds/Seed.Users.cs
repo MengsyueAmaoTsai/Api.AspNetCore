@@ -2,7 +2,7 @@ using RichillCapital.Domain.Users;
 
 namespace RichillCapital.Persistence.Seeds;
 
-public static partial class Seed
+internal static partial class Seed
 {
     private const string DefaultPassword = "123";
 

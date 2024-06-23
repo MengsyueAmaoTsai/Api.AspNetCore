@@ -20,11 +20,12 @@ public static class ApiRoutes
         public const string List = AccountsBase;
     }
 
-    public static class SignalSource
+    public static class SignalSources
     {
         private const string SignalSourceBase = ApiBase + "/signal-sources";
 
         public const string List = SignalSourceBase;
+        public const string Create = SignalSourceBase;
     }
 
     public static class Signals

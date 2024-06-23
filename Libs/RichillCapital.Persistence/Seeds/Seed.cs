@@ -7,7 +7,7 @@ using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Persistence.Seeds;
 
-public static partial class Seed
+internal static partial class Seed
 {
     public static WebApplication PopulateSeed(this WebApplication app)
     {
@@ -41,7 +41,11 @@ public static partial class Seed
         using var context = serviceProvider.GetRequiredService<EFCoreDbContext>();
 
         context.AddEntitiesWithoutDomainEvents(CreateUsers());
+
         context.AddEntitiesWithoutDomainEvents(CreateAccounts());
+
+        context.AddEntitiesWithoutDomainEvents(CreateSignalSources());
+
         context.SaveChanges();
     }
 }

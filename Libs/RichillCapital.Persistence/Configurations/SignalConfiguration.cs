@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using RichillCapital.UseCases.Signals.Create;
+using RichillCapital.Domain;
 
 namespace RichillCapital.Persistence.Configurations;
 

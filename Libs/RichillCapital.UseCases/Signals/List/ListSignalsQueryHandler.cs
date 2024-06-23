@@ -1,7 +1,7 @@
+using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
-using RichillCapital.UseCases.Signals.Create;
 
 namespace RichillCapital.UseCases.Signals.List;
 

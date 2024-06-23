@@ -9,6 +9,8 @@ public sealed record AccountDto
     public required string UserId { get; init; }
 
     public required string Name { get; init; }
+
+    public required DateTimeOffset CreatedAt { get; init; }
 }
 
 internal static class AccountExtensions
@@ -19,5 +21,6 @@ internal static class AccountExtensions
             Id = account.Id.Value,
             UserId = account.UserId.Value,
             Name = account.Name,
+            CreatedAt = account.CreatedAt,
         };
 }
