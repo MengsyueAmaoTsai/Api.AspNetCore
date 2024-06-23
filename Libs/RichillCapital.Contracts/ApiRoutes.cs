@@ -32,5 +32,6 @@ public static class ApiRoutes
         private const string SignalsBase = ApiBase + "/signals";
 
         public const string List = SignalsBase;
+        public const string Create = SignalsBase;
     }
 }

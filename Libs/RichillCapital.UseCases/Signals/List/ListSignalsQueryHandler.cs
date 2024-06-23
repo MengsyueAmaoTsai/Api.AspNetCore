@@ -1,19 +1,25 @@
+using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
+using RichillCapital.UseCases.Signals.Create;
 
 namespace RichillCapital.UseCases.Signals.List;
 
-internal sealed class ListSignalsQueryHandler() :
+internal sealed class ListSignalsQueryHandler(
+    IReadOnlyRepository<Signal> _signalRepository) :
     IQueryHandler<ListSignalsQuery, ErrorOr<PagedDto<SignalDto>>>
 {
     public async Task<ErrorOr<PagedDto<SignalDto>>> Handle(
         ListSignalsQuery query,
         CancellationToken cancellationToken)
     {
+        var signals = await _signalRepository.ListAsync(cancellationToken);
+
         return ErrorOr<PagedDto<SignalDto>>
             .With(new PagedDto<SignalDto>
             {
-                Items = [],
+                Items = signals
+                    .Select(signal => signal.ToDto()),
             });
     }
 }

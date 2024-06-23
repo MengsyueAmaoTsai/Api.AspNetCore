@@ -5,7 +5,7 @@ namespace RichillCapital.Contracts.Signals;
 
 public sealed record SignalResponse
 {
-    public required string Id { get; init; }
+    public required Guid Id { get; init; }
 
     public required string SourceId { get; init; }
 

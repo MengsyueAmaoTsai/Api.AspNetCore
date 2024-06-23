@@ -1,0 +1,16 @@
+@Localhost = https://localhost:10000
+
+### List Signals
+GET {{Localhost}}/api/v1/signals
+
+### Create signal
+POST {{Localhost}}/api/v1/signals
+Content-Type: application/json
+
+{
+    "sourceId": "Signal source id ",
+    "exchange": "Binance",
+    "symbol": "BTCUSDT",
+    "quantity": 1,
+    "price": 1
+}
