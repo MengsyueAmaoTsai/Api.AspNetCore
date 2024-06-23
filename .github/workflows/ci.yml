@@ -1,4 +1,4 @@
-name: RichillCapita.Api CI
+name: RichillCapital.Api CI
 
 on:
   push:
