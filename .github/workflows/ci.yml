@@ -13,7 +13,7 @@ on:
 env:
   CAKE_FILE: build.cake
   TARGET: Default
-  CONFIGuRATION: Debug
+  CONFIGURATION: Debug
   IMAGE_NAME: api
   APPLICATION_NAME: RichillCapital.Api
   PUBLISH_DiRECTORY: ./publish
@@ -47,7 +47,7 @@ jobs:
         target: ${{ env.TARGET }}
         verbosity: Diagnostic
         arguments: |
-          configuration: ${{ env.CONFIGuRATION }}
+          configuration: ${{ env.CONFIGURATION }}
     
     - name: Build Docker Image
       run: |
@@ -56,7 +56,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.CONFIGuRATION }}
+        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.CONFIGURATION }}
         path: ${{ env.PUBLISH_DiRECTORY }}     
   
   
