@@ -6,26 +6,27 @@ public static class ApiRoutes
 
     public static class Users
     {
-        private const string UsersBase = ApiBase + "/users";
+        private const string UsersBase = $"{ApiBase}/users";
 
         public const string List = UsersBase;
         public const string Create = UsersBase;
-        public const string Get = UsersBase + "/{userId}";
+        public const string Get = $"{UsersBase}/{{userId}}";
     }
 
     public static class Accounts
     {
-        private const string AccountsBase = ApiBase + "/accounts";
+        private const string AccountsBase = $"{ApiBase}/accounts";
 
         public const string List = AccountsBase;
     }
 
     public static class SignalSources
     {
-        private const string SignalSourceBase = ApiBase + "/signal-sources";
+        private const string SignalSourceBase = $"{ApiBase}/signal-sources";
 
         public const string List = SignalSourceBase;
         public const string Create = SignalSourceBase;
+        public const string Get = $"{SignalSourceBase}/{{signalSourceId}}";
     }
 
     public static class Signals

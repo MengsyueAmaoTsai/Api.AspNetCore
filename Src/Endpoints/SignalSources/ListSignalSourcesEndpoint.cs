@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using RichillCapital.Api.Endpoints;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.SignalSources;
 using RichillCapital.SharedKernel.Monads;
@@ -13,7 +12,7 @@ using RichillCapital.UseCases.SignalSources.List;
 
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace RichillCapital.Api.Src.Endpoints.SignalSources;
+namespace RichillCapital.Api.Endpoints.SignalSources;
 
 [ApiVersion(EndpointVersion.V1)]
 public sealed class ListSignalSourcesEndpoint(IMediator _mediator) : AsyncEndpoint
