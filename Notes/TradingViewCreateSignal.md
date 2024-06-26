@@ -49,14 +49,10 @@
 ```
 {
   "sourceId": "<uniqueId>",
-  "currentTime": "{{timenow}}",
-  "tradeType": "{{strategy.order.action}}",
+  "time": "{{timenow}}",
   "exchange": "{{exchange}}",
   "symbol": "{{ticker}}",
   "price": "{{strategy.order.price}}",
-  "marketPosition": "{{strategy.market_position}}",
-  "marketPositionSize": "{{strategy.market_position_size}}",
-  "previousMarketPosition": "{{strategy.prev_market_position}}",
-  "previousMarketPositionSize": "{{strategy.prev_market_position_size}}"
+  "quantity": "{{strategy.order.contracts}}"
 }
 ```
