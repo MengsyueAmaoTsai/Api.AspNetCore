@@ -36,6 +36,6 @@ internal static class SignalExtensions
             Quantity = signal.Quantity,
             Price = signal.Price,
             IpAddress = signal.IpAddress,
-            Latency = decimal.Zero,
+            Latency = signal.Latency,
         };
 }

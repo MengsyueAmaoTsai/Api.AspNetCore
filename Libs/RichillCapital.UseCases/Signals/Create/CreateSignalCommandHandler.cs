@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.SharedKernel.Monads;
@@ -6,6 +8,7 @@ using RichillCapital.UseCases.Common;
 namespace RichillCapital.UseCases.Signals.Create;
 
 internal sealed class CreateSignalCommandHandler(
+    ILogger<CreateSignalCommandHandler> _logger,
     IRepository<Signal> _signalRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateSignalCommand, ErrorOr<SignalId>>
@@ -14,7 +17,12 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
-        var latency = (int)(DateTimeOffset.UtcNow - command.Time).TotalMilliseconds;
+        var latency = DateTimeOffset.UtcNow - command.Time;
+
+        _logger.LogInformation(
+            "Creating signal for {SourceId} with latency {Latency} ms",
+            command.SourceId,
+            (int)latency.TotalMilliseconds);
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
@@ -25,7 +33,7 @@ internal sealed class CreateSignalCommandHandler(
             command.Quantity,
             command.Price,
             "localhost",
-            latency);
+            (int)latency.TotalMilliseconds);
 
         if (errorOrSignal.HasError)
         {
