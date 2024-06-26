@@ -17,6 +17,8 @@ public class SignalDto
     public required decimal Quantity { get; init; }
 
     public required decimal Price { get; init; }
+
+    public required decimal Latency { get; init; }
 }
 
 internal static class SignalExtensions
@@ -31,5 +33,6 @@ internal static class SignalExtensions
             Symbol = signal.Symbol,
             Quantity = signal.Quantity,
             Price = signal.Price,
+            Latency = decimal.Zero,
         };
 }

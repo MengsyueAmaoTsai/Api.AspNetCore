@@ -9,6 +9,7 @@ Content-Type: application/json
 
 {
     "sourceId": "Signal source id ",
+    "time": "2021-09-01T00:00:00Z",
     "exchange": "Binance",
     "symbol": "BTCUSDT",
     "quantity": 1,

@@ -18,6 +18,8 @@ public sealed record SignalResponse
     public required decimal Quantity { get; init; }
 
     public required decimal Price { get; init; }
+
+    public required decimal Latency { get; init; }
 }
 
 public static class SignalResponseMapping
@@ -32,6 +34,7 @@ public static class SignalResponseMapping
             Symbol = dto.Symbol,
             Quantity = dto.Quantity,
             Price = dto.Price,
+            Latency = dto.Latency,
         };
 
     public static Paged<SignalResponse> ToPagedResponse(this PagedDto<SignalDto> dto) =>
