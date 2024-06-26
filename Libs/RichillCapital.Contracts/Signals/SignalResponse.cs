@@ -19,6 +19,8 @@ public sealed record SignalResponse
 
     public required decimal Price { get; init; }
 
+    public required string IpAddress { get; init; }
+
     public required decimal Latency { get; init; }
 }
 
@@ -34,6 +36,7 @@ public static class SignalResponseMapping
             Symbol = dto.Symbol,
             Quantity = dto.Quantity,
             Price = dto.Price,
+            IpAddress = dto.IpAddress,
             Latency = dto.Latency,
         };
 

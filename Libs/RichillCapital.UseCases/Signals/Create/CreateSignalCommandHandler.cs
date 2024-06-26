@@ -14,6 +14,8 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
+        var latency = (int)(DateTimeOffset.UtcNow - command.Time).TotalMilliseconds;
+
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             command.SourceId,
@@ -21,7 +23,9 @@ internal sealed class CreateSignalCommandHandler(
             command.Exchange,
             command.Symbol,
             command.Quantity,
-            command.Price);
+            command.Price,
+            "localhost",
+            latency);
 
         if (errorOrSignal.HasError)
         {

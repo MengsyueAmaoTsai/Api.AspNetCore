@@ -18,6 +18,8 @@ public class SignalDto
 
     public required decimal Price { get; init; }
 
+    public required string IpAddress { get; init; }
+
     public required decimal Latency { get; init; }
 }
 
@@ -33,6 +35,7 @@ internal static class SignalExtensions
             Symbol = signal.Symbol,
             Quantity = signal.Quantity,
             Price = signal.Price,
+            IpAddress = signal.IpAddress,
             Latency = decimal.Zero,
         };
 }

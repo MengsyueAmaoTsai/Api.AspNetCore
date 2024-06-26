@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="RichillCapital.Domain" Version="8.0.2" />
+    <PackageReference Include="RichillCapital.Domain" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SignalSources\Create\" />
