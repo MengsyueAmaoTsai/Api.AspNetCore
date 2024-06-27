@@ -26,28 +26,13 @@ internal sealed class ListSignalsQueryHandler(
                 query.Order),
             cancellationToken);
 
-        // Create pagination
-        var page = query.Page < 1 ?
-            1 :
-            query.Page;
-
-        var pageSize = query.PageSize < 1 ?
-            DefaultPageSize :
-            query.PageSize;
-
-        var items = signals
-            .Skip(pageSize * (page - 1))
-            .Take(pageSize)
-            .Select(s => s.ToDto());
+        var pagedDto = PagedDto<SignalDto>.Create(
+            query.Page < 1 ? 1 : query.Page,
+            query.PageSize < 1 ? DefaultPageSize : query.PageSize,
+            signals.Select(s => s.ToDto()));
 
         return ErrorOr<PagedDto<SignalDto>>
-            .With(new PagedDto<SignalDto>
-            {
-                TotalCount = signals.Count,
-                Page = page,
-                PageSize = pageSize,
-                Items = items,
-            });
+            .With(pagedDto);
     }
 }
 

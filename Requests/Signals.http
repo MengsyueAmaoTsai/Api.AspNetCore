@@ -1,7 +1,7 @@
 @Localhost = https://localhost:10000
 
 ### List Signals
-GET {{Localhost}}/api/v1/signals?sortBy=id&order=desc&page=1&pageSize=2
+GET {{Localhost}}/api/v1/signals?sortBy=id&order=desc&page=2&pageSize=2
 
 ### Create signal
 POST {{Localhost}}/api/v1/signals
