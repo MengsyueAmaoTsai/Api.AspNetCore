@@ -6,6 +6,7 @@ namespace RichillCapital.UseCases.Signals.List;
 public sealed record ListSignalsQuery :
     IQuery<ErrorOr<PagedDto<SignalDto>>>
 {
+    public required string SearchTerm { get; init; }
     public required string SortBy { get; init; }
 
     public required string Order { get; init; }

@@ -19,6 +19,7 @@ internal sealed class ListSignalsQueryHandler(
     {
         var signals = await _signalRepository.ListAsync(
             new SignalsSpecification(
+                query.SearchTerm,
                 query.SortBy,
                 query.Order),
             cancellationToken);
@@ -42,9 +43,15 @@ internal sealed class SignalsSpecification : Specification<Signal>
     private const string DefaultOrder = "desc";
 
     public SignalsSpecification(
+        string searchTerm,
         string sortBy,
         string order)
     {
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            // Where signal contains search term
+        }
+
         // Get key selector
         var keySelector = sortBy switch
         {

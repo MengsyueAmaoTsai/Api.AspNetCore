@@ -6,6 +6,9 @@ namespace RichillCapital.Contracts;
 
 public sealed record ListRequest
 {
+    [FromQuery(Name = "searchTerm")]
+    public string? SearchTerm { get; init; }
+
     [FromQuery(Name = "sortBy")]
     public string? SortBy { get; init; }
 
@@ -18,6 +21,7 @@ public static class ListRequestMapping
     public static ListSignalsQuery ToQuery(this ListRequest request) =>
         new()
         {
+            SearchTerm = request.SearchTerm ?? string.Empty,
             SortBy = request.SortBy ?? string.Empty,
             Order = request.Order ?? string.Empty,
         };
