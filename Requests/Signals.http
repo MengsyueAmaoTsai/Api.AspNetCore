@@ -1,7 +1,7 @@
 @Localhost = https://localhost:10000
 
 ### List Signals
-GET {{Localhost}}/api/v1/signals?sortBy=id&order=desc&page=2&pageSize=2
+GET {{Localhost}}/api/v1/signals?searchTerm=TXF&sortBy=id&order=desc&page=1&pageSize=7
 
 ### Create signal
 POST {{Localhost}}/api/v1/signals
@@ -11,7 +11,7 @@ Content-Type: application/json
     "sourceId": "Signal source id ",
     "time": "2024-06-26T18:00:08.000Z",
     "exchange": "Binance",
-    "symbol": "BTCUSDT",
+    "symbol": "TXF",
     "quantity": 1,
     "price": 1
 }

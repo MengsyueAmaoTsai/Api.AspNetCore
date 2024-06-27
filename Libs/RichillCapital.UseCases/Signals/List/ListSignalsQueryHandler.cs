@@ -51,7 +51,9 @@ internal sealed class SignalsSpecification : Specification<Signal>
     {
         if (!string.IsNullOrEmpty(searchTerm))
         {
-            // Where signal contains search term
+            Query.Where(signal =>
+                signal.Symbol.Contains(searchTerm) ||
+                signal.Exchange.Contains(searchTerm));
         }
 
         // Get key selector
