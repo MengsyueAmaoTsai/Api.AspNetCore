@@ -29,5 +29,6 @@ public static class UserResponseMapping
         new()
         {
             Items = dto.Items.Select(ToResponse),
+            TotalCount = dto.TotalCount,
         };
 }

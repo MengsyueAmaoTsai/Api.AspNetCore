@@ -29,5 +29,6 @@ public static class AccountResponseMapping
         new()
         {
             Items = pagedDto.Items.Select(ToResponse),
+            TotalCount = pagedDto.TotalCount,
         };
 }

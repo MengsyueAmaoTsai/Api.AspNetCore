@@ -44,5 +44,6 @@ public static class SignalResponseMapping
         new()
         {
             Items = dto.Items.Select(ToResponse),
+            TotalCount = dto.TotalCount,
         };
 }
