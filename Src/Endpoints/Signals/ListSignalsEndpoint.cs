@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.Signals;
 using RichillCapital.SharedKernel.Monads;
-using RichillCapital.UseCases.Signals.List;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,7 +15,7 @@ namespace RichillCapital.Api.Endpoints.Signals;
 
 [ApiVersion(EndpointVersion.V1)]
 public sealed class ListSignalsEndpoint(IMediator _mediator) : AsyncEndpoint
-    .WithoutRequest
+    .WithRequest<ListRequest>
     .WithActionResult<Paged<SignalResponse>>
 {
     [HttpGet(ApiRoutes.Signals.List)]
@@ -27,9 +26,13 @@ public sealed class ListSignalsEndpoint(IMediator _mediator) : AsyncEndpoint
         Description = "List signals",
         OperationId = "Signals.List",
         Tags = ["Signals"])]
+
     public override async Task<ActionResult<Paged<SignalResponse>>> HandleAsync(
+        [FromQuery] ListRequest request,
         CancellationToken cancellationToken = default) =>
-        await _mediator.Send(new ListSignalsQuery(), cancellationToken)
+        await ErrorOr<ListRequest>.With(request)
+            .Then(req => req.ToQuery())
+            .Then(query => _mediator.Send(query, cancellationToken))
             .Then(dto => dto.ToPagedResponse())
             .Match(HandleFailure, Ok);
 }

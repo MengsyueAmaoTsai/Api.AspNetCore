@@ -18,7 +18,9 @@ internal sealed class ListSignalsQueryHandler(
         CancellationToken cancellationToken)
     {
         var signals = await _signalRepository.ListAsync(
-            new SignalsSpecification(),
+            new SignalsSpecification(
+                query.SortBy,
+                query.Order),
             cancellationToken);
 
         return ErrorOr<PagedDto<SignalDto>>
@@ -37,11 +39,36 @@ internal sealed class ListSignalsQueryHandler(
 internal sealed class SignalsSpecification : Specification<Signal>
 {
     private static readonly Expression<Func<Signal, object?>> DefaultKeySelector = signal => signal.Time;
+    private const string DefaultOrder = "desc";
 
-    public SignalsSpecification()
+    public SignalsSpecification(
+        string sortBy,
+        string order)
     {
+        // Get key selector
+        var keySelector = sortBy switch
+        {
+            "id" => signal => signal.Id,
+            "sourceId" => signal => signal.SourceId,
+            "time" => signal => signal.Time,
+            "symbol" => signal => signal.Symbol,
+            "exchange" => signal => signal.Exchange,
+            "price" => signal => signal.Price,
+            _ => DefaultKeySelector
+        };
+
         // Default order by time descending
-        Query
-            .OrderByDescending(DefaultKeySelector);
+        order = string.IsNullOrEmpty(order) ?
+            DefaultOrder :
+            order.ToLower();
+
+        if (order == "asc")
+        {
+            Query.OrderBy(keySelector);
+        }
+        else
+        {
+            Query.OrderByDescending(keySelector);
+        }
     }
 }
