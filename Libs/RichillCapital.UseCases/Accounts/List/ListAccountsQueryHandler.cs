@@ -19,6 +19,8 @@ internal sealed class ListAccountsQueryHandler(
         {
             Items = accounts.Select(account => account.ToDto()),
             TotalCount = accounts.Count,
+            Page = 1,
+            PageSize = 0,
         };
 
         return ErrorOr<PagedDto<AccountDto>>.With(pagedDto);

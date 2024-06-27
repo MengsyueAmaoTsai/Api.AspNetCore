@@ -17,9 +17,11 @@ internal sealed class ListSignalSourcesQueryHandler(
 
         var dto = new PagedDto<SignalSourceDto>
         {
+            TotalCount = sources.Count,
             Items = sources
                 .Select(source => source.ToDto()),
-            TotalCount = sources.Count,
+            Page = 1,
+            PageSize = 0,
         };
 
         return ErrorOr<PagedDto<SignalSourceDto>>.With(dto);

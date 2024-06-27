@@ -30,5 +30,7 @@ public static class UserResponseMapping
         {
             Items = dto.Items.Select(ToResponse),
             TotalCount = dto.TotalCount,
+            Page = dto.Page,
+            PageSize = dto.PageSize,
         };
 }

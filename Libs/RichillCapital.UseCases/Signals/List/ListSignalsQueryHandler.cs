@@ -13,6 +13,8 @@ internal sealed class ListSignalsQueryHandler(
     IReadOnlyRepository<Signal> _signalRepository) :
     IQueryHandler<ListSignalsQuery, ErrorOr<PagedDto<SignalDto>>>
 {
+    private const int DefaultPageSize = 50;
+
     public async Task<ErrorOr<PagedDto<SignalDto>>> Handle(
         ListSignalsQuery query,
         CancellationToken cancellationToken)
@@ -24,12 +26,27 @@ internal sealed class ListSignalsQueryHandler(
                 query.Order),
             cancellationToken);
 
+        // Create pagination
+        var page = query.Page < 1 ?
+            1 :
+            query.Page;
+
+        var pageSize = query.PageSize < 1 ?
+            DefaultPageSize :
+            query.PageSize;
+
+        var items = signals
+            .Skip(pageSize * (page - 1))
+            .Take(pageSize)
+            .Select(s => s.ToDto());
+
         return ErrorOr<PagedDto<SignalDto>>
             .With(new PagedDto<SignalDto>
             {
-                Items = signals
-                    .Select(signal => signal.ToDto()),
                 TotalCount = signals.Count,
+                Page = page,
+                PageSize = pageSize,
+                Items = items,
             });
     }
 }

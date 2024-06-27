@@ -44,6 +44,8 @@ public static class SignalResponseMapping
         new()
         {
             Items = dto.Items.Select(ToResponse),
+            Page = dto.Page,
+            PageSize = dto.PageSize,
             TotalCount = dto.TotalCount,
         };
 }

@@ -14,6 +14,12 @@ public sealed record ListRequest
 
     [FromQuery(Name = "order")]
     public string? Order { get; init; }
+
+    [FromQuery(Name = "page")]
+    public required int Page { get; init; }
+
+    [FromQuery(Name = "pageSize")]
+    public required int PageSize { get; init; }
 }
 
 public static class ListRequestMapping
@@ -24,5 +30,7 @@ public static class ListRequestMapping
             SearchTerm = request.SearchTerm ?? string.Empty,
             SortBy = request.SortBy ?? string.Empty,
             Order = request.Order ?? string.Empty,
+            Page = request.Page,
+            PageSize = request.PageSize,
         };
 }

@@ -31,5 +31,7 @@ public static class SignalSourceResponseMapping
             Items = paged.Items
                 .Select(ToResponse),
             TotalCount = paged.TotalCount,
+            Page = paged.Page,
+            PageSize = paged.PageSize,
         };
 }

@@ -19,6 +19,8 @@ internal sealed class ListUsersQueryHandler(
         {
             Items = users.Select(user => user.ToDto()),
             TotalCount = users.Count,
+            Page = 1,
+            PageSize = 0,
         };
 
         return ErrorOr<PagedDto<UserDto>>.With(pagedDto);
