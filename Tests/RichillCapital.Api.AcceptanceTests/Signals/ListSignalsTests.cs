@@ -14,9 +14,9 @@ public sealed class ListSignalsTests(
     [Fact]
     public async Task Should_ReturnSignals()
     {
-        var response = await Client.GetFromJsonAsync<Paged<SignalResponse>>("api/v1/signals");
+        var signals = await Client.GetFromJsonAsync<Paged<SignalResponse>>("api/v1/signals");
 
-        response.Should().NotBeNull();
-        response!.Items.Should().BeEmpty();
+        signals.Should().NotBeNull();
+        signals!.Items.Should().BeEmpty();
     }
 }

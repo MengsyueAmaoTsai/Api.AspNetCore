@@ -6,7 +6,7 @@ using RichillCapital.UseCases.Common;
 namespace RichillCapital.UseCases.SignalSources.List;
 
 internal sealed class ListSignalSourcesQueryHandler(
-    IReadOnlyRepository<SignalSource> _signalSourceRepository) : 
+    IReadOnlyRepository<SignalSource> _signalSourceRepository) :
     IQueryHandler<ListSignalSourcesQuery, ErrorOr<PagedDto<SignalSourceDto>>>
 {
     public async Task<ErrorOr<PagedDto<SignalSourceDto>>> Handle(
@@ -19,6 +19,7 @@ internal sealed class ListSignalSourcesQueryHandler(
         {
             Items = sources
                 .Select(source => source.ToDto()),
+            TotalCount = sources.Count,
         };
 
         return ErrorOr<PagedDto<SignalSourceDto>>.With(dto);
