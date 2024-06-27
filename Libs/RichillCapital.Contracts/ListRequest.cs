@@ -16,10 +16,10 @@ public sealed record ListRequest
     public string? Order { get; init; }
 
     [FromQuery(Name = "page")]
-    public required int Page { get; init; }
+    public int Page { get; init; }
 
     [FromQuery(Name = "pageSize")]
-    public required int PageSize { get; init; }
+    public int PageSize { get; init; }
 }
 
 public static class ListRequestMapping
