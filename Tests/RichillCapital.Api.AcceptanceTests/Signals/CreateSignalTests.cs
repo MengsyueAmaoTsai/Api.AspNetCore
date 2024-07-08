@@ -22,6 +22,15 @@ public sealed class CreateSignalTests(
             Symbol = "symbol",
             Quantity = 1,
             Price = 1.0m,
+            Candle = new CandleInfo
+            {
+                Time = DateTimeOffset.UtcNow,
+                Open = 1.0m,
+                Close = 1.0m,
+                High = 1.0m,
+                Low = 1.0m,
+                Volume = 1.0m,
+            }
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signals", request);
