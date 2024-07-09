@@ -20,6 +20,13 @@ public static class ApiRoutes
         public const string List = AccountsBase;
     }
 
+    public static class Instruments
+    {
+        private const string InstrumentsBase = $"{ApiBase}/instruments";
+
+        public const string List = InstrumentsBase;
+    }
+
     public static class SignalSources
     {
         private const string SignalSourceBase = $"{ApiBase}/signal-sources";

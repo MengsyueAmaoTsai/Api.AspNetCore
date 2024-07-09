@@ -44,6 +44,8 @@ internal static partial class Seed
 
         context.AddEntitiesWithoutDomainEvents(CreateAccounts());
 
+        context.AddEntitiesWithoutDomainEvents(CreateInstruments());
+
         context.AddEntitiesWithoutDomainEvents(CreateSignalSources());
 
         context.SaveChanges();
