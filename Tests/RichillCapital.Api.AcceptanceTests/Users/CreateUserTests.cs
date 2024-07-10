@@ -12,14 +12,9 @@ public sealed class CreateUserTests(
     AcceptanceTest(factory)
 {
     [Fact]
-    public async Task When_GivenDuplicateEmail_Should_ReturnConflict()
-    {
-    }
-
-    [Fact]
     public async Task When_GivenValidRequest_Should_CreateUser()
     {
-        var expectedName  = "Test user";
+        var expectedName = "Test user";
         var expectedEmail = "test@gmail.com";
         var expectedPassword = "random-generated-password";
 
@@ -33,9 +28,9 @@ public sealed class CreateUserTests(
         createResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = await createResponse.Content.ReadFromJsonAsync<CreateUserResponse>();
-        result.Should().NotBeNull();    
+        result.Should().NotBeNull();
         result!.Id.Should().NotBeEmpty();
-        
+
         var getUserResponse = await Client.GetFromJsonAsync<UserDetailsResponse>($"api/v1/users/{result.Id}");
         getUserResponse.Should().NotBeNull();
         getUserResponse!.Id.Should().Be(result.Id);
