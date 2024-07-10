@@ -8,6 +8,8 @@ public sealed record InstrumentResponse
     public required string Symbol { get; init; }
 
     public required string Description { get; init; }
+
+    public required string Exchange { get; init; }
 }
 
 public static class InstrumentResponseMapping
@@ -17,6 +19,7 @@ public static class InstrumentResponseMapping
         {
             Symbol = dto.Symbol,
             Description = dto.Description,
+            Exchange = dto.Exchange,
         };
 
     public static Paged<InstrumentResponse> ToPagedResponse(this PagedDto<InstrumentDto> dto) =>

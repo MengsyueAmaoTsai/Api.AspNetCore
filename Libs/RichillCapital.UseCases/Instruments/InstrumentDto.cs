@@ -7,6 +7,8 @@ public sealed record InstrumentDto
     public required string Symbol { get; init; }
 
     public required string Description { get; init; }
+
+    public required string Exchange { get; init; }
 }
 
 internal static class InstrumentExtensions
@@ -16,5 +18,6 @@ internal static class InstrumentExtensions
         {
             Symbol = instrument.Symbol.Value,
             Description = instrument.Description,
+            Exchange = instrument.Exchange,
         };
 }
