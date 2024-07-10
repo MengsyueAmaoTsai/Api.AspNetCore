@@ -7,44 +7,34 @@ internal static partial class Seed
 {
     private static IEnumerable<Instrument> CreateInstruments()
     {
-        // Stock
-        yield return CreateInstrument("AAPL", "Apple Inc.", "NASDAQ");
+        // Cryptocurrency
+        yield return CreateInstrument("BINANCE:BTCUSDT", "BTC/USDT", "Binance");
+        yield return CreateInstrument("OKX:BTCUSDT", "BTC/USDT", "Okx");
+        yield return CreateInstrument("BYBIT:BTCUSDT", "BTC/USDT", "ByBit");
+        yield return CreateInstrument("COINBASE:BTCUSDT", "BTC/USDT", "CoinBase");
+
+        // Perpetual swap
+        yield return CreateInstrument("BINANCE:BTCUSDT.P", "BTC/BTC Perpetual", "Binance");
+        yield return CreateInstrument("OKX:BTCUSDT.P", "BTC/BTC Perpetual", "Okx");
+        yield return CreateInstrument("BYBIT:BTCUSDT.P", "BTC/BTC Perpetual", "ByBit");
+        yield return CreateInstrument("COINBASE:BTCUSDT.P", "BTC/BTC Perpetual", "CoinBase");
 
         // Futures
-        yield return CreateInstrument("ES", "E-mini S&P 500", "CME");
+        yield return CreateInstrument("TAIFEX:TX", "Taiwan Stock Exchange Weighted Index", "TAIFEX");
+        yield return CreateInstrument("TAIFEX:TF", "Financial Sector Index Futures", "TAIFEX");
+        yield return CreateInstrument("TAIFEX:TE", "Electronic Sector Index Futures", "TAIFEX");
+        yield return CreateInstrument("CME:ES", "E-mini S&P 500 Index Futures", "CME");
+        yield return CreateInstrument("CME:NQ", "E-mini NASDAQ-100 Index Futures", "CME");
+        yield return CreateInstrument("CME:RTY", "E-mini Russell 2000 Index Futures", "CME");
 
-        // Options
-        yield return CreateInstrument("AAPL210917C00130000", "AAPL 2021-09-17 130.00 Call", "NASDAQ");
+        // ForeX Swap
+        yield return CreateInstrument("OANDA:EURUSD", "Euro vs US Dollar", "OANDA");
+        yield return CreateInstrument("IC:USDJPY", "US Dollar vs Japanese Yen", "IC Markets");
 
-        // Forex
-        yield return CreateInstrument("EURUSD", "Euro / US Dollar", "FOREX");
-
-        // Preptual swap
-        yield return CreateInstrument("BTCUSD", "Bitcoin / US Dollar", "CRYPTO");
-
-        // Index
-        yield return CreateInstrument("SPX", "S&P 500 Index", "CBOE");
-
-        // ETF
-        yield return CreateInstrument("SPY", "SPDR S&P 500 ETF Trust", "NYSE");
-
-        // Bond
-        yield return CreateInstrument("US10Y", "10-Year US Treasury Note", "CBOT");
-
-        // Commodity
-        yield return CreateInstrument("GC", "Gold", "COMEX");
-
-        // Cryptocurrency
-        yield return CreateInstrument("BTC", "Bitcoin", "CRYPTO");
-
-        // Mutual fund
-        yield return CreateInstrument("VTSAX", "Vanguard Total Stock Market Index Fund Admiral Shares", "NASDAQ");
-
-        // REIT
-        yield return CreateInstrument("VNQ", "Vanguard Real Estate ETF", "NYSE");
-
-        // Forwards
-        yield return CreateInstrument("EURUSD.F", "Euro / US Dollar", "FOREX");
+        // Stocks
+        yield return CreateInstrument("NYSE:IBM", "International Business Machines Corporation", "NYSE");
+        yield return CreateInstrument("TWSE:2330", "Taiwan Semiconductor Manufacturing Company Limited", "TWSE");
+        yield return CreateInstrument("TSE:7203", "Toyota Motor Corporation", "TSE");
     }
 
     private static Instrument CreateInstrument(
