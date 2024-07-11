@@ -8,9 +8,18 @@ internal static partial class Seed
     private static IEnumerable<Instrument> CreateInstruments()
     {
         // Cryptocurrency
-        yield return CreateInstrument("BINANCE:BTCUSDT", "BTC/USDT", "Binance");
-        yield return CreateInstrument("OKX:BTCUSDT", "BTC/USDT", "Okx");
+        yield return CreateInstrument(
+            symbol: "BINANCE:BTCUSDT",
+            description: "BTC/USDT",
+            exchange: "Binance");
+
+        yield return CreateInstrument(
+            symbol: "OKX:BTCUSDT",
+            description: "BTC/USDT",
+            exchange: "Okx");
+
         yield return CreateInstrument("BYBIT:BTCUSDT", "BTC/USDT", "ByBit");
+
         yield return CreateInstrument("COINBASE:BTCUSDT", "BTC/USDT", "CoinBase");
 
         // Perpetual swap
