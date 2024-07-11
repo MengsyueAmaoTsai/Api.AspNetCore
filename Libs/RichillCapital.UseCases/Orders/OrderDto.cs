@@ -1,4 +1,4 @@
-namespace RichillCapital.Contracts.Orders;
+namespace RichillCapital.UseCases.Orders;
 
 public sealed record OrderDto
 {
