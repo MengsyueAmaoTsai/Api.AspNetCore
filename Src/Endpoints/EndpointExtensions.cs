@@ -26,11 +26,16 @@ internal static class EndpointExtensions
         return services;
     }
 
-    internal static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder endpoints)
+    internal static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
     {
-        endpoints.MapControllers();
+        builder.MapControllers();
 
-        return endpoints;
+        builder.MapTestEndpoint();
+        builder.MapGCInfoEndpoint();
+        builder.MapThreadPoolInfoEndpoint();
+        builder.MapProcessInfoEndpoint();
+
+        return builder;
     }
 
     private static IServiceCollection AddEndpointVersioning(this IServiceCollection services)

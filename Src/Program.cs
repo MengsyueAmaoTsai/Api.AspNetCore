@@ -39,7 +39,7 @@ builder.Services.AddMiddlewares();
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
-
+// Presentation - Security
 builder.Services.AddCors(builder =>
 {
     builder
@@ -72,11 +72,6 @@ app.UseRouting();
 app.UseCors();
 
 app.UseSwaggerDoc();
-
-app.MapTestEndpoint();
-app.MapGCInfoEndpoint();
-app.MapThreadPoolInfoEndpoint();
-app.MapProcessInfoEndpoint();
 
 app.MapEndpoints();
 
