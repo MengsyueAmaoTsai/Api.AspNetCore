@@ -11,21 +11,18 @@ internal sealed class UserConfiguration :
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .ToTable("users")
             .HasKey(user => user.Id);
 
-        builder 
+        builder
             .Property(user => user.Id)
-            .HasColumnName("id")
             .HasMaxLength(UserId.MaxLength)
             .HasConversion(
                 id => id.Value,
                 value => UserId.From(value).Value)
             .IsRequired();
-        
+
         builder
             .Property(user => user.Name)
-            .HasColumnName("name")
             .HasMaxLength(UserName.MaxLength)
             .HasConversion(
                 name => name.Value,
@@ -34,7 +31,6 @@ internal sealed class UserConfiguration :
 
         builder
             .Property(user => user.Email)
-            .HasColumnName("email")
             .HasMaxLength(Email.MaxLength)
             .HasConversion(
                 email => email.Value,
