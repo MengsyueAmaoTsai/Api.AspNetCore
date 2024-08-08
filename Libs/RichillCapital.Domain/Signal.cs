@@ -7,12 +7,16 @@ public sealed class Signal : Entity<SignalId>
 {
     private Signal(
         SignalId id,
-        SignalSourceId sourceId) : base(id)
+        SignalSourceId sourceId,
+        DateTimeOffset time) : base(id)
     {
         SourceId = sourceId;
+        Time = time;
     }
 
     public SignalSourceId SourceId { get; private set; }
+
+    public DateTimeOffset Time { get; private set; }
 
     #region Navigation Properties
 
@@ -22,11 +26,13 @@ public sealed class Signal : Entity<SignalId>
 
     public static ErrorOr<Signal> Create(
         SignalId id,
-        SignalSourceId sourceId)
+        SignalSourceId sourceId,
+        DateTimeOffset time)
     {
         var signal = new Signal(
             id,
-            sourceId);
+            sourceId,
+            time);
 
         return ErrorOr<Signal>.With(signal);
     }
@@ -45,4 +51,7 @@ public sealed class SignalId : SingleValueObject<string>
         Result<string>
             .With(value)
             .Then(id => new SignalId(id));
+
+    public static SignalId NewSignalId() =>
+        From(Guid.NewGuid().ToString()).ThrowIfFailure().ValueOrDefault;
 }
