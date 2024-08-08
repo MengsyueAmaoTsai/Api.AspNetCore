@@ -24,7 +24,7 @@ internal static partial class Seed
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            services.AddInitialData();
+            // services.AddInitialData();
 
             logger.LogInformation("Seed populated successfully.");
         }
@@ -39,14 +39,6 @@ internal static partial class Seed
     internal static void AddInitialData(this IServiceProvider serviceProvider)
     {
         using var context = serviceProvider.GetRequiredService<EFCoreDbContext>();
-
-        context.AddEntitiesWithoutDomainEvents(CreateUsers());
-
-        context.AddEntitiesWithoutDomainEvents(CreateAccounts());
-
-        context.AddEntitiesWithoutDomainEvents(CreateInstruments());
-
-        context.AddEntitiesWithoutDomainEvents(CreateSignalSources());
 
         context.SaveChanges();
     }

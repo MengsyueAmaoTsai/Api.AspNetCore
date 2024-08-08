@@ -1,6 +1,6 @@
 namespace RichillCapital.UseCases.Common;
 
-public sealed record PagedDto<T>
+public sealed record Paged<T>
 {
     public required int TotalCount { get; init; }
     public required int Page { get; init; }
@@ -9,12 +9,12 @@ public sealed record PagedDto<T>
     public bool HasPreviousPage => Page > 1;
     public required IEnumerable<T> Items { get; init; }
 
-    internal static PagedDto<T> Create(
+    internal static Paged<T> Create(
         int page,
         int pageSize,
         IEnumerable<T> result)
     {
-        return new PagedDto<T>
+        return new Paged<T>
         {
             TotalCount = result.Count(),
             Page = page,

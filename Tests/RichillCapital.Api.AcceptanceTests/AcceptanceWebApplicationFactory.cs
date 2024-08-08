@@ -60,9 +60,9 @@ public sealed class AcceptanceTestWebApplicationFactory :
 
             context.Database.EnsureCreated();
 
-            services
-                .BuildServiceProvider()
-                .AddInitialData();
+            // services
+            //     .BuildServiceProvider()
+            //     .AddInitialData();
         });
     }
 }
