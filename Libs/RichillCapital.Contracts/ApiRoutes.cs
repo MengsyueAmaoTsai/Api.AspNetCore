@@ -8,6 +8,7 @@ public static class ApiRoutes
     {
         private const string SignalSourcesBase = $"{ApiBase}/signal-sources";
 
+        public const string Create = SignalSourcesBase;
         public const string Get = $"{SignalSourcesBase}/{{signalSourceId}}";
     }
 
