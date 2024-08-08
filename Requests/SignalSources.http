@@ -1,17 +1,4 @@
 @Localhost = https://localhost:10000
 
-### List Signals
-GET {{Localhost}}/api/v1/signal-sources
-
-### Create signal source
-POST {{Localhost}}/api/v1/signal-sources
-Content-Type: application/json
-
-{
-    "id": "Test",
-    "name": "test source",
-    "description": "Test source desc"
-}
-
 ### Get signal source
-GET {{Localhost}}/api/v1/signal-sources/TV-Long-Task
+GET {{Localhost}}/api/v1/signal-sources/1

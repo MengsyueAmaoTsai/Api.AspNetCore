@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using RichillCapital.Contracts;
 using RichillCapital.Contracts.SignalSourceSubscriptions;
 using RichillCapital.SharedKernel.Monads;
-using RichillCapital.UseCases.SignalSourceSubscriptions;
+using RichillCapital.UseCases.SignalSourceSubscriptions.Queries;
 
 using Swashbuckle.AspNetCore.Annotations;
 

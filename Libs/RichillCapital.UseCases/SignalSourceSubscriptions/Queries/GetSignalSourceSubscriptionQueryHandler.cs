@@ -1,11 +1,10 @@
-
 using RichillCapital.Domain;
 using RichillCapital.Domain.Common.Repositories;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Common;
 
-namespace RichillCapital.UseCases.SignalSourceSubscriptions;
+namespace RichillCapital.UseCases.SignalSourceSubscriptions.Queries;
 
 internal sealed class GetSignalSourceSubscriptionQueryHandler(
     IReadOnlyRepository<SignalSourceSubscription> _signalSourceSubscriptionRepository) :

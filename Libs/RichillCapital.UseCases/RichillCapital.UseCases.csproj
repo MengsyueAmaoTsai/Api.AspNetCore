@@ -3,9 +3,6 @@
     <PackageReference Include="MediatR" Version="12.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SignalSources\Create\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\RichillCapital.Domain\RichillCapital.Domain.csproj" />
   </ItemGroup>
 
