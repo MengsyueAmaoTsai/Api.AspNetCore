@@ -5,7 +5,7 @@ using FluentAssertions;
 
 using RichillCapital.Contracts;
 
-namespace RichillCapital.Api.AcceptanceTests;
+namespace RichillCapital.Api.AcceptanceTests.Endpoints;
 
 public sealed class GetThreadPoolInfoTests(
     AcceptanceTestWebApplicationFactory factory) :
