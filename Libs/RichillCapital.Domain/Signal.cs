@@ -5,13 +5,28 @@ namespace RichillCapital.Domain;
 
 public sealed class Signal : Entity<SignalId>
 {
-    private Signal(SignalId id) : base(id)
+    private Signal(
+        SignalId id,
+        SignalSourceId sourceId) : base(id)
     {
+        SourceId = sourceId;
     }
 
-    public static ErrorOr<Signal> Create(SignalId id)
+    public SignalSourceId SourceId { get; private set; }
+
+    #region Navigation Properties
+
+    public SignalSource Source { get; private set; }
+
+    #endregion
+
+    public static ErrorOr<Signal> Create(
+        SignalId id,
+        SignalSourceId sourceId)
     {
-        var signal = new Signal(id);
+        var signal = new Signal(
+            id,
+            sourceId);
 
         return ErrorOr<Signal>.With(signal);
     }

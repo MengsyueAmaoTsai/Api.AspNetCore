@@ -7,7 +7,8 @@ internal static partial class Seed
 {
     internal static IEnumerable<SignalSource> CreateSignalSources()
     {
-        yield return CreateSignalSource("1");
+        yield return CreateSignalSource(
+            id: "1");
     }
 
     internal static SignalSource CreateSignalSource(string id) =>
@@ -19,12 +20,34 @@ internal static partial class Seed
 
     internal static IEnumerable<Signal> CreateSignals()
     {
-        yield return CreateSignal("1");
+        yield return CreateSignal(
+            id: "1",
+            sourceId: "1");
     }
 
-    internal static Signal CreateSignal(string id) => Signal
+    internal static Signal CreateSignal(
+        string id,
+        string sourceId) => Signal
         .Create(
-            SignalId.From(id).ThrowIfFailure().ValueOrDefault)
+            SignalId.From(id).ThrowIfFailure().ValueOrDefault,
+            SignalSourceId.From(sourceId).ThrowIfFailure().ValueOrDefault)
         .ThrowIfError()
         .ValueOrDefault;
+
+    internal static IEnumerable<SignalSourceSubscription> CreateSignalSourceSubscriptions()
+    {
+        yield return CreateSignalSourceSubscription(
+            id: "1",
+            sourceId: "1");
+    }
+
+    internal static SignalSourceSubscription CreateSignalSourceSubscription(
+        string id,
+        string sourceId) =>
+        SignalSourceSubscription
+            .Create(
+                SignalSourceSubscriptionId.From(id).ThrowIfFailure().ValueOrDefault,
+                SignalSourceId.From(sourceId).ThrowIfFailure().ValueOrDefault)
+            .ThrowIfError()
+            .ValueOrDefault;
 }

@@ -7,15 +7,28 @@ public sealed class SignalSourceSubscription :
     Entity<SignalSourceSubscriptionId>
 {
     private SignalSourceSubscription(
-        SignalSourceSubscriptionId id)
+        SignalSourceSubscriptionId id,
+        SignalSourceId sourceId)
         : base(id)
     {
+        SourceId = sourceId;
     }
 
+    public SignalSourceId SourceId { get; private set; }
+
+    #region Navigation Properties 
+
+    public SignalSource Source { get; private set; }
+
+    #endregion
+
     public static ErrorOr<SignalSourceSubscription> Create(
-        SignalSourceSubscriptionId id)
+        SignalSourceSubscriptionId id,
+        SignalSourceId sourceId)
     {
-        var subscription = new SignalSourceSubscription(id);
+        var subscription = new SignalSourceSubscription(
+            id,
+            sourceId);
 
         return ErrorOr<SignalSourceSubscription>.With(subscription);
     }

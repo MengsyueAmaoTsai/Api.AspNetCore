@@ -22,6 +22,12 @@ internal sealed class SignalSourceSubscriptionConfiguration :
                 value => SignalSourceSubscriptionId.From(value).Value)
             .IsRequired();
 
+        // Relationships
+        builder
+            .HasOne(subscription => subscription.Source)
+            .WithMany(source => source.Subscriptions)
+            .HasForeignKey(subscription => subscription.SourceId);
+
         // Seed
         builder
             .HasData(Seed.CreateSignalSourceSubscriptions());

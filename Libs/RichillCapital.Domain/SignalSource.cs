@@ -5,10 +5,21 @@ namespace RichillCapital.Domain;
 
 public sealed class SignalSource : Entity<SignalSourceId>
 {
-    private SignalSource(SignalSourceId id) 
+    private readonly List<Signal> _signals = [];
+    private readonly List<SignalSourceSubscription> _subscriptions = [];
+
+    private SignalSource(SignalSourceId id)
         : base(id)
     {
     }
+
+    #region Navigation Properties
+
+    public IReadOnlyCollection<Signal> Signals => _signals;
+
+    public IReadOnlyCollection<SignalSourceSubscription> Subscriptions => _subscriptions;
+
+    #endregion
 
     public static ErrorOr<SignalSource> Create(SignalSourceId id)
     {
@@ -22,7 +33,7 @@ public sealed class SignalSourceId : SingleValueObject<string>
 {
     internal const int MaxLength = 36;
 
-    private SignalSourceId(string value) 
+    private SignalSourceId(string value)
         : base(value)
     {
     }
