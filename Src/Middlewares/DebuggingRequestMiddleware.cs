@@ -26,7 +26,7 @@ internal sealed class DebuggingRequestMiddleware(
         var remoteIpAddress = context.Connection.RemoteIpAddress;
 
         var userId = _currentUser.IsAuthenticated ? 
-            _currentUser.Id.Value : 
+            _currentUser.Id: 
             "Anonymous";
 
         _logger.LogInformation(

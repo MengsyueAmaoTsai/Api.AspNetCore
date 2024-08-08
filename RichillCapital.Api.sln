@@ -3,43 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api", "RichillCapital.Api.csproj", "{2DB24727-41B2-49FA-B8A3-E72DC10F1259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Api", "RichillCapital.Api.csproj", "{2DB24727-41B2-49FA-B8A3-E72DC10F1259}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api.AcceptanceTests", "Tests\RichillCapital.Api.AcceptanceTests\RichillCapital.Api.AcceptanceTests.csproj", "{65A9252B-D091-4363-B88F-CE0DB9863326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Api.AcceptanceTests", "Tests\RichillCapital.Api.AcceptanceTests\RichillCapital.Api.AcceptanceTests.csproj", "{65A9252B-D091-4363-B88F-CE0DB9863326}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{14B14710-2CBF-4CF7-A6E1-8A97335D724F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.UseCases", "Libs\RichillCapital.UseCases\RichillCapital.UseCases.csproj", "{DDB28433-407E-4415-B90B-2229EDC7E5D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.UseCases", "Libs\RichillCapital.UseCases\RichillCapital.UseCases.csproj", "{DDB28433-407E-4415-B90B-2229EDC7E5D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Persistence", "Libs\RichillCapital.Persistence\RichillCapital.Persistence.csproj", "{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Persistence", "Libs\RichillCapital.Persistence\RichillCapital.Persistence.csproj", "{500E9AB7-D3CC-47FC-9ACE-9C1FDD0C9941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Logging", "Libs\RichillCapital.Logging\RichillCapital.Logging.csproj", "{0B3C3EB5-45B3-4E28-9A8D-EFEC371E3AE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Logging", "Libs\RichillCapital.Logging\RichillCapital.Logging.csproj", "{0B3C3EB5-45B3-4E28-9A8D-EFEC371E3AE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Identity", "Libs\RichillCapital.Identity\RichillCapital.Identity.csproj", "{EDC75B38-989F-4C64-9CB5-0C988A373507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Identity", "Libs\RichillCapital.Identity\RichillCapital.Identity.csproj", "{EDC75B38-989F-4C64-9CB5-0C988A373507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Contracts", "Libs\RichillCapital.Contracts\RichillCapital.Contracts.csproj", "{162ACB3E-E373-455E-B27B-39E20B553488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Contracts", "Libs\RichillCapital.Contracts\RichillCapital.Contracts.csproj", "{162ACB3E-E373-455E-B27B-39E20B553488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api.ArchitectureTests", "Tests\RichillCapital.Api.ArchitectureTests\RichillCapital.Api.ArchitectureTests.csproj", "{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Api.ArchitectureTests", "Tests\RichillCapital.Api.ArchitectureTests\RichillCapital.Api.ArchitectureTests.csproj", "{15E33639-B37B-4DA0-9F78-C9D9DED15ACE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Storage", "Libs\RichillCapital.Storage\RichillCapital.Storage.csproj", "{C8DB24AE-273E-4069-AF33-947FF1191240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Storage", "Libs\RichillCapital.Storage\RichillCapital.Storage.csproj", "{C8DB24AE-273E-4069-AF33-947FF1191240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Notifications", "Libs\RichillCapital.Notifications\RichillCapital.Notifications.csproj", "{641BD0DB-7699-46CB-813E-B57D81E49F2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Notifications", "Libs\RichillCapital.Notifications\RichillCapital.Notifications.csproj", "{641BD0DB-7699-46CB-813E-B57D81E49F2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Monitoring", "Libs\RichillCapital.Monitoring\RichillCapital.Monitoring.csproj", "{7D28CBC7-5E96-46FB-BB59-97A6592ED059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Monitoring", "Libs\RichillCapital.Monitoring\RichillCapital.Monitoring.csproj", "{7D28CBC7-5E96-46FB-BB59-97A6592ED059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.BackgroundJobs", "Libs\RichillCapital.BackgroundJobs\RichillCapital.BackgroundJobs.csproj", "{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.BackgroundJobs", "Libs\RichillCapital.BackgroundJobs\RichillCapital.BackgroundJobs.csproj", "{DF073B66-98E5-48D2-86E0-BCA24FB01DB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Messaging", "Libs\RichillCapital.Messaging\RichillCapital.Messaging.csproj", "{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichillCapital.Messaging", "Libs\RichillCapital.Messaging\RichillCapital.Messaging.csproj", "{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Domain", "Libs\RichillCapital.Domain\RichillCapital.Domain.csproj", "{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2DB24727-41B2-49FA-B8A3-E72DC10F1259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -94,6 +93,13 @@ Global
 		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{65A9252B-D091-4363-B88F-CE0DB9863326} = {A4C33DFB-8B39-4681-A60E-F32C1C36DBB5}
@@ -108,5 +114,6 @@ Global
 		{7D28CBC7-5E96-46FB-BB59-97A6592ED059} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{DF073B66-98E5-48D2-86E0-BCA24FB01DB5} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 		{B5BAEC87-1177-4F35-95E4-914FC3AF21D3} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
+		{C95D1DA4-01F1-43A6-BAE7-B1C5D69588CA} = {14B14710-2CBF-4CF7-A6E1-8A97335D724F}
 	EndGlobalSection
 EndGlobal

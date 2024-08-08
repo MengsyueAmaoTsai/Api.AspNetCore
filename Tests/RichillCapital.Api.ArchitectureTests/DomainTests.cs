@@ -4,13 +4,14 @@ using FluentAssertions;
 
 using NetArchTest.Rules;
 
-using RichillCapital.Domain.Users;
+using RichillCapital.Domain;
+using RichillCapital.UseCases;
 
 namespace RichillCapital.Api.ArchitectureTests;
 
 public sealed class DomainTests
 {
-    private static readonly Assembly DomainAssembly = typeof(User).Assembly;
+    private static readonly Assembly DomainAssembly = typeof(DomainExtensions).Assembly;
 
     [Fact]
     public void Should_NotHaveDependency_On_PresentationLayer()
@@ -50,7 +51,7 @@ public sealed class DomainTests
     public void Should_NotHaveDependency_On_InfrastructureLayer()
     {
         // Arrange
-        var applicationAssembly = typeof(User).Assembly;
+        var applicationAssembly = typeof(ApplicationExtensions).Assembly;
 
         var infrastructureProjects = new List<string>
         {

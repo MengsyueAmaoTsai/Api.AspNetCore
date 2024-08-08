@@ -1,6 +1,7 @@
+using System.Security.Claims;
+
 using Microsoft.AspNetCore.Http;
 
-using RichillCapital.Domain.Users;
 using RichillCapital.UseCases.Common;
 
 namespace RichillCapital.Identity;
@@ -13,5 +14,7 @@ internal sealed class CurrentApiUser(
         _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ??
             throw new ApplicationException("User context is unavailable");
 
-    public UserId Id => _httpContextAccessor.HttpContext!.User.GetId();
+    public string Id => _httpContextAccessor.HttpContext!.User.Claims
+        .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ??
+            throw new ApplicationException("User context is unavailable");
 }

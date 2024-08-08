@@ -30,7 +30,6 @@ internal static class EndpointExtensions
     {
         builder.MapControllers();
 
-        builder.MapTestEndpoint();
         builder.MapGCInfoEndpoint();
         builder.MapThreadPoolInfoEndpoint();
         builder.MapProcessInfoEndpoint();
