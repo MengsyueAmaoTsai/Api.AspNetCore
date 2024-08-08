@@ -23,7 +23,6 @@ internal static partial class Seed
 
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-
             // services.AddInitialData();
 
             logger.LogInformation("Seed populated successfully.");

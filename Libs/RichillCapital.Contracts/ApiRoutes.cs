@@ -4,6 +4,13 @@ public static class ApiRoutes
 {
     private const string ApiBase = "api/v{version:apiVersion}";
 
+    public static class Users
+    {
+        private const string UsersBase = $"{ApiBase}/users";
+
+        public const string Get = $"{UsersBase}/{{userId}}";
+    }
+
     public static class SignalSources
     {
         private const string SignalSourcesBase = $"{ApiBase}/signal-sources";
