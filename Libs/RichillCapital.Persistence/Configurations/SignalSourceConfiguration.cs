@@ -18,7 +18,8 @@ internal sealed class SignalSourceConfiguration : IEntityTypeConfiguration<Signa
             .HasMaxLength(SignalSourceId.MaxLength)
             .HasConversion(
                 id => id.Value,
-                value => SignalSourceId.From(value).Value);
+                value => SignalSourceId.From(value).Value)
+            .IsRequired();
 
         // Seed
         builder
