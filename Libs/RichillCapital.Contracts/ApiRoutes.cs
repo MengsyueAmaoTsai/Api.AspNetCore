@@ -12,6 +12,13 @@ public static class ApiRoutes
         public const string Get = $"{SignalSourcesBase}/{{signalSourceId}}";
     }
 
+    public static class Signals
+    {
+        private const string SignalsBase = $"{ApiBase}/signals";
+
+        public const string Get = $"{SignalsBase}/{{signalId}}";
+    }
+
     public static class SignalSourceSubscriptions
     {
         private const string SignalSourceSubscriptionsBase = $"{ApiBase}/signal-source-subscriptions";
