@@ -9,6 +9,18 @@ internal static partial class Seed
     {
         yield return CreateSignalSource(
             id: "1");
+
+        yield return CreateSignalSource(
+            id: "2");
+
+        yield return CreateSignalSource(
+            id: "3");
+
+        yield return CreateSignalSource(
+            id: "4");
+
+        yield return CreateSignalSource(
+            id: "5");
     }
 
     internal static SignalSource CreateSignalSource(string id) =>
