@@ -1,0 +1,12 @@
+@Localhost = https://localhost:10000
+
+### Create signal
+POST {{Localhost}}/api/v1/signals
+Content-Type: application/json
+
+{
+    "sourceId": "1",
+    "time": "2021-01-01T00:00:00Z",
+    "symbol": "TXF-1"
+}
+

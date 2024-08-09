@@ -40,6 +40,11 @@ public sealed class Signal : Entity<SignalId>
             time,
             symbol);
 
+        signal.RegisterDomainEvent(new SignalCreatedDomainEvent
+        {
+            SignalId = signal.Id,
+        });
+
         return ErrorOr<Signal>.With(signal);
     }
 }
