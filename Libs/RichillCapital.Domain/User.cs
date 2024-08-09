@@ -5,6 +5,8 @@ namespace RichillCapital.Domain;
 
 public sealed class User : Entity<UserId>
 {
+    private readonly List<SignalSourceSubscription> _signalSourceSubscriptions = [];
+
     private User(UserId id)
         : base(id)
     {
@@ -16,6 +18,12 @@ public sealed class User : Entity<UserId>
 
         return ErrorOr<User>.With(user);
     }
+
+    #region Navigation properties
+
+    public IReadOnlyList<SignalSourceSubscription> SignalSourceSubscriptions => _signalSourceSubscriptions;
+
+    #endregion
 }
 
 public sealed class UserId : SingleValueObject<string>

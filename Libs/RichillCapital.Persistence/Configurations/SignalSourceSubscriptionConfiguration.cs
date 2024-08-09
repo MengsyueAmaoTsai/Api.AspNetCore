@@ -24,6 +24,11 @@ internal sealed class SignalSourceSubscriptionConfiguration :
 
         // Relationships
         builder
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(subscription => subscription.UserId);
+
+        builder
             .HasOne(subscription => subscription.Source)
             .WithMany(source => source.Subscriptions)
             .HasForeignKey(subscription => subscription.SourceId);

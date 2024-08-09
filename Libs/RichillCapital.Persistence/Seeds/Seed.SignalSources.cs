@@ -53,15 +53,18 @@ internal static partial class Seed
     {
         yield return CreateSignalSourceSubscription(
             id: "1",
+            userId: "UID0000001",
             sourceId: "1");
     }
 
     internal static SignalSourceSubscription CreateSignalSourceSubscription(
         string id,
+        string userId,
         string sourceId) =>
         SignalSourceSubscription
             .Create(
                 SignalSourceSubscriptionId.From(id).ThrowIfFailure().ValueOrDefault,
+                UserId.From(userId).ThrowIfFailure().ValueOrDefault,
                 SignalSourceId.From(sourceId).ThrowIfFailure().ValueOrDefault)
             .ThrowIfError()
             .ValueOrDefault;

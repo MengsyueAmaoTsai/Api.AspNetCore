@@ -8,12 +8,15 @@ public sealed class SignalSourceSubscription :
 {
     private SignalSourceSubscription(
         SignalSourceSubscriptionId id,
+        UserId userId,
         SignalSourceId sourceId)
         : base(id)
     {
+        UserId = userId;
         SourceId = sourceId;
     }
 
+    public UserId UserId { get; private set; }
     public SignalSourceId SourceId { get; private set; }
 
     #region Navigation Properties 
@@ -24,10 +27,12 @@ public sealed class SignalSourceSubscription :
 
     public static ErrorOr<SignalSourceSubscription> Create(
         SignalSourceSubscriptionId id,
+        UserId userId,
         SignalSourceId sourceId)
     {
         var subscription = new SignalSourceSubscription(
             id,
+            userId,
             sourceId);
 
         return ErrorOr<SignalSourceSubscription>.With(subscription);
