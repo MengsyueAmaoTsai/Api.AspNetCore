@@ -20,6 +20,7 @@ public sealed class CreateSignalTests(
         {
             SourceId = "1",
             Time = DateTimeOffset.UtcNow,
+            Symbol = "TXF-1",
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signals", request);
@@ -30,9 +31,10 @@ public sealed class CreateSignalTests(
         content!.Id.Should().NotBeNullOrEmpty();
 
         var signal = await Client.GetFromJsonAsync<SignalDetailsResponse>($"api/v1/signals/{content.Id}");
-        
+
         signal.Should().NotBeNull();
         signal!.Id.Should().Be(content.Id);
         signal.Time.Should().Be(request.Time);
+        signal.Symbol.Should().Be(request.Symbol);
     }
 }

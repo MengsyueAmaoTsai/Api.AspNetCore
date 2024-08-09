@@ -22,6 +22,13 @@ internal sealed class SignalConfiguration :
                 value => SignalId.From(value).ValueOrDefault)
             .IsRequired();
 
+        builder
+            .Property(signal => signal.Symbol)
+            .HasMaxLength(Symbol.MaxLength)
+            .HasConversion(
+                symbol => symbol.Value,
+                value => Symbol.From(value).ValueOrDefault)
+            .IsRequired();
 
         // Relationships
         builder

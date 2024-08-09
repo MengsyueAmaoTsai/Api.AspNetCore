@@ -12,6 +12,7 @@ public sealed record CreateSignalCommand :
 {
     public required string SignalSourceId { get; init; }
     public required DateTimeOffset Time { get; init; }
+    public required string Symbol { get; init; }
 }
 
 internal sealed class CreateSignalCommandHandler(
@@ -24,14 +25,17 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = SignalSourceId.From(command.SignalSourceId);
+        var validationResult = Result<(SignalId, Symbol)>.Combine(
+            SignalSourceId.From(command.SignalSourceId),
+            Symbol.From(command.Symbol));
 
         if (validationResult.IsFailure)
         {
             return ErrorOr<SignalId>.WithError(validationResult.Error);
         }
 
-        var sourceId = validationResult.Value;
+        var (sourceId, symbol) = validationResult.Value;
+
         var maybeSignalSource = await _signalSourceRepository.GetByIdAsync(sourceId, cancellationToken);
 
         if (maybeSignalSource.IsNull)
@@ -48,7 +52,8 @@ internal sealed class CreateSignalCommandHandler(
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             source.Id,
-            command.Time);
+            command.Time,
+            symbol);
 
         if (errorOrSignal.HasError)
         {

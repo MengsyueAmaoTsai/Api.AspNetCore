@@ -6,6 +6,7 @@ public sealed record SignalDetailsResponse
 {
     public required string Id { get; init; }
     public required DateTimeOffset Time { get; init; }
+    public required string Symbol { get; init; }
 }
 
 public static class SignalDetailsResponseMapping
@@ -15,5 +16,6 @@ public static class SignalDetailsResponseMapping
         {
             Id = dto.Id,
             Time = dto.Time,
+            Symbol = dto.Symbol,
         };
 }

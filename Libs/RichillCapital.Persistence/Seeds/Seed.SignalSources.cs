@@ -35,17 +35,26 @@ internal static partial class Seed
         yield return CreateSignal(
             id: "1",
             sourceId: "1",
-            time: new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero));
+            time: new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            "TXF-1");
+
+        yield return CreateSignal(
+            id: "2",
+            sourceId: "1",
+            time: new DateTimeOffset(2024, 1, 2, 0, 0, 0, TimeSpan.Zero),
+            "TXF-1");
     }
 
     internal static Signal CreateSignal(
         string id,
         string sourceId,
-        DateTimeOffset time) => Signal
+        DateTimeOffset time,
+        string symbol) => Signal
         .Create(
             SignalId.From(id).ThrowIfFailure().ValueOrDefault,
             SignalSourceId.From(sourceId).ThrowIfFailure().ValueOrDefault,
-            time)
+            time,
+            Symbol.From(symbol).ThrowIfFailure().ValueOrDefault)
         .ThrowIfError()
         .ValueOrDefault;
 
