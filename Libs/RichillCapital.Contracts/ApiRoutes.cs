@@ -14,7 +14,7 @@ public static class ApiRoutes
     public static class Orders
     {
         public const string List = $"{ApiBase}/orders";
-
+        public const string Create = $"{ApiBase}/orders";
         public const string Get = $"{ApiBase}/orders/{{orderId}}";
     }
 
