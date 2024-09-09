@@ -1,4 +1,7 @@
 using System.Text;
+using System.Text.Json;
+
+using RichillCapital.Contracts.Signals;
 
 namespace RichillCapital.Api.Middlewares;
 
@@ -24,9 +27,20 @@ internal sealed class SignalDebuggingMiddleware(
 
             context.Request.Body.Position = 0;
 
-            _logger.LogInformation(
-                "Received signal: {body}",
-                ReplaceCrlf(body));
+            try
+            {
+                var createSignalRequest = JsonSerializer.Deserialize<CreateSignalRequest>(body);
+
+                _logger.LogInformation(
+                    "Received signal request: {request}",
+                    createSignalRequest);
+            }
+            catch (JsonException)
+            {
+                _logger.LogWarning(
+                    "Failed to deserialize signal request: {body}, please check api contract",
+                    ReplaceCrlf(body));
+            }
         }
 
         await next(context);
