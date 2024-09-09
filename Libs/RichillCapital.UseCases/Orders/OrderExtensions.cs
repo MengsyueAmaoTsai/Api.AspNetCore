@@ -11,7 +11,7 @@ internal static class OrderExtensions
             Id = order.Id.Value,
             TradeType = order.TradeType.Name,
             Symbol = order.Symbol.Value,
-            OrderType = order.Type.Name,
+            Type = order.Type.Name,
             TimeInForce = order.TimeInForce.Name,
             Quantity = order.Quantity,
             Status = order.Status.Name,
