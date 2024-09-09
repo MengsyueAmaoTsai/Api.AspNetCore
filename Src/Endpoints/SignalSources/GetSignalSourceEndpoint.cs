@@ -14,20 +14,23 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.SignalSources;
 
 [ApiVersion(EndpointVersion.V1)]
-public sealed class ListSignalSourcesEndpoint(
+public sealed class GetSignalSourceEndpoint(
     IMediator _mediator) : AsyncEndpoint
-    .WithoutRequest
-    .WithActionResult<IEnumerable<SignalSourceResponse>>
+    .WithRequest<GetSignalSourceRequest>
+    .WithActionResult<SignalSourceDetailsResponse>
 {
-    [HttpGet(ApiRoutes.SignalSources.List)]
+    [HttpGet(ApiRoutes.SignalSources.Get)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
-    public override async Task<ActionResult<IEnumerable<SignalSourceResponse>>> HandleAsync(
+    public override async Task<ActionResult<SignalSourceDetailsResponse>> HandleAsync(
+        [FromRoute] GetSignalSourceRequest request,
         CancellationToken cancellationToken = default) =>
-        await ErrorOr<ListSignalSourcesQuery>
-            .With(new ListSignalSourcesQuery())
+        await ErrorOr<GetSignalSourceRequest>
+            .With(request)
+            .Then(req => new GetSignalSourceQuery
+            {
+                SignalSourceId = req.SignalSourceId
+            })
             .Then(query => _mediator.Send(query, cancellationToken))
-            .Then(sources => sources
-                .Select(s => s.ToResponse())
-                .ToList())
+            .Then(dto => dto.ToDetailsResponse())
             .Match(HandleFailure, Ok);
 }

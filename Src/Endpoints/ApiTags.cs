@@ -3,6 +3,6 @@
 internal sealed class ApiTags
 {
     internal const string Users = nameof(Users);
-
+    internal const string SignalSources = nameof(SignalSources);
     internal const string Signals = nameof(Signals);
 }

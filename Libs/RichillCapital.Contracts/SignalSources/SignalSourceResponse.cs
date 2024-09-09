@@ -2,7 +2,7 @@ using RichillCapital.UseCases.SignalSources;
 
 namespace RichillCapital.Contracts.SignalSources;
 
-public sealed record SignalSourceResponse
+public record SignalSourceResponse
 {
     public required string Id { get; init; }
     public required string Name { get; init; }
@@ -10,9 +10,22 @@ public sealed record SignalSourceResponse
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
+public sealed record SignalSourceDetailsResponse : SignalSourceResponse
+{
+}
+
 public static class SignalSourceResponseMapping
 {
     public static SignalSourceResponse ToResponse(this SignalSourceDto dto) =>
+        new()
+        {
+            Id = dto.Id,
+            Name = dto.Name,
+            Description = dto.Description,
+            CreatedTimeUtc = dto.CreatedTimeUtc,
+        };
+
+    public static SignalSourceDetailsResponse ToDetailsResponse(this SignalSourceDto dto) =>
         new()
         {
             Id = dto.Id,
