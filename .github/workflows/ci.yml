@@ -1,0 +1,62 @@
+name: RichillCapital.Api CI
+
+on:
+  push:
+    branches: 
+      - master
+      - dev
+  pull_request:
+    branches: 
+      - master
+      - dev
+
+env:
+  CAKE_FILE: build.cake
+  TARGET: Default
+  CONFIGURATION: Debug
+  IMAGE_NAME: api
+  APPLICATION_NAME: RichillCapital.Api
+  PUBLISH_DiRECTORY: ./publish
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps: 
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Use Nerdbank.GitVersioning
+      uses: dotnet/nbgv@master
+      id: nbgv    
+
+    - name: Get Version
+      id: version
+      run: echo "::set-output name=version::$(git describe --tags --abbrev=0 || date +'%Y%m%d')-${{ steps.nbgv.outputs.GitCommitIdShort }}"
+
+    - name: .NET Build and Test
+      uses: cake-build/cake-action@v2
+      with:
+        script-path: ${{ env.CAKE_FILE }}
+        target: ${{ env.TARGET }}
+        verbosity: Diagnostic
+        arguments: |
+          configuration: ${{ env.CONFIGURATION }}
+    
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ env.IMAGE_NAME }}:latest . 
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.APPLICATION_NAME }}-${{ steps.version.outputs.version }}-${{ matrix.os }}-${{ env.CONFIGURATION }}
+        path: ${{ env.PUBLISH_DiRECTORY }}     
+  
+  
