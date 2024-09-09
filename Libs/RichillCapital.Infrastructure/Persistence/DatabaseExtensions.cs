@@ -51,7 +51,7 @@ public static class DatabaseExtensions
                 serviceProvider.GetRequiredService<EFCoreDbContext>());
 
         services.AddScoped<IInMemorySpecificationEvaluator, InMemorySpecificationEvaluator>();
-        // services.AddMediatorDomainEventDispatcher();
+        services.AddScoped<IDomainEventDispatcher, MediatorDomainEventDispatcher>();
 
         return services;
     }

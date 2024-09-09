@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Infrastructure.Persistence;
 
 public sealed class EFCoreDbContext(
-    DbContextOptions<EFCoreDbContext> options) :
+    DbContextOptions<EFCoreDbContext> options,
+    IDomainEventDispatcher _domainEventDispatcher) :
     DbContext(options),
     IUnitOfWork
 {
@@ -13,17 +16,17 @@ public sealed class EFCoreDbContext(
         int result = await base.SaveChangesAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        // if (_domainEventDispatcher is null)
-        // {
-        //     return result;
-        // }
+        if (_domainEventDispatcher is null)
+        {
+            return result;
+        }
 
-        // var entitiesWithEvents = ChangeTracker.Entries<IEntity>()
-        //     .Select(e => e.Entity)
-        //     .Where(e => e.GetDomainEvents().Any())
-        //     .ToArray();
+        var entitiesWithEvents = ChangeTracker.Entries<IEntity>()
+            .Select(e => e.Entity)
+            .Where(e => e.GetDomainEvents().Any())
+            .ToArray();
 
-        // await _domainEventDispatcher.DispatchAndClearDomainEvents(entitiesWithEvents);
+        await _domainEventDispatcher.DispatchAndClearDomainEvents(entitiesWithEvents);
 
         return result;
     }
