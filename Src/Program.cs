@@ -43,6 +43,17 @@ builder.Services.AddDatabase();
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
+builder.Services.AddCors(builder =>
+{
+    builder
+        .AddDefaultPolicy(policy =>
+        {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+        });
+});
 
 var app = builder.Build();
 
@@ -59,8 +70,9 @@ app.UseExceptionHandler(options =>
 
 app.UseRouting();
 
-app.UseSwaggerDoc();
+app.UseCors();
 
+app.UseSwaggerDoc();
 app.MapEndpoints();
 
 await app.RunAsync();
