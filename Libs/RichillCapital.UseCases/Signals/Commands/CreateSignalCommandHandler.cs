@@ -15,12 +15,14 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
+        var now = DateTimeOffset.UtcNow;
+
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
-            DateTimeOffset.UtcNow,
-            "Origin",
-            "SourceId",
-            DateTimeOffset.UtcNow);
+            command.Time,
+            command.Origin,
+            command.SourceId,
+            now);
 
         if (errorOrSignal.HasError)
         {

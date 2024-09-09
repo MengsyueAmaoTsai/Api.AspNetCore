@@ -57,7 +57,7 @@ builder.Services.AddCors(builder =>
 
 var app = builder.Build();
 
-// app.ResetDatabase();
+app.ResetDatabase();
 
 if (app.Environment.IsDevelopment())
 {
