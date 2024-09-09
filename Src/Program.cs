@@ -1,4 +1,5 @@
 using RichillCapital.Api.Endpoints;
+using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
@@ -39,7 +40,7 @@ builder.Services.AddDatabase();
 // builder.Services.AddPayments();
 
 // Presentation
-// builder.Services.AddMiddlewares();
+builder.Services.AddMiddlewares();
 builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
@@ -58,6 +59,9 @@ builder.Services.AddCors(builder =>
 var app = builder.Build();
 
 app.ResetDatabase();
+
+app.UseRequestDebuggingMiddleware();
+app.UseSignalDebuggingMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
