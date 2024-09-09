@@ -1,3 +1,4 @@
+using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
@@ -52,6 +53,11 @@ public sealed class Order : Entity<OrderId>
             quantity,
             status,
             createdTimeUtc);
+
+        order.RegisterDomainEvent(new OrderCreatedDomainEvent
+        {
+            OrderId = order.Id
+        });
 
         return ErrorOr<Order>.With(order);
     }

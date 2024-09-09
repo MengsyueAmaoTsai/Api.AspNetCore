@@ -16,10 +16,13 @@ internal sealed class CreateORderCommandHandler(
         CancellationToken cancellationToken)
     {
         var validationResult = Result<(TradeType, Symbol, OrderType, TimeInForce)>.Combine(
-            TradeType.FromName(command.TradeType).ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
+            TradeType.FromName(command.TradeType)
+                .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
             Symbol.From(command.Symbol),
-            OrderType.FromName(command.OrderType).ToResult(Error.Invalid($"Invalid order type: {command.OrderType}")),
-            TimeInForce.FromName(command.TimeInForce).ToResult(Error.Invalid($"Invalid time in force: {command.TimeInForce}")));
+            OrderType.FromName(command.OrderType)
+                .ToResult(Error.Invalid($"Invalid order type: {command.OrderType}")),
+            TimeInForce.FromName(command.TimeInForce)
+                .ToResult(Error.Invalid($"Invalid time in force: {command.TimeInForce}")));
 
         var (tradeType, symbol, orderType, timeInForce) = validationResult.Value;
 
