@@ -5,6 +5,8 @@ namespace RichillCapital.Domain;
 
 public sealed class Symbol : SingleValueObject<string>
 {
+    internal const int MaxLength = 36;
+
     private Symbol(string value)
         : base(value)
     {
