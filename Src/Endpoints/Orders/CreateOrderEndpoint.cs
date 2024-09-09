@@ -29,6 +29,11 @@ public sealed class CreateOrderEndpoint(
             .With(request)
             .Then(req => new CreateOrderCommand
             {
+                TradeType = req.TradeType,
+                Symbol = req.Symbol,
+                OrderType = req.OrderType,
+                TimeInForce = req.TimeInForce,
+                Quantity = req.Quantity,
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(id => new OrderCreatedResponse
