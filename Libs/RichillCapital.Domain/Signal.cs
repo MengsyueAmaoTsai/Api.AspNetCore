@@ -9,41 +9,41 @@ public sealed class Signal : Entity<SignalId>
     private Signal(
         SignalId id,
         DateTimeOffset time,
+        SignalSourceId sourceId,
         string origin,
-        string sourceId,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
         Time = time;
-        Origin = origin;
         SourceId = sourceId;
+        Origin = origin;
         CreatedTimeUtc = createdTimeUtc;
     }
 
     public DateTimeOffset Time { get; init; }
+    public SignalSourceId SourceId { get; init; }
     public string Origin { get; init; }
-    public string SourceId { get; init; }
     public DateTimeOffset CreatedTimeUtc { get; init; }
 
     public static ErrorOr<Signal> Create(
         SignalId id,
         DateTimeOffset time,
+        SignalSourceId sourceId,
         string origin,
-        string sourceId,
         DateTimeOffset createdTimeUtc)
     {
         var signal = new Signal(
             id,
             time,
-            origin,
             sourceId,
+            origin,
             createdTimeUtc);
 
         signal.RegisterDomainEvent(new SignalCreatedDomainEvent
         {
             Time = time,
-            Origin = origin,
             SourceId = sourceId,
+            Origin = origin,
         });
 
         return ErrorOr<Signal>.With(signal);

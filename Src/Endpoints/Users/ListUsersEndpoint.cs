@@ -26,6 +26,8 @@ public sealed class ListUsersEndpoint(IMediator _mediator) :
         await ErrorOr<ListUsersQuery>
             .With(new ListUsersQuery())
             .Then(query => _mediator.Send(query, cancellationToken))
-            .Then(users => users.Select(u => u.ToResponse()))
+            .Then(users => users
+                .Select(u => u.ToResponse())
+                .ToList())
             .Match(HandleFailure, Ok);
 }

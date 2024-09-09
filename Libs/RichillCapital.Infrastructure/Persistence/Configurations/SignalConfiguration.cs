@@ -20,5 +20,13 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
                 id => id.Value,
                 value => SignalId.From(value).ThrowIfFailure().Value)
             .IsRequired();
+
+        builder
+            .Property(signal => signal.SourceId)
+            .HasMaxLength(SignalSourceId.MaxLength)
+            .HasConversion(
+                id => id.Value,
+                value => SignalSourceId.From(value).ThrowIfFailure().Value)
+            .IsRequired();
     }
 }

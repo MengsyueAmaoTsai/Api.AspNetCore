@@ -15,13 +15,21 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
+        var validationResult = SignalSourceId.From(command.SourceId);
+
+        if (validationResult.IsFailure)
+        {
+            return ErrorOr<SignalId>.WithError(validationResult.Error);
+        }
+
+        var sourceId = validationResult.Value;
         var now = DateTimeOffset.UtcNow;
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             command.Time,
+            sourceId,
             command.Origin,
-            command.SourceId,
             now);
 
         if (errorOrSignal.HasError)
