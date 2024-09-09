@@ -1,6 +1,7 @@
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -15,21 +16,24 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = SignalSourceId.From(command.SourceId);
+        var validationResult = Result<(SignalSourceId, SignalOrigin)>.Combine(
+            SignalSourceId.From(command.SourceId),
+            SignalOrigin.FromName(command.Origin)
+                .ToResult(Error.Invalid($"Invalid signal origin: {command.Origin}")));
 
         if (validationResult.IsFailure)
         {
             return ErrorOr<SignalId>.WithError(validationResult.Error);
         }
 
-        var sourceId = validationResult.Value;
+        var (sourceId, origin) = validationResult.Value;
         var now = DateTimeOffset.UtcNow;
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             command.Time,
             sourceId,
-            command.Origin,
+            origin,
             now);
 
         if (errorOrSignal.HasError)

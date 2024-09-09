@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 
 using RichillCapital.Contracts.Signals;
+using RichillCapital.Domain;
 
 namespace RichillCapital.Api.AcceptanceTests.Signals;
 
@@ -16,7 +17,7 @@ public sealed class CreateSignalTests(
         var request = new CreateSignalRequest
         {
             Time = DateTimeOffset.UtcNow,
-            Origin = "Test origin",
+            Origin = SignalOrigin.TradingView.Name,
             SourceId = "TEST-ID",
         };
 

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using RichillCapital.Domain;
+using RichillCapital.Persistence;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Persistence.Configurations;
@@ -27,6 +28,11 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .HasConversion(
                 id => id.Value,
                 value => SignalSourceId.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
+        builder
+            .Property(signal => signal.Origin)
+            .HasEnumerationValueConversion()
             .IsRequired();
     }
 }
