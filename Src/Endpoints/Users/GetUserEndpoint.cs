@@ -9,6 +9,8 @@ using RichillCapital.Contracts.Users;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Users.Queries;
 
+using Swashbuckle.AspNetCore.Annotations;
+
 namespace RichillCapital.Api.Endpoints.Users;
 
 [ApiVersion(EndpointVersion.V1)]
@@ -17,6 +19,7 @@ public sealed class GetUserEndpoint(IMediator _mediator) : AsyncEndpoint
     .WithActionResult<UserDetailsResponse>
 {
     [HttpGet(ApiRoutes.Users.Get)]
+    [SwaggerOperation(Tags = [ApiTags.Users])]
     public override async Task<ActionResult<UserDetailsResponse>> HandleAsync(
         [FromRoute] GetUserRequest request,
         CancellationToken cancellationToken = default) =>
