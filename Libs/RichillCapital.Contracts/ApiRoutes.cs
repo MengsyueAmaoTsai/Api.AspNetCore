@@ -14,7 +14,7 @@ public static class ApiRoutes
     public static class SignalSources
     {
         public const string List = $"{ApiBase}/signal-sources";
-
+        public const string Create = $"{ApiBase}/signal-sources";
         public const string Get = $"{ApiBase}/signal-sources/{{signalSourceId}}";
     }
 
