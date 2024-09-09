@@ -7,6 +7,8 @@ public static class ApiRoutes
     public static class Users
     {
         public const string List = $"{ApiBase}/users";
+
+        public const string Get = $"{ApiBase}/users/{{userId}}";
     }
 }
 
