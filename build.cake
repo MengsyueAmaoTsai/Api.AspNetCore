@@ -27,6 +27,19 @@ Task("Build")
             });
     });
 
+Task("AcceptanceTests")
+    .Does(() =>
+    {
+        DotNetTest(
+            "./Tests/RichillCapital.Api.AcceptanceTests/RichillCapital.Api.AcceptanceTests.csproj",
+            new DotNetTestSettings
+            {
+                Configuration = buildConfiguration,
+                NoBuild = true,
+                NoRestore = true,
+            });
+    });
+
 Task("Publish")
     .Does(() =>
     {
@@ -47,6 +60,7 @@ Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
 
 var target = Argument("target", "Default");

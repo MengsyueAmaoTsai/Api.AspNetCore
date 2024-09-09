@@ -1,4 +1,4 @@
 {
   "dotnet.defaultSolution": "./RichillCapital.Api.sln",
-  "cSpell.words": ["ASPNETCORE", "Mediat", "Swashbuckle"]
+  "cSpell.words": ["ASPNETCORE", "Mediat", "Swashbuckle", "Testcontainers"]
 }
