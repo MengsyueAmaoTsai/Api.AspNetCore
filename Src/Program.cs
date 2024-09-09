@@ -72,6 +72,8 @@ app.UseExceptionHandler(options =>
 {
 });
 
+app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseCors();
