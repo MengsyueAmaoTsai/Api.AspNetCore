@@ -1,4 +1,5 @@
 using RichillCapital.SharedKernel;
+using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Domain;
 
@@ -31,4 +32,27 @@ public sealed class Order : Entity<OrderId>
     public decimal Quantity { get; private set; }
     public OrderStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public static ErrorOr<Order> Create(
+        OrderId id,
+        TradeType tradeType,
+        Symbol symbol,
+        OrderType type,
+        TimeInForce timeInForce,
+        decimal quantity,
+        OrderStatus status,
+        DateTimeOffset createdTimeUtc)
+    {
+        var order = new Order(
+            id,
+            tradeType,
+            symbol,
+            type,
+            timeInForce,
+            quantity,
+            status,
+            createdTimeUtc);
+
+        return ErrorOr<Order>.With(order);
+    }
 }

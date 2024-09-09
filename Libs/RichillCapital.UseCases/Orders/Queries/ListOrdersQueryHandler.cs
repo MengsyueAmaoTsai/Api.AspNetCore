@@ -1,16 +1,24 @@
-
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Orders.Queries;
 
-internal sealed class ListOrdersQueryHandler :
+internal sealed class ListOrdersQueryHandler(IReadOnlyRepository<
+Order> _orderRepository) :
     IQueryHandler<ListOrdersQuery, ErrorOr<IEnumerable<OrderDto>>>
 {
-    public Task<ErrorOr<IEnumerable<OrderDto>>> Handle(
+    public async Task<ErrorOr<IEnumerable<OrderDto>>> Handle(
         ListOrdersQuery query,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var orders = await _orderRepository.ListAsync(cancellationToken);
+
+        var result = orders
+            .Select(o => o.ToDto())
+            .ToList();
+
+        return ErrorOr<IEnumerable<OrderDto>>.With(result);
     }
 }
