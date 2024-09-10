@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.HttpOverrides;
+
 using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
@@ -57,9 +59,19 @@ builder.Services.AddCors(builder =>
         });
 });
 
+builder.Services
+    .Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownNetworks.Clear();
+        options.KnownProxies.Clear();
+    });
+
 var app = builder.Build();
 
 app.ResetDatabase();
+
+app.UseForwardedHeaders();
 
 app.UseRequestDebuggingMiddleware();
 app.UseSignalDebuggingMiddleware();
