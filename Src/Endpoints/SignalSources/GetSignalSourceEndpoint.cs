@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
@@ -21,6 +22,7 @@ public sealed class GetSignalSourceEndpoint(
 {
     [HttpGet(ApiRoutes.SignalSources.Get)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
+    [Authorize]
     public override async Task<ActionResult<SignalSourceDetailsResponse>> HandleAsync(
         [FromRoute] GetSignalSourceRequest request,
         CancellationToken cancellationToken = default) =>

@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Api.Endpoints;
@@ -22,6 +23,7 @@ public sealed class GetOrderEndpoint(
 {
     [HttpGet(ApiRoutes.Orders.Get)]
     [SwaggerOperation(Tags = [ApiTags.Orders])]
+    [Authorize]
     public override async Task<ActionResult<OrderDetailsResponse>> HandleAsync(
         [FromRoute] GetOrderRequest request,
         CancellationToken cancellationToken = default) =>

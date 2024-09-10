@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
@@ -20,6 +21,7 @@ public sealed class GetUserEndpoint(IMediator _mediator) : AsyncEndpoint
 {
     [HttpGet(ApiRoutes.Users.Get)]
     [SwaggerOperation(Tags = [ApiTags.Users])]
+    [Authorize]
     public override async Task<ActionResult<UserDetailsResponse>> HandleAsync(
         [FromRoute] GetUserRequest request,
         CancellationToken cancellationToken = default) =>

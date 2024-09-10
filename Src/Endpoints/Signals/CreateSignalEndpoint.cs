@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
@@ -20,6 +21,7 @@ public sealed class CreateSignalEndpoint(IMediator _mediator) : AsyncEndpoint
 {
     [HttpPost(ApiRoutes.Signals.Create)]
     [SwaggerOperation(Tags = [ApiTags.Signals])]
+    [AllowAnonymous]
     public override async Task<ActionResult<SignalCreatedResponse>> HandleAsync(
         [FromBody] CreateSignalRequest request,
         CancellationToken cancellationToken = default) =>

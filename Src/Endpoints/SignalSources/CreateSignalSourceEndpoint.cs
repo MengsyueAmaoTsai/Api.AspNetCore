@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
@@ -21,6 +22,7 @@ public sealed class CreateSignalSourceEndpoint(
 {
     [HttpPost(ApiRoutes.SignalSources.Create)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
+    [Authorize]
     public override async Task<ActionResult<SignalSourceCreatedResponse>> HandleAsync(
         [FromBody] CreateSignalSourceRequest request,
         CancellationToken cancellationToken = default) =>

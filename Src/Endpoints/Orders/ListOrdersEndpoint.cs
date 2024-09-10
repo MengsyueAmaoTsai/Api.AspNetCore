@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Api.Endpoints;
@@ -22,6 +23,7 @@ public sealed class ListOrdersEndpoint(
 {
     [HttpGet(ApiRoutes.Orders.List)]
     [SwaggerOperation(Tags = [ApiTags.Orders])]
+    [Authorize]
     public override async Task<ActionResult<IEnumerable<OrderResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListOrdersQuery>

@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Api.Endpoints;
@@ -22,6 +23,7 @@ public sealed class CreateOrderEndpoint(
 {
     [HttpPost(ApiRoutes.Orders.Create)]
     [SwaggerOperation(Tags = [ApiTags.Orders])]
+    [Authorize]
     public override async Task<ActionResult<OrderCreatedResponse>> HandleAsync(
         [FromBody] CreateOrderRequest request,
         CancellationToken cancellationToken = default) =>
