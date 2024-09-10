@@ -1,6 +1,7 @@
 using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
+using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
 using RichillCapital.UseCases;
@@ -17,7 +18,7 @@ builder.WebHost.UseCustomLogger();
 builder.Services.AddSerilog();
 
 // Infrastructure - Identity
-// builder.Services.AddApiIdentity();
+builder.Services.AddCustomIdentity();
 
 // Infrastructure - Persistence
 builder.Services.AddDatabase();
@@ -77,6 +78,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseCors();
+
+app.UseAuthorization();
 
 app.UseSwaggerDoc();
 app.MapEndpoints();
