@@ -6,7 +6,7 @@ using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Orders.Commands;
 
-internal sealed class CreateORderCommandHandler(
+internal sealed class CreateOrderCommandHandler(
     IRepository<Order> _orderRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateOrderCommand, ErrorOr<OrderId>>
