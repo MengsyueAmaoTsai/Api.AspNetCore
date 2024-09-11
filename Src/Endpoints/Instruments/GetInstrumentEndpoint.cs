@@ -2,6 +2,7 @@ using Asp.Versioning;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
@@ -21,6 +22,7 @@ public sealed class GetInstrumentEndpoint(
 {
     [HttpGet(ApiRoutes.Instruments.Get)]
     [SwaggerOperation(Tags = [ApiTags.Instruments])]
+    [Authorize]
     public override async Task<ActionResult<InstrumentDetailsResponse>> HandleAsync(
         [FromRoute] GetInstrumentRequest request,
         CancellationToken cancellationToken = default) =>
