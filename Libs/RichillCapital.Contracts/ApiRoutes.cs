@@ -11,6 +11,13 @@ public static class ApiRoutes
         public const string Get = $"{ApiBase}/users/{{userId}}";
     }
 
+    public static class Instruments
+    {
+        public const string List = $"{ApiBase}/instruments";
+
+        public const string Get = $"{ApiBase}/instruments/{{symbol}}";
+    }
+
     public static class Orders
     {
         public const string List = $"{ApiBase}/orders";
