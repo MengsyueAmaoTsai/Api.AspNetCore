@@ -43,10 +43,13 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             .With(command)
             .Ensure(
                 cmd => !string.IsNullOrEmpty(cmd.FileName),
-                Error.Invalid("File name is required"))
+                Error.Invalid("File name is missing"))
+            .Ensure(
+                cmd => cmd.Length > 0,
+                Error.Invalid("Empty file"))
             .Ensure(
                 cmd => cmd.FileName.Contains("_List_of_Trades_"),
-                Error.Invalid($"Invalid file name: {command.FileName}"))
+                Error.Invalid($"Invalid file name format: {command.FileName}"))
             .Ensure(
                 cmd => cmd.ContentType == "text/csv",
                 Error.Invalid($"Invalid content type: {command.ContentType}"));
