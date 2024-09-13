@@ -36,5 +36,10 @@ public static class ApiRoutes
     {
         public const string Create = $"{ApiBase}/signals";
     }
+
+    public static class BackTestReports
+    {
+        public const string GenerateTradingView = $"{ApiBase}/back-test/trading-view";
+    }
 }
 
