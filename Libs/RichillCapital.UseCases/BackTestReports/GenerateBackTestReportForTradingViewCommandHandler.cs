@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Globalization;
+
+using Microsoft.Extensions.Logging;
 
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
@@ -27,6 +29,23 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             return ErrorOr<BackTestReportDto>.WithError(validationResult.Error);
         }
 
+        var tradesResult = await ParseTradesAsync(command.FileStream, cancellationToken);
+
+        if (tradesResult.IsFailure)
+        {
+            return ErrorOr<BackTestReportDto>.WithError(tradesResult.Error);
+        }
+
+        var trades = tradesResult.Value;
+
+        var groupedTrade = trades
+            .GroupBy(trade => trade.TradeId)
+            .ToList();
+
+        var totalNetProfit = groupedTrade
+            .Select(group => group.First().Profit)
+            .Sum();
+
         return ErrorOr<BackTestReportDto>.With(new BackTestReportDto
         {
             AnnualReturn = 0,
@@ -34,6 +53,7 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             ProfitFactor = 0,
             SharpeRatio = 0,
             Score = 0,
+            TotalNetProfit = totalNetProfit,
         });
     }
 
@@ -53,4 +73,45 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             .Ensure(
                 cmd => cmd.ContentType == "text/csv",
                 Error.Invalid($"Invalid content type: {command.ContentType}"));
+    
+    private static async Task<Result<IReadOnlyCollection<TradingViewTradeRecord>>> ParseTradesAsync(
+        Stream stream, 
+        CancellationToken cancellationToken = default)
+    {
+        var content = await new StreamReader(stream).ReadToEndAsync(cancellationToken);
+
+        var trades = content
+            .Split("\n")
+            .Skip(1)
+            .Select(line => line.Split(","))
+            .Select(TradingViewTradeRecord.FromStrings)
+            .ToList();
+
+        return Result<IReadOnlyCollection<TradingViewTradeRecord>>.With(trades);
+    }
+}
+
+public sealed record TradingViewTradeRecord
+{
+    public required int TradeId { get; init; }
+    public required string Type { get; init; }
+    public required string Signal { get; init; }
+    public required DateTimeOffset Time { get; init; }
+    public required decimal Price { get; init; }
+    public required decimal Quantity { get; init; }
+    public required decimal Profit { get; init; }
+
+    public static TradingViewTradeRecord FromStrings(string[] columns)
+    {
+        return new TradingViewTradeRecord
+        {
+            TradeId = int.Parse(columns[0]),
+            Type = columns[1],
+            Signal = columns[2],
+            Time = DateTimeOffset.ParseExact(columns[3], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+            Price = decimal.Parse(columns[4], CultureInfo.InvariantCulture),
+            Quantity = decimal.Parse(columns[5], CultureInfo.InvariantCulture),
+            Profit = decimal.Parse(columns[6], CultureInfo.InvariantCulture),   
+        };
+    }
 }

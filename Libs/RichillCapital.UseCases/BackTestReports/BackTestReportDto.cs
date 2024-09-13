@@ -7,4 +7,5 @@ public sealed record BackTestReportDto
     public required decimal MaxDrawdown { get; init; }
     public required decimal ProfitFactor { get; init; }
     public required decimal AnnualReturn { get; init; }
+    public required decimal TotalNetProfit { get; init; }
 }
