@@ -19,26 +19,13 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             command.FileName,
             command.Length);
 
-        var validationResult = Result<GenerateBackTestReportForTradingViewCommand>
-            .With(command)
-            .Ensure(
-                cmd => !string.IsNullOrEmpty(cmd.FileName),
-                Error.Invalid("File name is required"))
-            .Ensure(
-                cmd => cmd.FileName.Contains("_List_of_Trades_"),
-                Error.Invalid($"Invalid file name: {command.FileName}"))
-            .Ensure(
-                cmd => cmd.ContentType == "text/csv",
-                Error.Invalid($"Invalid content type: {command.ContentType}"));
+        var validationResult = ValidateCommand(command);
 
         if (validationResult.IsFailure)
         {
             _logger.LogError("{error}", validationResult.Error);
-
             return ErrorOr<BackTestReportDto>.WithError(validationResult.Error);
         }
-
-        // Read list of trade file 
 
         return ErrorOr<BackTestReportDto>.With(new BackTestReportDto
         {
@@ -49,4 +36,18 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             Score = 0,
         });
     }
+
+    private static Result<GenerateBackTestReportForTradingViewCommand> ValidateCommand(
+        GenerateBackTestReportForTradingViewCommand command) =>
+        Result<GenerateBackTestReportForTradingViewCommand>
+            .With(command)
+            .Ensure(
+                cmd => !string.IsNullOrEmpty(cmd.FileName),
+                Error.Invalid("File name is required"))
+            .Ensure(
+                cmd => cmd.FileName.Contains("_List_of_Trades_"),
+                Error.Invalid($"Invalid file name: {command.FileName}"))
+            .Ensure(
+                cmd => cmd.ContentType == "text/csv",
+                Error.Invalid($"Invalid content type: {command.ContentType}"));
 }
