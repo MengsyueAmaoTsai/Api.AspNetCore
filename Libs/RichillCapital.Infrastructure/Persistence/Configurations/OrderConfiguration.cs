@@ -49,5 +49,50 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .Property(order => order.Status)
             .HasEnumerationValueConversion()
             .IsRequired();
+
+        builder.HasData(
+        [
+            CreateOrder(
+                "1",
+                TradeType.Buy,
+                "BINANCE:BTCUSDT.P",
+                OrderType.Market,
+                TimeInForce.ImmediateOrCancel,
+                1,
+                OrderStatus.Executed,
+                new DateTimeOffset(2024, 2, 2, 10, 30, 0, TimeSpan.Zero)),
+
+            CreateOrder(
+                "2",
+                TradeType.Sell,
+                "BINANCE:BTCUSDT.P",
+                OrderType.Market,
+                TimeInForce.ImmediateOrCancel,
+                1,
+                OrderStatus.Executed,
+                new DateTimeOffset(2024, 2, 2, 13, 15, 0, TimeSpan.Zero)),
+        ]);
     }
+
+    private static Order CreateOrder(
+        string id,
+        TradeType tradeType,
+        string symbol,
+        OrderType type,
+        TimeInForce timeInForce,
+        decimal quantity,
+        OrderStatus status,
+        DateTimeOffset createdTimeUtc) =>
+        Order
+            .Create(
+                OrderId.From(id).ThrowIfFailure().Value,
+                Symbol.From(symbol).ThrowIfFailure().Value,
+                tradeType,
+                type,
+                timeInForce,
+                quantity,
+                status,
+                createdTimeUtc)
+            .ThrowIfError()
+            .Value;
 }

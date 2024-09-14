@@ -28,8 +28,8 @@ internal sealed class CreateOrderCommandHandler(
 
         var errorOrOrder = Order.Create(
             OrderId.NewOrderId(),
-            tradeType,
             symbol,
+            tradeType,
             orderType,
             timeInForce,
             command.Quantity,

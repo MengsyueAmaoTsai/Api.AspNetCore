@@ -8,8 +8,8 @@ public sealed class Order : Entity<OrderId>
 {
     private Order(
         OrderId id,
-        TradeType tradeType,
         Symbol symbol,
+        TradeType tradeType,
         OrderType type,
         TimeInForce timeInForce,
         decimal quantity,
@@ -17,8 +17,8 @@ public sealed class Order : Entity<OrderId>
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
-        TradeType = tradeType;
         Symbol = symbol;
+        TradeType = tradeType;
         Type = type;
         TimeInForce = timeInForce;
         Quantity = quantity;
@@ -36,8 +36,8 @@ public sealed class Order : Entity<OrderId>
 
     public static ErrorOr<Order> Create(
         OrderId id,
-        TradeType tradeType,
         Symbol symbol,
+        TradeType tradeType,
         OrderType type,
         TimeInForce timeInForce,
         decimal quantity,
@@ -46,8 +46,8 @@ public sealed class Order : Entity<OrderId>
     {
         var order = new Order(
             id,
-            tradeType,
             symbol,
+            tradeType,
             type,
             timeInForce,
             quantity,
