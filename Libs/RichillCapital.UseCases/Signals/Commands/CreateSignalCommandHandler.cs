@@ -31,8 +31,8 @@ internal sealed class CreateSignalCommandHandler(
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
-            command.Time,
             sourceId,
+            command.Time,
             origin,
             now);
 
