@@ -25,6 +25,11 @@ public static class ApiRoutes
         public const string Get = $"{ApiBase}/orders/{{orderId}}";
     }
 
+    public static class Executions
+    {
+        public const string List = $"{ApiBase}/executions";
+    }
+
     public static class SignalSources
     {
         public const string List = $"{ApiBase}/signal-sources";
