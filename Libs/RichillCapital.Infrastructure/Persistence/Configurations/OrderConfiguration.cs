@@ -71,6 +71,16 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
                 1,
                 OrderStatus.Executed,
                 new DateTimeOffset(2024, 2, 2, 13, 15, 0, TimeSpan.Zero)),
+
+            CreateOrder(
+                "3",
+                TradeType.Buy,
+                "BINANCE:BTCUSDT.P",
+                OrderType.Market,
+                TimeInForce.ImmediateOrCancel,
+                1,
+                OrderStatus.Executed,
+                new DateTimeOffset(2024, 2, 2, 20, 0, 0, TimeSpan.Zero)),
         ]);
     }
 

@@ -52,7 +52,15 @@ internal sealed class ExecutionConfiguration :
                 TradeType.Sell,
                 1,
                 43049.9m,
-                new DateTimeOffset(2024, 2, 2, 10, 30, 0, TimeSpan.Zero)),
+                new DateTimeOffset(2024, 2, 2, 13, 15, 0, TimeSpan.Zero)),
+
+            CreateExecution(
+                "3",
+                "BINANCE:BTCUSDT.P",
+                TradeType.Buy,
+                1,
+                43044.2m,
+                new DateTimeOffset(2024, 2, 2, 20, 0, 0, TimeSpan.Zero)),
         ]);
     }
 
