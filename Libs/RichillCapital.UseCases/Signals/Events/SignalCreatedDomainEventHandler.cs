@@ -16,7 +16,6 @@ internal sealed class SignalCreatedDomainEventHandler(
             domainEvent.Time,
             domainEvent.Origin,
             domainEvent.SourceId);
-
         return Task.CompletedTask;
     }
 }

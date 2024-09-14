@@ -8,34 +8,34 @@ public sealed class Signal : Entity<SignalId>
 {
     private Signal(
         SignalId id,
-        DateTimeOffset time,
         SignalSourceId sourceId,
+        DateTimeOffset time,
         SignalOrigin origin,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
-        Time = time;
         SourceId = sourceId;
+        Time = time;
         Origin = origin;
         CreatedTimeUtc = createdTimeUtc;
     }
 
-    public DateTimeOffset Time { get; init; }
     public SignalSourceId SourceId { get; init; }
+    public DateTimeOffset Time { get; init; }
     public SignalOrigin Origin { get; init; }
     public DateTimeOffset CreatedTimeUtc { get; init; }
 
     public static ErrorOr<Signal> Create(
         SignalId id,
-        DateTimeOffset time,
         SignalSourceId sourceId,
+        DateTimeOffset time,
         SignalOrigin origin,
         DateTimeOffset createdTimeUtc)
     {
         var signal = new Signal(
             id,
-            time,
             sourceId,
+            time,
             origin,
             createdTimeUtc);
 
