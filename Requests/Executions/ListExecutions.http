@@ -1,0 +1,4 @@
+@Localhost = https://localhost:10000
+
+### List executions
+GET {{Localhost}}/api/v1/executions

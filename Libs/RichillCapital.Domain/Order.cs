@@ -61,4 +61,20 @@ public sealed class Order : Entity<OrderId>
 
         return ErrorOr<Order>.With(order);
     }
+
+    public Result Execute(decimal quantity, decimal price)
+    {
+        Status = OrderStatus.Executed;
+
+        RegisterDomainEvent(new OrderExecutedDomainEvent
+        {
+            OrderId = Id,
+            Symbol = Symbol,
+            TradeType = TradeType,
+            Quantity = quantity,
+            Price = price,
+        });
+
+        return Result.Success;
+    }
 }

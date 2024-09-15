@@ -16,4 +16,7 @@ public sealed class ExecutionId : SingleValueObject<string>
         Result<string>
             .With(value)
             .Then(id => new ExecutionId(id));
+
+    public static ExecutionId NewExecutionId() =>
+        From(Guid.NewGuid().ToString()).ThrowIfFailure().Value;
 }
