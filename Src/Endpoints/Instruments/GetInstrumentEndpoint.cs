@@ -22,7 +22,7 @@ public sealed class GetInstrumentEndpoint(
 {
     [HttpGet(ApiRoutes.Instruments.Get)]
     [SwaggerOperation(Tags = [ApiTags.Instruments])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<InstrumentDetailsResponse>> HandleAsync(
         [FromRoute] GetInstrumentRequest request,
         CancellationToken cancellationToken = default) =>

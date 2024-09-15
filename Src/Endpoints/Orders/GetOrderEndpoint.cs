@@ -23,7 +23,7 @@ public sealed class GetOrderEndpoint(
 {
     [HttpGet(ApiRoutes.Orders.Get)]
     [SwaggerOperation(Tags = [ApiTags.Orders])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<OrderDetailsResponse>> HandleAsync(
         [FromRoute] GetOrderRequest request,
         CancellationToken cancellationToken = default) =>

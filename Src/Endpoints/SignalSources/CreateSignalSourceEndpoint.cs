@@ -22,7 +22,7 @@ public sealed class CreateSignalSourceEndpoint(
 {
     [HttpPost(ApiRoutes.SignalSources.Create)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<SignalSourceCreatedResponse>> HandleAsync(
         [FromBody] CreateSignalSourceRequest request,
         CancellationToken cancellationToken = default) =>

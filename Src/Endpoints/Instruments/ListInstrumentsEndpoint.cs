@@ -22,7 +22,7 @@ public sealed class ListInstrumentsEndpoint(
 {
     [HttpGet(ApiRoutes.Instruments.List)]
     [SwaggerOperation(Tags = [ApiTags.Instruments])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<IEnumerable<InstrumentResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListInstrumentsQuery>

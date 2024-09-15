@@ -22,7 +22,7 @@ public sealed class GetSignalSourceEndpoint(
 {
     [HttpGet(ApiRoutes.SignalSources.Get)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<SignalSourceDetailsResponse>> HandleAsync(
         [FromRoute] GetSignalSourceRequest request,
         CancellationToken cancellationToken = default) =>

@@ -22,7 +22,7 @@ public sealed class ListSignalSourcesEndpoint(
 {
     [HttpGet(ApiRoutes.SignalSources.List)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<IEnumerable<SignalSourceResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListSignalSourcesQuery>

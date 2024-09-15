@@ -23,7 +23,7 @@ public sealed class ListOrdersEndpoint(
 {
     [HttpGet(ApiRoutes.Orders.List)]
     [SwaggerOperation(Tags = [ApiTags.Orders])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<IEnumerable<OrderResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListOrdersQuery>

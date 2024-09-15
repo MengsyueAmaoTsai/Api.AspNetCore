@@ -22,7 +22,7 @@ public sealed class ListUsersEndpoint(IMediator _mediator) :
 {
     [HttpGet(ApiRoutes.Users.List)]
     [SwaggerOperation(Tags = [ApiTags.Users])]
-    [Authorize]
+    [AllowAnonymous]
     public override async Task<ActionResult<IEnumerable<UserResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListUsersQuery>
