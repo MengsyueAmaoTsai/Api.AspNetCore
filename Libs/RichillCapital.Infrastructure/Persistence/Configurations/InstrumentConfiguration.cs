@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using RichillCapital.Domain;
+using RichillCapital.Persistence;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Persistence.Configurations;
@@ -30,6 +31,11 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .HasConversion(
                 symbol => symbol.Value,
                 value => Symbol.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
+        builder
+            .Property(instrument => instrument.Type)
+            .HasEnumerationValueConversion()
             .IsRequired();
 
         builder.HasData([

@@ -36,6 +36,12 @@ public static class ApiRoutes
         public const string Get = $"{ApiBase}/positions/{{positionId}}";
     }
 
+    public static class Trades
+    {
+        public const string List = $"{ApiBase}/trades";
+        public const string Get = $"{ApiBase}/trades/{{tradeId}}";
+    }
+
     public static class SignalSources
     {
         public const string List = $"{ApiBase}/signal-sources";

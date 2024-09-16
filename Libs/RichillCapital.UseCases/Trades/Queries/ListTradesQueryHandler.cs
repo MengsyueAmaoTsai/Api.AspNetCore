@@ -1,0 +1,24 @@
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
+using RichillCapital.SharedKernel.Monads;
+using RichillCapital.UseCases.Abstractions;
+
+namespace RichillCapital.UseCases.Trades;
+
+internal sealed class ListTradesQueryHandler(
+    IReadOnlyRepository<Trade> _tradeRepository) :
+    IQueryHandler<ListTradesQuery, ErrorOr<IEnumerable<TradeDto>>>
+{
+    public async Task<ErrorOr<IEnumerable<TradeDto>>> Handle(
+        ListTradesQuery query,
+        CancellationToken cancellationToken)
+    {
+        var trades = await _tradeRepository.ListAsync(cancellationToken);
+
+        var result = trades
+            .Select(t => t.ToDto())
+            .ToList();
+
+        return ErrorOr<IEnumerable<TradeDto>>.With(result);
+    }
+}
