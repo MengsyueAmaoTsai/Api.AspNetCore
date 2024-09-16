@@ -57,16 +57,4 @@ public sealed class Position : Entity<PositionId>
 
         return ErrorOr<Position>.With(position);
     }
-
-    public Result Close()
-    {
-        (Quantity, AveragePrice, Status) = (decimal.Zero, decimal.Zero, PositionStatus.Closed);
-
-        RegisterDomainEvent(new PositionClosedDomainEvent
-        {
-            PositionId = Id,
-        });
-
-        return Result.Success;
-    }
 }
