@@ -31,6 +31,8 @@ public sealed class Execution : Entity<ExecutionId>
     public decimal Price { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
+    public Order Order { get; private set; }
+
     public static ErrorOr<Execution> Create(
         ExecutionId id,
         OrderId orderId,

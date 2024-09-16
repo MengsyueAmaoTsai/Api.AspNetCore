@@ -36,6 +36,13 @@ internal sealed class ExecutionConfiguration :
             .HasEnumerationValueConversion()
             .IsRequired();
 
+        builder
+            .HasOne(execution => execution.Order)
+            .WithMany(order => order.Executions)
+            .HasForeignKey(execution => execution.OrderId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         builder.HasData(
         [
             CreateExecution(
