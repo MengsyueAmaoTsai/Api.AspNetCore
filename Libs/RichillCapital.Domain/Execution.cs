@@ -1,3 +1,4 @@
+using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
@@ -42,6 +43,11 @@ public sealed class Execution : Entity<ExecutionId>
             quantity,
             price,
             createdTimeUtc);
+
+        execution.RegisterDomainEvent(new ExecutionCreatedDomainEvent
+        {
+            ExecutionId = execution.Id,
+        });
 
         return ErrorOr<Execution>.With(execution);
     }
