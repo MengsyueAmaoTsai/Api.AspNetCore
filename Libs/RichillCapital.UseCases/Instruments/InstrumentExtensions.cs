@@ -9,5 +9,6 @@ internal static class InstrumentExtensions
         {
             Symbol = instrument.Symbol.Value,
             Description = instrument.Description,
+            Type = instrument.Type.Name,
         };
 }

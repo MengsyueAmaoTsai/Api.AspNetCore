@@ -33,18 +33,22 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .IsRequired();
 
         builder.HasData([
-            CreateInstrument("TAIFEX:TXF!1", "Taiwan Futures Exchange Futures"),
-            CreateInstrument("TAIFEX:TEF!1", "Taiwan Electronic Futures"),
-            CreateInstrument("TAIFEX:TFF!1", "Taiwan Financial Futures"),
-            CreateInstrument("MAX:USDTTWD", "USDT / TWD"),
+            CreateInstrument("TAIFEX:TXF!1", "Taiwan Futures Exchange Futures", InstrumentType.Equity),
+            CreateInstrument("TAIFEX:TEF!1", "Taiwan Electronic Futures", InstrumentType.Future),
+            CreateInstrument("TAIFEX:TFF!1", "Taiwan Financial Futures", InstrumentType.Future),
+            CreateInstrument("MAX:USDTTWD", "USDT / TWD", InstrumentType.CryptoCurrency),
         ]);
     }
 
-    private static Instrument CreateInstrument(string symbol, string description) =>
+    private static Instrument CreateInstrument(
+        string symbol,
+        string description,
+        InstrumentType type) =>
         Instrument
             .Create(
                 Symbol.From(symbol).ThrowIfFailure().Value,
-                description)
+                description,
+                type)
             .ThrowIfError()
             .Value;
 
