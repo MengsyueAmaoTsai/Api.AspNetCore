@@ -35,6 +35,11 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
             .HasEnumerationValueConversion()
             .IsRequired();
 
+        builder
+            .Property(position => position.Status)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
         builder.HasData(
         [
             CreatePosition(
@@ -42,7 +47,9 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 "BINANCE:BTCUSDT.P",
                 PositionSide.Long,
                 1,
-                43044.2m),
+                43044.2m,
+                PositionStatus.Open,
+                new DateTimeOffset(2024, 2, 2, 20, 0, 0, TimeSpan.Zero)),
         ]);
     }
 
@@ -51,14 +58,18 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
         string symbol,
         PositionSide side,
         decimal quantity,
-        decimal averagePrice) =>
+        decimal averagePrice,
+        PositionStatus status,
+        DateTimeOffset createdTimeUtc) =>
         Position
             .Create(
                 PositionId.From(id).ThrowIfFailure().Value,
                 Symbol.From(symbol).ThrowIfFailure().Value,
                 side,
                 quantity,
-                averagePrice)
+                averagePrice,
+                status,
+                createdTimeUtc)
             .ThrowIfError()
             .Value;
 }

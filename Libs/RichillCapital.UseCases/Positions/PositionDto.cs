@@ -7,4 +7,6 @@ public sealed record PositionDto
     public required string Side { get; init; }
     public required decimal Quantity { get; init; }
     public required decimal AveragePrice { get; init; }
+    public required string Status { get; init; }
+    public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

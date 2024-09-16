@@ -38,7 +38,9 @@ internal sealed class ExecutionCreatedDomainEventHandler(
                     execution.Symbol,
                     execution.TradeType == TradeType.Buy ? PositionSide.Long : PositionSide.Short,
                     execution.Quantity,
-                    execution.Price)
+                    execution.Price,
+                    PositionStatus.Open,
+                    domainEvent.OccurredTime)
                 .ThrowIfError()
                 .Value;
 
