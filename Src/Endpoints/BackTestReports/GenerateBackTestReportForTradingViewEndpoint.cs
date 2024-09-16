@@ -27,8 +27,6 @@ public sealed class GenerateBackTestReportForTradingViewEndpoint(
             .With(request)
             .Then(req => new GenerateBackTestReportForTradingViewCommand
             {
-                InitialBalance = req.InitialBalance,
-
                 FileName = req.ListOfTradeFile.FileName,
                 ContentType = req.ListOfTradeFile.ContentType,
                 Length = req.ListOfTradeFile.Length,

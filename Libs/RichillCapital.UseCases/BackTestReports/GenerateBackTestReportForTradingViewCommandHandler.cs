@@ -73,9 +73,9 @@ internal sealed class GenerateBackTestReportForTradingViewCommandHandler(
             .Ensure(
                 cmd => cmd.ContentType == "text/csv",
                 Error.Invalid($"Invalid content type: {command.ContentType}"));
-    
+
     private static async Task<Result<IReadOnlyCollection<TradingViewTradeRecord>>> ParseTradesAsync(
-        Stream stream, 
+        Stream stream,
         CancellationToken cancellationToken = default)
     {
         var content = await new StreamReader(stream).ReadToEndAsync(cancellationToken);
@@ -111,7 +111,7 @@ public sealed record TradingViewTradeRecord
             Time = DateTimeOffset.ParseExact(columns[3], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
             Price = decimal.Parse(columns[4], CultureInfo.InvariantCulture),
             Quantity = decimal.Parse(columns[5], CultureInfo.InvariantCulture),
-            Profit = decimal.Parse(columns[6], CultureInfo.InvariantCulture),   
+            Profit = decimal.Parse(columns[6], CultureInfo.InvariantCulture),
         };
     }
 }
