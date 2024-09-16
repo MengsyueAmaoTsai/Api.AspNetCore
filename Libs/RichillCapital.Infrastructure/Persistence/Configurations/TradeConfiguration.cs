@@ -37,16 +37,37 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
 
         builder.HasData(
         [
-            CreateTrade("1", "BINANCE:BTCUSDT", PositionSide.Long),
+            CreateTrade(
+                "1",
+                "BINANCE:BTCUSDT",
+                PositionSide.Long,
+                new DateTimeOffset(2024, 2, 2, 10, 30, 0, TimeSpan.Zero),
+                43006.2m,
+                new DateTimeOffset(2024, 2, 2, 13, 15, 0, TimeSpan.Zero),
+                43049.9m,
+                1),
         ]);
     }
 
-    private static Trade CreateTrade(string id, string symbol, PositionSide side) =>
+    private static Trade CreateTrade(
+        string id,
+        string symbol,
+        PositionSide side,
+        DateTimeOffset entryTimeUtc,
+        decimal entryPrice,
+        DateTimeOffset exitTimeUtc,
+        decimal exitPrice,
+        decimal quantity) =>
         Trade
             .Create(
                 TradeId.From(id).ThrowIfFailure().Value,
                 Symbol.From(symbol).ThrowIfFailure().Value,
-                side)
+                side,
+                entryTimeUtc,
+                entryPrice,
+                exitTimeUtc,
+                exitPrice,
+                quantity)
             .ThrowIfError()
             .Value;
 }

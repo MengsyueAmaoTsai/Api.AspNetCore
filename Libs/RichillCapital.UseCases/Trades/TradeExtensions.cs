@@ -10,5 +10,10 @@ internal static class TradeExtensions
             Id = trade.Id.Value,
             Symbol = trade.Symbol.Value,
             Side = trade.Side.Name,
+            EntryTimeUtc = trade.EntryTimeUtc,
+            EntryPrice = trade.EntryPrice,
+            ExitTimeUtc = trade.ExitTimeUtc,
+            ExitPrice = trade.ExitPrice,
+            Quantity = trade.Quantity,
         };
 }
