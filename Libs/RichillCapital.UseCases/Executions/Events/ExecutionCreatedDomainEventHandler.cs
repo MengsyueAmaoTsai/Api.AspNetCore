@@ -52,7 +52,6 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
             if (positionToUpdate.HasSameDirectionAs(execution))
             {
-                
             }
             else
             {
