@@ -5,14 +5,23 @@ namespace RichillCapital.Domain;
 
 public sealed class Position : Entity<PositionId>
 {
-    private Position(PositionId id)
+    private Position(
+        PositionId id,
+        Symbol symbol)
         : base(id)
     {
+        Symbol = symbol;
     }
 
-    public static ErrorOr<Position> Create(PositionId id)
+    public Symbol Symbol { get; private set; }
+
+    public static ErrorOr<Position> Create(
+        PositionId id,
+        Symbol symbol)
     {
-        var position = new Position(id);
+        var position = new Position(
+            id,
+            symbol);
 
         return ErrorOr<Position>.With(position);
     }

@@ -21,16 +21,29 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 value => PositionId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
+        builder
+            .Property(position => position.Symbol)
+            .HasMaxLength(Symbol.MaxLength)
+            .HasConversion(
+                symbol => symbol.Value,
+                value => Symbol.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
         builder.HasData(
         [
-            CreatePosition("1"),
+            CreatePosition(
+                "1",
+                "BINANCE:BTCUSDT.P"),
         ]);
     }
 
-    private static Position CreatePosition(string id) =>
+    private static Position CreatePosition(
+        string id,
+        string symbol) =>
         Position
             .Create(
-                PositionId.From(id).ThrowIfFailure().Value)
+                PositionId.From(id).ThrowIfFailure().Value,
+                Symbol.From(symbol).ThrowIfFailure().Value)
             .ThrowIfError()
             .Value;
 }
