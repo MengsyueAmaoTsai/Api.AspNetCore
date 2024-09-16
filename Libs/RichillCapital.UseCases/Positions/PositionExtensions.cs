@@ -8,5 +8,9 @@ internal static class PositionExtensions
         new()
         {
             Id = position.Id.Value,
+            Symbol = position.Symbol.Value,
+            Side = position.Side.Name,
+            Quantity = position.Quantity,
+            AveragePrice = position.AveragePrice,
         };
 }

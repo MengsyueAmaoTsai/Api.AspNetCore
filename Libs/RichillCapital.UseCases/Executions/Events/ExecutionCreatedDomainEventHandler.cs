@@ -35,7 +35,10 @@ internal sealed class ExecutionCreatedDomainEventHandler(
             var newPosition = Position
                 .Create(
                     PositionId.NewPositionId(),
-                    execution.Symbol)
+                    execution.Symbol,
+                    execution.TradeType == TradeType.Buy ? PositionSide.Long : PositionSide.Short,
+                    execution.Quantity,
+                    execution.Price)
                 .ThrowIfError()
                 .Value;
 
