@@ -30,6 +30,11 @@ public static class ApiRoutes
         public const string List = $"{ApiBase}/executions";
     }
 
+    public static class Positions
+    {
+        public const string List = $"{ApiBase}/positions";
+    }
+
     public static class SignalSources
     {
         public const string List = $"{ApiBase}/signal-sources";
