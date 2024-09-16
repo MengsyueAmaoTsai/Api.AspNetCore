@@ -6,6 +6,8 @@ namespace RichillCapital.Domain;
 
 public sealed class Order : Entity<OrderId>
 {
+    private readonly List<Execution> _executions = [];
+
     private Order(
         OrderId id,
         Symbol symbol,
@@ -33,6 +35,8 @@ public sealed class Order : Entity<OrderId>
     public decimal Quantity { get; private set; }
     public OrderStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public IReadOnlyCollection<Execution> Executions => _executions;
 
     public static ErrorOr<Order> Create(
         OrderId id,

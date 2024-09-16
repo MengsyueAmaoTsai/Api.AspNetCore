@@ -25,6 +25,7 @@ internal sealed class OrderExecutedDomainEventHandler(
         var execution = Execution
             .Create(
                 ExecutionId.NewExecutionId(),
+                domainEvent.OrderId,
                 domainEvent.Symbol,
                 domainEvent.TradeType,
                 domainEvent.Quantity,

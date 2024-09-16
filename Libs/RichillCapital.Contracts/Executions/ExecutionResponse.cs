@@ -5,6 +5,7 @@ namespace RichillCapital.Contracts.Executions;
 public record ExecutionResponse
 {
     public required string Id { get; init; }
+    public required string OrderId { get; init; }
     public required string Symbol { get; init; }
     public required string TradeType { get; init; }
     public required decimal Quantity { get; init; }
@@ -23,6 +24,7 @@ public static class ExecutionResponseMapping
         new()
         {
             Id = dto.Id,
+            OrderId = dto.OrderId,
             Symbol = dto.Symbol,
             TradeType = dto.TradeType,
             Quantity = dto.Quantity,
@@ -35,6 +37,7 @@ public static class ExecutionResponseMapping
         new()
         {
             Id = dto.Id,
+            OrderId = dto.OrderId,
             Symbol = dto.Symbol,
             TradeType = dto.TradeType,
             Quantity = dto.Quantity,

@@ -40,6 +40,7 @@ internal sealed class ExecutionConfiguration :
         [
             CreateExecution(
                 "1",
+                "1",
                 "BINANCE:BTCUSDT.P",
                 TradeType.Buy,
                 1,
@@ -48,6 +49,7 @@ internal sealed class ExecutionConfiguration :
 
             CreateExecution(
                 "2",
+                "2",
                 "BINANCE:BTCUSDT.P",
                 TradeType.Sell,
                 1,
@@ -55,6 +57,7 @@ internal sealed class ExecutionConfiguration :
                 new DateTimeOffset(2024, 2, 2, 13, 15, 0, TimeSpan.Zero)),
 
             CreateExecution(
+                "3",
                 "3",
                 "BINANCE:BTCUSDT.P",
                 TradeType.Buy,
@@ -66,6 +69,7 @@ internal sealed class ExecutionConfiguration :
 
     private static Execution CreateExecution(
         string id,
+        string orderId,
         string symbol,
         TradeType tradeType,
         decimal quantity,
@@ -74,6 +78,7 @@ internal sealed class ExecutionConfiguration :
         Execution
             .Create(
                 ExecutionId.From(id).ThrowIfFailure().Value,
+                OrderId.From(orderId).ThrowIfFailure().Value,
                 Symbol.From(symbol).ThrowIfFailure().Value,
                 tradeType,
                 quantity,
