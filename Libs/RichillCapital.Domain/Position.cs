@@ -1,3 +1,4 @@
+using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
@@ -22,6 +23,12 @@ public sealed class Position : Entity<PositionId>
         var position = new Position(
             id,
             symbol);
+
+        position.RegisterDomainEvent(
+            new PositionCreatedDomainEvent
+            {
+                PositionId = id,
+            });
 
         return ErrorOr<Position>.With(position);
     }

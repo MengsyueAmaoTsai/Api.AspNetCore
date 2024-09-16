@@ -40,10 +40,6 @@ internal sealed class ExecutionCreatedDomainEventHandler(
                 .Value;
 
             _positionRepository.Add(newPosition);
-
-            _logger.LogInformation(
-                "Position with symbol {symbol} created",
-                newPosition.Symbol);
         }
         else
         {
