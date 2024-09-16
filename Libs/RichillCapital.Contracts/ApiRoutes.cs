@@ -33,6 +33,7 @@ public static class ApiRoutes
     public static class Positions
     {
         public const string List = $"{ApiBase}/positions";
+        public const string Get = $"{ApiBase}/positions/{{positionId}}";
     }
 
     public static class SignalSources
