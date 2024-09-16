@@ -12,3 +12,14 @@ public sealed class PositionSide : Enumeration<PositionSide>
     {
     }
 }
+
+public static class PositionSidExtensions
+{
+    public static bool HasSameDirectionAs(this PositionSide positionSide, TradeType tradeType) =>
+        positionSide == tradeType.Name switch
+        {
+            nameof(TradeType.Buy) => PositionSide.Long,
+            nameof(TradeType.Sell) => PositionSide.Short,
+            _ => throw new InvalidOperationException($"Cannot compare position side with trade type {tradeType}"),
+        };
+}

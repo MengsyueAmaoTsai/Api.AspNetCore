@@ -50,6 +50,14 @@ internal sealed class ExecutionCreatedDomainEventHandler(
         {
             var positionToUpdate = maybePosition.Value;
 
+            if (positionToUpdate.HasSameDirectionAs(execution))
+            {
+                
+            }
+            else
+            {
+            }
+
             _positionRepository.Update(positionToUpdate);
 
             _logger.LogInformation(

@@ -58,3 +58,9 @@ public sealed class Position : Entity<PositionId>
         return ErrorOr<Position>.With(position);
     }
 }
+
+public static class PositionExtensions
+{
+    public static bool HasSameDirectionAs(this Position position, Execution execution) =>
+        position.Side.HasSameDirectionAs(execution.TradeType);
+}
