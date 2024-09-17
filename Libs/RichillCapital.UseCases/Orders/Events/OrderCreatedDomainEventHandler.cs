@@ -47,9 +47,19 @@ internal sealed class OrderCreatedDomainEventHandler(
             }
 
             _orderRepository.Update(order);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        var acceptResult = order.Accept();
+
+        if (acceptResult.IsFailure)
+        {
+            _logger.LogError("Failed to accept order: {error}", acceptResult.Error);
 
             return;
         }
+
+        _orderRepository.Update(order);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

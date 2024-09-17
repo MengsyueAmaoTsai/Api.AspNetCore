@@ -86,4 +86,16 @@ public sealed class Order : Entity<OrderId>
 
         return Result.Success;
     }
+
+    public Result Accept()
+    {
+        Status = OrderStatus.Pending;
+
+        RegisterDomainEvent(new OrderAcceptedDomainEvent
+        {
+            OrderId = Id,
+        });
+
+        return Result.Success;
+    }
 }

@@ -19,3 +19,8 @@ public sealed record OrderRejectedDomainEvent : DomainEvent
     public required OrderId OrderId { get; init; }
     public required string Reason { get; init; }
 }
+
+public sealed record OrderAcceptedDomainEvent : DomainEvent
+{
+    public required OrderId OrderId { get; init; }
+}
