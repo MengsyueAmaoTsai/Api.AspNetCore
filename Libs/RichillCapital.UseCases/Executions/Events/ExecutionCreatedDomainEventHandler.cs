@@ -44,6 +44,9 @@ internal sealed class ExecutionCreatedDomainEventHandler(
                     execution.TradeType == TradeType.Buy ? Side.Long : Side.Short,
                     execution.Quantity,
                     execution.Price,
+                    execution.Commission,
+                    execution.Tax,
+                    decimal.Zero,
                     execution.CreatedTimeUtc)
                 .ThrowIfError()
                 .Value;

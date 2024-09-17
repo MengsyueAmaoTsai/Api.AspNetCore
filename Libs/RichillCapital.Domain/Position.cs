@@ -13,6 +13,9 @@ public sealed class Position : Entity<PositionId>
         Side side,
         decimal quantity,
         decimal averagePrice,
+        decimal commission,
+        decimal tax,
+        decimal swap,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -21,6 +24,9 @@ public sealed class Position : Entity<PositionId>
         Side = side;
         Quantity = quantity;
         AveragePrice = averagePrice;
+        Commission = commission;
+        Tax = tax;
+        Swap = swap;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -29,6 +35,9 @@ public sealed class Position : Entity<PositionId>
     public Side Side { get; private set; }
     public decimal Quantity { get; private set; }
     public decimal AveragePrice { get; private set; }
+    public decimal Commission { get; private set; }
+    public decimal Tax { get; private set; }
+    public decimal Swap { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public static ErrorOr<Position> Create(
@@ -38,6 +47,9 @@ public sealed class Position : Entity<PositionId>
         Side side,
         decimal quantity,
         decimal averagePrice,
+        decimal commission,
+        decimal tax,
+        decimal swap,
         DateTimeOffset createdTimeUtc)
     {
         var position = new Position(
@@ -47,6 +59,9 @@ public sealed class Position : Entity<PositionId>
             side,
             quantity,
             averagePrice,
+            commission,
+            tax,
+            swap,
             createdTimeUtc);
 
         position.RegisterDomainEvent(new PositionCreatedDomainEvent

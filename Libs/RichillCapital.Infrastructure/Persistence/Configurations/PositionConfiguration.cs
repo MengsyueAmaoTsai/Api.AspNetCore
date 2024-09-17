@@ -59,6 +59,9 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 side: Side.Long,
                 quantity: 500,
                 averagePrice: 434.88m,
+                commission: 5m,
+                tax: decimal.Zero,
+                swap: decimal.Zero,
                 createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
         ]);
     }
@@ -70,6 +73,9 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
         Side side,
         decimal quantity,
         decimal averagePrice,
+        decimal commission,
+        decimal tax,
+        decimal swap,
         DateTimeOffset createdTimeUtc) =>
         Position
             .Create(
@@ -79,6 +85,9 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 side,
                 quantity,
                 averagePrice,
+                commission,
+                tax,
+                swap,
                 createdTimeUtc)
             .ThrowIfError()
             .Value;
