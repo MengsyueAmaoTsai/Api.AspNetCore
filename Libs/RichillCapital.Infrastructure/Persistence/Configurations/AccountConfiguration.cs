@@ -29,6 +29,12 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
                 value => UserId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
+        builder
+            .HasOne(account => account.User)
+            .WithMany(user => user.Accounts)
+            .HasForeignKey(account => account.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasData(
         [
             CreateAccount(

@@ -10,6 +10,7 @@ public sealed class Order : Entity<OrderId>
 
     private Order(
         OrderId id,
+        AccountId accountId,
         Symbol symbol,
         TradeType tradeType,
         OrderType type,
@@ -19,6 +20,7 @@ public sealed class Order : Entity<OrderId>
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
+        AccountId = accountId;
         Symbol = symbol;
         TradeType = tradeType;
         Type = type;
@@ -28,18 +30,21 @@ public sealed class Order : Entity<OrderId>
         CreatedTimeUtc = createdTimeUtc;
     }
 
-    public TradeType TradeType { get; private set; }
+    public AccountId AccountId { get; private set; }
     public Symbol Symbol { get; private set; }
+    public TradeType TradeType { get; private set; }
     public OrderType Type { get; private set; }
     public TimeInForce TimeInForce { get; private set; }
     public decimal Quantity { get; private set; }
     public OrderStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
+    public Account Account { get; private set; }
     public IReadOnlyCollection<Execution> Executions => _executions;
 
     public static ErrorOr<Order> Create(
         OrderId id,
+        AccountId accountId,
         Symbol symbol,
         TradeType tradeType,
         OrderType type,
@@ -50,6 +55,7 @@ public sealed class Order : Entity<OrderId>
     {
         var order = new Order(
             id,
+            accountId,
             symbol,
             tradeType,
             type,

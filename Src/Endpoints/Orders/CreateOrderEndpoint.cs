@@ -31,8 +31,9 @@ public sealed class CreateOrderEndpoint(
             .With(request)
             .Then(req => new CreateOrderCommand
             {
-                TradeType = req.TradeType,
+                AccountId = req.AccountId,
                 Symbol = req.Symbol,
+                TradeType = req.TradeType,
                 OrderType = req.OrderType,
                 TimeInForce = req.TimeInForce,
                 Quantity = req.Quantity,

@@ -15,7 +15,8 @@ internal sealed class CreateOrderCommandHandler(
         CreateOrderCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = Result<(TradeType, Symbol, OrderType, TimeInForce)>.Combine(
+        var validationResult = Result<(AccountId, TradeType, Symbol, OrderType, TimeInForce)>.Combine(
+            AccountId.From(command.AccountId),
             TradeType.FromName(command.TradeType)
                 .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
             Symbol.From(command.Symbol),
@@ -24,10 +25,11 @@ internal sealed class CreateOrderCommandHandler(
             TimeInForce.FromName(command.TimeInForce)
                 .ToResult(Error.Invalid($"Invalid time in force: {command.TimeInForce}")));
 
-        var (tradeType, symbol, orderType, timeInForce) = validationResult.Value;
+        var (accountId, tradeType, symbol, orderType, timeInForce) = validationResult.Value;
 
         var errorOrOrder = Order.Create(
             OrderId.NewOrderId(),
+            accountId,
             symbol,
             tradeType,
             orderType,

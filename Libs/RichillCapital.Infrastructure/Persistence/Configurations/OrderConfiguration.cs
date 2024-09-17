@@ -23,6 +23,14 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired();
 
         builder
+            .Property(order => order.AccountId)
+            .HasMaxLength(AccountId.MaxLength)
+            .HasConversion(
+                accountId => accountId.Value,
+                value => AccountId.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
+        builder
             .Property(order => order.TradeType)
             .HasEnumerationValueConversion()
             .IsRequired();
@@ -50,10 +58,17 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasEnumerationValueConversion()
             .IsRequired();
 
+        builder
+            .HasOne(order => order.Account)
+            .WithMany(account => account.Orders)
+            .HasForeignKey(order => order.AccountId)
+            .IsRequired();
+
         builder.HasData(
         [
             CreateOrder(
                 "1",
+                accountId: "1",
                 TradeType.Buy,
                 "BINANCE:BTCUSDT.P",
                 OrderType.Market,
@@ -64,6 +79,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
             CreateOrder(
                 "2",
+                accountId: "1",
                 TradeType.Sell,
                 "BINANCE:BTCUSDT.P",
                 OrderType.Market,
@@ -74,6 +90,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
             CreateOrder(
                 "3",
+                accountId: "1",
                 TradeType.Buy,
                 "BINANCE:BTCUSDT.P",
                 OrderType.Market,
@@ -86,6 +103,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
     private static Order CreateOrder(
         string id,
+        string accountId,
         TradeType tradeType,
         string symbol,
         OrderType type,
@@ -96,6 +114,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         Order
             .Create(
                 OrderId.From(id).ThrowIfFailure().Value,
+                AccountId.From(accountId).ThrowIfFailure().Value,
                 Symbol.From(symbol).ThrowIfFailure().Value,
                 tradeType,
                 type,
