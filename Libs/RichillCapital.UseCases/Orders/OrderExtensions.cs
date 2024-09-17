@@ -9,6 +9,7 @@ internal static class OrderExtensions
         return new OrderDto
         {
             Id = order.Id.Value,
+            AccountId = order.AccountId.Value,
             TradeType = order.TradeType.Name,
             Symbol = order.Symbol.Value,
             Type = order.Type.Name,

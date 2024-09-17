@@ -5,8 +5,9 @@ namespace RichillCapital.Contracts.Orders;
 public record OrderResponse
 {
     public required string Id { get; init; }
-    public required string TradeType { get; init; }
+    public required string AccountId { get; init; }
     public required string Symbol { get; init; }
+    public required string TradeType { get; init; }
     public required string Type { get; init; }
     public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
@@ -23,6 +24,7 @@ public static class OrderResponseMapping
         new()
         {
             Id = dto.Id,
+            AccountId = dto.AccountId,
             TradeType = dto.TradeType,
             Symbol = dto.Symbol,
             Type = dto.Type,
@@ -35,6 +37,7 @@ public static class OrderResponseMapping
         new()
         {
             Id = dto.Id,
+            AccountId = dto.AccountId,
             TradeType = dto.TradeType,
             Symbol = dto.Symbol,
             Type = dto.Type,
