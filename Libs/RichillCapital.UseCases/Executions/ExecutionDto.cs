@@ -11,5 +11,7 @@ public sealed record ExecutionDto
     public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
     public required decimal Price { get; init; }
+    public required decimal Commission { get; init; }
+    public required decimal Tax { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

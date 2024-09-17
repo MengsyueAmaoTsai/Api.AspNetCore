@@ -13,6 +13,9 @@ internal static class PositionExtensions
             Side = position.Side.ToString(),
             Quantity = position.Quantity,
             AveragePrice = position.AveragePrice,
+            Commission = position.Commission,
+            Tax = position.Tax,
+            Swap = position.Swap,
             CreatedTimeUtc = position.CreatedTimeUtc,
         };
 }

@@ -10,6 +10,9 @@ public record PositionResponse
     public required string Side { get; init; }
     public required decimal Quantity { get; init; }
     public required decimal AveragePrice { get; init; }
+    public required decimal Commission { get; init; }
+    public required decimal Tax { get; init; }
+    public required decimal Swap { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -28,6 +31,9 @@ public static class PositionResponseMapping
             Side = dto.Side,
             Quantity = dto.Quantity,
             AveragePrice = dto.AveragePrice,
+            Commission = dto.Commission,
+            Tax = dto.Tax,
+            Swap = dto.Swap,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -40,6 +46,9 @@ public static class PositionResponseMapping
             Side = dto.Side,
             Quantity = dto.Quantity,
             AveragePrice = dto.AveragePrice,
+            Commission = dto.Commission,
+            Tax = dto.Tax,
+            Swap = dto.Swap,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

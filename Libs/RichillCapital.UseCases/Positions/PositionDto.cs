@@ -8,5 +8,8 @@ public sealed record PositionDto
     public required string Side { get; init; }
     public required decimal Quantity { get; init; }
     public required decimal AveragePrice { get; init; }
+    public required decimal Commission { get; init; }
+    public required decimal Tax { get; init; }
+    public required decimal Swap { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

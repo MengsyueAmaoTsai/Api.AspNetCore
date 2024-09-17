@@ -13,6 +13,8 @@ public record ExecutionResponse
     public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
     public required decimal Price { get; init; }
+    public required decimal Commission { get; init; }
+    public required decimal Tax { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -34,6 +36,8 @@ public static class ExecutionResponseMapping
             TimeInForce = dto.TimeInForce,
             Quantity = dto.Quantity,
             Price = dto.Price,
+            Commission = dto.Commission,
+            Tax = dto.Tax,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -49,6 +53,8 @@ public static class ExecutionResponseMapping
             TimeInForce = dto.TimeInForce,
             Quantity = dto.Quantity,
             Price = dto.Price,
+            Commission = dto.Commission,
+            Tax = dto.Tax,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

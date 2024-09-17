@@ -16,6 +16,8 @@ internal static class ExecutionExtensions
             TimeInForce = execution.TimeInForce.Name,
             Quantity = execution.Quantity,
             Price = execution.Price,
+            Commission = execution.Commission,
+            Tax = execution.Tax,
             CreatedTimeUtc = execution.CreatedTimeUtc,
         };
 }
