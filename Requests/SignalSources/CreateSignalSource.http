@@ -1,0 +1,11 @@
+@Localhost = https://localhost:10000
+
+### Create signal source
+POST {{Localhost}}/api/v1/signal-sources
+Content-Type: application/json
+
+{
+    "id": "TestId",
+    "name": "",
+    "description": ""
+}

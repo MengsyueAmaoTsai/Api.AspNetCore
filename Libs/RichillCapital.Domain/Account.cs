@@ -1,0 +1,48 @@
+using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel;
+using RichillCapital.SharedKernel.Monads;
+
+namespace RichillCapital.Domain;
+
+public sealed class Account : Entity<AccountId>
+{
+    private Account(
+        AccountId id,
+        UserId userId,
+        string alias,
+        string currency,
+        DateTimeOffset createdTimeUtc) : base(id)
+    {
+        UserId = userId;
+        Alias = alias;
+        Currency = currency;
+        CreatedTimeUtc = createdTimeUtc;
+    }
+
+    public UserId UserId { get; private set; }
+    public string Alias { get; private set; }
+    public string Currency { get; private set; }
+    public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public static ErrorOr<Account> Create(
+        AccountId accountId,
+        UserId userId,
+        string alias,
+        string currency,
+        DateTimeOffset createdTimeUtc)
+    {
+        var account = new Account(
+            accountId,
+            userId,
+            alias,
+            currency,
+            createdTimeUtc);
+
+        account.RegisterDomainEvent(new AccountCreatedDomainEvent
+        {
+            AccountId = account.Id,
+        });
+
+        return ErrorOr<Account>.With(account);
+    }
+}

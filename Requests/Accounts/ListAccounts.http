@@ -1,0 +1,4 @@
+@Localhost = https://localhost:10000
+
+### List accounts
+GET {{Localhost}}/api/v1/accounts
