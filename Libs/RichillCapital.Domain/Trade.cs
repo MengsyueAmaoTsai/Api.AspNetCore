@@ -13,9 +13,9 @@ public sealed class Trade : Entity<TradeId>
         Side side,
         decimal quantity,
         decimal entryPrice,
-        decimal entryTimeUtc,
+        DateTimeOffset entryTimeUtc,
         decimal exitPrice,
-        decimal exitTimeUtc,
+        DateTimeOffset exitTimeUtc,
         decimal commission,
         decimal tax,
         decimal swap)
@@ -39,9 +39,9 @@ public sealed class Trade : Entity<TradeId>
     public Side Side { get; private set; }
     public decimal Quantity { get; private set; }
     public decimal EntryPrice { get; private set; }
-    public decimal EntryTimeUtc { get; private set; }
+    public DateTimeOffset EntryTimeUtc { get; private set; }
     public decimal ExitPrice { get; private set; }
-    public decimal ExitTimeUtc { get; private set; }
+    public DateTimeOffset ExitTimeUtc { get; private set; }
     public decimal Commission { get; private set; }
     public decimal Tax { get; private set; }
     public decimal Swap { get; private set; }
@@ -53,9 +53,9 @@ public sealed class Trade : Entity<TradeId>
         Side side,
         decimal quantity,
         decimal entryPrice,
-        decimal entryTimeUtc,
+        DateTimeOffset entryTimeUtc,
         decimal exitPrice,
-        decimal exitTimeUtc,
+        DateTimeOffset exitTimeUtc,
         decimal commission,
         decimal tax,
         decimal swap)

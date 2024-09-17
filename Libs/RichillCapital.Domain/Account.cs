@@ -9,6 +9,7 @@ public sealed class Account : Entity<AccountId>
     private readonly List<Order> _orders = [];
     private readonly List<Execution> _executions = [];
     private readonly List<Position> _positions = [];
+    private readonly List<Trade> _trades = [];
 
     private Account(
         AccountId id,
@@ -31,6 +32,7 @@ public sealed class Account : Entity<AccountId>
     public IReadOnlyList<Order> Orders => _orders;
     public IReadOnlyList<Execution> Executions => _executions;
     public IReadOnlyList<Position> Positions => _positions;
+    public IReadOnlyList<Trade> Trades => _trades;
 
     public static ErrorOr<Account> Create(
         AccountId accountId,
