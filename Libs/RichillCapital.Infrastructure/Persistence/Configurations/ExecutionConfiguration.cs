@@ -88,6 +88,8 @@ internal sealed class ExecutionConfiguration :
                 timeInForce: TimeInForce.ImmediateOrCancel,
                 quantity: 500,
                 price: 434.88m,
+                commission: 5,
+                tax: 0,
                 createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
         ]);
     }
@@ -102,6 +104,8 @@ internal sealed class ExecutionConfiguration :
         TimeInForce timeInForce,
         decimal quantity,
         decimal price,
+        decimal commission,
+        decimal tax,
         DateTimeOffset createdTimeUtc) =>
         Execution
             .Create(
@@ -114,6 +118,8 @@ internal sealed class ExecutionConfiguration :
                 timeInForce,
                 quantity,
                 price,
+                commission,
+                tax,
                 createdTimeUtc)
             .ThrowIfError()
             .Value;

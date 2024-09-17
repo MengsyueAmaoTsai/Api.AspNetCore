@@ -16,6 +16,8 @@ public sealed class Execution : Entity<ExecutionId>
         TimeInForce timeInForce,
         decimal quantity,
         decimal price,
+        decimal commission,
+        decimal tax,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -27,6 +29,8 @@ public sealed class Execution : Entity<ExecutionId>
         TimeInForce = timeInForce;
         Quantity = quantity;
         Price = price;
+        Commission = commission;
+        Tax = tax;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -38,6 +42,8 @@ public sealed class Execution : Entity<ExecutionId>
     public TimeInForce TimeInForce { get; private set; }
     public decimal Quantity { get; private set; }
     public decimal Price { get; private set; }
+    public decimal Commission { get; private set; }
+    public decimal Tax { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public static ErrorOr<Execution> Create(
@@ -50,6 +56,8 @@ public sealed class Execution : Entity<ExecutionId>
         TimeInForce timeInForce,
         decimal quantity,
         decimal price,
+        decimal commission,
+        decimal tax,
         DateTimeOffset createdTimeUtc)
     {
         var execution = new Execution(
@@ -62,6 +70,8 @@ public sealed class Execution : Entity<ExecutionId>
             timeInForce,
             quantity,
             price,
+            commission,
+            tax,
             createdTimeUtc);
 
         execution.RegisterDomainEvent(new ExecutionCreatedDomainEvent
