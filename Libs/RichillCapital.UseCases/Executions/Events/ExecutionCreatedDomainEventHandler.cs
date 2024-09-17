@@ -31,7 +31,7 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
         var maybePosition = await _positionRepository
             .FirstOrDefaultAsync(
-                p => p.Symbol == execution.Symbol,
+                p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
                 cancellationToken);
 
         if (maybePosition.IsNull)
