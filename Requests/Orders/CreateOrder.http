@@ -5,6 +5,7 @@ POST {{Localhost}}/api/v1/orders
 Content-Type: application/json
 
 {
+    "accountId": "1",
     "symbol": "BINANCE:BTCUSDT.P",
     "tradeType": "Buy",
     "orderType": "Market",

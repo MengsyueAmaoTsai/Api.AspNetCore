@@ -19,8 +19,13 @@ internal sealed class OrderExecutedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "Order with id {OrderId} has been executed",
-            domainEvent.OrderId);
+            "EXECUTED: {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}",
+            domainEvent.TradeType,
+            domainEvent.Quantity,
+            domainEvent.Symbol,
+            domainEvent.Price,
+            domainEvent.OrderType,
+            domainEvent.TimeInForce);
 
         var execution = Execution
             .Create(

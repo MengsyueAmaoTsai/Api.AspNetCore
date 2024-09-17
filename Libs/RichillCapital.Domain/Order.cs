@@ -66,7 +66,7 @@ public sealed class Order : Entity<OrderId>
 
         order.RegisterDomainEvent(new OrderCreatedDomainEvent
         {
-            OrderId = order.Id
+            OrderId = id,
         });
 
         return ErrorOr<Order>.With(order);
@@ -81,6 +81,8 @@ public sealed class Order : Entity<OrderId>
             OrderId = Id,
             Symbol = Symbol,
             TradeType = TradeType,
+            OrderType = Type,
+            TimeInForce = TimeInForce,
             Quantity = quantity,
             Price = price,
         });

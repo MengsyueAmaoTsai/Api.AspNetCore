@@ -2,9 +2,7 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
-using RichillCapital.Domain.Errors;
 using RichillCapital.Domain.Events;
-using RichillCapital.SharedKernel.Diagnostics;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -21,7 +19,7 @@ internal sealed class OrderCreatedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "Order with id {OrderId} has been created",
+            "ORDER CREATED: {orderId}",
             domainEvent.OrderId);
 
         var maybeOrder = await _orderRepository
