@@ -57,6 +57,14 @@ public sealed class Position : Entity<PositionId>
 
         return ErrorOr<Position>.With(position);
     }
+
+    public Result Update(decimal quantity, decimal averagePrice)
+    {
+        Quantity = quantity;
+        AveragePrice = averagePrice;
+
+        return Result.Success;
+    }
 }
 
 public static class PositionExtensions

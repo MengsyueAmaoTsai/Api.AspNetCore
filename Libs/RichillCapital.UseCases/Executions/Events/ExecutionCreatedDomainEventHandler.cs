@@ -27,6 +27,25 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
         var execution = maybeExecution.Value;
 
+        var result = await ProcessExecutionUsingFlatToFlatAsync(execution, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            throw new Exception(
+                $"Failed to process execution with id {execution.Id}");
+        }
+        else
+        {
+            _logger.LogInformation(
+                "Execution with id {executionId} processed successfully",
+                execution.Id);
+        }
+    }
+
+    private async Task<Result> ProcessExecutionUsingFlatToFlatAsync(
+        Execution execution,
+        CancellationToken cancellationToken = default)
+    {
         var maybePosition = await _positionRepository
             .FirstOrDefaultAsync(p => p.Symbol == execution.Symbol, cancellationToken);
 
@@ -40,7 +59,7 @@ internal sealed class ExecutionCreatedDomainEventHandler(
                     execution.Quantity,
                     execution.Price,
                     PositionStatus.Open,
-                    domainEvent.OccurredTime)
+                    execution.CreatedTimeUtc)
                 .ThrowIfError()
                 .Value;
 
@@ -52,6 +71,17 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
             if (positionToUpdate.HasSameDirectionAs(execution))
             {
+                var newQuantity = positionToUpdate.Quantity + execution.Quantity;
+                var newPositionSize = positionToUpdate.Quantity * positionToUpdate.AveragePrice + execution.Quantity * execution.Price;
+                var newAveragePrice = newPositionSize / newQuantity;
+
+                var updateResult = positionToUpdate.Update(newQuantity, newAveragePrice);
+
+                if (updateResult.IsFailure)
+                {
+                    throw new Exception(
+                        $"Failed to update position with symbol {positionToUpdate.Symbol}");
+                }
             }
             else
             {
@@ -65,5 +95,7 @@ internal sealed class ExecutionCreatedDomainEventHandler(
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Success;
     }
 }
