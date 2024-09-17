@@ -39,10 +39,10 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .IsRequired();
 
         builder.HasData([
-            CreateInstrument("TAIFEX:TXF!1", "Taiwan Futures Exchange Futures", InstrumentType.Equity),
-            CreateInstrument("TAIFEX:TEF!1", "Taiwan Electronic Futures", InstrumentType.Future),
-            CreateInstrument("TAIFEX:TFF!1", "Taiwan Financial Futures", InstrumentType.Future),
-            CreateInstrument("MAX:USDTTWD", "USDT / TWD", InstrumentType.CryptoCurrency),
+            CreateInstrument(
+                symbol: "MSFT",
+                description: "Microsoft Corporation",
+                type: InstrumentType.Equity)
         ]);
     }
 

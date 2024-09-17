@@ -11,6 +11,7 @@ namespace RichillCapital.UseCases.Orders.Commands;
 internal sealed class CreateOrderCommandHandler(
     ILogger<CreateOrderCommandHandler> _logger,
     IReadOnlyRepository<Account> _accountRepository,
+    IReadOnlyRepository<Instrument> _instrumentRepository,
     IRepository<Order> _orderRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateOrderCommand, ErrorOr<OrderId>>
@@ -19,6 +20,7 @@ internal sealed class CreateOrderCommandHandler(
         CreateOrderCommand command,
         CancellationToken cancellationToken)
     {
+        // Validate command
         var validationResult = Result<(AccountId, Symbol, TradeType, OrderType, TimeInForce, decimal)>
             .Combine(
                 AccountId.From(command.AccountId),
@@ -37,6 +39,7 @@ internal sealed class CreateOrderCommandHandler(
             return ErrorOr<OrderId>.WithError(validationResult.Error);
         }
 
+        // Ensure account exists
         var (accountId, symbol, tradeType, orderType, timeInForce) = validationResult.Value;
 
         if (!await _accountRepository.AnyAsync(a => a.Id == accountId, cancellationToken))
@@ -46,6 +49,15 @@ internal sealed class CreateOrderCommandHandler(
             return ErrorOr<OrderId>.WithError(Error.NotFound($"Account with id {accountId} not found"));
         }
 
+        // Ensure instrument exists
+        if (!await _instrumentRepository.AnyAsync(i => i.Symbol == symbol, cancellationToken))
+        {
+            _logger.LogWarning("Instrument with symbol {Symbol} not found", symbol);
+
+            return ErrorOr<OrderId>.WithError(Error.NotFound($"Instrument with symbol {symbol} not found"));
+        }
+
+        // Create and persist order
         var errorOrOrder = Order.Create(
             OrderId.NewOrderId(),
             accountId,
