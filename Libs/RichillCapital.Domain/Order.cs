@@ -73,4 +73,17 @@ public sealed class Order : Entity<OrderId>
 
         return ErrorOr<Order>.With(order);
     }
+
+    public Result Reject(string reason)
+    {
+        Status = OrderStatus.Rejected;
+
+        RegisterDomainEvent(new OrderRejectedDomainEvent
+        {
+            OrderId = Id,
+            Reason = reason,
+        });
+
+        return Result.Success;
+    }
 }

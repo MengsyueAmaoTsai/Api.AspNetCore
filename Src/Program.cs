@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
+using RichillCapital.Domain;
 using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
@@ -11,6 +12,9 @@ using RichillCapital.UseCases;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Domain
+builder.Services.AddOrderPlacementEvaluator();
 
 // Application
 builder.Services.AddUseCases();

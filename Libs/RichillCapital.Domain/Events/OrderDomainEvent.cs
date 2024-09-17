@@ -13,3 +13,9 @@ public sealed record OrderCreatedDomainEvent : DomainEvent
     public required decimal Quantity { get; init; }
     public required OrderStatus Status { get; init; }
 }
+
+public sealed record OrderRejectedDomainEvent : DomainEvent
+{
+    public required OrderId OrderId { get; init; }
+    public required string Reason { get; init; }
+}

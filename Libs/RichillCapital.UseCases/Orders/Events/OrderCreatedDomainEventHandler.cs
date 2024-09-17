@@ -1,15 +1,21 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Orders.Events;
 
 internal sealed class OrderCreatedDomainEventHandler(
-    ILogger<OrderCreatedDomainEventHandler> _logger) :
+    ILogger<OrderCreatedDomainEventHandler> _logger,
+    IRepository<Order> _orderRepository,
+    IOrderPlacementEvaluator _orderPlacementEvaluator,
+    IUnitOfWork _unitOfWork) :
     IDomainEventHandler<OrderCreatedDomainEvent>
 {
-    public Task Handle(
+    public async Task Handle(
         OrderCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
@@ -21,6 +27,30 @@ internal sealed class OrderCreatedDomainEventHandler(
             domainEvent.OrderType,
             domainEvent.TimeInForce);
 
-        return Task.CompletedTask;
+        var maybeUser = await _orderRepository
+            .FirstOrDefaultAsync(o => o.Id == domainEvent.OrderId, cancellationToken)
+            .ThrowIfNull();
+
+        var order = maybeUser.Value;
+
+        var evaluationResult = await _orderPlacementEvaluator.EvaluateAsync(order, cancellationToken);
+        _logger.LogInformation("Order evaluation result: {evaluationResult}", evaluationResult);
+
+        if (evaluationResult.IsFailure)
+        {
+            var rejectResult = order.Reject(evaluationResult.Error.Message);
+
+            if (rejectResult.IsFailure)
+            {
+                _logger.LogError("Failed to reject order: {error}", rejectResult.Error);
+
+                return;
+            }
+
+            _orderRepository.Update(order);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return;
+        }
     }
 }

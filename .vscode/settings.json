@@ -4,6 +4,7 @@
     "ASPNETCORE",
     "Mediat",
     "Quantower",
+    "Serilog",
     "Swashbuckle",
     "Testcontainers"
   ]
