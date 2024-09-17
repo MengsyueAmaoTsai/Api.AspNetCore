@@ -63,10 +63,17 @@ internal sealed class ExecutionConfiguration :
             .IsRequired();
 
         builder
+            .HasOne<Account>()
+            .WithMany(account => account.Executions)
+            .HasForeignKey(execution => execution.AccountId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        builder
             .HasOne<Order>()
             .WithMany(order => order.Executions)
             .HasForeignKey(execution => execution.OrderId)
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.NoAction)
             .IsRequired();
 
         builder.HasData(
