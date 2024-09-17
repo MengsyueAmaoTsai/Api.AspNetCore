@@ -117,6 +117,7 @@ public sealed class Order : Entity<OrderId>
 
         RegisterDomainEvent(new OrderExecutedDomainEvent
         {
+            AccountId = AccountId,
             OrderId = Id,
             Symbol = Symbol,
             TradeType = TradeType,

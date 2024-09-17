@@ -32,6 +32,7 @@ public sealed record OrderAcceptedDomainEvent : DomainEvent
 
 public sealed record OrderExecutedDomainEvent : DomainEvent
 {
+    public required AccountId AccountId { get; init; }
     public required OrderId OrderId { get; init; }
     public required Symbol Symbol { get; init; }
     public required TradeType TradeType { get; init; }

@@ -1,15 +1,20 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Orders.Events;
 
 internal sealed class OrderExecutedDomainEventHandler(
-    ILogger<OrderExecutedDomainEventHandler> _logger) :
+    ILogger<OrderExecutedDomainEventHandler> _logger,
+    IRepository<Execution> _executionRepository,
+    IUnitOfWork _unitOfWork) :
     IDomainEventHandler<OrderExecutedDomainEvent>
 {
-    public Task Handle(
+    public async Task Handle(
         OrderExecutedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
@@ -21,6 +26,23 @@ internal sealed class OrderExecutedDomainEventHandler(
             domainEvent.OrderType,
             domainEvent.TimeInForce);
 
-        return Task.CompletedTask;
+        var execution = Execution
+            .Create(
+                ExecutionId.NewExecutionId(),
+                domainEvent.AccountId,
+                domainEvent.OrderId,
+                domainEvent.Symbol,
+                domainEvent.TradeType,
+                domainEvent.OrderType,
+                domainEvent.TimeInForce,
+                domainEvent.Quantity,
+                domainEvent.Price,
+                domainEvent.OccurredTime)
+            .ThrowIfError()
+            .Value;
+
+        _executionRepository.Add(execution);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
