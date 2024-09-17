@@ -34,7 +34,6 @@ internal sealed class OrderCreatedDomainEventHandler(
         var order = maybeUser.Value;
 
         var evaluationResult = await _orderPlacementEvaluator.EvaluateAsync(order, cancellationToken);
-        _logger.LogInformation("Order evaluation result: {evaluationResult}", evaluationResult);
 
         if (evaluationResult.IsFailure)
         {
