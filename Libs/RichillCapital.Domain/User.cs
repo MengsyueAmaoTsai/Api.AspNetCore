@@ -5,8 +5,6 @@ namespace RichillCapital.Domain;
 
 public sealed class User : Entity<UserId>
 {
-    private readonly List<Account> _accounts = [];
-
     public User(
         UserId id,
         string name,
@@ -28,8 +26,6 @@ public sealed class User : Entity<UserId>
     public bool EmailConfirmed { get; private set; }
     public string PasswordHash { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
-
-    public IReadOnlyCollection<Account> Accounts => _accounts;
 
     public static ErrorOr<User> Create(
         UserId id,
