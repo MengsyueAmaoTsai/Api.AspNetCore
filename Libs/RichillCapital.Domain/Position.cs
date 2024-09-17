@@ -71,4 +71,25 @@ public sealed class Position : Entity<PositionId>
 
         return ErrorOr<Position>.With(position);
     }
+
+    public Result Update(
+        decimal quantity,
+        decimal averagePrice,
+        decimal commission,
+        decimal tax,
+        decimal swap)
+    {
+        Quantity = quantity;
+        AveragePrice = averagePrice;
+        Commission = commission;
+        Tax = tax;
+        Swap = swap;
+
+        RegisterDomainEvent(new PositionUpdatedDomainEvent
+        {
+            PositionId = Id,
+        });
+
+        return Result.Success;
+    }
 }

@@ -11,4 +11,7 @@ public sealed class TradeType : Enumeration<TradeType>
         : base(name, value)
     {
     }
+
+    public bool HasSameDirectionAs(Side side) =>
+        this == Buy && side == Side.Long || this == Sell && side == Side.Short;
 }

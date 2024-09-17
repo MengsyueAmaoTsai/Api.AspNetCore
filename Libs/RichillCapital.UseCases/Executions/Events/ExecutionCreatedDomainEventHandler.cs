@@ -56,18 +56,43 @@ internal sealed class ExecutionCreatedDomainEventHandler(
                 .Value;
 
             _positionRepository.Add(newPosition);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return;
+        }
+
+        var maybePosition = await _positionRepository
+            .FirstOrDefaultAsync(
+                p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
+                cancellationToken)
+            .ThrowIfNull();
+
+        var position = maybePosition.Value;
+
+        if (execution.HasSameDirectionAs(position))
+        {
+            var newQuantity = position.Quantity + execution.Quantity;
+            var newAveragePrice = (position.Quantity * position.AveragePrice + execution.Quantity * execution.Price) / newQuantity;
+
+            position.Update(
+                newQuantity,
+                newAveragePrice,
+                position.Commission + execution.Commission,
+                position.Tax + execution.Tax,
+                position.Swap);
         }
         else
         {
-            var maybePosition = await _positionRepository
-                .FirstOrDefaultAsync(
-                    p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
-                    cancellationToken)
-                .ThrowIfNull();
+            var newQuantity = position.Quantity - execution.Quantity;
 
-            var position = maybePosition.Value;
-            _positionRepository.Update(position);
+            position.Update(
+                newQuantity,
+                position.AveragePrice,
+                position.Commission + execution.Commission,
+                position.Tax + execution.Tax,
+                position.Swap);
         }
+
+        _positionRepository.Update(position);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
