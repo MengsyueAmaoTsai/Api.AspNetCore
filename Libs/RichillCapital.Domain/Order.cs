@@ -61,7 +61,14 @@ public sealed class Order : Entity<OrderId>
 
         order.RegisterDomainEvent(new OrderCreatedDomainEvent
         {
-            OrderId = order.Id,
+            AccountId = accountId,
+            OrderId = id,
+            Symbol = symbol,
+            TradeType = tradeType,
+            OrderType = type,
+            TimeInForce = timeInForce,
+            Quantity = quantity,
+            Status = status,
         });
 
         return ErrorOr<Order>.With(order);

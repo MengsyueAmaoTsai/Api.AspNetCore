@@ -9,9 +9,17 @@ internal sealed class OrderCreatedDomainEventHandler(
     ILogger<OrderCreatedDomainEventHandler> _logger) :
     IDomainEventHandler<OrderCreatedDomainEvent>
 {
-    public Task Handle(OrderCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
+    public Task Handle(
+        OrderCreatedDomainEvent domainEvent,
+        CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Order with id {OrderId} created", domainEvent.OrderId);
+        _logger.LogInformation("ORDER CREATED: {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}",
+            domainEvent.TradeType,
+            domainEvent.Quantity,
+            domainEvent.Symbol,
+            domainEvent.OrderType,
+            domainEvent.OrderType,
+            domainEvent.TimeInForce);
 
         return Task.CompletedTask;
     }

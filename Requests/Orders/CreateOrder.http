@@ -1,12 +1,14 @@
 @Localhost = https://localhost:10000
+@TradeStationSimulatedAccountId = SIM2121844M
+@Symbol = MSFT
 
 ### Create order
 POST {{Localhost}}/api/v1/orders
 Content-Type: application/json
 
 {
-    "accountId": "1",
-    "symbol": "MSFT",
+    "accountId": "{{TradeStationSimulatedAccountId}}",
+    "symbol": "{{Symbol}}",
     "tradeType": "Buy",
     "orderType": "Market",
     "timeInForce": "IOC",

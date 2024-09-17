@@ -6,7 +6,7 @@ using RichillCapital.Contracts.Orders;
 
 namespace RichillCapital.Api.AcceptanceTests.Orders;
 
-public sealed class ListOrdersTests(
+public sealed class CreateOrderTests(
     EndToEndTestWebApplicationFactory factory) :
     AcceptanceTest(factory)
 {
@@ -15,7 +15,7 @@ public sealed class ListOrdersTests(
     {
         var request = new CreateOrderRequest
         {
-            AccountId = "1",
+            AccountId = "SIM2121844M",
             Symbol = "AAPL",
             TradeType = "Buy",
             OrderType = "Market",

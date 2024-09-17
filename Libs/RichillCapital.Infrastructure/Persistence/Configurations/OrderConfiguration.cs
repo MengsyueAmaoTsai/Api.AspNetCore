@@ -90,7 +90,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             id: "853381801",
             accountId: accountId,
             symbol: "MSFT",
-            tradeType: TradeType.Buy,
+            tradeType: TradeType.Sell,
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 5000,
