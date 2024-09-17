@@ -21,10 +21,14 @@ internal sealed class SignalSourceConfiguration : IEntityTypeConfiguration<Signa
                 value => SignalSourceId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
-        builder
-            .HasData([
-                CreateSignalSource("TV-Long-Task", "TradingView Long Task", "TradingView Long Task Signal Source", DateTimeOffset.UtcNow),
-            ]);
+        builder.HasData(
+        [
+            CreateSignalSource(
+                id: "TV-Long-Task",
+                name: "TradingView Long Task",
+                description: "TradingView Long Task Signal Source",
+                createdTimeUtc: DateTimeOffset.UtcNow),
+        ]);
     }
 
     private static SignalSource CreateSignalSource(
