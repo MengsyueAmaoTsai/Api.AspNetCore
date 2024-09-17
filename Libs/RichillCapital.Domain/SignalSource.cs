@@ -1,3 +1,4 @@
+using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
@@ -32,6 +33,11 @@ public sealed class SignalSource : Entity<SignalSourceId>
             name,
             description,
             createdTimeUtc);
+
+        source.RegisterDomainEvent(new SignalSourceCreatedDomainEvent
+        {
+            SignalSourceId = source.Id,
+        });
 
         return ErrorOr<SignalSource>.With(source);
     }
