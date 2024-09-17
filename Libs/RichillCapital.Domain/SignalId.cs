@@ -15,6 +15,8 @@ public sealed class SignalId : SingleValueObject<string>
     public static Result<SignalId> From(string value) =>
         Result<string>
             .With(value)
+            .Ensure(id => !string.IsNullOrEmpty(id), Error.Invalid($"{nameof(SignalId)} cannot be empty"))
+            .Ensure(id => id.Length <= MaxLength, Error.Invalid($"{nameof(SignalId)} cannot be longer than {MaxLength} characters"))
             .Then(id => new SignalId(id));
 
     public static SignalId NewSignalId() =>

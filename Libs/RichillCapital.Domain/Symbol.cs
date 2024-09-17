@@ -15,5 +15,7 @@ public sealed class Symbol : SingleValueObject<string>
     public static Result<Symbol> From(string value) =>
         Result<string>
             .With(value)
+            .Ensure(symbol => !string.IsNullOrEmpty(symbol), Error.Invalid($"{nameof(Symbol)} cannot be empty"))
+            .Ensure(symbol => symbol.Length <= MaxLength, Error.Invalid($"{nameof(Symbol)} cannot be longer than {MaxLength} characters"))
             .Then(symbol => new Symbol(symbol));
 }
