@@ -14,9 +14,6 @@ internal sealed class OrderExecutedDomainEventHandler(
     IUnitOfWork _unitOfWork) :
     IDomainEventHandler<OrderExecutedDomainEvent>
 {
-    private const decimal CommissionRate = 0.001m;
-    private const decimal TaxRate = 0.001m;
-
     public async Task Handle(
         OrderExecutedDomainEvent domainEvent,
         CancellationToken cancellationToken)
@@ -29,13 +26,6 @@ internal sealed class OrderExecutedDomainEventHandler(
             domainEvent.OrderType,
             domainEvent.TimeInForce);
 
-        var executionSize = domainEvent.Quantity * domainEvent.Price;
-
-        var commission = executionSize * CommissionRate;
-        var tax = domainEvent.TradeType == TradeType.Buy ?
-            decimal.Zero :
-            executionSize * TaxRate;
-
         var execution = Execution
             .Create(
                 ExecutionId.NewExecutionId(),
@@ -47,8 +37,8 @@ internal sealed class OrderExecutedDomainEventHandler(
                 domainEvent.TimeInForce,
                 domainEvent.Quantity,
                 domainEvent.Price,
-                commission,
-                tax,
+                commission: decimal.Zero,
+                tax: decimal.Zero,
                 domainEvent.OccurredTime)
             .ThrowIfError()
             .Value;
