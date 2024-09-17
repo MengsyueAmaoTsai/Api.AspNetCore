@@ -42,7 +42,11 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             CreateInstrument(
                 symbol: "MSFT",
                 description: "Microsoft Corporation",
-                type: InstrumentType.Equity)
+                type: InstrumentType.Equity),
+            CreateInstrument(
+                symbol: "AAPL",
+                description: "Apple Inc.",
+                type: InstrumentType.Equity),
         ]);
     }
 

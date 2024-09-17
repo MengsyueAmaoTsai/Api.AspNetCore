@@ -50,10 +50,11 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
             _positionRepository.Add(newPosition);
         }
-
-        var position = maybePosition.Value;
-
-        _positionRepository.Update(position);
+        else
+        {
+            var position = maybePosition.Value;
+            _positionRepository.Update(position);
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
