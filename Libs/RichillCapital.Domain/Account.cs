@@ -14,7 +14,7 @@ public sealed class Account : Entity<AccountId>
         AccountId id,
         UserId userId,
         string alias,
-        string currency,
+        Currency currency,
         DateTimeOffset createdTimeUtc) : base(id)
     {
         UserId = userId;
@@ -25,7 +25,7 @@ public sealed class Account : Entity<AccountId>
 
     public UserId UserId { get; private set; }
     public string Alias { get; private set; }
-    public string Currency { get; private set; }
+    public Currency Currency { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public IReadOnlyList<Order> Orders => _orders;
@@ -36,7 +36,7 @@ public sealed class Account : Entity<AccountId>
         AccountId accountId,
         UserId userId,
         string alias,
-        string currency,
+        Currency currency,
         DateTimeOffset createdTimeUtc)
     {
         var account = new Account(

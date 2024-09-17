@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using RichillCapital.Domain;
+using RichillCapital.Persistence;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Persistence.Configurations;
@@ -30,6 +31,11 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired();
 
         builder
+            .Property(account => account.Currency)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
             .HasOne<User>()
             .WithMany(user => user.Accounts)
             .HasForeignKey(account => account.UserId)
@@ -42,7 +48,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
                 id: "SIM2121844M",
                 userId: "1",
                 alias: "SIM2121844M",
-                currency: "USD",
+                currency: Currency.USD,
                 DateTimeOffset.UtcNow),
         ]);
     }
@@ -51,7 +57,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         string id,
         string userId,
         string alias,
-        string currency,
+        Currency currency,
         DateTimeOffset createdTimeUtc) =>
         Account.Create(
             AccountId.From(id).ThrowIfFailure().Value,

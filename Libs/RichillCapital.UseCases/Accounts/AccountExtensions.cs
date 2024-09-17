@@ -10,7 +10,7 @@ internal static class AccountExtensions
             Id = account.Id.Value,
             UserId = account.UserId.Value,
             Alias = account.Alias,
-            Currency = account.Currency,
+            Currency = account.Currency.Name,
             CreatedTimeUtc = account.CreatedTimeUtc,
         };
 }
