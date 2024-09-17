@@ -29,12 +29,16 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
         var execution = maybeExecution.Value;
 
-        var maybePosition = await _positionRepository
-            .FirstOrDefaultAsync(
-                p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
-                cancellationToken);
+        await HandleExecutionUsingFlatToFlat(execution, cancellationToken);
+    }
 
-        if (maybePosition.IsNull)
+    private async Task HandleExecutionUsingFlatToFlat(
+        Execution execution,
+        CancellationToken cancellationToken = default)
+    {
+        if (!await _positionRepository.AnyAsync(
+            p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
+            cancellationToken))
         {
             var newPosition = Position
                 .Create(
@@ -55,6 +59,12 @@ internal sealed class ExecutionCreatedDomainEventHandler(
         }
         else
         {
+            var maybePosition = await _positionRepository
+                .FirstOrDefaultAsync(
+                    p => p.AccountId == execution.AccountId && p.Symbol == execution.Symbol,
+                    cancellationToken)
+                .ThrowIfNull();
+
             var position = maybePosition.Value;
             _positionRepository.Update(position);
         }
