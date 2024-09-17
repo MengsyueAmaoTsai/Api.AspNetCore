@@ -39,9 +39,9 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasData(
         [
             CreateAccount(
-                id: "1",
+                id: "SIM2121844M",
                 userId: "1",
-                alias: "Seed account",
+                alias: "SIM2121844M",
                 currency: "USD",
                 DateTimeOffset.UtcNow),
         ]);

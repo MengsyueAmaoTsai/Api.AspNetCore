@@ -6,6 +6,8 @@ namespace RichillCapital.Domain;
 
 public sealed class Account : Entity<AccountId>
 {
+    private readonly List<Order> _orders = [];
+
     private Account(
         AccountId id,
         UserId userId,
@@ -23,6 +25,8 @@ public sealed class Account : Entity<AccountId>
     public string Alias { get; private set; }
     public string Currency { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public IReadOnlyList<Order> Orders => _orders;
 
     public static ErrorOr<Account> Create(
         AccountId accountId,
