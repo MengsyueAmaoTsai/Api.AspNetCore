@@ -3,7 +3,7 @@ using MediatR;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.SharedKernel;
 
-namespace RichillCapital.Infrastructure.Persistence;
+namespace RichillCapital.Infrastructure.Events.Dispatchers;
 
 public sealed class MediatorDomainEventDispatcher(IMediator _mediator) :
     IDomainEventDispatcher

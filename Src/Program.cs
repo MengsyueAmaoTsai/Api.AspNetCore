@@ -4,6 +4,7 @@ using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
 using RichillCapital.Domain;
+using RichillCapital.Infrastructure.Events;
 using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
@@ -28,6 +29,9 @@ builder.Services.AddCustomIdentity();
 
 // Infrastructure - Persistence
 builder.Services.AddDatabase();
+
+// Infrastructure - Events
+builder.Services.AddDomainEvents();
 
 // Infrastructure - Storage
 // builder.Services.AddLocalFileStorageManager();
