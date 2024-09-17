@@ -16,7 +16,7 @@ public sealed class CreateOrderTests(
         var request = new CreateOrderRequest
         {
             AccountId = "SIM2121844M",
-            Symbol = "AAPL",
+            Symbol = "MSFT",
             TradeType = "Buy",
             OrderType = "Market",
             TimeInForce = "IOC",
