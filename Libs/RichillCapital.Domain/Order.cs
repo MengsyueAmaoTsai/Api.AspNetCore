@@ -98,4 +98,34 @@ public sealed class Order : Entity<OrderId>
 
         return Result.Success;
     }
+
+    public Result Cancel()
+    {
+        Status = OrderStatus.Cancelled;
+
+        RegisterDomainEvent(new OrderCancelledDomainEvent
+        {
+            OrderId = Id,
+        });
+
+        return Result.Success;
+    }
+
+    public Result Execute(decimal quantity, decimal price)
+    {
+        Status = OrderStatus.Executed;
+
+        RegisterDomainEvent(new OrderExecutedDomainEvent
+        {
+            OrderId = Id,
+            Symbol = Symbol,
+            TradeType = TradeType,
+            OrderType = Type,
+            TimeInForce = TimeInForce,
+            Quantity = quantity,
+            Price = price,
+        });
+
+        return Result.Success;
+    }
 }

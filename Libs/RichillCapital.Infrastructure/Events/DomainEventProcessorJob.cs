@@ -20,7 +20,8 @@ internal sealed class DomainEventProcessorJob(
         await foreach (var domainEvent in _eventQueue.Reader.ReadAllAsync(stoppingToken))
         {
             await _mediator.Publish(domainEvent);
-            _logger.LogInformation("Processed domain event: {eventType}", domainEvent.GetType().Name);
+
+            _logger.LogDebug("Processed domain event: {eventType}", domainEvent.GetType().Name);
         }
     }
 }

@@ -14,8 +14,9 @@ internal sealed class OrderRejectedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "ORDER REJECTED: {reason}",
-            domainEvent.Reason);
+            "ORDER REJECTED: {reason} Id: {orderId}",
+            domainEvent.Reason,
+            domainEvent.OrderId);
 
         return Task.CompletedTask;
     }

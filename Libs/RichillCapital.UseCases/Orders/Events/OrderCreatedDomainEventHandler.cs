@@ -27,11 +27,11 @@ internal sealed class OrderCreatedDomainEventHandler(
             domainEvent.OrderType,
             domainEvent.TimeInForce);
 
-        var maybeUser = await _orderRepository
+        var maybeOrder = await _orderRepository
             .FirstOrDefaultAsync(o => o.Id == domainEvent.OrderId, cancellationToken)
             .ThrowIfNull();
 
-        var order = maybeUser.Value;
+        var order = maybeOrder.Value;
 
         var evaluationResult = await _orderPlacementEvaluator.EvaluateAsync(order, cancellationToken);
 
