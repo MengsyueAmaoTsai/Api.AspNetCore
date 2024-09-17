@@ -74,28 +74,18 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     private static IEnumerable<Order> CreateTradeStationOrders()
     {
         var accountId = "SIM2121844M";
+        var symbol = "MSFT";
 
         yield return CreateOrder(
-            id: "853381720",
+            id: "853434844",
             accountId: accountId,
-            symbol: "MSFT",
+            symbol: symbol,
             tradeType: TradeType.Buy,
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
-            quantity: 5000,
-            OrderStatus.Rejected,
-            new DateTimeOffset(2024, 9, 17, 17, 53, 19, TimeSpan.Zero));
-
-        yield return CreateOrder(
-            id: "853381801",
-            accountId: accountId,
-            symbol: "MSFT",
-            tradeType: TradeType.Sell,
-            orderType: OrderType.Market,
-            timeInForce: TimeInForce.ImmediateOrCancel,
-            quantity: 5000,
+            quantity: 500,
             OrderStatus.Executed,
-            new DateTimeOffset(2024, 9, 17, 17, 53, 33, TimeSpan.Zero));
+            new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero));
     }
 
     private static Order CreateOrder(

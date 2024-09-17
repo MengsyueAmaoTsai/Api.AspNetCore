@@ -61,5 +61,53 @@ internal sealed class ExecutionConfiguration :
             .Property(execution => execution.TimeInForce)
             .HasEnumerationValueConversion()
             .IsRequired();
+
+        builder
+            .HasOne<Order>()
+            .WithMany(order => order.Executions)
+            .HasForeignKey(execution => execution.OrderId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        builder.HasData(
+        [
+            CreateExecution(
+                id: "1",
+                accountId: "SIM2121844M",
+                orderId: "853434844",
+                symbol: "MSFT",
+                tradeType: TradeType.Buy,
+                orderType: OrderType.Market,
+                timeInForce: TimeInForce.ImmediateOrCancel,
+                quantity: 500,
+                price: 434.88m,
+                new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
+        ]);
     }
+
+    private static Execution CreateExecution(
+        string id,
+        string accountId,
+        string orderId,
+        string symbol,
+        TradeType tradeType,
+        OrderType orderType,
+        TimeInForce timeInForce,
+        decimal quantity,
+        decimal price,
+        DateTimeOffset createdTimeUtc) =>
+        Execution
+            .Create(
+                ExecutionId.From(id).ThrowIfFailure().Value,
+                AccountId.From(accountId).ThrowIfFailure().Value,
+                OrderId.From(orderId).ThrowIfFailure().Value,
+                Symbol.From(symbol).ThrowIfFailure().Value,
+                tradeType,
+                orderType,
+                timeInForce,
+                quantity,
+                price,
+                createdTimeUtc)
+            .ThrowIfError()
+            .Value;
 }
