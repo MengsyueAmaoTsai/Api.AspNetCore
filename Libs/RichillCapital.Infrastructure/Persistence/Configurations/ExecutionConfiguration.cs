@@ -88,7 +88,7 @@ internal sealed class ExecutionConfiguration :
                 timeInForce: TimeInForce.ImmediateOrCancel,
                 quantity: 500,
                 price: 434.88m,
-                new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
+                createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
         ]);
     }
 

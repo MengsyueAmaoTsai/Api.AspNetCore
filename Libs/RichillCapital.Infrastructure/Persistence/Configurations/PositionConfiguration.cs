@@ -49,5 +49,37 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
             .HasForeignKey(position => position.AccountId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        builder.HasData(
+        [
+            CreatePosition(
+                id: "1",
+                accountId: "SIM2121844M",
+                symbol: "MSFT",
+                side: Side.Long,
+                quantity: 500,
+                averagePrice: 434.88m,
+                createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
+        ]);
     }
+
+    private static Position CreatePosition(
+        string id,
+        string accountId,
+        string symbol,
+        Side side,
+        decimal quantity,
+        decimal averagePrice,
+        DateTimeOffset createdTimeUtc) =>
+        Position
+            .Create(
+                PositionId.From(id).ThrowIfFailure().Value,
+                AccountId.From(accountId).ThrowIfFailure().Value,
+                Symbol.From(symbol).ThrowIfFailure().Value,
+                side,
+                quantity,
+                averagePrice,
+                createdTimeUtc)
+            .ThrowIfError()
+            .Value;
 }
