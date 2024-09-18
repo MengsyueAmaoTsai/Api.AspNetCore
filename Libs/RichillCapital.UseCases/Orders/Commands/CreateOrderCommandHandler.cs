@@ -65,9 +65,11 @@ internal sealed class CreateOrderCommandHandler(
             tradeType,
             orderType,
             timeInForce,
-            command.Quantity,
-            OrderStatus.New,
-            DateTimeOffset.UtcNow);
+            quantity: command.Quantity,
+            remainingQuantity: command.Quantity,
+            executedQuantity: decimal.Zero,
+            status: OrderStatus.New,
+            createdTimeUtc: DateTimeOffset.UtcNow);
 
         if (errorOrOrder.HasError)
         {

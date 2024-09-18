@@ -87,4 +87,7 @@ public sealed class Execution : Entity<ExecutionId>
 
         return ErrorOr<Execution>.With(execution);
     }
+
+    public override string ToString() =>
+        $"{TradeType} {Quantity} {Symbol} @ {Price} {OrderType} {TimeInForce}";
 }

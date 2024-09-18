@@ -14,13 +14,14 @@ internal sealed class ExecutionCreatedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "EXECUTION CREATED: {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}",
+            "[ExecutionCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} for execution id: {executionId}",
             domainEvent.TradeType,
             domainEvent.Quantity,
             domainEvent.Symbol,
             domainEvent.Price,
             domainEvent.OrderType,
-            domainEvent.TimeInForce);
+            domainEvent.TimeInForce,
+            domainEvent.ExecutionId);
 
         return Task.CompletedTask;
     }

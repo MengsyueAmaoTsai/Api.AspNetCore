@@ -16,6 +16,8 @@ public sealed class Order : Entity<OrderId>
         OrderType type,
         TimeInForce timeInForce,
         decimal quantity,
+        decimal remainingQuantity,
+        decimal executedQuantity,
         OrderStatus status,
         DateTimeOffset createdTimeUtc)
         : base(id)
@@ -26,6 +28,8 @@ public sealed class Order : Entity<OrderId>
         Type = type;
         TimeInForce = timeInForce;
         Quantity = quantity;
+        RemainingQuantity = remainingQuantity;
+        ExecutedQuantity = executedQuantity;
         Status = status;
         CreatedTimeUtc = createdTimeUtc;
     }
@@ -35,7 +39,9 @@ public sealed class Order : Entity<OrderId>
     public TradeType TradeType { get; private set; }
     public OrderType Type { get; private set; }
     public TimeInForce TimeInForce { get; private set; }
-    public decimal Quantity { get; private set; }
+    public decimal Quantity { get; private init; }
+    public decimal RemainingQuantity { get; private set; }
+    public decimal ExecutedQuantity { get; private set; }
     public OrderStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
@@ -49,6 +55,8 @@ public sealed class Order : Entity<OrderId>
         OrderType type,
         TimeInForce timeInForce,
         decimal quantity,
+        decimal remainingQuantity,
+        decimal executedQuantity,
         OrderStatus status,
         DateTimeOffset createdTimeUtc)
     {
@@ -60,6 +68,8 @@ public sealed class Order : Entity<OrderId>
             type,
             timeInForce,
             quantity,
+            remainingQuantity,
+            executedQuantity,
             status,
             createdTimeUtc);
 
@@ -133,14 +143,15 @@ public sealed class Order : Entity<OrderId>
         decimal quantity,
         decimal price)
     {
-        if (quantity > Quantity)
+        if (quantity > RemainingQuantity)
         {
-            return Result.Failure(Error.Conflict($"Quantity {quantity} is greater than the order quantity {Quantity}"));
+            return Result.Failure(Error.Conflict("Quantity to execute is greater than remaining quantity"));
         }
 
-        Quantity -= quantity;
+        RemainingQuantity -= quantity;
+        ExecutedQuantity += quantity;
 
-        if (Quantity > 0)
+        if (RemainingQuantity > 0)
         {
             Status = OrderStatus.PartiallyFilled;
         }
@@ -164,5 +175,6 @@ public sealed class Order : Entity<OrderId>
         return Result.Success;
     }
 
-    public override string ToString() => $"{TradeType} {Quantity} {Symbol} @ {Type} {Type} {TimeInForce} {Status}";
+    public override string ToString() =>
+        $"{TradeType} {ExecutedQuantity}/{Quantity} {Symbol} @ {Type} {Type} {TimeInForce} {Status}";
 }

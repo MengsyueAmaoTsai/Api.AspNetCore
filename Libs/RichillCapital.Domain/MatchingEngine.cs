@@ -34,16 +34,14 @@ internal sealed class FakeMatchingEngine(
             return;
         }
 
-        var remainingQuantity = order.Quantity;
-
         foreach (var entry in entries)
         {
-            if (remainingQuantity <= 0)
+            if (order.RemainingQuantity <= 0)
             {
                 break;
             }
 
-            var matchQuantity = Math.Min(remainingQuantity, entry.Size);
+            var matchQuantity = Math.Min(order.RemainingQuantity, entry.Size);
             var executionPrice = entry.Price;
 
             var executionResult = order.Execute(matchQuantity, executionPrice);
@@ -57,8 +55,6 @@ internal sealed class FakeMatchingEngine(
 
                 return;
             }
-
-            remainingQuantity -= matchQuantity;
         }
     }
 

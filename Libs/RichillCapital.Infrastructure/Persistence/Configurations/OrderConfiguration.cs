@@ -85,6 +85,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 2,
+            remainingQuantity: 0,
+            executedQuantity: 2,
             OrderStatus.Executed,
             new DateTimeOffset(2024, 9, 12, 3, 18, 32, TimeSpan.Zero));
 
@@ -96,6 +98,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
             OrderStatus.Executed,
             new DateTimeOffset(2024, 9, 12, 17, 14, 53, TimeSpan.Zero));
 
@@ -107,6 +111,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
             OrderStatus.Executed,
             new DateTimeOffset(2024, 9, 12, 17, 14, 55, TimeSpan.Zero));
     }
@@ -124,6 +130,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 500,
+            remainingQuantity: 0,
+            executedQuantity: 500,
             OrderStatus.Executed,
             new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero));
     }
@@ -135,7 +143,9 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         TradeType tradeType,
         OrderType orderType,
         TimeInForce timeInForce,
-        int quantity,
+        decimal quantity,
+        decimal remainingQuantity,
+        decimal executedQuantity,
         OrderStatus status,
         DateTimeOffset createdTimeUtc) =>
         Order.Create(
@@ -146,6 +156,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
                 orderType,
                 timeInForce,
                 quantity,
+                remainingQuantity,
+                executedQuantity,
                 status,
                 createdTimeUtc).ThrowIfError().Value;
 }

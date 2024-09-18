@@ -14,6 +14,8 @@ internal static class OrderExtensions
             Type = order.Type.Name,
             TimeInForce = order.TimeInForce.Name,
             Quantity = order.Quantity,
+            RemainingQuantity = order.RemainingQuantity,
+            ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status.Name,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };

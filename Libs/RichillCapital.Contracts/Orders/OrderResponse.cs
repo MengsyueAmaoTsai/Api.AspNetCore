@@ -11,6 +11,8 @@ public record OrderResponse
     public required string Type { get; init; }
     public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
+    public required decimal RemainingQuantity { get; init; }
+    public required decimal ExecutedQuantity { get; init; }
     public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
@@ -22,7 +24,7 @@ public sealed record OrderDetailsResponse : OrderResponse
 public static class OrderResponseMapping
 {
     public static OrderResponse ToResponse(this OrderDto order) =>
-        new OrderResponse
+        new()
         {
             Id = order.Id,
             AccountId = order.AccountId,
@@ -31,12 +33,14 @@ public static class OrderResponseMapping
             Type = order.Type,
             TimeInForce = order.TimeInForce,
             Quantity = order.Quantity,
+            RemainingQuantity = order.RemainingQuantity,
+            ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };
 
     public static OrderDetailsResponse ToDetailsResponse(this OrderDto order) =>
-        new OrderDetailsResponse
+        new()
         {
             Id = order.Id,
             AccountId = order.AccountId,
@@ -45,6 +49,8 @@ public static class OrderResponseMapping
             Type = order.Type,
             TimeInForce = order.TimeInForce,
             Quantity = order.Quantity,
+            RemainingQuantity = order.RemainingQuantity,
+            ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };

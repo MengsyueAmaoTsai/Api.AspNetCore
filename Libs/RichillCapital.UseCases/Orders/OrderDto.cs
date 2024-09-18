@@ -9,6 +9,8 @@ public sealed record OrderDto
     public required string Type { get; init; }
     public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
+    public required decimal RemainingQuantity { get; init; }
+    public required decimal ExecutedQuantity { get; init; }
     public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
