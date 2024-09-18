@@ -47,8 +47,15 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             CreateAccount(
                 id: "SIM2121844M",
                 userId: "1",
-                alias: "SIM2121844M",
+                alias: "TradeStation simulated account",
                 currency: Currency.USD,
+                DateTimeOffset.UtcNow),
+
+            CreateAccount(
+                id: "000-8283782",
+                userId: "1",
+                alias: "KGI Future account",
+                currency: Currency.TWD,
                 DateTimeOffset.UtcNow),
         ]);
     }

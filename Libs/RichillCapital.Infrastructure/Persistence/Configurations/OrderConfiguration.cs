@@ -68,7 +68,47 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasData(
         [
             .. CreateTradeStationOrders(),
+            .. CreateKgiFutureOrders(),
         ]);
+    }
+
+    private static IEnumerable<Order> CreateKgiFutureOrders()
+    {
+        var accountId = "000-8283782";
+        var symbol = "TAIFEX:TMF";
+
+        yield return CreateOrder(
+            id: "1",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 2,
+            OrderStatus.Executed,
+            new DateTimeOffset(2024, 9, 12, 3, 18, 32, TimeSpan.Zero));
+
+        yield return CreateOrder(
+            id: "2",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            OrderStatus.Executed,
+            new DateTimeOffset(2024, 9, 12, 17, 14, 53, TimeSpan.Zero));
+
+        yield return CreateOrder(
+            id: "3",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            OrderStatus.Executed,
+            new DateTimeOffset(2024, 9, 12, 17, 14, 55, TimeSpan.Zero));
     }
 
     private static IEnumerable<Order> CreateTradeStationOrders()
