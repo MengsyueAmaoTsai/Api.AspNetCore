@@ -28,16 +28,37 @@ internal sealed class FakeMatchingEngine(
         _logger.LogInformation("Matching market order {orderId}...", order.Id);
 
         var entries = GetOrderBook(order.Symbol)
-            .GetOppositeEntries(order.TradeType);
+            .GetOppositeEntries(order.TradeType)
+            .ToList();
 
-        var executionQuantity = order.Quantity;
-        var executionPrice = entries.First().Price;
+        if (!entries.Any())
+        {
+            _logger.LogInformation("No matching orders found for market order {orderId}.", order.Id);
+            return;
+        }
 
-        _logger.LogInformation(
-            "Matched market order {orderId} with {executionQuantity} @ {executionPrice}",
-            order.Id,
-            executionQuantity,
-            executionPrice);
+        var remainingQuantity = order.Quantity;
+
+        foreach (var entry in entries)
+        {
+            if (remainingQuantity <= 0)
+            {
+                break;
+            }
+
+            var matchQuantity = Math.Min(remainingQuantity, entry.Size);
+            var executionPrice = entry.Price;
+
+            _logger.LogInformation(
+                "Matched {matchQuantity} {tradeType} at {executionPrice} for market order {orderId}.",
+                matchQuantity,
+                order.TradeType.Name,
+                executionPrice,
+                order.Id);
+
+            // Update order quantity
+            remainingQuantity -= matchQuantity;
+        }
     }
 
     private static OrderBook GetOrderBook(
