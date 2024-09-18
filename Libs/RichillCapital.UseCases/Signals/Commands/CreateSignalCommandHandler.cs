@@ -1,5 +1,6 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.Domain.Errors;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
@@ -7,6 +8,7 @@ using RichillCapital.UseCases.Abstractions;
 namespace RichillCapital.UseCases.Signals.Commands;
 
 internal sealed class CreateSignalCommandHandler(
+    IReadOnlyRepository<SignalSource> _signalSourceRepository,
     IRepository<Signal> _signalRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateSignalCommand, ErrorOr<SignalId>>
@@ -26,6 +28,16 @@ internal sealed class CreateSignalCommandHandler(
         }
 
         var (sourceId, origin) = validationResult.Value;
+
+        var maybeSignalSource = await _signalSourceRepository.FirstOrDefaultAsync(
+            s => s.Id == sourceId,
+            cancellationToken);
+
+        if (maybeSignalSource.IsNull)
+        {
+            return ErrorOr<SignalId>.WithError(SignalSourceErrors.NotFound(sourceId));
+        }
+
         var now = DateTimeOffset.UtcNow;
 
         var errorOrSignal = Signal.Create(

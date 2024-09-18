@@ -1,5 +1,7 @@
 
 @Localhost = https://localhost:10000
+@Origin = RichillCapital.Quant.TradingView
+@SourceId = TV-Long-Task
 
 ### Create signal
 POST {{Localhost}}/api/v1/signals
@@ -7,6 +9,6 @@ Content-Type: application/json
 
 {
     "time": "2021-07-01T00:00:00Z",
-    "origin": "test origin",
-    "sourceId": "TEST-SOURCE-ID"
+    "origin": "{{Origin}}",
+    "sourceId": "{{SourceId}}"
 }
