@@ -11,6 +11,7 @@ namespace RichillCapital.UseCases.Orders.Events;
 internal sealed class OrderAcceptedDomainEventHandler(
     ILogger<OrderAcceptedDomainEventHandler> _logger,
     IRepository<Order> _orderRepository,
+    IMatchingEngine _matchingEngine,
     IUnitOfWork _unitOfWork) :
     IDomainEventHandler<OrderAcceptedDomainEvent>
 {
@@ -19,6 +20,13 @@ internal sealed class OrderAcceptedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         LogEvent(domainEvent);
+
+        var order = (await _orderRepository
+            .GetByIdAsync(domainEvent.OrderId, cancellationToken)
+            .ThrowIfNull())
+            .Value;
+
+        _matchingEngine.Match(order);
     }
 
     private void LogEvent(OrderAcceptedDomainEvent domainEvent) =>
