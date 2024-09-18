@@ -1,0 +1,6 @@
+@Localhost = https://localhost:10000
+
+@SignalSourceId = TV-Long-Task
+
+### Get signal source
+GET {{Localhost}}/api/v1/signal-sources/{{SignalSourceId}}
