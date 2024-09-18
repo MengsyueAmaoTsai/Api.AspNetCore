@@ -16,6 +16,7 @@ internal static class PositionExtensions
             Commission = position.Commission,
             Tax = position.Tax,
             Swap = position.Swap,
+            Status = position.Status.Name,
             CreatedTimeUtc = position.CreatedTimeUtc,
         };
 }

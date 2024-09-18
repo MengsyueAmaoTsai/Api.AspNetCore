@@ -44,6 +44,11 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
             .IsRequired();
 
         builder
+            .Property(position => position.Status)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
             .HasOne<Account>()
             .WithMany(account => account.Positions)
             .HasForeignKey(position => position.AccountId)
@@ -62,6 +67,7 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 commission: 5m,
                 tax: decimal.Zero,
                 swap: decimal.Zero,
+                status: PositionStatus.Open,
                 createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
         ]);
     }
@@ -76,6 +82,7 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
         decimal commission,
         decimal tax,
         decimal swap,
+        PositionStatus status,
         DateTimeOffset createdTimeUtc) =>
         Position
             .Create(
@@ -88,6 +95,7 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
                 commission,
                 tax,
                 swap,
+                status,
                 createdTimeUtc)
             .ThrowIfError()
             .Value;

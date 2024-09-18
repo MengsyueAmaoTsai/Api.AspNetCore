@@ -16,6 +16,7 @@ public sealed class Position : Entity<PositionId>
         decimal commission,
         decimal tax,
         decimal swap,
+        PositionStatus status,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -27,6 +28,7 @@ public sealed class Position : Entity<PositionId>
         Commission = commission;
         Tax = tax;
         Swap = swap;
+        Status = status;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -38,6 +40,7 @@ public sealed class Position : Entity<PositionId>
     public decimal Commission { get; private set; }
     public decimal Tax { get; private set; }
     public decimal Swap { get; private set; }
+    public PositionStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public static ErrorOr<Position> Create(
@@ -50,6 +53,7 @@ public sealed class Position : Entity<PositionId>
         decimal commission,
         decimal tax,
         decimal swap,
+        PositionStatus status,
         DateTimeOffset createdTimeUtc)
     {
         var position = new Position(
@@ -62,6 +66,7 @@ public sealed class Position : Entity<PositionId>
             commission,
             tax,
             swap,
+            status,
             createdTimeUtc);
 
         position.RegisterDomainEvent(new PositionCreatedDomainEvent
@@ -103,6 +108,8 @@ public sealed class Position : Entity<PositionId>
 
     public Result Close()
     {
+        Status = PositionStatus.Closed;
+
         RegisterDomainEvent(new PositionClosedDomainEvent
         {
             PositionId = Id,

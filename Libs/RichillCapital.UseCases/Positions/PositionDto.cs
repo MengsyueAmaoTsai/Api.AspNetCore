@@ -11,5 +11,6 @@ public sealed record PositionDto
     public required decimal Commission { get; init; }
     public required decimal Tax { get; init; }
     public required decimal Swap { get; init; }
+    public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

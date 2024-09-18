@@ -13,6 +13,7 @@ public record PositionResponse
     public required decimal Commission { get; init; }
     public required decimal Tax { get; init; }
     public required decimal Swap { get; init; }
+    public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -34,6 +35,7 @@ public static class PositionResponseMapping
             Commission = dto.Commission,
             Tax = dto.Tax,
             Swap = dto.Swap,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -49,6 +51,7 @@ public static class PositionResponseMapping
             Commission = dto.Commission,
             Tax = dto.Tax,
             Swap = dto.Swap,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }
