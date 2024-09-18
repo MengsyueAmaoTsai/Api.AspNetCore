@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -19,13 +20,14 @@ internal sealed class OrderCreatedDomainEventHandler(
         OrderCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("ORDER CREATED: {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}",
+        _logger.LogInformation("[OrderCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} for order id: {orderId}",
             domainEvent.TradeType,
             domainEvent.Quantity,
             domainEvent.Symbol,
             domainEvent.OrderType,
             domainEvent.OrderType,
-            domainEvent.TimeInForce);
+            domainEvent.TimeInForce,
+            domainEvent.OrderId);
 
         var maybeOrder = await _orderRepository
             .FirstOrDefaultAsync(o => o.Id == domainEvent.OrderId, cancellationToken)
@@ -37,18 +39,32 @@ internal sealed class OrderCreatedDomainEventHandler(
 
         if (evaluationResult.IsFailure)
         {
-            var rejectResult = order.Reject(evaluationResult.Error.Message);
-
-            if (rejectResult.IsFailure)
-            {
-                _logger.LogError("Failed to reject order: {error}", rejectResult.Error);
-
-                return;
-            }
-
-            _orderRepository.Update(order);
+            RejectOrder(order, evaluationResult.Error);
+        }
+        else
+        {
+            AcceptOrder(order);
         }
 
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    private void RejectOrder(Order order, Error error)
+    {
+        var rejectResult = order.Reject(error.Message);
+
+        if (rejectResult.IsFailure)
+        {
+            _logger.LogError("Failed to reject order: {error}", rejectResult.Error);
+
+            return;
+        }
+
+        _orderRepository.Update(order);
+    }
+
+    private void AcceptOrder(Order order)
+    {
         var acceptResult = order.Accept();
 
         if (acceptResult.IsFailure)
@@ -59,7 +75,5 @@ internal sealed class OrderCreatedDomainEventHandler(
         }
 
         _orderRepository.Update(order);
-
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

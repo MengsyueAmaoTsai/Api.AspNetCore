@@ -65,8 +65,8 @@ public sealed class Order : Entity<OrderId>
 
         order.RegisterDomainEvent(new OrderCreatedDomainEvent
         {
-            AccountId = accountId,
             OrderId = id,
+            AccountId = accountId,
             Symbol = symbol,
             TradeType = tradeType,
             OrderType = type,
@@ -85,6 +85,13 @@ public sealed class Order : Entity<OrderId>
         RegisterDomainEvent(new OrderRejectedDomainEvent
         {
             OrderId = Id,
+            AccountId = AccountId,
+            Symbol = Symbol,
+            TradeType = TradeType,
+            OrderType = Type,
+            TimeInForce = TimeInForce,
+            Quantity = Quantity,
+            Status = Status,
             Reason = reason,
         });
 
@@ -97,8 +104,8 @@ public sealed class Order : Entity<OrderId>
 
         RegisterDomainEvent(new OrderAcceptedDomainEvent
         {
-            OrderId = Id,
             AccountId = AccountId,
+            OrderId = Id,
             Symbol = Symbol,
             TradeType = TradeType,
             OrderType = Type,
@@ -128,8 +135,8 @@ public sealed class Order : Entity<OrderId>
 
         RegisterDomainEvent(new OrderExecutedDomainEvent
         {
-            AccountId = AccountId,
             OrderId = Id,
+            AccountId = AccountId,
             Symbol = Symbol,
             TradeType = TradeType,
             OrderType = Type,
