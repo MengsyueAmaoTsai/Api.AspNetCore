@@ -1,0 +1,4 @@
+@Localhost = https://localhost:10000
+
+### List instruments
+GET {{Localhost}}/api/v1/instruments
