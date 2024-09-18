@@ -26,7 +26,9 @@ internal sealed class OrderAcceptedDomainEventHandler(
             .ThrowIfNull())
             .Value;
 
-        _matchingEngine.Match(order);
+        _matchingEngine.MatchOrder(order);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     private void LogEvent(OrderAcceptedDomainEvent domainEvent) =>

@@ -129,9 +129,25 @@ public sealed class Order : Entity<OrderId>
         return Result.Success;
     }
 
-    public Result Execute(decimal quantity, decimal price)
+    public Result Execute(
+        decimal quantity,
+        decimal price)
     {
-        Status = OrderStatus.Executed;
+        if (quantity > Quantity)
+        {
+            return Result.Failure(Error.Conflict($"Quantity {quantity} is greater than the order quantity {Quantity}"));
+        }
+
+        Quantity -= quantity;
+
+        if (Quantity > 0)
+        {
+            Status = OrderStatus.PartiallyFilled;
+        }
+        else
+        {
+            Status = OrderStatus.Executed;
+        }
 
         RegisterDomainEvent(new OrderExecutedDomainEvent
         {
@@ -147,4 +163,6 @@ public sealed class Order : Entity<OrderId>
 
         return Result.Success;
     }
+
+    public override string ToString() => $"{TradeType} {Quantity} {Symbol} @ {Type} {Type} {TimeInForce} {Status}";
 }

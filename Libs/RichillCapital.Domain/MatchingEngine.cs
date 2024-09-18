@@ -4,28 +4,25 @@ namespace RichillCapital.Domain;
 
 public interface IMatchingEngine
 {
-    void Match(Order order);
+    void MatchOrder(Order order);
 }
 
 internal sealed class FakeMatchingEngine(
     ILogger<FakeMatchingEngine> _logger) :
     IMatchingEngine
 {
-    public void Match(Order order)
+    public void MatchOrder(Order order)
     {
-        _logger.LogInformation("Matching order {orderId}...", order.Id);
-
         if (order.Type == OrderType.Market)
         {
             MatchMarketOrder(order);
             return;
         }
-
     }
 
     private void MatchMarketOrder(Order order)
     {
-        _logger.LogInformation("Matching market order {orderId}...", order.Id);
+        _logger.LogInformation("Matching order {order}", order);
 
         var entries = GetOrderBook(order.Symbol)
             .GetOppositeEntries(order.TradeType)
@@ -49,14 +46,18 @@ internal sealed class FakeMatchingEngine(
             var matchQuantity = Math.Min(remainingQuantity, entry.Size);
             var executionPrice = entry.Price;
 
-            _logger.LogInformation(
-                "Matched {matchQuantity} {tradeType} at {executionPrice} for market order {orderId}.",
-                matchQuantity,
-                order.TradeType.Name,
-                executionPrice,
-                order.Id);
+            var executionResult = order.Execute(matchQuantity, executionPrice);
 
-            // Update order quantity
+            if (executionResult.IsFailure)
+            {
+                _logger.LogError(
+                    "Failed to execute market order {orderId}: {error}",
+                    order.Id,
+                    executionResult.Error);
+
+                return;
+            }
+
             remainingQuantity -= matchQuantity;
         }
     }
