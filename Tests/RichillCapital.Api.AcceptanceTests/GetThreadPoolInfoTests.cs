@@ -12,7 +12,7 @@ public sealed class GetThreadPoolInfoTests(
     AcceptanceTest(factory)
 {
     [Fact]
-    public async Task Should_Return_GCInfo()
+    public async Task Should_ReturnThreadPoolInfo()
     {
         var response = await Client.GetAsync("thread-pool-info");
 

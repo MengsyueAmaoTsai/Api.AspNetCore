@@ -12,7 +12,7 @@ public sealed class GetProcessInfoTests(
     AcceptanceTest(factory)
 {
     [Fact]
-    public async Task Should_Return_GCInfo()
+    public async Task Should_ReturnProcessInfo()
     {
         var response = await Client.GetAsync("process-info");
 

@@ -12,7 +12,7 @@ public sealed class GetGCInfoTests(
     AcceptanceTest(factory)
 {
     [Fact]
-    public async Task Should_Return_GCInfo()
+    public async Task Should_ReturnGCInfo()
     {
         var response = await Client.GetAsync("gc-info");
 
