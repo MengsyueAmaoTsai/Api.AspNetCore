@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@AccountId = SIM2121844M
+
+### Get account
+GET {{Localhost}}/api/v1/accounts/{{AccountId}}
