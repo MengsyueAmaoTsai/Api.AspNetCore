@@ -77,6 +77,12 @@ public sealed class Execution : Entity<ExecutionId>
         execution.RegisterDomainEvent(new ExecutionCreatedDomainEvent
         {
             ExecutionId = execution.Id,
+            Symbol = execution.Symbol,
+            TradeType = execution.TradeType,
+            OrderType = execution.OrderType,
+            TimeInForce = execution.TimeInForce,
+            Quantity = execution.Quantity,
+            Price = execution.Price,
         });
 
         return ErrorOr<Execution>.With(execution);
