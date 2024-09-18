@@ -10,17 +10,23 @@ public sealed class CreateOrderTests(
     EndToEndTestWebApplicationFactory factory) :
     AcceptanceTest(factory)
 {
-    [Fact]
-    public async Task Should_CreateOrder()
+    [Theory]
+    [InlineData("MSFT", "Buy", "Market", "IOC", 10)]
+    public async Task Should_CreateOrder(
+        string symbol,
+        string tradeType,
+        string orderType,
+        string timeInForce,
+        decimal quantity)
     {
         var request = new CreateOrderRequest
         {
             AccountId = "SIM2121844M",
-            Symbol = "MSFT",
-            TradeType = "Buy",
-            OrderType = "Market",
-            TimeInForce = "IOC",
-            Quantity = 10,
+            Symbol = symbol,
+            TradeType = tradeType,
+            OrderType = orderType,
+            TimeInForce = timeInForce,
+            Quantity = quantity,
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/orders", request);
