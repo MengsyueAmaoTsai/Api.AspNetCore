@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@Symbol = BINANCE:BTCUSDT.P
+
+### Get instrument
+GET {{Localhost}}/api/v1/instruments/{{Symbol}}

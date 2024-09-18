@@ -161,17 +161,17 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
     private static IEnumerable<Instrument> CreateCryptoPerpetuals()
     {
         yield return CreateInstrument(
-            symbol: "BINANCE:BTCUSD.P",
+            symbol: "BINANCE:BTCUSDT.P",
             description: "Bitcoin / USD Perpetual",
             type: InstrumentType.Swap);
 
         yield return CreateInstrument(
-            symbol: "BINANCE:ETHUSD.P",
+            symbol: "BINANCE:ETHUSDT.P",
             description: "Ethereum / USD Perpetual",
             type: InstrumentType.Swap);
 
         yield return CreateInstrument(
-            symbol: "BINANCE:BNBUSD.P",
+            symbol: "BINANCE:BNBUSDT.P",
             description: "Binance Coin / USD Perpetual",
             type: InstrumentType.Swap);
     }

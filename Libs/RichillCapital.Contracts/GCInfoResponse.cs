@@ -13,8 +13,6 @@ public sealed record GCInfoResponse
     public required GCMemoryInfoResponse GCMemoryInfo { get; init; }
 }
 
-
-
 public sealed record GCMemoryInfoResponse
 {
     public required long HighMemoryLoadThresholdBytes { get; init; }
