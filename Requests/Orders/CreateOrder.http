@@ -1,6 +1,6 @@
 @Localhost = https://localhost:10000
 @TradeStationSimulatedAccountId = SIM2121844M
-@Symbol = AAPL
+@Symbol = NASDAQ:AAPL
 
 ### Create order
 POST {{Localhost}}/api/v1/orders

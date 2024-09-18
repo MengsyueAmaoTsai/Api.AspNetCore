@@ -40,11 +40,12 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
 
         builder.HasData([
             CreateInstrument(
-                symbol: "MSFT",
+                symbol: "NASDAQ:MSFT",
                 description: "Microsoft Corporation",
                 type: InstrumentType.Equity),
+
             CreateInstrument(
-                symbol: "AAPL",
+                symbol: "NASDAQ:AAPL",
                 description: "Apple Inc.",
                 type: InstrumentType.Equity),
         ]);

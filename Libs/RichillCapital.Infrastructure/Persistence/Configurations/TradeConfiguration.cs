@@ -55,7 +55,7 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
             CreateTrade(
                 id: "1",
                 accountId: "SIM2121844M",
-                symbol: "MSFT",
+                symbol: "NASDAQ:MSFT",
                 side: Side.Long,
                 quantity: 0,
                 entryPrice: 0,

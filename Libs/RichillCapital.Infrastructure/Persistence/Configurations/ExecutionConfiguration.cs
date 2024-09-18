@@ -82,7 +82,7 @@ internal sealed class ExecutionConfiguration :
                 id: "1",
                 accountId: "SIM2121844M",
                 orderId: "853434844",
-                symbol: "MSFT",
+                symbol: "NASDAQ:MSFT",
                 tradeType: TradeType.Buy,
                 orderType: OrderType.Market,
                 timeInForce: TimeInForce.ImmediateOrCancel,

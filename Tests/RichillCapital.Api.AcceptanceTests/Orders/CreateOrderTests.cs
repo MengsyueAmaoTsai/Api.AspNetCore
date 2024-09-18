@@ -11,7 +11,7 @@ public sealed class CreateOrderTests(
     AcceptanceTest(factory)
 {
     [Theory]
-    [InlineData("MSFT", "Buy", "Market", "IOC", 10)]
+    [InlineData("NASDAQ:MSFT", "Buy", "Market", "IOC", 10)]
     public async Task Should_CreateOrder(
         string symbol,
         string tradeType,

@@ -55,7 +55,7 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
             CreatePosition(
                 id: "1",
                 accountId: "SIM2121844M",
-                symbol: "MSFT",
+                symbol: "NASDAQ:MSFT",
                 side: Side.Long,
                 quantity: 500,
                 averagePrice: 434.88m,

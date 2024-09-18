@@ -74,7 +74,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     private static IEnumerable<Order> CreateTradeStationOrders()
     {
         var accountId = "SIM2121844M";
-        var symbol = "MSFT";
+        var symbol = "NASDAQ:MSFT";
 
         yield return CreateOrder(
             id: "853434844",
