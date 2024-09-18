@@ -27,7 +27,14 @@ public sealed record OrderCancelledDomainEvent : DomainEvent
 
 public sealed record OrderAcceptedDomainEvent : DomainEvent
 {
+    public required AccountId AccountId { get; init; }
     public required OrderId OrderId { get; init; }
+    public required Symbol Symbol { get; init; }
+    public required TradeType TradeType { get; init; }
+    public required OrderType OrderType { get; init; }
+    public required TimeInForce TimeInForce { get; init; }
+    public required decimal Quantity { get; init; }
+    public required OrderStatus Status { get; init; }
 }
 
 public sealed record OrderExecutedDomainEvent : DomainEvent

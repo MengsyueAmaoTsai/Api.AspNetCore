@@ -98,6 +98,13 @@ public sealed class Order : Entity<OrderId>
         RegisterDomainEvent(new OrderAcceptedDomainEvent
         {
             OrderId = Id,
+            AccountId = AccountId,
+            Symbol = Symbol,
+            TradeType = TradeType,
+            OrderType = Type,
+            TimeInForce = TimeInForce,
+            Quantity = Quantity,
+            Status = Status,
         });
 
         return Result.Success;

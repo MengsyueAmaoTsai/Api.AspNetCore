@@ -9,7 +9,7 @@ Content-Type: application/json
 {
     "accountId": "{{TradeStationSimulatedAccountId}}",
     "symbol": "{{Symbol}}",
-    "tradeType": "Sell",
+    "tradeType": "Buy",
     "orderType": "Market",
     "timeInForce": "IOC",
     "quantity": 100

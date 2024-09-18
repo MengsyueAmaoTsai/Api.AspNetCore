@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -19,8 +18,13 @@ internal sealed class OrderAcceptedDomainEventHandler(
         OrderAcceptedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("ORDER ACCEPTED: {orderId}", domainEvent.OrderId);
-
+        _logger.LogInformation("ORDER ACCEPTED: {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}",
+            domainEvent.TradeType,
+            domainEvent.Quantity,
+            domainEvent.Symbol,
+            domainEvent.OrderType,
+            domainEvent.OrderType,
+            domainEvent.TimeInForce);
         var maybeOrder = await _orderRepository
             .FirstOrDefaultAsync(o => o.Id == domainEvent.OrderId, cancellationToken)
             .ThrowIfNull();
