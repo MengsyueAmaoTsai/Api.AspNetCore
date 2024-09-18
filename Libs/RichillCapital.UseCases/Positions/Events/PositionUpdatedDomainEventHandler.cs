@@ -13,7 +13,11 @@ internal sealed class PositionUpdatedDomainEventHandler(
         PositionUpdatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("POSITION UPDATED: {id}", domainEvent.PositionId);
+        _logger.LogInformation("POSITION UPDATED: {side} {symbol} {quantity} @ {averagePrice}",
+            domainEvent.Side,
+            domainEvent.Symbol,
+            domainEvent.Quantity,
+            domainEvent.AveragePrice);
 
         return Task.CompletedTask;
     }

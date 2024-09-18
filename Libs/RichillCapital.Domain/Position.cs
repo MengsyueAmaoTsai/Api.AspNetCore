@@ -67,6 +67,10 @@ public sealed class Position : Entity<PositionId>
         position.RegisterDomainEvent(new PositionCreatedDomainEvent
         {
             PositionId = position.Id,
+            Symbol = position.Symbol,
+            Side = position.Side,
+            Quantity = position.Quantity,
+            AveragePrice = position.AveragePrice,
         });
 
         return ErrorOr<Position>.With(position);
@@ -88,6 +92,10 @@ public sealed class Position : Entity<PositionId>
         RegisterDomainEvent(new PositionUpdatedDomainEvent
         {
             PositionId = Id,
+            Symbol = Symbol,
+            Side = Side,
+            Quantity = Quantity,
+            AveragePrice = AveragePrice,
         });
 
         return Result.Success;
