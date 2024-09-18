@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -29,30 +30,75 @@ internal sealed class ExecutionCreatedDomainEventHandler(
             domainEvent.TimeInForce,
             domainEvent.ExecutionId);
 
-        var positionResult = await _positionManager.GetOpenPositionAsync(
+        var openPositionResult = await _positionManager.GetOpenPositionAsync(
             domainEvent.AccountId,
             domainEvent.Symbol,
             cancellationToken);
 
-        if (positionResult.IsFailure)
+        if (openPositionResult.IsFailure)
         {
-            var newPosition = Position
-                .Create(
-                    PositionId.NewPositionId(),
+            if (openPositionResult.Error.Type != ErrorType.NotFound)
+            {
+                _logger.LogError(
+                    "Failed to get open position for account id: {accountId} and symbol: {symbol}",
                     domainEvent.AccountId,
-                    domainEvent.Symbol,
-                    domainEvent.TradeType.ToSide(),
-                    domainEvent.Quantity,
-                    domainEvent.Price,
-                    domainEvent.Commission,
-                    domainEvent.Tax,
-                    decimal.Zero,
-                    PositionStatus.Open,
-                    domainEvent.OccurredTime)
-                .ThrowIfError()
-                .Value;
+                    domainEvent.Symbol);
+            }
+            else
+            {
+                var newPosition = Position
+                    .Create(
+                        PositionId.NewPositionId(),
+                        domainEvent.AccountId,
+                        domainEvent.Symbol,
+                        domainEvent.TradeType.ToSide(),
+                        domainEvent.Quantity,
+                        domainEvent.Price,
+                        domainEvent.Commission,
+                        domainEvent.Tax,
+                        decimal.Zero,
+                        PositionStatus.Open,
+                        domainEvent.OccurredTime)
+                    .ThrowIfError()
+                    .Value;
 
-            _positionRepository.Add(newPosition);
+                _positionRepository.Add(newPosition);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                return;
+            }
+        }
+
+        var openPosition = openPositionResult.Value;
+
+        if (openPosition.HasSameDirectionAs(domainEvent.TradeType))
+        {
+            _logger.LogInformation(
+                "Adding to existing position for account id: {accountId} and symbol: {symbol}",
+                domainEvent.AccountId,
+                domainEvent.Symbol);
+        }
+        else
+        {
+            _logger.LogInformation(
+                "Closing existing position for account id: {accountId} and symbol: {symbol}",
+                domainEvent.AccountId,
+                domainEvent.Symbol);
+
+            var newQuantity = openPosition.Quantity - domainEvent.Quantity;
+
+            if (newQuantity < 0)
+            {
+                _logger.LogInformation("Reversing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+            }
+            else if (newQuantity == 0)
+            {
+                _logger.LogInformation("Closing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+            }
+            else
+            {
+                _logger.LogInformation("Partially closing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+            }
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

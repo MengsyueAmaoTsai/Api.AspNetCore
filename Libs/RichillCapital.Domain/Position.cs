@@ -121,4 +121,35 @@ public sealed class Position : Entity<PositionId>
 
         return Result.Success;
     }
+
+    public bool HasSameDirectionAs(TradeType tradeType) => Side == tradeType.ToSide();
+
+    public Result Increase(
+        decimal quantity,
+        decimal price,
+        decimal commission,
+        decimal tax)
+    {
+        var newQuantity = Quantity + quantity;
+        var newAveragePrice = (Quantity * AveragePrice + quantity * price) / newQuantity;
+
+        return Update(newQuantity, newAveragePrice, Commission + commission, Tax + tax, Swap);
+    }
+
+    public Result Reduce(
+        decimal quantity,
+        decimal price,
+        decimal commission,
+        decimal tax)
+    {
+        if (Quantity < quantity)
+        {
+            return Result.Failure(Error.Conflict("Cannot reduce quantity more than current quantity"));
+        }
+
+        var newQuantity = Quantity - quantity;
+        var newAveragePrice = (Quantity * AveragePrice - quantity * price) / newQuantity;
+
+        return Update(newQuantity, newAveragePrice, Commission + commission, Tax + tax, Swap);
+    }
 }
