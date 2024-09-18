@@ -12,7 +12,7 @@ internal sealed class SignalCreatedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "SIGNAL CREATED: [{time}] signal of source [{sourceId}] from origin [{origin}]",
+            "[SignalCreated] {time} signal of source {sourceId} from origin: {origin}",
             domainEvent.Time,
             domainEvent.SourceId,
             domainEvent.Origin);
