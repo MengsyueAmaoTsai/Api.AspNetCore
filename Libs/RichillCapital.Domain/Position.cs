@@ -106,8 +106,21 @@ public sealed class Position : Entity<PositionId>
         return Result.Success;
     }
 
-    public Result Close()
+    public Result Close(
+        decimal quantity,
+        decimal commission,
+        decimal tax)
     {
+        if (Quantity != quantity)
+        {
+            return Result.Failure(Error.Conflict("Cannot close position with different quantity"));
+        }
+
+        Quantity = 0;
+        AveragePrice = 0;
+        Commission += commission;
+        Tax += tax;
+
         Status = PositionStatus.Closed;
 
         RegisterDomainEvent(new PositionClosedDomainEvent

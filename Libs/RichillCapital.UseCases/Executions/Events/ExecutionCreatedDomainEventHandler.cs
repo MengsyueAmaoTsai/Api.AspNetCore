@@ -13,6 +13,7 @@ internal sealed class ExecutionCreatedDomainEventHandler(
     ILogger<ExecutionCreatedDomainEventHandler> _logger,
     IPositionManager _positionManager,
     IRepository<Position> _positionRepository,
+    IRepository<Trade> _tradeRepository,
     IUnitOfWork _unitOfWork) :
     IDomainEventHandler<ExecutionCreatedDomainEvent>
 {
@@ -73,31 +74,93 @@ internal sealed class ExecutionCreatedDomainEventHandler(
 
         if (openPosition.HasSameDirectionAs(domainEvent.TradeType))
         {
-            _logger.LogInformation(
-                "Adding to existing position for account id: {accountId} and symbol: {symbol}",
-                domainEvent.AccountId,
-                domainEvent.Symbol);
+            var increaseResult = openPosition.Increase(
+                domainEvent.Quantity,
+                domainEvent.Price,
+                domainEvent.Commission,
+                domainEvent.Tax);
+
+            if (increaseResult.IsFailure)
+            {
+                _logger.LogError(
+                    "Failed to increase position for account id: {accountId} and symbol: {symbol}",
+                    domainEvent.AccountId,
+                    domainEvent.Symbol);
+
+                return;
+            }
         }
         else
         {
-            _logger.LogInformation(
-                "Closing existing position for account id: {accountId} and symbol: {symbol}",
-                domainEvent.AccountId,
-                domainEvent.Symbol);
-
             var newQuantity = openPosition.Quantity - domainEvent.Quantity;
 
             if (newQuantity < 0)
             {
-                _logger.LogInformation("Reversing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+                var closeResult = openPosition.Close(domainEvent.Quantity, domainEvent.Commission, domainEvent.Tax);
+
+                if (closeResult.IsFailure)
+                {
+                    _logger.LogError(
+                        "Failed to close position for account id: {accountId} and symbol: {symbol}",
+                        domainEvent.AccountId,
+                        domainEvent.Symbol);
+
+                    return;
+                }
+
+                _positionRepository.Update(openPosition);
+
+                var newPosition = Position
+                    .Create(
+                        PositionId.NewPositionId(),
+                        openPosition.AccountId,
+                        openPosition.Symbol,
+                        openPosition.Side.Reverse(),
+                        Math.Abs(newQuantity),
+                        domainEvent.Price,
+                        domainEvent.Commission,
+                        domainEvent.Tax,
+                        decimal.Zero,
+                        PositionStatus.Open,
+                        domainEvent.OccurredTime)
+                    .ThrowIfError()
+                    .Value;
+
+                _positionRepository.Add(newPosition);
             }
             else if (newQuantity == 0)
             {
-                _logger.LogInformation("Closing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+                var closeResult = openPosition.Close(domainEvent.Quantity, domainEvent.Commission, domainEvent.Tax);
+
+                if (closeResult.IsFailure)
+                {
+                    _logger.LogError(
+                        "Failed to close position for account id: {accountId} and symbol: {symbol}",
+                        domainEvent.AccountId,
+                        domainEvent.Symbol);
+
+                    return;
+                }
+
+                _positionRepository.Update(openPosition);
             }
             else
             {
-                _logger.LogInformation("Partially closing position for account id: {accountId} and symbol: {symbol}", domainEvent.AccountId, domainEvent.Symbol);
+                var reduceResult = openPosition.Reduce(
+                    domainEvent.Quantity,
+                    domainEvent.Price,
+                    domainEvent.Commission,
+                    domainEvent.Tax);
+
+                if (reduceResult.IsFailure)
+                {
+                    _logger.LogError(
+                        "Failed to reduce position for account id: {accountId} and symbol: {symbol}",
+                        domainEvent.AccountId,
+                        domainEvent.Symbol);
+
+                    return;
+                }
             }
         }
 

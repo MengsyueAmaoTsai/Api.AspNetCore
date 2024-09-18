@@ -13,7 +13,7 @@ public sealed class PositionClosedDomainEventHandler(
         PositionClosedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("POSITION UPDATED: {side} {symbol} {quantity} @ {averagePrice}",
+        _logger.LogInformation("[PositionClosed] {side} {symbol} {quantity} @ {averagePrice}",
             domainEvent.Side,
             domainEvent.Symbol,
             domainEvent.Quantity,
