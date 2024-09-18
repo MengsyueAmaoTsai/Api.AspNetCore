@@ -27,10 +27,28 @@ internal sealed class OrderExecutedDomainEventHandler(
             domainEvent.OrderType,
             domainEvent.TimeInForce);
 
-        // Flat to flat implementation
-        var commission = decimal.Zero;
-        var tax = decimal.Zero;
+        var (commission, tax) = CalculateCommissionAndTax();
 
+        var execution = Execution
+            .Create(
+                ExecutionId.NewExecutionId(),
+                domainEvent.AccountId,
+                domainEvent.OrderId,
+                domainEvent.Symbol,
+                domainEvent.TradeType,
+                domainEvent.OrderType,
+                domainEvent.TimeInForce,
+                domainEvent.Quantity,
+                domainEvent.Price,
+                commission,
+                tax,
+                domainEvent.OccurredTime)
+            .ThrowIfError()
+            .Value;
+
+        _executionRepository.Add(execution);
+
+        // Flat to flat implementation
         if (!await _positionRepository.AnyAsync(
             p => p.AccountId == domainEvent.AccountId && p.Symbol == domainEvent.Symbol,
             cancellationToken))
@@ -53,59 +71,65 @@ internal sealed class OrderExecutedDomainEventHandler(
                 .ThrowIfError()
                 .Value;
 
-            var execution = Execution
-                .Create(
-                    ExecutionId.NewExecutionId(),
-                    domainEvent.AccountId,
-                    domainEvent.OrderId,
-                    domainEvent.Symbol,
-                    domainEvent.TradeType,
-                    domainEvent.OrderType,
-                    domainEvent.TimeInForce,
-                    domainEvent.Quantity,
-                    domainEvent.Price,
-                    commission,
-                    tax,
-                    domainEvent.OccurredTime)
-                .ThrowIfError()
-                .Value;
-
-            _executionRepository.Add(execution);
             _positionRepository.Add(newPosition);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return;
-        }
-
-        // Update existing position
-        var maybePosition = await _positionRepository
-            .FirstOrDefaultAsync(
-                p => p.AccountId == domainEvent.AccountId && p.Symbol == domainEvent.Symbol,
-                cancellationToken)
-            .ThrowIfNull();
-
-        var existingPosition = maybePosition.Value;
-
-        if (domainEvent.TradeType.HasSameDirectionAs(existingPosition))
-        {
-            // Increase position
-            var newQuantity = domainEvent.Quantity + existingPosition.Quantity;
-            var newAveragePrice = (domainEvent.Quantity * domainEvent.Price + existingPosition.Quantity * existingPosition.AveragePrice) / newQuantity;
-            var newCommission = commission + existingPosition.Commission;
-            var newTax = tax + existingPosition.Tax;
-
-            existingPosition.Update(
-                newQuantity,
-                newAveragePrice,
-                newCommission,
-                newTax,
-                existingPosition.Swap);
         }
         else
         {
-            // Decrease position
+            var maybePosition = await _positionRepository
+                .FirstOrDefaultAsync(
+                    p => p.AccountId == domainEvent.AccountId && p.Symbol == domainEvent.Symbol,
+                    cancellationToken)
+                .ThrowIfNull();
+
+            var existingPosition = maybePosition.Value;
+
+            if (domainEvent.TradeType.HasSameDirectionAs(existingPosition))
+            {
+                var newQuantity = domainEvent.Quantity + existingPosition.Quantity;
+                var newAveragePrice = (domainEvent.Quantity * domainEvent.Price + existingPosition.Quantity * existingPosition.AveragePrice) / newQuantity;
+                var newCommission = commission + existingPosition.Commission;
+                var newTax = tax + existingPosition.Tax;
+
+                existingPosition.Update(
+                    newQuantity,
+                    newAveragePrice,
+                    newCommission,
+                    newTax,
+                    existingPosition.Swap);
+            }
+            else
+            {
+                // Decrease position or reverse position
+                var newQuantity = existingPosition.Quantity - domainEvent.Quantity;
+                var newCommission = commission + existingPosition.Commission;
+                var newTax = tax + existingPosition.Tax;
+
+                existingPosition.Update(
+                    newQuantity < 0 ? existingPosition.Quantity : newQuantity,
+                    existingPosition.AveragePrice,
+                    newCommission,
+                    newTax,
+                    existingPosition.Swap);
+
+                if (newQuantity == 0)
+                {
+                    existingPosition.Close();
+                }
+
+                if (newQuantity < 0)
+                {
+                    _logger.LogWarning("RESERVE POSITION: {side} {symbol}",
+                        existingPosition.Side,
+                        existingPosition.Symbol);
+                }
+            }
+
+            _positionRepository.Update(existingPosition);
         }
 
-        _positionRepository.Update(existingPosition);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
+
+    private (decimal Commission, decimal Tax) CalculateCommissionAndTax() =>
+        (decimal.Zero, decimal.Zero);
 }

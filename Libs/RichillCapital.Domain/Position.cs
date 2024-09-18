@@ -100,4 +100,18 @@ public sealed class Position : Entity<PositionId>
 
         return Result.Success;
     }
+
+    public Result Close()
+    {
+        RegisterDomainEvent(new PositionClosedDomainEvent
+        {
+            PositionId = Id,
+            Symbol = Symbol,
+            Side = Side,
+            Quantity = Quantity,
+            AveragePrice = AveragePrice,
+        });
+
+        return Result.Success;
+    }
 }
