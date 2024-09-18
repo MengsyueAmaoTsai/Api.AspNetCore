@@ -25,6 +25,7 @@ public class SpecificationEvaluator : ISpecificationEvaluator
             AsSplitQueryEvaluator.Instance
         ]);
     }
+
     public SpecificationEvaluator(IEnumerable<IEvaluator> evaluators) =>
         Evaluators.AddRange(evaluators);
 
