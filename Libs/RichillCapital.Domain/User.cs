@@ -5,6 +5,7 @@ namespace RichillCapital.Domain;
 
 public sealed class User : Entity<UserId>
 {
+    private readonly List<WatchList> _watchLists = [];
     private readonly List<Account> _accounts = [];
 
     public User(
@@ -29,6 +30,7 @@ public sealed class User : Entity<UserId>
     public string PasswordHash { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
+    public IReadOnlyCollection<WatchList> WatchLists => _watchLists;
     public IReadOnlyCollection<Account> Accounts => _accounts;
 
     public static ErrorOr<User> Create(
