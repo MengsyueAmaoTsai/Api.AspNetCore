@@ -6,6 +6,7 @@
     "Quantower",
     "Serilog",
     "Swashbuckle",
+    "TAIFEX",
     "Testcontainers"
   ]
 }

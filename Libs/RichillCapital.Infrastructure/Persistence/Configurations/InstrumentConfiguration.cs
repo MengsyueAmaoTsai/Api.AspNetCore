@@ -39,65 +39,70 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .IsRequired();
 
         builder.HasData([
-            CreateInstrument(
-                symbol: "TAIFEX:TXF",
-                description: "TAIFEX Futures",
-                type: InstrumentType.Future,
-                contractUnit: 200),
-            CreateInstrument(
-                symbol: "TAIFEX:MXF",
-                description: "Mini-TAIFEX Futures",
-                type: InstrumentType.Future,
-                contractUnit: 50),
-            CreateInstrument(
-                symbol: "TAIFEX:TMF",
-                description: "Micro TAIFEX Futures",
-                type: InstrumentType.Future,
-                contractUnit: 10),
-
-            CreateInstrument(
-                symbol: "TAIFEX:EXF",
-                description: "TAIFEX Electronic Sector Index Futures",
-                type: InstrumentType.Future,
-                contractUnit: 4000),
-            CreateInstrument(
-                symbol: "TAIFEX:ZEF",
-                description: "TAIFEX Electronic Sector Index Futures",
-                type: InstrumentType.Future,
-                contractUnit: 500),
-
-            CreateInstrument(
-                symbol: "TAIFEX:FXF",
-                description: "TAIFEX Finance Sector Index Futures",
-                type: InstrumentType.Future,
-                contractUnit: 1000),
-            CreateInstrument(
-                symbol: "TAIFEX:ZFF",
-                description: "Mini TAIFEX Finance Sector Index Futures",
-                type: InstrumentType.Future,
-                contractUnit: 250),
-
-            CreateInstrument(
-                symbol: "TAIFEX:UNF",
-                description: "TAIFEX Nasdaq-100 Futures",
-                type: InstrumentType.Future,
-                contractUnit: 50),
-            CreateInstrument(
-                symbol: "TAIFEX:UDF",
-                description: "TAIFEX Dow Jones Industrial Average Futures",
-                type: InstrumentType.Future,
-                contractUnit: 20),
-            CreateInstrument(
-                symbol: "TAIFEX:SPF",
-                description: "TAIFEX S&P 500 Futures",
-                type: InstrumentType.Future,
-                contractUnit: 20),
-            CreateInstrument(
-                symbol: "TAIFEX:SXF",
-                description: "TAIFEX PHLX Semiconductor SectorTM Index",
-                type: InstrumentType.Future,
-                contractUnit: 80),
+            .. CreateInstruments_TAIFEX(),
         ]);
+    }
+
+    private static IEnumerable<Instrument> CreateInstruments_TAIFEX()
+    {
+        yield return CreateInstrument(
+            symbol: "TAIFEX:TXF",
+            description: "TAIFEX Futures",
+            type: InstrumentType.Future,
+            contractUnit: 200);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:MXF",
+            description: "Mini-TAIFEX Futures",
+            type: InstrumentType.Future,
+            contractUnit: 50);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:TMF",
+            description: "Micro TAIFEX Futures",
+            type: InstrumentType.Future,
+            contractUnit: 10);
+
+        yield return CreateInstrument(
+            symbol: "TAIFEX:EXF",
+            description: "TAIFEX Electronic Sector Index Futures",
+            type: InstrumentType.Future,
+            contractUnit: 4000);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:ZEF",
+            description: "TAIFEX Electronic Sector Index Futures",
+            type: InstrumentType.Future,
+            contractUnit: 500);
+
+        yield return CreateInstrument(
+            symbol: "TAIFEX:FXF",
+            description: "TAIFEX Finance Sector Index Futures",
+            type: InstrumentType.Future,
+            contractUnit: 1000);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:ZFF",
+            description: "Mini TAIFEX Finance Sector Index Futures",
+            type: InstrumentType.Future,
+            contractUnit: 250);
+
+        yield return CreateInstrument(
+            symbol: "TAIFEX:UNF",
+            description: "TAIFEX Nasdaq-100 Futures",
+            type: InstrumentType.Future,
+            contractUnit: 50);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:UDF",
+            description: "TAIFEX Dow Jones Industrial Average Futures",
+            type: InstrumentType.Future,
+            contractUnit: 20);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:SPF",
+            description: "TAIFEX S&P 500 Futures",
+            type: InstrumentType.Future,
+            contractUnit: 20);
+        yield return CreateInstrument(
+            symbol: "TAIFEX:SXF",
+            description: "TAIFEX PHLX Semiconductor SectorTM Index",
+            type: InstrumentType.Future,
+            contractUnit: 80);
     }
 
     private static Instrument CreateInstrument(
