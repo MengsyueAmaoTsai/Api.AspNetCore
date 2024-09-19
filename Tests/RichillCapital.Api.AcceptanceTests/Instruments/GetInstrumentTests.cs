@@ -13,7 +13,7 @@ public sealed class GetInstrumentTests(
     [Fact]
     public async Task Should_ReturnInstruments()
     {
-        var symbol = "BINANCE:BTCUSDT.P";
+        var symbol = "TAIFEX:TXF";
 
         var instrument = await Client.GetFromJsonAsync<InstrumentDetailsResponse>($"api/v1/instruments/{symbol}");
 
