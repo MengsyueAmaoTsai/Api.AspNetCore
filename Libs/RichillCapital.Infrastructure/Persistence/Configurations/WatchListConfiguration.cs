@@ -37,6 +37,24 @@ internal sealed class WatchListConfiguration :
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.HasData([]);
+        builder.HasData(
+        [
+            CreateWatchList(
+                id: "1",
+                userId: "1",
+                name: "Watch List 1"),
+        ]);
     }
+
+    private static WatchList CreateWatchList(
+        string id,
+        string userId,
+        string name) =>
+        WatchList
+            .Create(
+                WatchListId.From(id).ThrowIfFailure().Value,
+                UserId.From(userId).ThrowIfFailure().Value,
+                name)
+            .ThrowIfError()
+            .Value;
 }
