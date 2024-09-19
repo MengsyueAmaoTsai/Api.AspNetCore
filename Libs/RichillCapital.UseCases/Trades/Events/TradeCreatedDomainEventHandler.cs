@@ -13,7 +13,11 @@ internal sealed class TradeCreatedDomainEventHandler(
         TradeCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("TRADE CREATED: {id}", domainEvent.TradeId);
+        _logger.LogInformation(
+            "[TradeCreated]: {side} {quantity} {symbol}",
+            domainEvent.Side,
+            domainEvent.Quantity,
+            domainEvent.Symbol);
 
         return Task.CompletedTask;
     }
