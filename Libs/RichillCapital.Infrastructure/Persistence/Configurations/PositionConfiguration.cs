@@ -58,7 +58,7 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
         builder.HasData(
         [
             CreatePosition(
-                id: "1",
+                id: "PID1",
                 accountId: "SIM2121844M",
                 symbol: "NASDAQ:MSFT",
                 side: Side.Long,

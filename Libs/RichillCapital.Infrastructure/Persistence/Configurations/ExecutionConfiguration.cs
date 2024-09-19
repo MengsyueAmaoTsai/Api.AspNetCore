@@ -40,6 +40,14 @@ internal sealed class ExecutionConfiguration :
             .IsRequired();
 
         builder
+            .Property(execution => execution.PositionId)
+            .HasMaxLength(PositionId.MaxLength)
+            .HasConversion(
+                positionId => positionId.Value,
+                value => PositionId.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
+        builder
             .Property(execution => execution.Symbol)
             .HasMaxLength(Symbol.MaxLength)
             .HasConversion(
@@ -76,13 +84,19 @@ internal sealed class ExecutionConfiguration :
             .OnDelete(DeleteBehavior.NoAction)
             .IsRequired();
 
+        builder
+            .HasOne<Position>()
+            .WithMany(position => position.Executions)
+            .HasForeignKey(execution => execution.PositionId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasData(
         [
             CreateExecution(
                 id: "1",
                 accountId: "SIM2121844M",
                 orderId: "853434844",
-                positionId: "T",
+                positionId: "PID1",
                 symbol: "NASDAQ:MSFT",
                 tradeType: TradeType.Buy,
                 orderType: OrderType.Market,

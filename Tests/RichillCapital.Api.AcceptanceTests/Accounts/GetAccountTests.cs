@@ -15,7 +15,7 @@ public sealed class GetAccountTests(
     {
         var accountId = "SIM2121844M";
 
-        var account = await Client.GetFromJsonAsync<AccountDetailsResponse>($"api/accounts/{accountId}");
+        var account = await Client.GetFromJsonAsync<AccountDetailsResponse>($"api/v1/accounts/{accountId}");
 
         account.Should().NotBeNull();
         account!.Id.Should().Be(accountId);

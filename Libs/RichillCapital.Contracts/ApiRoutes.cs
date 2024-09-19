@@ -17,7 +17,7 @@ public static class ApiRoutes
         private const string InstrumentsBase = $"{ApiBase}/instruments";
 
         public const string List = InstrumentsBase;
-        public const string Get = $"{InstrumentsBase}/{{instrumentId}}";
+        public const string Get = $"{InstrumentsBase}/{{symbol}}";
     }
 
     public static class WatchLists

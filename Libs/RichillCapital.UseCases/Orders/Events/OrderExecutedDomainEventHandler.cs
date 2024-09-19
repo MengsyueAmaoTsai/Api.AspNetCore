@@ -38,7 +38,7 @@ internal sealed class OrderExecutedDomainEventHandler(
         {
             var positionId = PositionId.NewPositionId();
 
-            var newExecution = Execution
+            var executionOfNewPosition = Execution
                 .Create(
                     ExecutionId.NewExecutionId(),
                     domainEvent.AccountId,
@@ -80,7 +80,7 @@ internal sealed class OrderExecutedDomainEventHandler(
         // Update existing position
         var openPosition = maybePosition.Value;
 
-        var newExecution = Execution
+        var executionOfExistingPosition = Execution
             .Create(
                 ExecutionId.NewExecutionId(),
                 domainEvent.AccountId,
@@ -145,6 +145,7 @@ internal sealed class OrderExecutedDomainEventHandler(
             }
         }
 
+        _positionRepository.Update(openPosition);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 

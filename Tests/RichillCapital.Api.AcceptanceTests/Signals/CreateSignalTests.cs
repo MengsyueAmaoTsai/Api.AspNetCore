@@ -18,7 +18,7 @@ public sealed class CreateSignalTests(
         {
             Time = DateTimeOffset.UtcNow,
             Origin = SignalOrigin.TradingView.Name,
-            SourceId = "TEST-ID",
+            SourceId = "TV-Long-Task",
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signals", request);
