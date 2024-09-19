@@ -182,10 +182,10 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
         InstrumentType type) =>
         Instrument
             .Create(
-                Symbol.From(symbol).ThrowIfFailure().Value,
-                description,
-                type)
+                symbol: Symbol.From(symbol).ThrowIfFailure().Value,
+                description: description,
+                type: type,
+                createdTimeUtc: DateTimeOffset.UtcNow)
             .ThrowIfError()
             .Value;
-
 }
