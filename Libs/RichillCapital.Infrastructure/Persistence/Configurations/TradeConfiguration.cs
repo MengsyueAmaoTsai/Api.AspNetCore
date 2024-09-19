@@ -57,14 +57,15 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
                 accountId: "SIM2121844M",
                 symbol: "NASDAQ:MSFT",
                 side: Side.Long,
-                quantity: 0,
-                entryPrice: 0,
+                quantity: 1,
+                entryPrice: 17000,
                 entryTimeUtc: DateTimeOffset.UtcNow,
-                exitPrice: 0,
-                exitTimeUtc: DateTimeOffset.UtcNow,
-                commission: 0,
-                tax: 0,
-                swap: 0),
+                exitPrice: 17010,
+                exitTimeUtc: DateTimeOffset.UtcNow.AddHours(1),
+                commission: 3,
+                tax: 5,
+                swap: 1,
+                profitLoss: 100),
         ]);
     }
 
@@ -80,7 +81,8 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
         DateTimeOffset exitTimeUtc,
         decimal commission,
         decimal tax,
-        decimal swap) =>
+        decimal swap,
+        decimal profitLoss) =>
         Trade
             .Create(
                 TradeId.From(id).ThrowIfFailure().Value,
@@ -94,7 +96,8 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
                 exitTimeUtc,
                 commission,
                 tax,
-                swap)
+                swap,
+                profitLoss)
             .ThrowIfError()
             .Value;
 }

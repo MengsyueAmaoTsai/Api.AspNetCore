@@ -18,7 +18,8 @@ public sealed class Trade : Entity<TradeId>
         DateTimeOffset exitTimeUtc,
         decimal commission,
         decimal tax,
-        decimal swap)
+        decimal swap,
+        decimal profitLoss)
         : base(id)
     {
         AccountId = accountId;
@@ -32,6 +33,7 @@ public sealed class Trade : Entity<TradeId>
         Commission = commission;
         Tax = tax;
         Swap = swap;
+        ProfitLoss = profitLoss;
     }
 
     public AccountId AccountId { get; private set; }
@@ -45,6 +47,7 @@ public sealed class Trade : Entity<TradeId>
     public decimal Commission { get; private set; }
     public decimal Tax { get; private set; }
     public decimal Swap { get; private set; }
+    public decimal ProfitLoss { get; private set; }
 
     public static ErrorOr<Trade> Create(
         TradeId id,
@@ -58,7 +61,8 @@ public sealed class Trade : Entity<TradeId>
         DateTimeOffset exitTimeUtc,
         decimal commission,
         decimal tax,
-        decimal swap)
+        decimal swap,
+        decimal profitLoss)
     {
         var trade = new Trade(
             id,
@@ -72,11 +76,16 @@ public sealed class Trade : Entity<TradeId>
             exitTimeUtc,
             commission,
             tax,
-            swap);
+            swap,
+            profitLoss);
 
         trade.RegisterDomainEvent(new TradeCreatedDomainEvent
         {
             TradeId = trade.Id,
+            AccountId = trade.AccountId,
+            Symbol = trade.Symbol,
+            Side = trade.Side,
+            Quantity = trade.Quantity,
         });
 
         return ErrorOr<Trade>.With(trade);

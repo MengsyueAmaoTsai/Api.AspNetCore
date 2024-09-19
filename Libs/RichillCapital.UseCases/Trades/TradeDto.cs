@@ -14,4 +14,5 @@ public sealed record TradeDto
     public required decimal Commission { get; init; }
     public required decimal Tax { get; init; }
     public required decimal Swap { get; init; }
+    public required decimal ProfitLoss { get; init; }
 }

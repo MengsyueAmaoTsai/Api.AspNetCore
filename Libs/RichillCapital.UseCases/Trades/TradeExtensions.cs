@@ -19,5 +19,6 @@ internal static class TradeExtensions
             Commission = trade.Commission,
             Tax = trade.Tax,
             Swap = trade.Swap,
+            ProfitLoss = trade.ProfitLoss,
         };
 }

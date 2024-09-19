@@ -46,6 +46,11 @@ public sealed class PositionClosedDomainEventHandler(
         var entryTime = sameSideExecutions.Min(e => e.CreatedTimeUtc);
         var exitTime = oppositeExecutions.Max(e => e.CreatedTimeUtc);
 
+        var pointValue = 1;
+        var grossProfit = domainEvent.Side == Side.Long ?
+            (domainEvent.AveragePrice - averageEntryPrice) * domainEvent.Quantity * pointValue :
+            (averageExitPrice - domainEvent.AveragePrice) * domainEvent.Quantity * pointValue;
+
         var trade = Trade
             .Create(
                 TradeId.NewTradeId(),
@@ -59,7 +64,8 @@ public sealed class PositionClosedDomainEventHandler(
                 exitTime,
                 position.Commission,
                 position.Tax,
-                position.Swap)
+                position.Swap,
+                grossProfit)
             .ThrowIfError()
             .Then(_tradeRepository.Add)
             .Value;

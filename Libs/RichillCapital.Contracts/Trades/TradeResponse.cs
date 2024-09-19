@@ -16,6 +16,7 @@ public record TradeResponse
     public required decimal Commission { get; init; }
     public required decimal Tax { get; init; }
     public required decimal Swap { get; init; }
+    public required decimal ProfitLoss { get; init; }
 }
 
 public sealed record TradeDetailsResponse : TradeResponse
@@ -39,6 +40,7 @@ public static class TradeResponseMapping
             Commission = dto.Commission,
             Tax = dto.Tax,
             Swap = dto.Swap,
+            ProfitLoss = dto.ProfitLoss,
         };
 
     public static TradeDetailsResponse ToDetailsResponse(this TradeDto dto) =>
@@ -56,5 +58,6 @@ public static class TradeResponseMapping
             Commission = dto.Commission,
             Tax = dto.Tax,
             Swap = dto.Swap,
+            ProfitLoss = dto.ProfitLoss,
         };
 }
