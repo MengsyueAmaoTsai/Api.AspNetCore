@@ -6,59 +6,82 @@ public static class ApiRoutes
 
     public static class Users
     {
-        public const string List = $"{ApiBase}/users";
+        private const string UsersBase = $"{ApiBase}/users";
 
-        public const string Get = $"{ApiBase}/users/{{userId}}";
+        public const string List = UsersBase;
+        public const string Get = $"{UsersBase}/{{userId}}";
     }
 
     public static class Instruments
     {
-        public const string List = $"{ApiBase}/instruments";
+        private const string InstrumentsBase = $"{ApiBase}/instruments";
 
-        public const string Get = $"{ApiBase}/instruments/{{symbol}}";
+        public const string List = InstrumentsBase;
+        public const string Get = $"{InstrumentsBase}/{{instrumentId}}";
+    }
+
+    public static class WatchLists
+    {
+        private const string WatchListsBase = $"{ApiBase}/watch-lists";
+
+        public const string List = WatchListsBase;
+        public const string Create = WatchListsBase;
     }
 
     public static class Accounts
     {
-        public const string List = $"{ApiBase}/accounts";
+        private const string AccountsBase = $"{ApiBase}/accounts";
 
-        public const string Get = $"{ApiBase}/accounts/{{accountId}}";
+        public const string List = AccountsBase;
+        public const string Get = $"{AccountsBase}/{{accountId}}";
     }
 
     public static class Orders
     {
-        public const string List = $"{ApiBase}/orders";
-        public const string Create = $"{ApiBase}/orders";
-        public const string Get = $"{ApiBase}/orders/{{orderId}}";
+        private const string OrdersBase = $"{ApiBase}/orders";
+
+        public const string List = OrdersBase;
+        public const string Create = OrdersBase;
+        public const string Get = $"{OrdersBase}/{{orderId}}";
     }
 
     public static class Executions
     {
-        public const string List = $"{ApiBase}/executions";
+        private const string ExecutionsBase = $"{ApiBase}/executions";
+
+        public const string List = ExecutionsBase;
     }
 
     public static class Positions
     {
-        public const string List = $"{ApiBase}/positions";
-        public const string Get = $"{ApiBase}/positions/{{positionId}}";
+        private const string PositionsBase = $"{ApiBase}/positions";
+
+        public const string List = PositionsBase;
+        public const string Get = $"{PositionsBase}/{{positionId}}";
     }
 
     public static class Trades
     {
-        public const string List = $"{ApiBase}/trades";
-        public const string Get = $"{ApiBase}/trades/{{tradeId}}";
+        private const string TradesBase = $"{ApiBase}/trades";
+
+        public const string List = TradesBase;
+        public const string Get = $"{TradesBase}/{{tradeId}}";
     }
 
     public static class SignalSources
     {
-        public const string List = $"{ApiBase}/signal-sources";
-        public const string Create = $"{ApiBase}/signal-sources";
-        public const string Get = $"{ApiBase}/signal-sources/{{signalSourceId}}";
+        private const string SignalSourcesBase = $"{ApiBase}/signal-sources";
+
+        public const string List = SignalSourcesBase;
+        public const string Create = SignalSourcesBase;
+        public const string Get = $"{SignalSourcesBase}/{{signalSourceId}}";
     }
 
     public static class Signals
     {
-        public const string Create = $"{ApiBase}/signals";
+        private const string SignalsBase = $"{ApiBase}/signals";
+
+        public const string Create = SignalsBase;
     }
 }
 

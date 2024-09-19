@@ -4,6 +4,7 @@ internal sealed class ApiTags
 {
     internal const string Users = nameof(Users);
     internal const string Instruments = nameof(Instruments);
+    internal const string WatchLists = nameof(WatchLists);
     internal const string Accounts = nameof(Accounts);
     internal const string Orders = nameof(Orders);
     internal const string Executions = nameof(Executions);
