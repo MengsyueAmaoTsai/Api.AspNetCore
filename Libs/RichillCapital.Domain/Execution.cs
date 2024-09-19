@@ -10,6 +10,7 @@ public sealed class Execution : Entity<ExecutionId>
         ExecutionId id,
         AccountId accountId,
         OrderId orderId,
+        PositionId positionId,
         Symbol symbol,
         TradeType tradeType,
         OrderType orderType,
@@ -23,6 +24,7 @@ public sealed class Execution : Entity<ExecutionId>
     {
         AccountId = accountId;
         OrderId = orderId;
+        PositionId = positionId;
         Symbol = symbol;
         TradeType = tradeType;
         OrderType = orderType;
@@ -36,6 +38,7 @@ public sealed class Execution : Entity<ExecutionId>
 
     public AccountId AccountId { get; private set; }
     public OrderId OrderId { get; private set; }
+    public PositionId PositionId { get; private set; }
     public Symbol Symbol { get; private set; }
     public TradeType TradeType { get; private set; }
     public OrderType OrderType { get; private set; }
@@ -50,6 +53,7 @@ public sealed class Execution : Entity<ExecutionId>
         ExecutionId id,
         AccountId accountId,
         OrderId orderId,
+        PositionId positionId,
         Symbol symbol,
         TradeType tradeType,
         OrderType orderType,
@@ -64,6 +68,7 @@ public sealed class Execution : Entity<ExecutionId>
             id,
             accountId,
             orderId,
+            positionId,
             symbol,
             tradeType,
             orderType,

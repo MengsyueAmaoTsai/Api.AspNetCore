@@ -6,6 +6,8 @@ namespace RichillCapital.Domain;
 
 public sealed class Position : Entity<PositionId>
 {
+    private readonly List<Execution> _executions = [];
+
     private Position(
         PositionId id,
         AccountId accountId,
@@ -42,6 +44,8 @@ public sealed class Position : Entity<PositionId>
     public decimal Swap { get; private set; }
     public PositionStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public IReadOnlyCollection<Execution> Executions => _executions;
 
     public static ErrorOr<Position> Create(
         PositionId id,

@@ -7,6 +7,7 @@ public record ExecutionResponse
     public required string Id { get; init; }
     public required string AccountId { get; init; }
     public required string OrderId { get; init; }
+    public required string PositionId { get; init; }
     public required string Symbol { get; init; }
     public required string TradeType { get; init; }
     public required string OrderType { get; init; }
@@ -29,6 +30,7 @@ public static class ExecutionResponseMapping
         {
             Id = dto.Id,
             AccountId = dto.AccountId,
+            PositionId = dto.PositionId,
             OrderId = dto.OrderId,
             Symbol = dto.Symbol,
             TradeType = dto.TradeType,
@@ -46,6 +48,7 @@ public static class ExecutionResponseMapping
         {
             Id = dto.Id,
             AccountId = dto.AccountId,
+            PositionId = dto.PositionId,
             OrderId = dto.OrderId,
             Symbol = dto.Symbol,
             TradeType = dto.TradeType,
