@@ -23,7 +23,9 @@ public sealed class Symbol : SingleValueObject<string>
             .With(value)
             .Ensure(symbol => !string.IsNullOrEmpty(symbol), Error.Invalid($"{nameof(Symbol)} cannot be empty."))
             .Ensure(symbol => symbol.Length <= MaxLength, Error.Invalid($"{nameof(Symbol)} cannot be longer than {MaxLength} characters."))
-            .Ensure(symbol => symbol.Split(Separator).Length == 2, Error.Invalid($"{nameof(Symbol)} must contain exactly one ':' separating the exchange and ticker, but was '{value}'."))
+            .Ensure(
+                symbol => symbol.Split(Separator).Count() == 2,
+                Error.Invalid($"{nameof(Symbol)} must contain exactly one ':' separating the exchange and ticker, but was '{value}'."))
             .Ensure(
                 symbol => ExchangePattern.IsMatch(symbol.Split(Separator)[0]),
                 Error.Invalid($"{nameof(Symbol)} exchange part must only contain uppercase letters, but was '{value.Split(Separator)[0]}'."))
