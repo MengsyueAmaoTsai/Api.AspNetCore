@@ -4,6 +4,7 @@ using RichillCapital.Api.Endpoints;
 using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
 using RichillCapital.Domain;
+using RichillCapital.Infrastructure.Brokerages;
 using RichillCapital.Infrastructure.Events;
 using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
@@ -44,6 +45,7 @@ builder.Services.AddDomainEvents();
 // builder.Services.AddBackgroundJobs();
 
 // Infrastructure - Brokerages
+builder.Services.AddBrokerages();
 
 // Infrastructure - DataFeeds
 
