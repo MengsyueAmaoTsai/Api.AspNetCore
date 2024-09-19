@@ -74,6 +74,7 @@ internal sealed class OrderExecutedDomainEventHandler(
                 .Then(_positionRepository.Add)
                 .Value;
 
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             return;
         }
 
@@ -99,18 +100,16 @@ internal sealed class OrderExecutedDomainEventHandler(
             .Then(_executionRepository.Add)
             .Value;
 
+        _executionRepository.Add(executionOfExistingPosition);
+
         if (openPosition.HasSameDirectionAs(domainEvent.TradeType))
         {
-            var increaseResult = openPosition.Increase(
+            IncreasePosition(
+                openPosition,
                 executionQuantity,
                 executionPrice,
                 commission,
                 tax);
-
-            if (increaseResult.IsFailure)
-            {
-                throw new InvalidOperationException(increaseResult.Error.Message);
-            };
         }
         else
         {
@@ -145,7 +144,6 @@ internal sealed class OrderExecutedDomainEventHandler(
             }
         }
 
-        _positionRepository.Update(openPosition);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
@@ -168,6 +166,23 @@ internal sealed class OrderExecutedDomainEventHandler(
         decimal tax)
     {
         var result = position.Reduce(executionQuantity, executionPrice, commission, tax);
+
+        if (result.IsFailure)
+        {
+            throw new InvalidOperationException(result.Error.Message);
+        }
+
+        _positionRepository.Update(position);
+    }
+
+    private void IncreasePosition(
+        Position position,
+        decimal executionQuantity,
+        decimal executionPrice,
+        decimal commission,
+        decimal tax)
+    {
+        var result = position.Increase(executionQuantity, executionPrice, commission, tax);
 
         if (result.IsFailure)
         {
