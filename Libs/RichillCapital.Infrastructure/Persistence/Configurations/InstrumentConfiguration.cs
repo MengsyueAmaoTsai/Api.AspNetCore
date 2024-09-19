@@ -39,152 +39,78 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .IsRequired();
 
         builder.HasData([
-            .. CreateTaiwanStocks(),
-            .. CreateTaiwanFutures(),
-            .. CreateUSStocks(),
-            .. CreateUSFutures(),
-            .. CreateCryptoCurrencies(),
-            .. CreateCryptoPerpetuals(),
+            CreateInstrument(
+                symbol: "TAIFEX:TXF",
+                description: "TAIFEX Futures",
+                type: InstrumentType.Future,
+                contractUnit: 200),
+            CreateInstrument(
+                symbol: "TAIFEX:MXF",
+                description: "Mini-TAIFEX Futures",
+                type: InstrumentType.Future,
+                contractUnit: 50),
+            CreateInstrument(
+                symbol: "TAIFEX:TMF",
+                description: "Micro TAIFEX Futures",
+                type: InstrumentType.Future,
+                contractUnit: 10),
+
+            CreateInstrument(
+                symbol: "TAIFEX:EXF",
+                description: "TAIFEX Electronic Sector Index Futures",
+                type: InstrumentType.Future,
+                contractUnit: 4000),
+            CreateInstrument(
+                symbol: "TAIFEX:ZEF",
+                description: "TAIFEX Electronic Sector Index Futures",
+                type: InstrumentType.Future,
+                contractUnit: 500),
+
+            CreateInstrument(
+                symbol: "TAIFEX:FXF",
+                description: "TAIFEX Finance Sector Index Futures",
+                type: InstrumentType.Future,
+                contractUnit: 1000),
+            CreateInstrument(
+                symbol: "TAIFEX:ZFF",
+                description: "Mini TAIFEX Finance Sector Index Futures",
+                type: InstrumentType.Future,
+                contractUnit: 250),
+
+            CreateInstrument(
+                symbol: "TAIFEX:UNF",
+                description: "TAIFEX Nasdaq-100 Futures",
+                type: InstrumentType.Future,
+                contractUnit: 50),
+            CreateInstrument(
+                symbol: "TAIFEX:UDF",
+                description: "TAIFEX Dow Jones Industrial Average Futures",
+                type: InstrumentType.Future,
+                contractUnit: 20),
+            CreateInstrument(
+                symbol: "TAIFEX:SPF",
+                description: "TAIFEX S&P 500 Futures",
+                type: InstrumentType.Future,
+                contractUnit: 20),
+            CreateInstrument(
+                symbol: "TAIFEX:SXF",
+                description: "TAIFEX PHLX Semiconductor SectorTM Index",
+                type: InstrumentType.Future,
+                contractUnit: 80),
         ]);
-    }
-
-    private static IEnumerable<Instrument> CreateUSStocks()
-    {
-        yield return CreateInstrument(
-            symbol: "NASDAQ:MSFT",
-            description: "Microsoft Corporation",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "NASDAQ:AAPL",
-            description: "Apple Inc.",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "NASDAQ:AMZN",
-            description: "Amazon.com Inc.",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "NASDAQ:FB",
-            description: "Meta Platforms Inc.",
-            type: InstrumentType.Equity);
-    }
-
-    private static IEnumerable<Instrument> CreateUSFutures()
-    {
-        yield return CreateInstrument(
-            symbol: "CME:ES",
-            description: "E-mini S&P 500 Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "CME:NQ",
-            description: "E-mini Nasdaq 100 Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "CME:YM",
-            description: "E-mini Dow Jones Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "CME:RTY",
-            description: "E-mini Russell 2000 Futures",
-            type: InstrumentType.Future);
-    }
-
-    private static IEnumerable<Instrument> CreateTaiwanStocks()
-    {
-        yield return CreateInstrument(
-            symbol: "TWSE:2330",
-            description: "Taiwan Semiconductor Manufacturing Company Limited",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "TWSE:2317",
-            description: "Hon Hai Precision Industry Co., Ltd.",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "TWSE:2454",
-            description: "Mediatek Inc.",
-            type: InstrumentType.Equity);
-
-        yield return CreateInstrument(
-            symbol: "TWSE:2303",
-            description: "United Microelectronics Corporation",
-            type: InstrumentType.Equity);
-    }
-
-    private static IEnumerable<Instrument> CreateTaiwanFutures()
-    {
-        yield return CreateInstrument(
-            symbol: "TAIFEX:TXF",
-            description: "TSE Taiwan 50 Index Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "TAIFEX:MXF",
-            description: "Mini-TAIEX Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "TAIFEX:TEF",
-            description: "TSE Electronic Sector Index Futures",
-            type: InstrumentType.Future);
-
-        yield return CreateInstrument(
-            symbol: "TAIFEX:TFF",
-            description: "TSE Finance Sector Index Futures",
-            type: InstrumentType.Future);
-    }
-
-    private static IEnumerable<Instrument> CreateCryptoCurrencies()
-    {
-        yield return CreateInstrument(
-            symbol: "BINANCE:BTCUSDT",
-            description: "Bitcoin / Tether USD",
-            type: InstrumentType.CryptoCurrency);
-
-        yield return CreateInstrument(
-            symbol: "BINANCE:ETHUSDT",
-            description: "Ethereum / Tether USD",
-            type: InstrumentType.CryptoCurrency);
-
-        yield return CreateInstrument(
-            symbol: "BINANCE:BNBUSDT",
-            description: "Binance Coin / Tether USD",
-            type: InstrumentType.CryptoCurrency);
-    }
-
-    private static IEnumerable<Instrument> CreateCryptoPerpetuals()
-    {
-        yield return CreateInstrument(
-            symbol: "BINANCE:BTCUSDT.P",
-            description: "Bitcoin / USD Perpetual",
-            type: InstrumentType.Swap);
-
-        yield return CreateInstrument(
-            symbol: "BINANCE:ETHUSDT.P",
-            description: "Ethereum / USD Perpetual",
-            type: InstrumentType.Swap);
-
-        yield return CreateInstrument(
-            symbol: "BINANCE:BNBUSDT.P",
-            description: "Binance Coin / USD Perpetual",
-            type: InstrumentType.Swap);
     }
 
     private static Instrument CreateInstrument(
         string symbol,
         string description,
-        InstrumentType type) =>
+        InstrumentType type,
+        decimal contractUnit) =>
         Instrument
             .Create(
                 symbol: Symbol.From(symbol).ThrowIfFailure().Value,
                 description: description,
                 type: type,
+                contractUnit: contractUnit,
                 createdTimeUtc: DateTimeOffset.UtcNow)
             .ThrowIfError()
             .Value;
