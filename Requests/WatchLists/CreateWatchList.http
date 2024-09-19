@@ -1,0 +1,10 @@
+@Localhost = https://localhost:10000
+
+### Create watch list 
+POST {{Localhost}}/api/v1/watch-lists
+Content-Type: application/json
+
+{
+    "userId": "1",
+    "name": "My watch list http test"
+}
