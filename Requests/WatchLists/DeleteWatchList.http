@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@WatchListId = 1
+
+### Delete watch list
+DELETE {{Localhost}}/api/v1/watch-lists/{{WatchListId}}

@@ -26,6 +26,9 @@ public static class ApiRoutes
 
         public const string List = WatchListsBase;
         public const string Create = WatchListsBase;
+
+        public const string Get = $"{WatchListsBase}/{{watchListId}}";
+        public const string Delete = $"{WatchListsBase}/{{watchListId}}";
     }
 
     public static class Accounts
