@@ -13,13 +13,13 @@ internal sealed class StartBrokerageCommandHandler(
         StartBrokerageCommand command,
         CancellationToken cancellationToken)
     {
-        var maybeBrokerage = _brokerageManager.GetByName(command.Name);
+        var maybeBrokerage = _brokerageManager.GetByName(command.ConnectionName);
 
         if (maybeBrokerage.IsNull)
         {
             var newBrokerageResult = await _brokerageManager.CreateAndStartAsync(
                 command.Provider,
-                command.Name,
+                command.ConnectionName,
                 cancellationToken);
 
             if (newBrokerageResult.IsFailure)

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages;
@@ -11,6 +12,8 @@ public static class BrokerageExtensions
     {
         services.AddSingleton<BrokerageFactory>();
         services.AddSingleton<IBrokerageManager, BrokerageManager>();
+
+        services.AddRichillCapitalBrokerage();
 
         using var scope = services.BuildServiceProvider().CreateScope();
 

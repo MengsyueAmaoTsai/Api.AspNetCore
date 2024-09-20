@@ -76,6 +76,7 @@ public static class ApiRoutes
 
         public const string Get = $"{BrokeragesBase}/{{connectionName}}";
         public const string Start = $"{BrokeragesBase}/start";
+        public const string Stop = $"{BrokeragesBase}/stop";
     }
 
     public static class SignalSources

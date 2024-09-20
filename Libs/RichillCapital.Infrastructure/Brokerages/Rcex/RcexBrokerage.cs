@@ -14,19 +14,31 @@ internal sealed class RcexBrokerage(
     {
         _logger.LogInformation("Starting brokerage connection...");
 
+        if (IsConnected)
+        {
+            return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
+        }
+
         IsConnected = true;
 
         _logger.LogInformation("Brokerage connection started.");
-        return Result.Success;
+
+        return await Task.FromResult(Result.Success);
     }
 
     public override async Task<Result> StopAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Stopping brokerage connection...");
 
+        if (!IsConnected)
+        {
+            return Result.Failure(BrokerageErrors.AlreadyStopped(Name));
+        }
+
         IsConnected = false;
 
         _logger.LogInformation("Brokerage connection stopped.");
-        return Result.Success;
+
+        return await Task.FromResult(Result.Success);
     }
 }

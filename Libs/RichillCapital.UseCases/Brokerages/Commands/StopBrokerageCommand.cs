@@ -3,9 +3,8 @@ using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Brokerages.Commands;
 
-public sealed record StartBrokerageCommand :
+public sealed record StopBrokerageCommand :
     ICommand<ErrorOr<BrokerageDto>>
 {
-    public required string Provider { get; init; }
     public required string ConnectionName { get; init; }
 }

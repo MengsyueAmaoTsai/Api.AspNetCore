@@ -14,25 +14,23 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace RichillCapital.Api.Endpoints.Brokerages;
 
 [ApiVersion(EndpointVersion.V1)]
-public sealed class StartBrokerageEndpoint(
+public sealed class StopBrokerageEndpoint(
     IMediator _mediator) : AsyncEndpoint
-    .WithRequest<StartBrokerageRequest>
+    .WithRequest<StopBrokerageRequest>
     .WithActionResult<BrokerageResponse>
 {
-    [HttpPost(ApiRoutes.Brokerages.Start)]
+    [HttpPost(ApiRoutes.Brokerages.Stop)]
     [SwaggerOperation(Tags = [ApiTags.Brokerages])]
     public override async Task<ActionResult<BrokerageResponse>> HandleAsync(
-        [FromBody] StartBrokerageRequest request,
+        [FromBody] StopBrokerageRequest request,
         CancellationToken cancellationToken = default) =>
-        await ErrorOr<StartBrokerageRequest>
+        await ErrorOr<StopBrokerageRequest>
             .With(request)
-            .Then(req => new StartBrokerageCommand
+            .Then(req => new StopBrokerageCommand
             {
-                Provider = req.Provider,
                 ConnectionName = req.ConnectionName
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(dto => dto.ToResponse())
             .Match(HandleFailure, Ok);
 }
-
