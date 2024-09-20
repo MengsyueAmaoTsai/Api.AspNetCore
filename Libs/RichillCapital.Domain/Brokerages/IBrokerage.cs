@@ -1,7 +1,7 @@
+using RichillCapital.Domain.Abstractions;
+
 namespace RichillCapital.Domain.Brokerages;
 
-public interface IBrokerage
+public interface IBrokerage : IConnection
 {
-    Guid Id { get; }
-    string Name { get; }
 }

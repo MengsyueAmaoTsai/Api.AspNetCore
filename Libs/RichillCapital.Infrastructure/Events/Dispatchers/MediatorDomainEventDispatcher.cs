@@ -5,7 +5,8 @@ using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Infrastructure.Events.Dispatchers;
 
-public sealed class MediatorDomainEventDispatcher(IMediator _mediator) :
+public sealed class MediatorDomainEventDispatcher(
+    IMediator _mediator) :
     IDomainEventDispatcher
 {
     public async Task DispatchAndClearDomainEvents(IEnumerable<IEntity> entities)
