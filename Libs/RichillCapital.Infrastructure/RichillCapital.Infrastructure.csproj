@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RichillCapital.UseCases\RichillCapital.UseCases.csproj" />
+    <ProjectReference Include="..\RichillCapital.Binance\RichillCapital.Binance.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

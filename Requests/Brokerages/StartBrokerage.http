@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@ConnectionName = RichillCapital Brokerage Connection
+@ConnectionName = Binance
 
 ### Start brokerage
 POST {{Localhost}}/api/v1/brokerages/start

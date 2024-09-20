@@ -14,13 +14,14 @@ public static class BrokerageExtensions
         services.AddSingleton<IBrokerageManager, BrokerageManager>();
 
         services.AddRichillCapitalBrokerage();
+        services.AddBinanceBrokerage();
 
         using var scope = services.BuildServiceProvider().CreateScope();
 
         List<(string Provider, string Name, bool StartOnBoot, bool Enabled)> profiles = [
-            ("RichillCapital", "RichillCapital Brokerage Connection", true, true),
-            ("RichillCapital", "RichillCapital Brokerage Connection 2", true, true),
-            ("Binance", "Binance Brokerage Connection", true, true),
+            ("RichillCapital", "RichillCapital 1", true, true),
+            ("RichillCapital", "RichillCapital 2", true, true),
+            ("Binance", "Binance", true, true),
         ];
 
         var factory = scope.ServiceProvider.GetRequiredService<BrokerageFactory>();
