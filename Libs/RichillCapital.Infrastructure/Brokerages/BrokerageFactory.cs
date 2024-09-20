@@ -18,12 +18,10 @@ internal sealed class BrokerageFactory(
         {
             "RichillCapital" => Result<IBrokerage>.With(new RcexBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<RcexBrokerage>>(),
-                Guid.NewGuid(),
                 connectionName)),
 
             "Binance" => Result<IBrokerage>.With(new BinanceBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<BinanceBrokerage>>(),
-                Guid.NewGuid(),
                 connectionName)),
 
             _ => Result<IBrokerage>.Failure(Error.Invalid(

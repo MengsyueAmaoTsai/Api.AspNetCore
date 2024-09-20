@@ -1,0 +1,11 @@
+@Localhost = https://localhost:10000
+@ConnectionName = RichillCapital Brokerage Connection
+
+### List brokerages
+POST {{Localhost}}/api/v1/brokerages/start
+Content-Type: application/json
+
+{
+    "provider": "RichillCapital",
+    "name": "{{ConnectionName}}"
+}

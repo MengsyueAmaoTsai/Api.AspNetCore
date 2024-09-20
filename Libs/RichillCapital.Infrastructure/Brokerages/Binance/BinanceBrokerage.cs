@@ -5,17 +5,16 @@ using RichillCapital.SharedKernel.Monads;
 
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
-    Guid id,
     string name) :
-    Brokerage(_logger, id, name)
+    Brokerage("Binance", name)
 {
-    public Task<Result> StartAsync(CancellationToken cancellationToken = default)
+    public override Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(Result.Success);
+        throw new NotImplementedException();
     }
 
-    public Task<Result> StopAsync(CancellationToken cancellationToken = default)
+    public override Task<Result> StopAsync(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(Result.Success);
+        throw new NotImplementedException();
     }
 }

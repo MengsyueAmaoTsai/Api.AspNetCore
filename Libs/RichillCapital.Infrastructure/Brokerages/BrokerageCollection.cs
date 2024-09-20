@@ -24,4 +24,9 @@ internal sealed class BrokerageCollection() :
 
         return Result.Success;
     }
+
+    public Maybe<IBrokerage> Get(string name) =>
+        !_brokerages.TryGetValue(name, out var brokerage) ?
+            Maybe<IBrokerage>.Null :
+            Maybe<IBrokerage>.With(brokerage);
 }

@@ -4,4 +4,5 @@ namespace RichillCapital.Domain.Brokerages;
 
 public interface IBrokerage : IConnection
 {
+    string Provider { get; }
 }

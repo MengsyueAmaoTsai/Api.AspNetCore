@@ -7,4 +7,5 @@ public interface IBrokerageCollection
 {
     IReadOnlyCollection<IBrokerage> All { get; }
     Result Add(IBrokerage brokerage);
+    Maybe<IBrokerage> Get(string name);
 }

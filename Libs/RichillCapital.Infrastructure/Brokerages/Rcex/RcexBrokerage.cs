@@ -1,13 +1,32 @@
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages.Rcex;
 
 internal sealed class RcexBrokerage(
     ILogger<RcexBrokerage> _logger,
-    Guid id,
     string name) :
-    Brokerage(_logger, id, name)
+    Brokerage("RichillCapital", name)
 {
+    public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Starting brokerage connection...");
+
+        IsConnected = true;
+
+        _logger.LogInformation("Brokerage connection started.");
+        return Result.Success;
+    }
+
+    public override async Task<Result> StopAsync(CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Stopping brokerage connection...");
+
+        IsConnected = false;
+
+        _logger.LogInformation("Brokerage connection stopped.");
+        return Result.Success;
+    }
 }
