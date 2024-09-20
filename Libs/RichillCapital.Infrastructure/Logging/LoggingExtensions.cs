@@ -2,6 +2,7 @@ using System.Reflection;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
@@ -23,6 +24,7 @@ public static class LoggingExtensions
     {
         builder.ConfigureLogging((context, logging) =>
         {
+            logging.ClearProviders();
             logging.AddSerilog();
 
             var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name;

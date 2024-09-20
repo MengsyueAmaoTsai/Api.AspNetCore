@@ -11,8 +11,6 @@ using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
 using RichillCapital.UseCases;
 
-using Serilog;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Domain
@@ -23,7 +21,7 @@ builder.Services.AddUseCases();
 
 // Infrastructure - Logging
 builder.WebHost.UseCustomLogger();
-builder.Services.AddSerilog();
+// builder.Services.AddSerilog();
 
 // Infrastructure - Identity
 builder.Services.AddCustomIdentity();
