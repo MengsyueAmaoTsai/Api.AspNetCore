@@ -54,6 +54,8 @@ public static class ApiRoutes
         private const string ExecutionsBase = $"{ApiBase}/executions";
 
         public const string List = ExecutionsBase;
+
+        public const string Get = $"{ExecutionsBase}/{{executionId}}";
     }
 
     public static class Positions
