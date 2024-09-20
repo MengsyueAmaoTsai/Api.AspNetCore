@@ -7,6 +7,7 @@ using RichillCapital.Domain;
 using RichillCapital.Infrastructure.Brokerages;
 using RichillCapital.Infrastructure.Clock;
 using RichillCapital.Infrastructure.Events;
+using RichillCapital.Infrastructure.Notifications.Line;
 using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
@@ -39,7 +40,7 @@ builder.Services.AddDomainEvents();
 // builder.Services.AddLocalFileStorageManager();
 
 // Infrastructure - Notifications
-// builder.Services.AddLineNotification();
+builder.Services.AddLineNotification();
 // builder.Services.AddDiscordNotification();
 
 // Infrastructure - BackgroundJobs

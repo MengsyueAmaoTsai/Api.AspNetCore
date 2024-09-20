@@ -1,13 +1,16 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
 using RichillCapital.UseCases.Abstractions;
 
 internal sealed class SignalCreatedDomainEventHandler(
-    ILogger<SignalCreatedDomainEventHandler> _logger) :
+    ILogger<SignalCreatedDomainEventHandler> _logger,
+    ILineNotificationService _lineNotification) :
     IDomainEventHandler<SignalCreatedDomainEvent>
 {
-    public Task Handle(
+    private const string HardCodeToken = "rTjS0liSNNJSzAtbvYb5YfdyPUazxszoG65nrf9rtC1";
+    public async Task Handle(
         SignalCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
@@ -17,6 +20,16 @@ internal sealed class SignalCreatedDomainEventHandler(
             domainEvent.SourceId,
             domainEvent.Origin);
 
-        return Task.CompletedTask;
+        var result = await _lineNotification.SendAsync(
+            HardCodeToken,
+            "Signal created",
+            cancellationToken);
+
+        if (result.IsFailure)
+        {
+            _logger.LogError(
+                "Failed to send Line notification: {message}",
+                result.Error.Message);
+        }
     }
 }
