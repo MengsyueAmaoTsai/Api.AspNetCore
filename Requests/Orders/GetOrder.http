@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@OrderId = 1
+
+### Get order
+GET {{Localhost}}/api/v1/Orders/{{OrderId}}
