@@ -6,22 +6,21 @@ using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.WatchLists.Commands;
 
-internal sealed class DeleteWatchListCommandHandler(
+internal sealed class UpdateWatchListCommandHandler(
     IRepository<WatchList> _watchListRepository,
     IUnitOfWork _unitOfWork) :
-    ICommandHandler<DeleteWatchListCommand, Result>
+    ICommandHandler<UpdateWatchListCommand, ErrorOr<WatchListDto>>
 {
-    public async Task<Result> Handle(
-        DeleteWatchListCommand command,
+    public async Task<ErrorOr<WatchListDto>> Handle(
+        UpdateWatchListCommand command,
         CancellationToken cancellationToken)
     {
         var validationResult = WatchListId.From(command.WatchListId);
 
         if (validationResult.IsFailure)
         {
-            return Result.Failure(validationResult.Error);
+            return ErrorOr<WatchListDto>.WithError(validationResult.Error);
         }
-
         var id = validationResult.Value;
 
         var maybeList = await _watchListRepository.GetByIdAsync(
@@ -30,14 +29,21 @@ internal sealed class DeleteWatchListCommandHandler(
 
         if (maybeList.IsNull)
         {
-            return Result.Failure(WatchListErrors.NotFound(id));
+            return ErrorOr<WatchListDto>.WithError(WatchListErrors.NotFound(id));
         }
 
         var list = maybeList.Value;
 
-        _watchListRepository.Remove(list);
+        var updateResult = list.Update(command.Name);
+
+        if (updateResult.IsFailure)
+        {
+            return ErrorOr<WatchListDto>.WithError(updateResult.Error);
+        }
+
+        _watchListRepository.Update(list);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success;
+        return ErrorOr<WatchListDto>.With(list.ToDto());
     }
 }

@@ -1,1 +1,10 @@
 @Localhost = https://localhost:10000
+@WatchListId = 1
+
+### Update watch list
+PUT {{Localhost}}/api/v1/watch-lists/{{WatchListId}}
+Content-Type: application/json
+
+{
+    "name": "New name"
+}

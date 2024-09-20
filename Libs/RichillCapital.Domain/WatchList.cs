@@ -30,4 +30,17 @@ public sealed class WatchList : Entity<WatchListId>
 
         return ErrorOr<WatchList>.With(watchList);
     }
+
+    public Result Update(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Failure(Error.Invalid(
+                $"{nameof(name)} cannot be empty."));
+        }
+
+        Name = name;
+
+        return Result.Success;
+    }
 }
