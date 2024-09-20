@@ -9,8 +9,6 @@ public static class DomainExtensions
     {
         services.AddScoped<IMatchingEngine, FakeMatchingEngine>();
 
-        services.AddScoped<IPositionManager, PositionManager>();
-
         return services;
     }
 }
