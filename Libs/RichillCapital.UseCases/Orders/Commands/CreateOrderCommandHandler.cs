@@ -10,6 +10,7 @@ namespace RichillCapital.UseCases.Orders.Commands;
 
 internal sealed class CreateOrderCommandHandler(
     ILogger<CreateOrderCommandHandler> _logger,
+    IDateTimeProvider _dateTimeProvider,
     IReadOnlyRepository<Account> _accountRepository,
     IReadOnlyRepository<Instrument> _instrumentRepository,
     IRepository<Order> _orderRepository,
@@ -69,7 +70,7 @@ internal sealed class CreateOrderCommandHandler(
             remainingQuantity: command.Quantity,
             executedQuantity: decimal.Zero,
             status: OrderStatus.New,
-            createdTimeUtc: DateTimeOffset.UtcNow);
+            createdTimeUtc: _dateTimeProvider.UtcNow);
 
         if (errorOrOrder.HasError)
         {

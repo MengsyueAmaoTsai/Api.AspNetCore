@@ -5,6 +5,7 @@ using RichillCapital.Api.Middlewares;
 using RichillCapital.Api.OpenApi;
 using RichillCapital.Domain;
 using RichillCapital.Infrastructure.Brokerages;
+using RichillCapital.Infrastructure.Clock;
 using RichillCapital.Infrastructure.Events;
 using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
@@ -18,7 +19,6 @@ builder.Services.AddOrderPlacementEvaluator();
 
 // Application
 builder.Services.AddUseCases();
-
 // Infrastructure - Logging
 builder.WebHost.UseCustomLogger();
 // builder.Services.AddSerilog();
@@ -28,6 +28,9 @@ builder.Services.AddCustomIdentity();
 
 // Infrastructure - Persistence
 builder.Services.AddDatabase();
+
+// Infrastructure - Clock
+builder.Services.AddDateTimeProvider();
 
 // Infrastructure - Events
 builder.Services.AddDomainEvents();
