@@ -82,7 +82,6 @@ app.ResetDatabase();
 app.UseForwardedHeaders();
 
 app.UseRequestDebuggingMiddleware();
-app.UseSignalDebuggingMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
