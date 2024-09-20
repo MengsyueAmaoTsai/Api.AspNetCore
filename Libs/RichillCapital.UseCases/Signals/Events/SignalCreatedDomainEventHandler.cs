@@ -1,3 +1,5 @@
+using System.Text;
+
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain.Abstractions;
@@ -20,9 +22,15 @@ internal sealed class SignalCreatedDomainEventHandler(
             domainEvent.SourceId,
             domainEvent.Origin);
 
+        var message = new StringBuilder()
+            .AppendLine($"Time: {domainEvent.Time}")
+            .AppendLine($"SourceId: {domainEvent.SourceId}")
+            .AppendLine($"Origin: {domainEvent.Origin}")
+            .ToString();
+
         var result = await _lineNotification.SendAsync(
             HardCodeToken,
-            $"[SignalCreated] {domainEvent.Time} signal of source {domainEvent.SourceId} from origin: {domainEvent.Origin}",
+            message,
             cancellationToken);
 
         if (result.IsFailure)
