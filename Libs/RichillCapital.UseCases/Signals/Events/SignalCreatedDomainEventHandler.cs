@@ -22,7 +22,7 @@ internal sealed class SignalCreatedDomainEventHandler(
 
         var result = await _lineNotification.SendAsync(
             HardCodeToken,
-            "Signal created",
+            $"[SignalCreated] {domainEvent.Time} signal of source {domainEvent.SourceId} from origin: {domainEvent.Origin}",
             cancellationToken);
 
         if (result.IsFailure)
