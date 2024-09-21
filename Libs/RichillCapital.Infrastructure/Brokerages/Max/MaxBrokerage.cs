@@ -2,18 +2,24 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Max;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages.Max;
 
 internal sealed class MaxBrokerage(
     ILogger<MaxBrokerage> _logger,
+    IMaxRestClient _restClient,
     string name) :
     Brokerage("Max", name)
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
+        var serverTimeResult = await _restClient.GetServerTimeAsync(cancellationToken);
+
         IsConnected = true;
+
+        _logger.LogInformation("Connected to Max. Server time: {ServerTime}", serverTimeResult.Value);
 
         return await Task.FromResult(Result.Success);
     }
@@ -25,7 +31,7 @@ internal sealed class MaxBrokerage(
         return Task.FromResult(Result.Success);
     }
 
-    public override Task<Result> SubmitOrderAsync(Symbol symbol, TradeType tradeType, OrderType orderType, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default)
+    public override async Task<Result> SubmitOrderAsync(Symbol symbol, TradeType tradeType, OrderType orderType, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
             "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} with client order ID {ClientOrderId}",
@@ -35,6 +41,13 @@ internal sealed class MaxBrokerage(
             orderType,
             clientOrderId);
 
-        return Task.FromResult(Result.Success);
+        var submitResult = await _restClient.SubmitOrderAsync(cancellationToken);
+
+        if (submitResult.IsFailure)
+        {
+            return Result.Failure(submitResult.Error);
+        }
+
+        return Result.Success;
     }
 }

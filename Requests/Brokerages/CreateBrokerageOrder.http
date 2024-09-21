@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@ConnectionName = RichillCapital.Binance
+@ConnectionName = RichillCapital.Max
 
 ### Create brokerage order
 POST {{Localhost}}/api/v1/brokerages/{{ConnectionName}}/orders

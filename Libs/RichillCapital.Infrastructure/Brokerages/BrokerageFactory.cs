@@ -5,6 +5,7 @@ using RichillCapital.Binance;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
+using RichillCapital.Max;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
@@ -31,6 +32,7 @@ internal sealed class BrokerageFactory(
 
             "Max" => Result<IBrokerage>.With(new MaxBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<MaxBrokerage>>(),
+                _serviceProvider.GetRequiredService<IMaxRestClient>(),
                 connectionName)),
 
             _ => Result<IBrokerage>.Failure(Error.Invalid(

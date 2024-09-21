@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Extensions.Options;
 using RichillCapital.Infrastructure.Brokerages.Binance;
+using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel.Monads;
 
@@ -22,6 +23,7 @@ public static class BrokerageExtensions
 
         services.AddRichillCapitalBrokerage();
         services.AddBinanceBrokerage();
+        services.AddMaxBrokerage();
 
         using var scope = services.BuildServiceProvider().CreateScope();
 

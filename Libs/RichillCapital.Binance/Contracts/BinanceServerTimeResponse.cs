@@ -7,6 +7,6 @@ namespace RichillCapital.Binance;
 public sealed record BinanceServerTimeResponse
 {
     [JsonProperty("serverTime")]
-    [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+    [JsonConverter(typeof(TimestampDateTimeOffsetConverter))]
     public required DateTimeOffset ServerTime { get; init; }
 }
