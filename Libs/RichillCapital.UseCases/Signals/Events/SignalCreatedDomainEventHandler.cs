@@ -2,7 +2,6 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Domain.Events;
