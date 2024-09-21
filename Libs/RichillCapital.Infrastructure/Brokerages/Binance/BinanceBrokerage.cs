@@ -1,13 +1,11 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Binance.UsdMargined;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
-    IBinanceUsdMarginedRestClient _usdMarginedRestClient,
     string name) :
     Brokerage("Binance", name)
 {
@@ -44,13 +42,13 @@ internal sealed class BinanceBrokerage(
         decimal quantity,
         CancellationToken cancellationToken = default)
     {
-        var binanceSymbol = symbol.Value.Split(':')[1];
-
-        return await _usdMarginedRestClient.NewOrderAsync(
-            symbol: binanceSymbol,
-            side: tradeType.Name.ToUpperInvariant(),
-            type: orderType.Name.ToUpperInvariant(),
-            quantity: quantity,
-            cancellationToken: cancellationToken);
+        // var binanceSymbol = symbol.Value.Split(':')[1];
+        // return await _usdMarginedRestClient.NewOrderAsync(
+        //     symbol: binanceSymbol,
+        //     side: tradeType.Name.ToUpperInvariant(),
+        //     type: orderType.Name.ToUpperInvariant(),
+        //     quantity: quantity,
+        //     cancellationToken: cancellationToken);
+        return Result.Success;
     }
 }
