@@ -34,6 +34,7 @@ public sealed class CreateBrokerageOrderEndpoint(
                 Symbol = req.Order.Symbol,
                 TradeType = req.Order.TradeType,
                 OrderType = req.Order.OrderType,
+                TimeInForce = req.Order.TimeInForce,
                 Quantity = req.Order.Quantity,
             })
             .Then(command => _mediator.Send(command, cancellationToken))

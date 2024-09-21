@@ -10,5 +10,5 @@ Content-Type: application/json
     "tradeType": "Sell",
     "orderType": "Market",
     "timeInForce": "IOC",
-    "quantity": 1
+    "quantity": 8
 }

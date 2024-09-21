@@ -61,16 +61,18 @@ internal sealed class BinanceBrokerage(
         Symbol symbol,
         TradeType tradeType,
         OrderType orderType,
+        TimeInForce timeInForce,
         decimal quantity,
         string clientOrderId,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
-            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} with client order ID {ClientOrderId}",
+            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} {timeInForce} with client order ID {ClientOrderId}",
             tradeType,
             symbol,
             quantity,
             orderType,
+            timeInForce,
             clientOrderId);
 
         var newOrderResult = await _restClient.NewOrderAsync(

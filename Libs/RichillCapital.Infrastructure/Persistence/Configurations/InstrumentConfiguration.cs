@@ -109,7 +109,7 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
     private static IEnumerable<Instrument> CreateCryptoSwaps()
     {
         var instrumentType = InstrumentType.Swap;
-        var contractUnit = 1m;
+        var contractUnit = 1;
 
         yield return CreateInstrument(
             symbol: "BINANCE:BTCUSDT.P",

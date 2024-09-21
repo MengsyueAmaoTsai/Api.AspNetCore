@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Contracts.Orders;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Exchange.Client;
@@ -49,6 +50,7 @@ internal sealed class RcexBrokerage(
         Symbol symbol,
         TradeType tradeType,
         OrderType orderType,
+        TimeInForce timeInForce,
         decimal quantity,
         string clientOrderId,
         CancellationToken cancellationToken = default)
@@ -61,7 +63,17 @@ internal sealed class RcexBrokerage(
             orderType,
             clientOrderId);
 
-        var result = await _restClient.CreateOrderAsync(cancellationToken);
+        var result = await _restClient.CreateOrderAsync(
+            new CreateOrderRequest
+            {
+                AccountId = "000-8283782",
+                Symbol = symbol.Value,
+                TradeType = tradeType.Name,
+                OrderType = orderType.Name,
+                TimeInForce = TimeInForce.ImmediateOrCancel.Name,
+                Quantity = quantity,
+            },
+            cancellationToken);
 
         if (result.IsFailure)
         {

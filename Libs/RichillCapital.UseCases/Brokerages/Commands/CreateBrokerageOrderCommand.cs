@@ -10,5 +10,6 @@ public sealed record CreateBrokerageOrderCommand :
     public required string Symbol { get; init; }
     public required string TradeType { get; init; }
     public required string OrderType { get; init; }
+    public required string TimeInForce { get; init; }
     public required decimal Quantity { get; init; }
 }

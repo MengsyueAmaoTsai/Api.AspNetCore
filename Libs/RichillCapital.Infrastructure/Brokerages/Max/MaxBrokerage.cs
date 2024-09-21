@@ -49,14 +49,22 @@ internal sealed class MaxBrokerage(
         return Task.FromResult(Result.Success);
     }
 
-    public override async Task<Result> SubmitOrderAsync(Symbol symbol, TradeType tradeType, OrderType orderType, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default)
+    public override async Task<Result> SubmitOrderAsync(
+        Symbol symbol,
+        TradeType tradeType,
+        OrderType orderType,
+        TimeInForce timeInForce,
+        decimal quantity,
+        string clientOrderId,
+        CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
-            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} with client order ID {ClientOrderId}",
+            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} {timeInForce} with client order ID {ClientOrderId}",
             tradeType,
             symbol,
             quantity,
             orderType,
+            timeInForce,
             clientOrderId);
 
         var submitResult = await _restClient.SubmitOrderAsync(cancellationToken);

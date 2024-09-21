@@ -15,19 +15,13 @@ internal sealed class ExchangeRestClient(
     HttpClient _httpClient) :
     IExchangeRestClient
 {
-    public async Task<Result<OrderCreatedResponse>> CreateOrderAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<OrderCreatedResponse>> CreateOrderAsync(
+        CreateOrderRequest request,
+        CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.PostAsJsonAsync(
             "api/v1/orders",
-            new CreateOrderRequest
-            {
-                AccountId = "000-8283782",
-                Symbol = "BINANCE:BTCUSDT.P",
-                TradeType = TradeType.Buy.Name,
-                OrderType = OrderType.Market.Name,
-                TimeInForce = TimeInForce.ImmediateOrCancel.Name,
-                Quantity = 0.01m,
-            },
+            request,
             cancellationToken);
 
         return await HandleResponse<OrderCreatedResponse>(response);

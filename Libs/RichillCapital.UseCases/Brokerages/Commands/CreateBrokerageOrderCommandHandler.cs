@@ -19,23 +19,25 @@ internal sealed class CreateBrokerageOrderCommandHandler(
     {
         _logger.LogInformation("Create brokerage order with command: {Command}", command);
 
-        var validationResult = Result<(Symbol, TradeType, OrderType)>.Combine(
+        var validationResult = Result<(Symbol, TradeType, OrderType, TimeInForce)>.Combine(
             Symbol.From(command.Symbol),
             TradeType.FromName(command.TradeType, ignoreCase: true).ToResult(Error.Invalid($"Invalid TradeType: {command.TradeType}")),
-            OrderType.FromName(command.OrderType, ignoreCase: true).ToResult(Error.Invalid($"Invalid OrderType: {command.OrderType}")));
+            OrderType.FromName(command.OrderType, ignoreCase: true).ToResult(Error.Invalid($"Invalid OrderType: {command.OrderType}")),
+            TimeInForce.FromName(command.TimeInForce, ignoreCase: true).ToResult(Error.Invalid($"Invalid TimeInForce: {command.TimeInForce}")));
 
         if (validationResult.IsFailure)
         {
             return ErrorOr<string>.WithError(validationResult.Error);
         }
 
-        var (symbol, tradeType, orderType) = validationResult.Value;
+        var (symbol, tradeType, orderType, timeInForce) = validationResult.Value;
 
         var submitResult = await _brokerageManager.SubmitOrderAsync(
             command.ConnectionName,
             symbol,
             tradeType,
             orderType,
+            timeInForce,
             command.Quantity,
             clientOrderId: Guid.NewGuid().ToString(),
             cancellationToken);

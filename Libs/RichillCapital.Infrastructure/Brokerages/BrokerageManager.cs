@@ -65,6 +65,7 @@ internal sealed class BrokerageManager(
         Symbol symbol,
         TradeType tradeTye,
         OrderType orderType,
+        TimeInForce timeInForce,
         decimal quantity,
         string clientOrderId,
         CancellationToken cancellationToken = default)
@@ -92,6 +93,7 @@ internal sealed class BrokerageManager(
             symbol,
             tradeTye,
             orderType,
+            timeInForce,
             quantity,
             clientOrderId,
             cancellationToken);

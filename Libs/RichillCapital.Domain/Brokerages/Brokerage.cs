@@ -17,6 +17,7 @@ public abstract class Brokerage(
             Symbol symbol,
             TradeType tradeType,
             OrderType orderType,
+            TimeInForce timeInForce,
             decimal quantity,
             string clientOrderId,
             CancellationToken cancellationToken = default);

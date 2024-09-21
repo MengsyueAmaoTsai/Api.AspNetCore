@@ -11,6 +11,7 @@ public interface IBrokerage : IConnection
             Symbol symbol,
             TradeType tradeType,
             OrderType orderType,
+            TimeInForce timeInForce,
             decimal quantity,
             string clientOrderId,
             CancellationToken cancellationToken = default);
