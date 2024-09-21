@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
+using RichillCapital.Http;
 using RichillCapital.Max.Contracts;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;

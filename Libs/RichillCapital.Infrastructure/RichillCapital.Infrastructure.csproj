@@ -4,6 +4,7 @@
     <ProjectReference Include="..\RichillCapital.UseCases\RichillCapital.UseCases.csproj" />
     <ProjectReference Include="..\RichillCapital.Binance\RichillCapital.Binance.csproj" />
     <ProjectReference Include="..\RichillCapital.Max\RichillCapital.Max.csproj" />
+    <ProjectReference Include="..\RichillCapital.Exchange.Client\RichillCapital.Exchange.Client.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

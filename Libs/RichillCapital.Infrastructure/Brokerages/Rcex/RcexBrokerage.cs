@@ -2,12 +2,14 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Exchange.Client;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages.Rcex;
 
 internal sealed class RcexBrokerage(
     ILogger<RcexBrokerage> _logger,
+    IExchangeRestClient _restClient,
     string name) :
     Brokerage("RichillCapital", name)
 {
@@ -43,7 +45,7 @@ internal sealed class RcexBrokerage(
         return await Task.FromResult(Result.Success);
     }
 
-    public override Task<Result> SubmitOrderAsync(
+    public override async Task<Result> SubmitOrderAsync(
         Symbol symbol,
         TradeType tradeType,
         OrderType orderType,
@@ -59,6 +61,8 @@ internal sealed class RcexBrokerage(
             orderType,
             clientOrderId);
 
-        return Task.FromResult(Result.Success);
+        var result = await _restClient.CreateOrderAsync(cancellationToken);
+
+        return Result.Success;
     }
 }

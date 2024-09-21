@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Binance;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Exchange.Client;
 using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.Max;
@@ -23,6 +24,7 @@ internal sealed class BrokerageFactory(
         {
             "RichillCapital" => Result<IBrokerage>.With(new RcexBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<RcexBrokerage>>(),
+                _serviceProvider.GetRequiredService<IExchangeRestClient>(),
                 connectionName)),
 
             "Binance" => Result<IBrokerage>.With(new BinanceBrokerage(

@@ -16,11 +16,14 @@ COPY ./Libs/RichillCapital.Contracts/*.csproj ./Libs/RichillCapital.Contracts/
 COPY ./Libs/RichillCapital.UseCases/*.csproj ./Libs/RichillCapital.UseCases/
 COPY ./Libs/RichillCapital.Infrastructure/*.csproj ./Libs/RichillCapital.Infrastructure/
 COPY ./Libs/RichillCapital.Domain/*.csproj ./Libs/RichillCapital.Domain/
+
+COPY ./Libs/RichillCapital.Http/*.csproj ./Libs/RichillCapital.Http/
+
 COPY ./Libs/RichillCapital.Binance/*.csproj ./Libs/RichillCapital.Binance/
 COPY ./Libs/RichillCapital.Max/*.csproj ./Libs/RichillCapital.Max/
 
 COPY ./Tests/RichillCapital.Api.AcceptanceTests/*.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
-# COPY ./Tests/RichillCapital.Api.ArchitectureTests/*.csproj ./Tests/RichillCapital.Api.ArchitectureTests/
+
 RUN dotnet cake --target restore 
 
 # Build and Publish Source Code

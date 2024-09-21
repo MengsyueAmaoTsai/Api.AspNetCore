@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
+using RichillCapital.Http;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Binance;
@@ -46,9 +47,7 @@ internal sealed class BinanceRestClient(
             return Result<BinanceServerTimeResponse>.Failure(error);
         }
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var serverTime = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(content);
-
+        var serverTime = await response.ReadAsAsync<BinanceServerTimeResponse>(cancellationToken);
         return Result<BinanceServerTimeResponse>.With(serverTime!);
     }
 
@@ -63,9 +62,7 @@ internal sealed class BinanceRestClient(
             return Result<BinanceExchangeInfoResponse>.Failure(error);
         }
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var exchangeInfo = JsonConvert.DeserializeObject<BinanceExchangeInfoResponse>(content);
-
+        var exchangeInfo = await response.ReadAsAsync<BinanceExchangeInfoResponse>(cancellationToken);
         return Result<BinanceExchangeInfoResponse>.With(exchangeInfo!);
     }
 
@@ -138,8 +135,7 @@ internal sealed class BinanceRestClient(
             return Result<BinanceAccountBalanceResponse[]>.Failure(error);
         }
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var accountBalance = JsonConvert.DeserializeObject<BinanceAccountBalanceResponse[]>(content);
+        var accountBalance = await response.ReadAsAsync<BinanceAccountBalanceResponse[]>(cancellationToken);
 
         return Result<BinanceAccountBalanceResponse[]>.With(accountBalance!);
     }
