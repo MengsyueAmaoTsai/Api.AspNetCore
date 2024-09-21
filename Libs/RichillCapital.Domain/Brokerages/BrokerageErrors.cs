@@ -4,6 +4,10 @@ namespace RichillCapital.Domain.Brokerages;
 
 public static class BrokerageErrors
 {
+    public static Error AlreadyExists(string connectionName) => Error.Conflict(
+        "Brokerages.AlreadyExists",
+        $"Brokerage with connection name'{connectionName}' already exists.");
+
     public static Error NotSupported(string provider) =>
         Error.Invalid("Brokerages.NotSupported", $"Brokerage provider '{provider}' is not supported.");
 

@@ -36,4 +36,26 @@ internal sealed class BrokerageManager(
 
     public Maybe<IBrokerage> GetByName(string name) => _brokerages.Get(name);
     public IReadOnlyCollection<IBrokerage> ListAll() => _brokerages.All;
+
+    public Result<IBrokerage> Create(string provider, string name)
+    {
+        var maybeBrokerage = _brokerages.Get(name);
+
+        if (maybeBrokerage.HasValue)
+        {
+            return Result<IBrokerage>.Failure(BrokerageErrors.AlreadyExists(name));
+        }
+
+        var brokerageResult = _factory.CreateBrokerage(provider, name);
+
+        if (brokerageResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(brokerageResult.Error);
+        }
+
+        var brokerage = brokerageResult.Value;
+        _brokerages.Add(brokerage);
+
+        return Result<IBrokerage>.With(brokerage);
+    }
 }

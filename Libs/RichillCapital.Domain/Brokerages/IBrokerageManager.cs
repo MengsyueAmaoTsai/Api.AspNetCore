@@ -10,4 +10,5 @@ public interface IBrokerageManager
         string provider,
         string name,
         CancellationToken cancellationToken = default);
+    Result<IBrokerage> Create(string provider, string name);
 }

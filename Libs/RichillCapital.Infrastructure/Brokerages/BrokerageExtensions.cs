@@ -1,6 +1,12 @@
+using FluentValidation;
+using FluentValidation.Validators;
+
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Extensions.Options;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel.Monads;
 
@@ -10,30 +16,30 @@ public static class BrokerageExtensions
 {
     public static IServiceCollection AddBrokerages(this IServiceCollection services)
     {
-        services.AddSingleton<BrokerageFactory>();
-        services.AddSingleton<IBrokerageManager, BrokerageManager>();
+        services.AddBrokerageOptions();
+
+        services.AddBrokerageFactory();
+        services.AddBrokerageManager();
 
         services.AddRichillCapitalBrokerage();
         services.AddBinanceBrokerage();
 
         using var scope = services.BuildServiceProvider().CreateScope();
 
-        List<(string Provider, string Name, bool StartOnBoot, bool Enabled)> profiles = [
-            ("RichillCapital", "RichillCapital 1", true, true),
-            ("RichillCapital", "RichillCapital 2", true, true),
-            ("Binance", "Binance", true, true),
-        ];
+        var brokerageOptions = scope.ServiceProvider
+            .GetRequiredService<IOptions<BrokerageOptions>>()
+            .Value;
 
         var factory = scope.ServiceProvider.GetRequiredService<BrokerageFactory>();
 
         var brokerages = new BrokerageCollection();
 
-        foreach (var (provider, name, startOnBoot, enabled) in profiles)
+        foreach (var profile in brokerageOptions.Profiles)
         {
-            if (enabled)
+            if (profile.Enabled)
             {
                 factory
-                    .CreateBrokerage(provider, name)
+                    .CreateBrokerage(profile.Provider, profile.Name)
                     .ThrowIfFailure()
                     .Then(brokerages.Add)
                     .ThrowIfFailure();
@@ -44,4 +50,19 @@ public static class BrokerageExtensions
 
         return services;
     }
+
+    private static IServiceCollection AddBrokerageOptions(
+        this IServiceCollection services,
+        string sectionKey = BrokerageOptions.SectionKey)
+    {
+        services.AddValidatorsFromAssembly(typeof(BrokerageExtensions).Assembly, includeInternalTypes: true);
+        services.AddOptionsWithFluentValidation<BrokerageOptions>(sectionKey);
+        return services;
+    }
+
+    private static IServiceCollection AddBrokerageFactory(this IServiceCollection services) =>
+        services.AddSingleton<BrokerageFactory>();
+
+    private static IServiceCollection AddBrokerageManager(this IServiceCollection services) =>
+        services.AddSingleton<IBrokerageManager, BrokerageManager>();
 }

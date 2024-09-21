@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Extensions.Options;
-using RichillCapital.Infrastructure.Events;
 using RichillCapital.SharedKernel.Specifications.Evaluators;
 
 namespace RichillCapital.Infrastructure.Persistence;

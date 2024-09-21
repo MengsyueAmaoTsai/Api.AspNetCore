@@ -1,0 +1,10 @@
+@Localhost = https://localhost:10000
+
+### Create brokerage
+POST {{Localhost}}/api/v1/brokerages
+Content-Type: application/json
+
+{
+    "provider": "Binance",
+    "name": "RichillCapital.Binance"
+}

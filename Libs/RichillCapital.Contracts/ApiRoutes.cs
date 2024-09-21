@@ -79,8 +79,10 @@ public static class ApiRoutes
         private const string BrokeragesBase = $"{ApiBase}/brokerages";
 
         public const string List = BrokeragesBase;
+        public const string Create = BrokeragesBase;
 
         public const string Get = $"{BrokeragesBase}/{{connectionName}}";
+        public const string Delete = $"{BrokeragesBase}/{{connectionName}}";
         public const string Start = $"{BrokeragesBase}/start";
         public const string Stop = $"{BrokeragesBase}/stop";
     }
