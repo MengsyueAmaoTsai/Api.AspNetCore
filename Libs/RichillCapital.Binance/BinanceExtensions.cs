@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
+using RichillCapital.Http;
+
 namespace RichillCapital.Binance;
 
 public static class BinanceExtensions
@@ -11,8 +13,8 @@ public static class BinanceExtensions
         this IServiceCollection services,
         string baseAddress)
     {
+        services.AddDefaultRequestDebuggingMessageHandler();
         services.AddTransient<BinanceSignatureHandler>();
-        services.AddTransient<RequestDebuggingMessageHandler>();
 
         services
             .AddHttpClient<IBinanceRestClient, BinanceRestClient>(client =>
@@ -20,7 +22,7 @@ public static class BinanceExtensions
                 client.BaseAddress = new Uri(BaseAddressTestnet);
                 client.DefaultRequestHeaders.Clear();
             })
-            .AddHttpMessageHandler<RequestDebuggingMessageHandler>();
+            .AddDefaultRequestDebuggingMessageHandler();
 
         return services;
     }

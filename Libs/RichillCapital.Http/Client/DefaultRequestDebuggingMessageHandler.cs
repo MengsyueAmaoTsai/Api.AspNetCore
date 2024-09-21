@@ -2,12 +2,13 @@ using System.Diagnostics;
 using System.Text;
 using System.Web;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace RichillCapital.Max;
+namespace RichillCapital.Http;
 
-internal sealed class RequestDebuggingMessageHandler(
-    ILogger<RequestDebuggingMessageHandler> _logger) :
+internal sealed class DefaultRequestDebuggingMessageHandler(
+    ILogger<DefaultRequestDebuggingMessageHandler> _logger) :
     DelegatingHandler
 {
     protected async override Task<HttpResponseMessage> SendAsync(
@@ -86,5 +87,24 @@ internal sealed class RequestDebuggingMessageHandler(
         }
 
         return formattedData.ToString();
+    }
+}
+
+public static class DefaultRequestDebuggingMessageHandlerExtensions
+{
+    public static IServiceCollection AddDefaultRequestDebuggingMessageHandler(
+        this IServiceCollection services)
+    {
+        services.AddTransient<DefaultRequestDebuggingMessageHandler>();
+
+        return services;
+    }
+
+    public static IHttpClientBuilder AddDefaultRequestDebuggingMessageHandler(
+        this IHttpClientBuilder builder)
+    {
+        builder.AddHttpMessageHandler<DefaultRequestDebuggingMessageHandler>();
+
+        return builder;
     }
 }

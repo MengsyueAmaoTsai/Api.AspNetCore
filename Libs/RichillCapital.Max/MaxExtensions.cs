@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
+using RichillCapital.Http;
+
 namespace RichillCapital.Max;
 
 public static class MaxExtensions
@@ -8,7 +10,7 @@ public static class MaxExtensions
         this IServiceCollection services,
         string baseAddress)
     {
-        services.AddTransient<RequestDebuggingMessageHandler>();
+        services.AddDefaultRequestDebuggingMessageHandler();
         services.AddTransient<MaxSignatureHandler>();
 
         services
@@ -17,7 +19,7 @@ public static class MaxExtensions
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Clear();
             })
-            .AddHttpMessageHandler<RequestDebuggingMessageHandler>();
+            .AddDefaultRequestDebuggingMessageHandler();
 
         return services;
     }
