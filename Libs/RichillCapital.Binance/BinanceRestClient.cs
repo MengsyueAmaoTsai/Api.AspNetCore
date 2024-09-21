@@ -18,9 +18,9 @@ internal sealed class BinanceRestClient(
         string side,
         string type,
         decimal quantity,
+        string clientOrderId,
         CancellationToken cancellationToken = default)
     {
-        var clientOrderId = Guid.NewGuid();
         var responseType = "RESULT";
         var positionSide = "BOTH";
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

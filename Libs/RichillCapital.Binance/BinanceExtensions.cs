@@ -4,6 +4,9 @@ namespace RichillCapital.Binance;
 
 public static class BinanceExtensions
 {
+    private const string BaseAddress = "https://fapi.binance.com";
+    private const string BaseAddressTestnet = "https://testnet.binancefuture.com";
+
     public static IServiceCollection AddBinanceRestClient(
         this IServiceCollection services,
         string baseAddress)
@@ -14,7 +17,7 @@ public static class BinanceExtensions
         services
             .AddHttpClient<IBinanceRestClient, BinanceRestClient>(client =>
             {
-                client.BaseAddress = new Uri("https://fapi.binance.com");
+                client.BaseAddress = new Uri(BaseAddressTestnet);
                 client.DefaultRequestHeaders.Clear();
             })
             .AddHttpMessageHandler<RequestDebuggingMessageHandler>();

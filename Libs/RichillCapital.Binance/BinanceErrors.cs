@@ -32,6 +32,7 @@ internal static class BinanceErrors
             -1022 => "InvalidSignature",
             -2014 => "BadApiKeyFormat",
 
+            -2015 => "RejectedMbxKey",
             -2019 => "MarginNotSufficient", // USD-M only
 
             -4003 => "QuantityLessThanZero", // USD-M only

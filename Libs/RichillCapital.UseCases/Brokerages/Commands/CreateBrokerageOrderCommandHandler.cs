@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel;
@@ -7,6 +9,7 @@ using RichillCapital.UseCases.Abstractions;
 namespace RichillCapital.UseCases.Brokerages.Commands;
 
 internal sealed class CreateBrokerageOrderCommandHandler(
+    ILogger<CreateBrokerageOrderCommandHandler> _logger,
     IBrokerageManager _brokerageManager) :
     ICommandHandler<CreateBrokerageOrderCommand, ErrorOr<string>>
 {
@@ -14,6 +17,8 @@ internal sealed class CreateBrokerageOrderCommandHandler(
         CreateBrokerageOrderCommand command,
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Create brokerage order with command: {Command}", command);
+
         var validationResult = Result<(Symbol, TradeType, OrderType)>.Combine(
             Symbol.From(command.Symbol),
             TradeType.FromName(command.TradeType, ignoreCase: true).ToResult(Error.Invalid($"Invalid TradeType: {command.TradeType}")),
@@ -27,10 +32,12 @@ internal sealed class CreateBrokerageOrderCommandHandler(
         var (symbol, tradeType, orderType) = validationResult.Value;
 
         var submitResult = await _brokerageManager.SubmitOrderAsync(
+            command.ConnectionName,
             symbol,
             tradeType,
             orderType,
             command.Quantity,
+            clientOrderId: Guid.NewGuid().ToString(),
             cancellationToken);
 
         if (submitResult.IsFailure)

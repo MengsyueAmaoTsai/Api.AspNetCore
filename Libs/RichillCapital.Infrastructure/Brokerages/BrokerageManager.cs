@@ -61,18 +61,25 @@ internal sealed class BrokerageManager(
     public Result Remove(IBrokerage brokerage) => _brokerages.Remove(brokerage.Name);
 
     public async Task<Result> SubmitOrderAsync(
+        string connectionName,
         Symbol symbol,
         TradeType tradeTye,
         OrderType orderType,
         decimal quantity,
+        string clientOrderId,
         CancellationToken cancellationToken = default)
     {
-        if (quantity <= decimal.Zero)
+        if (string.IsNullOrEmpty(connectionName))
         {
-            return Result.Failure(Error.Invalid("Quantity must be greater than zero"));
+            return Result.Failure(Error.Invalid($"{nameof(connectionName)} must not be empty"));
         }
 
-        var brokerageResult = _brokerages.Get("RichillCapital.Binance");
+        if (quantity <= decimal.Zero)
+        {
+            return Result.Failure(Error.Invalid($"{nameof(quantity)} must be greater than zero"));
+        }
+
+        var brokerageResult = _brokerages.Get(connectionName);
 
         if (brokerageResult.IsFailure)
         {
@@ -86,6 +93,7 @@ internal sealed class BrokerageManager(
             tradeTye,
             orderType,
             quantity,
+            clientOrderId,
             cancellationToken);
 
         if (submitResult.IsFailure)

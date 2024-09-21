@@ -18,5 +18,6 @@ public abstract class Brokerage(
             TradeType tradeType,
             OrderType orderType,
             decimal quantity,
+            string clientOrderId,
             CancellationToken cancellationToken = default);
 }

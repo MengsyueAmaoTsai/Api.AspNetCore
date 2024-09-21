@@ -3,15 +3,12 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain.Abstractions;
-using RichillCapital.Domain.Brokerages;
 using RichillCapital.Domain.Events;
-using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 internal sealed class SignalCreatedDomainEventHandler(
     ILogger<SignalCreatedDomainEventHandler> _logger,
-    ILineNotificationService _lineNotification,
-    IBrokerageManager _brokerageManager) :
+    ILineNotificationService _lineNotification) :
     IDomainEventHandler<SignalCreatedDomainEvent>
 {
     public async Task Handle(
@@ -40,21 +37,6 @@ internal sealed class SignalCreatedDomainEventHandler(
             _logger.LogError(
                 "Failed to send Line notification: {message}",
                 result.Error.Message);
-        }
-
-        // TEMP IMPLEMENTATION
-        var brokerage = _brokerageManager.GetByName("Binance").ThrowIfFailure().Value;
-
-        var orderResult = await brokerage.SubmitOrderAsync(
-            domainEvent.Symbol,
-            domainEvent.TradeType,
-            domainEvent.OrderType,
-            domainEvent.Quantity,
-            cancellationToken);
-
-        if (orderResult.IsFailure)
-        {
-            _logger.LogError("{error}", orderResult.Error);
         }
     }
 

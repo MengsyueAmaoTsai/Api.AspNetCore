@@ -12,5 +12,6 @@ public interface IBrokerage : IConnection
             TradeType tradeType,
             OrderType orderType,
             decimal quantity,
+            string clientOrderId,
             CancellationToken cancellationToken = default);
 }

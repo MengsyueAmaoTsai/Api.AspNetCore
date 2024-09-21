@@ -48,8 +48,17 @@ internal sealed class RcexBrokerage(
         TradeType tradeType,
         OrderType orderType,
         decimal quantity,
+        string clientOrderId,
         CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation(
+            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType} with client order ID {ClientOrderId}",
+            tradeType,
+            symbol,
+            quantity,
+            orderType,
+            clientOrderId);
+
+        return Task.FromResult(Result.Success);
     }
 }

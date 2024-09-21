@@ -4,5 +4,5 @@ namespace RichillCapital.Binance;
 
 public interface IBinanceRestClient
 {
-    Task<Result> NewOrderAsync(string symbol, string side, string type, decimal quantity, CancellationToken cancellationToken = default);
+    Task<Result> NewOrderAsync(string symbol, string side, string type, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default);
 }
