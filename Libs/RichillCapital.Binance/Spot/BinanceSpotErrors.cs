@@ -29,6 +29,8 @@ internal static class BinanceSpotErrors
             -1022 => "InvalidSignature",
 
             -1131 => "InvalidRecvWindow",
+
+            -2015 => "RejectedMbxKey",
             _ => throw new NotImplementedException(
                 $"Error code {errorResponse.Code} with message: '{errorResponse.Message}' is not implemented"),
         };
