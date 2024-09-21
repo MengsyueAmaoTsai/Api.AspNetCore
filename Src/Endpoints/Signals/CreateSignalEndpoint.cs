@@ -32,6 +32,10 @@ public sealed class CreateSignalEndpoint(IMediator _mediator) : AsyncEndpoint
                 Time = req.Time,
                 Origin = req.Origin,
                 SourceId = req.SourceId,
+                Symbol = req.Symbol,
+                TradeType = req.TradeType,
+                OrderType = req.OrderType,
+                Quantity = req.Quantity,
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(id => new SignalCreatedResponse

@@ -31,6 +31,24 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .IsRequired();
 
         builder
+            .Property(signal => signal.Symbol)
+            .HasMaxLength(Symbol.MaxLength)
+            .HasConversion(
+                symbol => symbol.Value,
+                value => Symbol.From(value).ThrowIfFailure().Value)
+            .IsRequired();
+
+        builder
+            .Property(signal => signal.TradeType)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
+            .Property(signal => signal.OrderType)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
             .Property(signal => signal.Origin)
             .HasEnumerationValueConversion()
             .IsRequired();

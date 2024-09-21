@@ -17,17 +17,23 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = Result<(SignalSourceId, SignalOrigin)>.Combine(
+        var validationResult = Result<(SignalSourceId, SignalOrigin, Symbol, TradeType, OrderType)>.Combine(
             SignalSourceId.From(command.SourceId),
             SignalOrigin.FromName(command.Origin)
-                .ToResult(Error.Invalid($"Invalid signal origin: {command.Origin}")));
+                .ToResult(Error.Invalid($"Invalid signal origin: {command.Origin}")),
+            Symbol.From(command.Symbol),
+            TradeType.FromName(command.TradeType)
+                .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
+            OrderType.FromName(command.OrderType)
+                .ToResult(Error.Invalid($"Invalid order type: {command.OrderType}")));
+
 
         if (validationResult.IsFailure)
         {
             return ErrorOr<SignalId>.WithError(validationResult.Error);
         }
 
-        var (sourceId, origin) = validationResult.Value;
+        var (sourceId, origin, symbol, tradeType, orderType) = validationResult.Value;
 
         var maybeSignalSource = await _signalSourceRepository.FirstOrDefaultAsync(
             s => s.Id == sourceId,
@@ -45,6 +51,10 @@ internal sealed class CreateSignalCommandHandler(
             sourceId,
             command.Time,
             origin,
+            symbol,
+            tradeType,
+            orderType,
+            command.Quantity,
             now);
 
         if (errorOrSignal.HasError)

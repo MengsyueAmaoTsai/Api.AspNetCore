@@ -19,6 +19,10 @@ public sealed class CreateSignalTests(
             Time = DateTimeOffset.UtcNow,
             Origin = SignalOrigin.TradingView.Name,
             SourceId = "TV-Long-Task",
+            Symbol = "BINANCE:BTCUSDT",
+            TradeType = TradeType.Buy.Name,
+            OrderType = OrderType.Market.Name,
+            Quantity = 0.01m,
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signals", request);
