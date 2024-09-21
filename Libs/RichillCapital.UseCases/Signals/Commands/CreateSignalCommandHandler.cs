@@ -20,7 +20,7 @@ internal sealed class CreateSignalCommandHandler(
         var validationResult = Result<(SignalSourceId, SignalOrigin, Symbol, TradeType, OrderType)>.Combine(
             SignalSourceId.From(command.SourceId),
             SignalOrigin.FromName(command.Origin)
-                .ToResult(Error.Invalid($"Invalid signal origin: {command.Origin}")),
+                .ToResult(SignalErrors.InvalidOrigin(command.Origin)),
             Symbol.From(command.Symbol),
             TradeType.FromName(command.TradeType)
                 .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
