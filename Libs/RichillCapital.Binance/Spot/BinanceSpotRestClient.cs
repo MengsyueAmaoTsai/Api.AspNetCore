@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text;
 
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,8 @@ namespace RichillCapital.Binance.Spot;
 
 internal sealed class BinanceSpotRestClient(
     ILogger<BinanceSpotRestClient> _logger,
-    HttpClient _httpClient) :
+    HttpClient _httpClient,
+    SecurityProvider _securityProvider) :
     IBinanceSpotRestClient
 {
     private const string ApiKey = "guVqJIzZ29JZx2BTv9VbxxOr7IehQIIRRXABm53rawtThH0XcD8EeyzUtMbIaQ92";
@@ -63,25 +63,8 @@ internal sealed class BinanceSpotRestClient(
         long timestamp,
         CancellationToken cancellationToken = default)
     {
-        var request = new
-        {
-            Symbol = symbol,
-            Side = side,
-            Type = type,
-            TimeInForce = timeInForce,
-            Quantity = quantity,
-            Price = price,
-            RecvWindow = recvWindow,
-            Timestamp = timestamp,
-        };
-
-        _logger.LogInformation("Submitting new order: {request}", request);
         var queryString = $"symbol={symbol}&side={side}&type={type}&timeInForce={timeInForce}&quantity={quantity}&price={price}&recvWindow={recvWindow}&timestamp={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
-        var signature = GenerateSignature(queryString);
-
-        queryString += $"&signature={signature}";
-
-        _logger.LogInformation("Query string: {queryString}", queryString);
+        queryString += $"&signature={_securityProvider.GenerateSignature(SecretKey, queryString)}";
 
         _httpClient.DefaultRequestHeaders.Add("X-MBX-APIKEY", ApiKey);
 
@@ -90,23 +73,7 @@ internal sealed class BinanceSpotRestClient(
             new StringContent(queryString, Encoding.UTF8, "application/x-www-form-urlencoded"),
             cancellationToken);
 
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
-
-            _logger.LogError(
-                "Failed to submit new order: {statusCode} {errorContent}",
-                response.StatusCode,
-                errorResponse);
-
-            return Result.Failure(Error.Unexpected("Failed to submit new order"));
-        }
-
-        _logger.LogInformation("New order submitted successfully. {content}", responseContent);
-
-        return Result.Success;
+        return await HandleResponseAsync(response);
     }
 
     private async Task<Result> HandleResponseAsync(HttpResponseMessage httpResponse)
@@ -117,14 +84,14 @@ internal sealed class BinanceSpotRestClient(
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
+                var error = await ParseErrorResponseAsync(httpResponse);
 
                 _logger.LogError(
-                    "Failed to handle response: {statusCode} {errorContent}",
+                    "Request is failed: {statusCode} {error}",
                     httpResponse.StatusCode,
-                    errorResponse);
+                    error);
 
-                return Result.Failure(Error.Unexpected("Failed to handle response"));
+                return Result.Failure(error);
             }
 
             _logger.LogInformation("Response: {response}", responseContent);
@@ -149,7 +116,7 @@ internal sealed class BinanceSpotRestClient(
                 var error = await ParseErrorResponseAsync(httpResponse);
 
                 _logger.LogError(
-                    "Failed to handle response: {statusCode} {errorContent}",
+                    "Request is failed: {statusCode} {error}",
                     httpResponse.StatusCode,
                     error);
 
@@ -173,17 +140,31 @@ internal sealed class BinanceSpotRestClient(
         var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
 
         return Error.Unexpected(
-            errorResponse!.Code.ToString(),
+            MapBinanceErrorCode(errorResponse!.Code),
             errorResponse!.Message);
     }
 
-    private static string GenerateSignature(string queryString)
+    private static string MapBinanceErrorCode(int errorCode)
     {
-        using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(SecretKey));
+        var suffix = errorCode switch
+        {
+            -1000 => "Unknown",
+            -1001 => "Disconnected",
+            -1002 => "Unauthorized",
+            -1003 => "TooManyRequests",
+            -1006 => "UnexpectedResponse",
+            -1007 => "Timeout",
+            -1008 => "ServerBusy",
+            -1013 => "InvalidMessage",
+            -1014 => "UnknownOrderComposition",
+            -1015 => "TooManyOrders",
+            -1016 => "ServiceShuttingDown",
+            -1020 => "UnsupportedOperation",
+            -1021 => "InvalidTimestamp",
+            -1022 => "InvalidSignature",
+            _ => throw new NotImplementedException($"Error code {errorCode} is not implemented"),
+        };
 
-        return BitConverter
-            .ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(queryString)))
-            .Replace("-", string.Empty)
-            .ToLower();
+        return $"Binance.{suffix}";
     }
 }

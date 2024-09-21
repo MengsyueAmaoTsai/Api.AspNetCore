@@ -49,9 +49,7 @@ internal sealed class SignalCreatedDomainEventHandler(
 
         if (orderResult.IsFailure)
         {
-            _logger.LogError(
-                "Failed to submit order: {message}",
-                orderResult.Error.Message);
+            _logger.LogError("{error}", orderResult.Error);
         }
     }
 }

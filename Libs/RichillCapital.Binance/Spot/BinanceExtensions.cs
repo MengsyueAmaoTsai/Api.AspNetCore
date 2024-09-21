@@ -10,6 +10,8 @@ public static class BinanceExtensions
     public static IServiceCollection AddBinanceSpotRestClient(
         this IServiceCollection services)
     {
+        services.AddTransient<SecurityProvider>();
+
         services.AddHttpClient<IBinanceSpotRestClient, BinanceSpotRestClient>(client =>
         {
             client.BaseAddress = new Uri(SpotTestNetAddress);
