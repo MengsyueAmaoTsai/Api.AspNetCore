@@ -19,16 +19,16 @@ internal sealed class SignalCreatedDomainEventHandler(
         SignalCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation(
-            "[SignalCreated] {time} signal of source {sourceId} from origin: {origin}",
-            domainEvent.Time,
-            domainEvent.SourceId,
-            domainEvent.Origin);
+        LogEvent(domainEvent);
 
         var message = new StringBuilder()
             .AppendLine($"Time: {domainEvent.Time}")
             .AppendLine($"SourceId: {domainEvent.SourceId}")
             .AppendLine($"Origin: {domainEvent.Origin}")
+            .AppendLine($"Symbol: {domainEvent.Symbol}")
+            .AppendLine($"TradeType: {domainEvent.TradeType}")
+            .AppendLine($"OrderType: {domainEvent.OrderType}")
+            .AppendLine($"Quantity: {domainEvent.Quantity}")
             .ToString();
 
         var result = await _lineNotification.SendAsync(
@@ -58,4 +58,16 @@ internal sealed class SignalCreatedDomainEventHandler(
             _logger.LogError("{error}", orderResult.Error);
         }
     }
+
+    private void LogEvent(SignalCreatedDomainEvent @event) =>
+        _logger.LogInformation(
+            "[SignalCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} for source id: {sourceId} from {origin}. {time}",
+            @event.TradeType,
+            @event.Quantity,
+            @event.Symbol,
+            @event.OrderType,
+            @event.OrderType,
+            @event.SourceId,
+            @event.Origin,
+            @event.Time);
 }
