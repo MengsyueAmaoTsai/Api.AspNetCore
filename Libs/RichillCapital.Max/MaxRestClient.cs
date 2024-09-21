@@ -26,6 +26,12 @@ internal sealed class MaxRestClient(
         return await HandleResponse<MaxServerTimeResponse>(response);
     }
 
+    public async Task<Result<MaxMarketResponse[]>> ListMarketsAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync("api/v3/markets", cancellationToken);
+        return await HandleResponse<MaxMarketResponse[]>(response);
+    }
+
     public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default)
     {
         var path = "api/v3/info";
