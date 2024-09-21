@@ -1,12 +1,11 @@
 using FluentValidation;
-using FluentValidation.Validators;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
 
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Extensions.Options;
+using RichillCapital.Infrastructure.Brokerages.Binance;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel.Monads;
 

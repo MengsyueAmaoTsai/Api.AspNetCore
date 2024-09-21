@@ -1,11 +1,13 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Binance;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
+    IBinanceRestClient _restClient,
     string name) :
     Brokerage("Binance", name)
 {
@@ -51,11 +53,17 @@ internal sealed class BinanceBrokerage(
         //     cancellationToken: cancellationToken);
 
         _logger.LogInformation(
-            "Binance Brokerage order submitted. {tradeType} {symbol} {quantity} @ {orderType}",
+            "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType}",
             tradeType,
             symbol,
             quantity,
             orderType);
+
+        var result = await _restClient.NewOrderAsync(
+            symbol.ToBinanceSymbol(),
+            tradeType.Name.ToUpperInvariant(),
+            orderType.Name.ToUpperInvariant(),
+            quantity);
 
         return Result.Success;
     }

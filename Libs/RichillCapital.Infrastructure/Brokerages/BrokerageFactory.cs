@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Binance;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel;
@@ -22,6 +23,7 @@ internal sealed class BrokerageFactory(
 
             "Binance" => Result<IBrokerage>.With(new BinanceBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<BinanceBrokerage>>(),
+                _serviceProvider.GetRequiredService<IBinanceRestClient>(),
                 connectionName)),
 
             _ => Result<IBrokerage>.Failure(Error.Invalid(
