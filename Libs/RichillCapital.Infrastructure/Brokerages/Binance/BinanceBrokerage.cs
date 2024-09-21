@@ -18,9 +18,29 @@ internal sealed class BinanceBrokerage(
             return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
         }
 
+        // Ping server and get server time
+
+        var pingResult = await _restClient.PingAsync(cancellationToken);
+        var serverTimeResult = await _restClient.GetServerTimeAsync(cancellationToken);
+
+        if (pingResult.IsFailure)
+        {
+            return Result.Failure(pingResult.Error);
+        }
+
+        if (serverTimeResult.IsFailure)
+        {
+            return Result.Failure(serverTimeResult.Error);
+        }
+
+        var serverTimeResponse = serverTimeResult.Value;
+        var ping = pingResult.Value;
         IsConnected = true;
 
-        _logger.LogInformation("Binance Brokerage started.");
+        _logger.LogInformation(
+            "Binance Brokerage started at {serverTime}. Ping: {ping}ms",
+            serverTimeResponse.ServerTime,
+            ping);
 
         return Result.Success;
     }
