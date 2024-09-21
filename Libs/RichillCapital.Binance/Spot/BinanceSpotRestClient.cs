@@ -18,17 +18,10 @@ internal sealed class BinanceSpotRestClient(
     private const string ApiKey = "guVqJIzZ29JZx2BTv9VbxxOr7IehQIIRRXABm53rawtThH0XcD8EeyzUtMbIaQ92";
     private const string SecretKey = "BPwSSG45zE8ABiZ6Zm4t9gJFJMo19ExjBqOQlmLcOM5LgfyYP6V5biYrsUkZfXxm";
 
-    private static class GeneralEndpoints
-    {
-        public const string TestConnectivity = "api/v3/ping";
-        public const string ExchangeInfo = "api/v3/exchangeInfo";
-        public const string CheckServerTime = "api/v3/time";
-    }
-
     public async Task<Result> TestConnectivityAsync(CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
-            GeneralEndpoints.TestConnectivity,
+            BinanceRestApiRoutes.General.TestConnectivity,
             cancellationToken);
 
         return await HandleResponseAsync(response);
@@ -37,7 +30,7 @@ internal sealed class BinanceSpotRestClient(
     public async Task<Result<ExchangeInfoResponse>> GetExchangeInfoAsync(CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
-            GeneralEndpoints.ExchangeInfo,
+            BinanceRestApiRoutes.General.ExchangeInfo,
             cancellationToken);
 
         return await HandleResponseAsync<ExchangeInfoResponse>(response);
@@ -46,7 +39,7 @@ internal sealed class BinanceSpotRestClient(
     public async Task<Result<BinanceServerTimeResponse>> CheckServerTimeAsync(CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
-            GeneralEndpoints.CheckServerTime,
+            BinanceRestApiRoutes.General.CheckServerTime,
             cancellationToken);
 
         return await HandleResponseAsync<BinanceServerTimeResponse>(response);
