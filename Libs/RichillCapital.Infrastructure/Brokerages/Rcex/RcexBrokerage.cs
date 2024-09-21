@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
@@ -43,6 +44,7 @@ internal sealed class RcexBrokerage(
     }
 
     public override Task<Result> SubmitOrderAsync(
+        Symbol symbol,
         CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();

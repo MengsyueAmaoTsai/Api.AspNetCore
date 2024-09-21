@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Binance.Spot;
+using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
@@ -57,16 +58,19 @@ internal sealed class BinanceBrokerage(
         return Task.FromResult(Result.Success);
     }
 
-    public override async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
+    public override async Task<Result> SubmitOrderAsync(
+        Symbol symbol,
+        CancellationToken cancellationToken = default)
     {
+
         return await _spotRestClient.NewOrderAsync(
-            symbol: "LTCBTC",
+            symbol: symbol.Value.Split(':')[1],
             side: "BUY",
             type: "LIMIT",
             timeInForce: "GTC",
             quantity: 1,
             price: 0.1m,
-            recvWindow: 100000,
+            recvWindow: 60000,
             timestamp: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             cancellationToken: cancellationToken);
     }

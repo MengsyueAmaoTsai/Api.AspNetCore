@@ -5,11 +5,13 @@ namespace RichillCapital.Binance.Spot;
 internal static class BinanceSpotErrors
 {
     internal static Error MapError(BinanceErrorResponse errorResponse) =>
-        Error.Invalid(MapErrorCode(errorResponse.Code), errorResponse.Message);
+        Error.Invalid(
+            MapErrorCode(errorResponse),
+            errorResponse.Message);
 
-    internal static string MapErrorCode(int errorCode)
+    internal static string MapErrorCode(BinanceErrorResponse errorResponse)
     {
-        var suffix = errorCode switch
+        var suffix = errorResponse.Code switch
         {
             -1000 => "Unknown",
             -1001 => "Disconnected",
@@ -25,7 +27,10 @@ internal static class BinanceSpotErrors
             -1020 => "UnsupportedOperation",
             -1021 => "InvalidTimestamp",
             -1022 => "InvalidSignature",
-            _ => throw new NotImplementedException($"Error code {errorCode} is not implemented"),
+
+            -1131 => "InvalidRecvWindow",
+            _ => throw new NotImplementedException(
+                $"Error code {errorResponse.Code} with message: '{errorResponse.Message}' is not implemented"),
         };
 
         return $"Binance.{suffix}";

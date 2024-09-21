@@ -7,5 +7,7 @@ public interface IBrokerage : IConnection
 {
     string Provider { get; }
 
-    Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default);
+    Task<Result> SubmitOrderAsync(
+        Symbol symbol,
+        CancellationToken cancellationToken = default);
 }

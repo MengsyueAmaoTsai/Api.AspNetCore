@@ -2,6 +2,7 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Domain.Events;
@@ -45,7 +46,9 @@ internal sealed class SignalCreatedDomainEventHandler(
         // TEMP IMPLEMENTATION
         var brokerage = _brokerageManager.GetByName("Binance").ThrowIfNull().Value;
 
-        var orderResult = await brokerage.SubmitOrderAsync(cancellationToken);
+        var orderResult = await brokerage.SubmitOrderAsync(
+            Symbol.From("BINANCE:LTCBTC").Value,
+            cancellationToken);
 
         if (orderResult.IsFailure)
         {
