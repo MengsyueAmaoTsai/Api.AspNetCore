@@ -16,10 +16,22 @@ internal sealed class MaxBrokerage(
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
         var serverTimeResult = await _restClient.GetServerTimeAsync(cancellationToken);
+        var userInfoResult = await _restClient.GetUserInfoAsync(cancellationToken);
+
+        if (serverTimeResult.IsFailure)
+        {
+            return Result.Failure(serverTimeResult.Error);
+        }
+
+        if (userInfoResult.IsFailure)
+        {
+            return Result.Failure(userInfoResult.Error);
+        }
 
         IsConnected = true;
 
         _logger.LogInformation("Connected to Max. Server time: {ServerTime}", serverTimeResult.Value);
+        _logger.LogInformation("User info: {UserInfo}", userInfoResult.Value);
 
         return await Task.FromResult(Result.Success);
     }

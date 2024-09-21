@@ -1,6 +1,7 @@
 {
   "dotnet.defaultSolution": "./RichillCapital.Api.sln",
   "cSpell.words": [
+    "ACCESSKEY",
     "APIKEY",
     "ASPNETCORE",
     "fapi",

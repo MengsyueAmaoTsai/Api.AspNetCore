@@ -26,6 +26,9 @@ internal static class MaxErrors
         var suffix = maxErrorCode switch
         {
             2001 => "Error",
+            2006 => "Error",
+            2007 => "Error",
+            2008 => "Error",
             _ => throw new NotImplementedException($"{nameof(maxErrorCode)} for {maxErrorCode} is not defined."),
         };
 
