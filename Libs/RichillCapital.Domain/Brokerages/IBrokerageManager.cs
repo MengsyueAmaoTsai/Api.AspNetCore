@@ -4,6 +4,8 @@ namespace RichillCapital.Domain.Brokerages;
 
 public interface IBrokerageManager
 {
+    Task<Result<IBrokerage>> StartAsync(string connectionName, CancellationToken cancellationToken = default);
+    Task<Result<IBrokerage>> StopAsync(string connectionName, CancellationToken cancellationToken = default);
     IReadOnlyCollection<IBrokerage> ListAll();
     Result<IBrokerage> GetByName(string name);
     Task<Result<IBrokerage>> CreateAndStartAsync(

@@ -84,6 +84,9 @@ public static class ApiRoutes
         public const string Get = $"{BrokeragesBase}/{{connectionName}}";
         public const string Delete = $"{BrokeragesBase}/{{connectionName}}";
 
+        public const string Start = $"{BrokeragesBase}/{{connectionName}}/start";
+        public const string Stop = $"{BrokeragesBase}/{{connectionName}}/stop";
+
         public static class Orders
         {
             private const string OrdersBase = $"{BrokeragesBase}/{{connectionName}}/orders";

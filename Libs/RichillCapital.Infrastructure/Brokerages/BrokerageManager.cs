@@ -103,4 +103,50 @@ internal sealed class BrokerageManager(
 
         return Result.Success;
     }
+
+    public async Task<Result<IBrokerage>> StartAsync(
+        string connectionName,
+        CancellationToken cancellationToken = default)
+    {
+        var brokerageResult = _brokerages.Get(connectionName);
+
+        if (brokerageResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(brokerageResult.Error);
+        }
+
+        var brokerage = brokerageResult.Value;
+
+        var startResult = await brokerage.StartAsync(cancellationToken);
+
+        if (startResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(startResult.Error);
+        }
+
+        return Result<IBrokerage>.With(brokerage);
+    }
+
+    public async Task<Result<IBrokerage>> StopAsync(
+        string connectionName,
+        CancellationToken cancellationToken = default)
+    {
+        var brokerageResult = _brokerages.Get(connectionName);
+
+        if (brokerageResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(brokerageResult.Error);
+        }
+
+        var brokerage = brokerageResult.Value;
+
+        var stopResult = await brokerage.StopAsync(cancellationToken);
+
+        if (stopResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(stopResult.Error);
+        }
+
+        return Result<IBrokerage>.With(brokerage);
+    }
 }

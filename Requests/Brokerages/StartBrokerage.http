@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@ConnectionName = RichillCapital.Binance
+
+### Start brokerage
+POST {{Localhost}}/api/v1/brokerages/{{ConnectionName}}/start
