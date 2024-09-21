@@ -27,7 +27,8 @@ internal sealed class BinanceSpotRestClient(
         return await HandleResponseAsync(response);
     }
 
-    public async Task<Result<ExchangeInfoResponse>> GetExchangeInfoAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<ExchangeInfoResponse>> GetExchangeInfoAsync(
+        CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
             BinanceRestApiRoutes.General.ExchangeInfo,
@@ -36,7 +37,8 @@ internal sealed class BinanceSpotRestClient(
         return await HandleResponseAsync<ExchangeInfoResponse>(response);
     }
 
-    public async Task<Result<BinanceServerTimeResponse>> CheckServerTimeAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<BinanceServerTimeResponse>> CheckServerTimeAsync(
+        CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
             BinanceRestApiRoutes.General.CheckServerTime,
@@ -98,7 +100,8 @@ internal sealed class BinanceSpotRestClient(
         }
     }
 
-    private async Task<Result<TBinanceResponse>> HandleResponseAsync<TBinanceResponse>(HttpResponseMessage httpResponse)
+    private async Task<Result<TBinanceResponse>> HandleResponseAsync<TBinanceResponse>(
+        HttpResponseMessage httpResponse)
     {
         try
         {
@@ -116,12 +119,12 @@ internal sealed class BinanceSpotRestClient(
                 return Result<TBinanceResponse>.Failure(error);
             }
 
-            return Result<TBinanceResponse>.With(JsonConvert.DeserializeObject<TBinanceResponse>(responseContent)!);
+            var response = JsonConvert.DeserializeObject<TBinanceResponse>(responseContent);
+            return Result<TBinanceResponse>.With(response!);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while handling response");
-
             return Result<TBinanceResponse>.Failure(Error.Unexpected("Failed to handle response"));
         }
     }
@@ -133,31 +136,7 @@ internal sealed class BinanceSpotRestClient(
         var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
 
         return Error.Unexpected(
-            MapBinanceErrorCode(errorResponse!.Code),
+            BinanceSpotErrors.MapErrorCode(errorResponse!.Code),
             errorResponse!.Message);
-    }
-
-    private static string MapBinanceErrorCode(int errorCode)
-    {
-        var suffix = errorCode switch
-        {
-            -1000 => "Unknown",
-            -1001 => "Disconnected",
-            -1002 => "Unauthorized",
-            -1003 => "TooManyRequests",
-            -1006 => "UnexpectedResponse",
-            -1007 => "Timeout",
-            -1008 => "ServerBusy",
-            -1013 => "InvalidMessage",
-            -1014 => "UnknownOrderComposition",
-            -1015 => "TooManyOrders",
-            -1016 => "ServiceShuttingDown",
-            -1020 => "UnsupportedOperation",
-            -1021 => "InvalidTimestamp",
-            -1022 => "InvalidSignature",
-            _ => throw new NotImplementedException($"Error code {errorCode} is not implemented"),
-        };
-
-        return $"Binance.{suffix}";
     }
 }

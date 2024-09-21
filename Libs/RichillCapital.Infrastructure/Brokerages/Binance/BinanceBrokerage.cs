@@ -20,6 +20,7 @@ internal sealed class BinanceBrokerage(
         var testResult = await _spotRestClient.TestConnectivityAsync(cancellationToken);
         var serverTimeResult = await _spotRestClient.CheckServerTimeAsync(cancellationToken);
         var exchangeInfoResult = await _spotRestClient.GetExchangeInfoAsync(cancellationToken);
+
         if (testResult.IsFailure)
         {
             return Result.Failure(testResult.Error);
@@ -30,11 +31,16 @@ internal sealed class BinanceBrokerage(
             return Result.Failure(serverTimeResult.Error);
         }
 
+        if (exchangeInfoResult.IsFailure)
+        {
+            return Result.Failure(exchangeInfoResult.Error);
+        }
+
         IsConnected = true;
 
-        _logger.LogInformation(
-            "Connected to Binance. Server time: {serverTime}",
-            serverTimeResult.Value);
+        _logger.LogInformation("Binance Brokerage started.");
+        _logger.LogInformation("Server time: {ServerTime}", serverTimeResult.Value.ServerTime);
+        _logger.LogInformation("Exchange info: {ExchangeInfo}", exchangeInfoResult.Value);
 
         return Result.Success;
     }
