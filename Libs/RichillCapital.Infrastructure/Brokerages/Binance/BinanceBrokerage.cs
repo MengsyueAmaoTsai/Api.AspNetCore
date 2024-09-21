@@ -6,7 +6,7 @@ using RichillCapital.SharedKernel.Monads;
 
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
-    BinanceRestService _restService,
+    IBinanceSpotRestClient _spotRestClient,
     string name) :
     Brokerage("Binance", name)
 {
@@ -17,9 +17,15 @@ internal sealed class BinanceBrokerage(
             return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
         }
 
-        await _restService.TestConnectivityAsync(cancellationToken);
+        var testResult = await _spotRestClient.TestConnectivityAsync(cancellationToken);
+
+        if (testResult.IsFailure)
+        {
+            return Result.Failure(testResult.Error);
+        }
 
         IsConnected = true;
+
         return Result.Success;
     }
 
@@ -31,17 +37,12 @@ internal sealed class BinanceBrokerage(
         }
 
         IsConnected = false;
+
         return Task.FromResult(Result.Success);
     }
 
     public override async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _restService.SendOrderAsync(
-            symbol: string.Empty,
-            side: string.Empty,
-            type: string.Empty,
-            cancellationToken);
-
-        return result;
+        return Result.Success;
     }
 }

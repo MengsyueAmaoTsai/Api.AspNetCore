@@ -4,13 +4,12 @@ namespace RichillCapital.Binance;
 
 public static class BinanceExtensions
 {
-    public static IServiceCollection AddBinanceRestService(
+    public static IServiceCollection AddBinanceSpotRestClient(
         this IServiceCollection services)
     {
-        services.AddHttpClient<BinanceRestService>(client =>
+        services.AddHttpClient<IBinanceSpotRestClient, BinanceSpotRestClient>(client =>
         {
-            client.BaseAddress = new Uri("https://api.binance.com");
-            client.DefaultRequestHeaders.Clear();
+
         });
 
         return services;

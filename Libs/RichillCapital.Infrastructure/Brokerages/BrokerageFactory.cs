@@ -23,7 +23,7 @@ internal sealed class BrokerageFactory(
 
             "Binance" => Result<IBrokerage>.With(new BinanceBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<BinanceBrokerage>>(),
-                _serviceProvider.GetRequiredService<BinanceRestService>(),
+                _serviceProvider.GetRequiredService<IBinanceSpotRestClient>(),
                 connectionName)),
 
             _ => Result<IBrokerage>.Failure(Error.Invalid(
