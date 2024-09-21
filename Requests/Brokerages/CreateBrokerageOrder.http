@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@ConnectionName = RichillCapital.Max
+@ConnectionName = RichillCapital.Exchange
 
 ### Create brokerage order
 POST {{Localhost}}/api/v1/brokerages/{{ConnectionName}}/orders
@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "symbol": "BINANCE:BTCUSDT.P",
-    "tradeType": "Buy",
+    "tradeType": "Sell",
     "orderType": "Market",
     "timeInForce": "IOC",
     "quantity": 1

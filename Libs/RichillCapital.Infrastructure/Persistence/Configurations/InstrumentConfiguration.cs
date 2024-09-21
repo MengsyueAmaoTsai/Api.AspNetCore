@@ -40,6 +40,7 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
 
         builder.HasData([
             .. CreateInstruments_TAIFEX(),
+            .. CreateCryptoSwaps(),
         ]);
     }
 
@@ -103,6 +104,28 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             description: "TAIFEX PHLX Semiconductor SectorTM Index",
             type: InstrumentType.Future,
             contractUnit: 80);
+    }
+
+    private static IEnumerable<Instrument> CreateCryptoSwaps()
+    {
+        var instrumentType = InstrumentType.Swap;
+        var contractUnit = 1m;
+
+        yield return CreateInstrument(
+            symbol: "BINANCE:BTCUSDT.P",
+            description: "BTC/USDT Perpetual Swap",
+            type: instrumentType,
+            contractUnit: contractUnit);
+        yield return CreateInstrument(
+            symbol: "BINANCE:ETHUSDT.P",
+            description: "ETH/USDT Perpetual Swap",
+            type: instrumentType,
+            contractUnit: contractUnit);
+        yield return CreateInstrument(
+            symbol: "BINANCE:BNBUSDT.P",
+            description: "BNB/USDT Perpetual Swap",
+            type: instrumentType,
+            contractUnit: contractUnit);
     }
 
     private static Instrument CreateInstrument(

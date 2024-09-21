@@ -63,6 +63,12 @@ internal sealed class RcexBrokerage(
 
         var result = await _restClient.CreateOrderAsync(cancellationToken);
 
+        if (result.IsFailure)
+        {
+            _logger.LogError("Failed to submit order: {Error}", result.Error);
+            return Result.Failure(result.Error);
+        }
+
         return Result.Success;
     }
 }
