@@ -8,6 +8,7 @@ public static class BinanceExtensions
         this IServiceCollection services,
         string baseAddress)
     {
+        services.AddTransient<BinanceSignatureHandler>();
         services.AddTransient<RequestDebuggingMessageHandler>();
 
         services

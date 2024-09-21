@@ -44,14 +44,6 @@ internal sealed class BinanceBrokerage(
         decimal quantity,
         CancellationToken cancellationToken = default)
     {
-        // var binanceSymbol = symbol.Value.Split(':')[1];
-        // return await _usdMarginedRestClient.NewOrderAsync(
-        //     symbol: binanceSymbol,
-        //     side: tradeType.Name.ToUpperInvariant(),
-        //     type: orderType.Name.ToUpperInvariant(),
-        //     quantity: quantity,
-        //     cancellationToken: cancellationToken);
-
         _logger.LogInformation(
             "Submitting order: {TradeType} {Symbol} {Quantity} @ {OrderType}",
             tradeType,
@@ -59,11 +51,16 @@ internal sealed class BinanceBrokerage(
             quantity,
             orderType);
 
-        var result = await _restClient.NewOrderAsync(
+        var newOrderResult = await _restClient.NewOrderAsync(
             symbol.ToBinanceSymbol(),
             tradeType.Name.ToUpperInvariant(),
             orderType.Name.ToUpperInvariant(),
             quantity);
+
+        if (newOrderResult.IsFailure)
+        {
+            return Result.Failure(newOrderResult.Error);
+        }
 
         return Result.Success;
     }

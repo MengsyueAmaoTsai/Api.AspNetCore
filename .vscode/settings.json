@@ -1,7 +1,9 @@
 {
   "dotnet.defaultSolution": "./RichillCapital.Api.sln",
   "cSpell.words": [
+    "APIKEY",
     "ASPNETCORE",
+    "fapi",
     "hmac",
     "HMACSHA",
     "Mediat",

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Binance;
@@ -12,9 +11,14 @@ public interface IBinanceRestClient
 
 internal sealed class BinanceRestClient(
     ILogger<BinanceRestClient> _logger,
-    HttpClient _httpClient) :
+    HttpClient _httpClient,
+    BinanceSignatureHandler _signatureHandler) :
     IBinanceRestClient
 {
+    private const string ApiKey = "guVqJIzZ29JZx2BTv9VbxxOr7IehQIIRRXABm53rawtThH0XcD8EeyzUtMbIaQ92";
+    private const string SecretKey = "BPwSSG45zE8ABiZ6Zm4t9gJFJMo19ExjBqOQlmLcOM5LgfyYP6V5biYrsUkZfXxm";
+    // private const string SecretKey = "d";
+
     public async Task<Result> NewOrderAsync(
         string symbol,
         string side,
@@ -22,6 +26,16 @@ internal sealed class BinanceRestClient(
         decimal quantity,
         CancellationToken cancellationToken = default)
     {
+        var clientOrderId = Guid.NewGuid();
+        var responseType = "RESULT";
+        var positionSide = "BOTH";
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var queryString = $"symbol={symbol}&side={side}&type={type}&quantity={quantity}&newClientOrderId={clientOrderId}&newOrderRespType={responseType}&positionSide={positionSide}";
+        queryString += $"&timestamp={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+
+        var signature = _signatureHandler.Sign(SecretKey, queryString);
+
         var request = new HttpRequestMessage(HttpMethod.Post, "fapi/v1/order")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -29,15 +43,24 @@ internal sealed class BinanceRestClient(
                 { "symbol", symbol },
                 { "side", side },
                 { "type", type },
-                { "quantity", quantity.ToString() }
+                { "quantity", quantity.ToString() },
+                { "newClientOrderId", clientOrderId.ToString() },
+                { "newOrderRespType", responseType },
+                { "positionSide", positionSide },
+                { "timestamp", timestamp.ToString() },
+                { "signature", signature },
             })
         };
+
+        request.Headers.Add("X-MBX-APIKEY", ApiKey);
 
         var response = await _httpClient.SendAsync(request, cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
-            return Result.Failure(Error.Unexpected("Failed to send request to Binance."));
+            var error = await response.ReadAsErrorAsync(cancellationToken);
+            _logger.LogWarning("{Error}", error);
+            return Result.Failure(error);
         }
 
         return Result.Success;
