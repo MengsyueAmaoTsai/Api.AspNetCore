@@ -38,13 +38,6 @@ internal sealed class BrokerageManager(
 
     public Result<IBrokerage> Create(string provider, string name)
     {
-        var brokerageResult = _brokerages.Get(name);
-
-        if (brokerageResult.IsFailure)
-        {
-            return Result<IBrokerage>.Failure(brokerageResult.Error);
-        }
-
         var createResult = _factory.CreateBrokerage(provider, name);
 
         if (createResult.IsFailure)

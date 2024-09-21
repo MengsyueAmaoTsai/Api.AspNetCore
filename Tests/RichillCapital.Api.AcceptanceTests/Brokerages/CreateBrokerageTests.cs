@@ -25,4 +25,24 @@ public sealed class CreateBrokerageTests(
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
     }
 
+    [Fact]
+    public async Task Should_CreateBrokerage()
+    {
+        var request = new CreateBrokerageRequest
+        {
+            Provider = "Binance",
+            Name = "New connection name from AcceptanceTests",
+        };
+
+        var response = await Client.PostAsJsonAsync("api/v1/brokerages", request);
+
+        response.EnsureSuccessStatusCode();
+
+        var brokerage = await response.Content.ReadFromJsonAsync<BrokerageDetailsResponse>();
+
+        brokerage.Should().NotBeNull();
+        brokerage!.Provider.Should().Be(request.Provider);
+        brokerage!.Name.Should().Be(request.Name);
+        brokerage.IsConnected.Should().BeFalse();
+    }
 }
