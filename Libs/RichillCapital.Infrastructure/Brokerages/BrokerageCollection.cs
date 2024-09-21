@@ -15,9 +15,7 @@ internal sealed class BrokerageCollection() :
     {
         if (_brokerages.ContainsKey(brokerage.Name))
         {
-            return Result.Failure(Error.Conflict(
-                "Brokerages.AlreadyExists",
-                $"Brokerage with connection name {brokerage.Name} already exists."));
+            return Result.Failure(BrokerageErrors.AlreadyExists(brokerage.Name));
         }
 
         _brokerages.Add(brokerage.Name, brokerage);
@@ -25,8 +23,25 @@ internal sealed class BrokerageCollection() :
         return Result.Success;
     }
 
-    public Maybe<IBrokerage> Get(string name) =>
-        !_brokerages.TryGetValue(name, out var brokerage) ?
-            Maybe<IBrokerage>.Null :
-            Maybe<IBrokerage>.With(brokerage);
+    public Result<IBrokerage> Get(string name)
+    {
+        if (!_brokerages.ContainsKey(name))
+        {
+            return Result<IBrokerage>.Failure(BrokerageErrors.NotFound(name));
+        }
+
+        return Result<IBrokerage>.With(_brokerages[name]);
+    }
+
+    public Result Remove(string name)
+    {
+        if (!_brokerages.ContainsKey(name))
+        {
+            return Result.Failure(BrokerageErrors.NotFound(name));
+        }
+
+        _brokerages.Remove(name);
+
+        return Result.Success;
+    }
 }

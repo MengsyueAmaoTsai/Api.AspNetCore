@@ -18,14 +18,14 @@ internal sealed class GetBrokerageQueryHandler(
             return ErrorOr<BrokerageDto>.WithError(Error.Invalid($"{nameof(query.ConnectionName)} is required."));
         }
 
-        var maybeBrokerage = _brokerageManager.GetByName(query.ConnectionName);
+        var brokerageResult = _brokerageManager.GetByName(query.ConnectionName);
 
-        if (maybeBrokerage.IsNull)
+        if (brokerageResult.IsFailure)
         {
-            return ErrorOr<BrokerageDto>.WithError(BrokerageErrors.NotFound(query.ConnectionName));
+            return ErrorOr<BrokerageDto>.WithError(brokerageResult.Error);
         }
 
-        var brokerage = maybeBrokerage.Value;
+        var brokerage = brokerageResult.Value;
 
         return ErrorOr<BrokerageDto>.With(brokerage.ToDto());
     }

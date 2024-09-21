@@ -7,5 +7,6 @@ public interface IBrokerageCollection
 {
     IReadOnlyCollection<IBrokerage> All { get; }
     Result Add(IBrokerage brokerage);
-    Maybe<IBrokerage> Get(string name);
+    Result<IBrokerage> Get(string name);
+    Result Remove(string name);
 }

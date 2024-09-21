@@ -43,7 +43,7 @@ internal sealed class SignalCreatedDomainEventHandler(
         }
 
         // TEMP IMPLEMENTATION
-        var brokerage = _brokerageManager.GetByName("Binance").ThrowIfNull().Value;
+        var brokerage = _brokerageManager.GetByName("Binance").ThrowIfFailure().Value;
 
         var orderResult = await brokerage.SubmitOrderAsync(
             domainEvent.Symbol,

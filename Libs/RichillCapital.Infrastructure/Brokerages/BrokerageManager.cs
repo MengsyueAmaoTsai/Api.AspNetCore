@@ -1,4 +1,3 @@
-
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
@@ -34,28 +33,35 @@ internal sealed class BrokerageManager(
         return Result<IBrokerage>.With(brokerage);
     }
 
-    public Maybe<IBrokerage> GetByName(string name) => _brokerages.Get(name);
+    public Result<IBrokerage> GetByName(string name) => _brokerages.Get(name);
     public IReadOnlyCollection<IBrokerage> ListAll() => _brokerages.All;
 
     public Result<IBrokerage> Create(string provider, string name)
     {
-        var maybeBrokerage = _brokerages.Get(name);
-
-        if (maybeBrokerage.HasValue)
-        {
-            return Result<IBrokerage>.Failure(BrokerageErrors.AlreadyExists(name));
-        }
-
-        var brokerageResult = _factory.CreateBrokerage(provider, name);
+        var brokerageResult = _brokerages.Get(name);
 
         if (brokerageResult.IsFailure)
         {
             return Result<IBrokerage>.Failure(brokerageResult.Error);
         }
 
-        var brokerage = brokerageResult.Value;
-        _brokerages.Add(brokerage);
+        var createResult = _factory.CreateBrokerage(provider, name);
+
+        if (createResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(createResult.Error);
+        }
+
+        var brokerage = createResult.Value;
+        var addResult = _brokerages.Add(brokerage);
+
+        if (addResult.IsFailure)
+        {
+            return Result<IBrokerage>.Failure(addResult.Error);
+        }
 
         return Result<IBrokerage>.With(brokerage);
     }
+
+    public Result Remove(IBrokerage brokerage) => _brokerages.Remove(brokerage.Name);
 }

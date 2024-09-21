@@ -1,4 +1,4 @@
 @Localhost = https://localhost:10000
 
 ### Delete brokerage
-DELETE {{Localhost}}/api/v1/brokerages/RichillCapital.Binance2
+DELETE {{Localhost}}/api/v1/brokerages/RichillCapital.Binance
