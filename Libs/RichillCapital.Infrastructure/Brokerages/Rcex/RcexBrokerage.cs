@@ -41,4 +41,10 @@ internal sealed class RcexBrokerage(
 
         return await Task.FromResult(Result.Success);
     }
+
+    public override Task<Result> SubmitOrderAsync(
+        CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
 }

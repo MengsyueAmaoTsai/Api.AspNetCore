@@ -13,4 +13,5 @@ public abstract class Brokerage(
 
     public abstract Task<Result> StartAsync(CancellationToken cancellationToken = default);
     public abstract Task<Result> StopAsync(CancellationToken cancellationToken = default);
+    public abstract Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default);
 }

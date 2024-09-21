@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Binance;
@@ -34,18 +33,15 @@ internal sealed class BinanceBrokerage(
         IsConnected = false;
         return Task.FromResult(Result.Success);
     }
-}
 
-public static class BinanceBrokerageExtensions
-{
-    public static IServiceCollection AddBinanceBrokerage(this IServiceCollection services)
+    public override async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
     {
-        services.AddHttpClient<BinanceRestService>(client =>
-        {
-            client.BaseAddress = new Uri("https://api.binance.com");
-            client.DefaultRequestHeaders.Clear();
-        });
+        var result = await _restService.SendOrderAsync(
+            symbol: string.Empty,
+            side: string.Empty,
+            type: string.Empty,
+            cancellationToken);
 
-        return services;
+        return result;
     }
 }
