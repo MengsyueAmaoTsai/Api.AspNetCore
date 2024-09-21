@@ -27,6 +27,8 @@ internal static class BinanceErrors
         {
             -1000 => "Unknown",
             -1102 => "MandatoryParamEmptyOrMalformed",
+            -1121 => "BadSymbol",
+
             -1022 => "InvalidSignature",
             -2014 => "BadApiKeyFormat",
 
