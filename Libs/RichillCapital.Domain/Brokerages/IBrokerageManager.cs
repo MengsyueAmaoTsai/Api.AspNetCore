@@ -12,4 +12,5 @@ public interface IBrokerageManager
         CancellationToken cancellationToken = default);
     Result<IBrokerage> Create(string provider, string name);
     Result Remove(IBrokerage brokerage);
+    Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default);
 }

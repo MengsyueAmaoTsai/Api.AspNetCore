@@ -49,6 +49,36 @@ internal sealed class BinanceBrokerage(
         //     type: orderType.Name.ToUpperInvariant(),
         //     quantity: quantity,
         //     cancellationToken: cancellationToken);
+
+        _logger.LogInformation(
+            "Binance Brokerage order submitted. {tradeType} {symbol} {quantity} @ {orderType}",
+            tradeType,
+            symbol,
+            quantity,
+            orderType);
+
         return Result.Success;
+    }
+}
+
+internal static class SymbolExtensions
+{
+    internal static string ToBinanceSymbol(this Symbol symbol)
+    {
+        var parts = symbol.Value.Split(':');
+        var exchangePart = parts[0];
+        var symbolPart = parts[1];
+
+        if (exchangePart != "BINANCE")
+        {
+            throw new ArgumentException($"Invalid exchange part: {exchangePart}");
+        }
+
+        if (symbolPart.Contains('.'))
+        {
+            return symbolPart.Split('.').First();
+        }
+
+        return symbolPart;
     }
 }

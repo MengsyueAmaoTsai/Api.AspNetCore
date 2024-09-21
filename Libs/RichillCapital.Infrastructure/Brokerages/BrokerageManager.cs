@@ -1,3 +1,4 @@
+using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
@@ -57,4 +58,31 @@ internal sealed class BrokerageManager(
     }
 
     public Result Remove(IBrokerage brokerage) => _brokerages.Remove(brokerage.Name);
+
+    public async Task<Result> SubmitOrderAsync(
+        CancellationToken cancellationToken = default)
+    {
+        var brokerageResult = _brokerages.Get("RichillCapital.Binance");
+
+        if (brokerageResult.IsFailure)
+        {
+            return Result.Failure(brokerageResult.Error);
+        }
+
+        var brokerage = brokerageResult.Value;
+
+        var submitResult = await brokerage.SubmitOrderAsync(
+            Symbol.From("BINANCE:BTCUSDT.P").ThrowIfFailure().Value,
+            TradeType.Buy,
+            OrderType.Market,
+            1,
+            cancellationToken);
+
+        if (submitResult.IsFailure)
+        {
+            return Result.Failure(submitResult.Error);
+        }
+
+        return Result.Success;
+    }
 }

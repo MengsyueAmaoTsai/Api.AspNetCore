@@ -83,6 +83,13 @@ public static class ApiRoutes
 
         public const string Get = $"{BrokeragesBase}/{{connectionName}}";
         public const string Delete = $"{BrokeragesBase}/{{connectionName}}";
+
+        public static class Orders
+        {
+            private const string OrdersBase = $"{BrokeragesBase}/{{connectionName}}/orders";
+
+            public const string Create = OrdersBase;
+        }
     }
 
     public static class SignalSources
