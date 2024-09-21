@@ -18,6 +18,7 @@ COPY ./Libs/RichillCapital.Infrastructure/*.csproj ./Libs/RichillCapital.Infrast
 COPY ./Libs/RichillCapital.Domain/*.csproj ./Libs/RichillCapital.Domain/
 
 COPY ./Libs/RichillCapital.Http/*.csproj ./Libs/RichillCapital.Http/
+COPY ./Libs/RichillCapital.Serialization/*.csproj ./Libs/RichillCapital.Serialization/
 
 COPY ./Libs/RichillCapital.Binance/*.csproj ./Libs/RichillCapital.Binance/
 COPY ./Libs/RichillCapital.Max/*.csproj ./Libs/RichillCapital.Max/

@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace RichillCapital.Binance.Serialization;
+namespace RichillCapital.Serialization;
 
-internal sealed class TimestampDateTimeOffsetConverter :
+public sealed class TimestampDateTimeOffsetConverter :
     JsonConverter<DateTimeOffset>
 {
     public override DateTimeOffset ReadJson(

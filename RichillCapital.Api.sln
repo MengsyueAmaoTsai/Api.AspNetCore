@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Exchange.Cli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Http", "Libs\RichillCapital.Http\RichillCapital.Http.csproj", "{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Serialization", "Libs\RichillCapital.Serialization\RichillCapital.Serialization.csproj", "{19515C58-F664-4B2D-8008-834B29BF4D9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19515C58-F664-4B2D-8008-834B29BF4D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19515C58-F664-4B2D-8008-834B29BF4D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19515C58-F664-4B2D-8008-834B29BF4D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19515C58-F664-4B2D-8008-834B29BF4D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,5 +96,6 @@ Global
 		{DE5F1AFD-358F-4310-994A-0216CB7F8EA7} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
 		{12295F80-0E72-4FD8-BA29-95504E433B47} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
 		{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
+		{19515C58-F664-4B2D-8008-834B29BF4D9D} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
 	EndGlobalSection
 EndGlobal
