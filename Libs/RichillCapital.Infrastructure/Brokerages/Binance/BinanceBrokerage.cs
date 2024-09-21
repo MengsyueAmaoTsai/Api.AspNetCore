@@ -54,6 +54,13 @@ internal sealed class BinanceBrokerage(
     public override async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
     {
         return await _spotRestClient.NewOrderAsync(
+            symbol: "LTCBTC",
+            side: "BUY",
+            type: "LIMIT",
+            timeInForce: "GTC",
+            quantity: 1,
+            price: 0.1m,
+            recvWindow: 5000,
             timestamp: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             cancellationToken: cancellationToken);
     }

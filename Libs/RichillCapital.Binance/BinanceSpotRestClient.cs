@@ -31,19 +31,7 @@ internal sealed class BinanceSpotRestClient(
             GeneralEndpoints.TestConnectivity,
             cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            _logger.LogError(
-                "Failed to test connectivity: {statusCode} {errorContent}",
-                response.StatusCode,
-                errorContent);
-
-            return Result.Failure(Error.Unexpected("Failed to test connectivity"));
-        }
-
-        return Result.Success;
+        return await HandleResponseAsync(response);
     }
 
     public async Task<Result<ExchangeInfoResponse>> GetExchangeInfoAsync(CancellationToken cancellationToken = default)
@@ -52,60 +40,27 @@ internal sealed class BinanceSpotRestClient(
             GeneralEndpoints.ExchangeInfo,
             cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            _logger.LogError(
-                "Failed to get exchange info: {statusCode} {errorContent}",
-                response.StatusCode,
-                errorContent);
-
-            return Result<ExchangeInfoResponse>.Failure(Error.Unexpected("Failed to get exchange info"));
-        }
-
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var exchangeInfo = JsonConvert.DeserializeObject<ExchangeInfoResponse>(responseContent);
-
-        _logger.LogInformation("Exchange info: {exchangeInfo}", exchangeInfo);
-        return Result<ExchangeInfoResponse>.With(exchangeInfo!);
+        return await HandleResponseAsync<ExchangeInfoResponse>(response);
     }
 
-    public async Task<Result<DateTimeOffset>> CheckServerTimeAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<BinanceServerTimeResponse>> CheckServerTimeAsync(CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.GetAsync(
             GeneralEndpoints.CheckServerTime,
             cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            _logger.LogError(
-                "Failed to check server time: {statusCode} {errorContent}",
-                response.StatusCode,
-                errorContent);
-
-            return Result<DateTimeOffset>.Failure(Error.Unexpected("Failed to check server time"));
-        }
-
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var serverTime = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(responseContent);
-
-        var serverTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(serverTime!.ServerTime);
-
-        return Result<DateTimeOffset>.With(serverTimeOffset);
+        return await HandleResponseAsync<BinanceServerTimeResponse>(response);
     }
 
     public async Task<Result> NewOrderAsync(
-        string symbol = "LTCBTC",
-        string side = "BUY",
-        string type = "LIMIT",
-        string timeInForce = "GTC",
-        decimal quantity = 1,
-        decimal price = 0.1m,
-        long recvWindow = 5000,
-        long timestamp = 1499827319559,
+        string symbol,
+        string side,
+        string type,
+        string timeInForce,
+        decimal quantity,
+        decimal price,
+        long recvWindow,
+        long timestamp,
         CancellationToken cancellationToken = default)
     {
         var request = new
@@ -152,6 +107,74 @@ internal sealed class BinanceSpotRestClient(
         _logger.LogInformation("New order submitted successfully. {content}", responseContent);
 
         return Result.Success;
+    }
+
+    private async Task<Result> HandleResponseAsync(HttpResponseMessage httpResponse)
+    {
+        try
+        {
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
+
+                _logger.LogError(
+                    "Failed to handle response: {statusCode} {errorContent}",
+                    httpResponse.StatusCode,
+                    errorResponse);
+
+                return Result.Failure(Error.Unexpected("Failed to handle response"));
+            }
+
+            _logger.LogInformation("Response: {response}", responseContent);
+
+            return Result.Success;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to handle response");
+            return Result.Failure(Error.Unexpected("Failed to handle response"));
+        }
+    }
+
+    private async Task<Result<TBinanceResponse>> HandleResponseAsync<TBinanceResponse>(HttpResponseMessage httpResponse)
+    {
+        try
+        {
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                var error = await ParseErrorResponseAsync(httpResponse);
+
+                _logger.LogError(
+                    "Failed to handle response: {statusCode} {errorContent}",
+                    httpResponse.StatusCode,
+                    error);
+
+                return Result<TBinanceResponse>.Failure(error);
+            }
+
+            return Result<TBinanceResponse>.With(JsonConvert.DeserializeObject<TBinanceResponse>(responseContent)!);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception occurred while handling response");
+
+            return Result<TBinanceResponse>.Failure(Error.Unexpected("Failed to handle response"));
+        }
+    }
+
+    private async Task<Error> ParseErrorResponseAsync(HttpResponseMessage httpResponse)
+    {
+        var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+        var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
+
+        return Error.Unexpected(
+            errorResponse!.Code.ToString(),
+            errorResponse!.Message);
     }
 
     private static string GenerateSignature(string queryString)
