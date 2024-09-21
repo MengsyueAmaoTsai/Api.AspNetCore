@@ -49,7 +49,24 @@ internal sealed class BinanceRestClient(
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         var serverTime = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(content);
 
-        return Result<BinanceServerTimeResponse>.With(serverTime);
+        return Result<BinanceServerTimeResponse>.With(serverTime!);
+    }
+
+    public async Task<Result<BinanceExchangeInfoResponse>> GetExchangeInfoAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync("fapi/v1/exchangeInfo", cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.ReadAsErrorAsync(cancellationToken);
+            _logger.LogWarning("{Error}", error);
+            return Result<BinanceExchangeInfoResponse>.Failure(error);
+        }
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var exchangeInfo = JsonConvert.DeserializeObject<BinanceExchangeInfoResponse>(content);
+
+        return Result<BinanceExchangeInfoResponse>.With(exchangeInfo!);
     }
 
     public async Task<Result> NewOrderAsync(
