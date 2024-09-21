@@ -66,7 +66,7 @@ internal sealed class BinanceBrokerage(
             timeInForce: "GTC",
             quantity: 1,
             price: 0.1m,
-            recvWindow: 5000,
+            recvWindow: 100000,
             timestamp: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             cancellationToken: cancellationToken);
     }

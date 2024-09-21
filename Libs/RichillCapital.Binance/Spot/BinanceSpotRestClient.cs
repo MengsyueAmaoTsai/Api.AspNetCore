@@ -79,7 +79,7 @@ internal sealed class BinanceSpotRestClient(
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                var error = await ParseErrorResponseAsync(httpResponse);
+                var error = await ReadAsErrorAsync(httpResponse);
 
                 _logger.LogError(
                     "Request is failed: {statusCode} {error}",
@@ -109,7 +109,7 @@ internal sealed class BinanceSpotRestClient(
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                var error = await ParseErrorResponseAsync(httpResponse);
+                var error = await ReadAsErrorAsync(httpResponse);
 
                 _logger.LogError(
                     "Request is failed: {statusCode} {error}",
@@ -129,14 +129,12 @@ internal sealed class BinanceSpotRestClient(
         }
     }
 
-    private async Task<Error> ParseErrorResponseAsync(HttpResponseMessage httpResponse)
+    private async Task<Error> ReadAsErrorAsync(
+        HttpResponseMessage httpResponse,
+        CancellationToken cancellationToken = default)
     {
-        var responseContent = await httpResponse.Content.ReadAsStringAsync();
+        var errorResponse = await httpResponse.ReadAsErrorResponseAsync(cancellationToken);
 
-        var errorResponse = JsonConvert.DeserializeObject<BinanceErrorResponse>(responseContent);
-
-        return Error.Unexpected(
-            BinanceSpotErrors.MapErrorCode(errorResponse!.Code),
-            errorResponse!.Message);
+        return BinanceSpotErrors.MapError(errorResponse!);
     }
 }

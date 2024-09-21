@@ -1,7 +1,12 @@
+using RichillCapital.SharedKernel;
+
 namespace RichillCapital.Binance.Spot;
 
 internal static class BinanceSpotErrors
 {
+    internal static Error MapError(BinanceErrorResponse errorResponse) =>
+        Error.Invalid(MapErrorCode(errorResponse.Code), errorResponse.Message);
+
     internal static string MapErrorCode(int errorCode)
     {
         var suffix = errorCode switch
