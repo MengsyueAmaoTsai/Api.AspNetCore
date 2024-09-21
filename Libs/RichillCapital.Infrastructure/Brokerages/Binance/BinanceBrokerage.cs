@@ -1,13 +1,13 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Binance.Spot;
+using RichillCapital.Binance.UsdMargined;
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
-    IBinanceSpotRestClient _spotRestClient,
+    IBinanceUsdMarginedRestClient _usdMarginedRestClient,
     string name) :
     Brokerage("Binance", name)
 {
@@ -18,30 +18,9 @@ internal sealed class BinanceBrokerage(
             return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
         }
 
-        var testResult = await _spotRestClient.TestConnectivityAsync(cancellationToken);
-        var serverTimeResult = await _spotRestClient.CheckServerTimeAsync(cancellationToken);
-        var exchangeInfoResult = await _spotRestClient.GetExchangeInfoAsync(cancellationToken);
-
-        if (testResult.IsFailure)
-        {
-            return Result.Failure(testResult.Error);
-        }
-
-        if (serverTimeResult.IsFailure)
-        {
-            return Result.Failure(serverTimeResult.Error);
-        }
-
-        if (exchangeInfoResult.IsFailure)
-        {
-            return Result.Failure(exchangeInfoResult.Error);
-        }
-
         IsConnected = true;
 
         _logger.LogInformation("Binance Brokerage started.");
-        _logger.LogInformation("Server time: {ServerTime}", serverTimeResult.Value.ServerTime);
-        _logger.LogInformation("Exchange info: {ExchangeInfo}", exchangeInfoResult.Value);
 
         return Result.Success;
     }
@@ -60,18 +39,18 @@ internal sealed class BinanceBrokerage(
 
     public override async Task<Result> SubmitOrderAsync(
         Symbol symbol,
+        TradeType tradeType,
+        OrderType orderType,
+        decimal quantity,
         CancellationToken cancellationToken = default)
     {
+        var binanceSymbol = symbol.Value.Split(':')[1];
 
-        return await _spotRestClient.NewOrderAsync(
-            symbol: symbol.Value.Split(':')[1],
-            side: "BUY",
-            type: "LIMIT",
-            timeInForce: "GTC",
-            quantity: 1,
-            price: 0.1m,
-            recvWindow: 60000,
-            timestamp: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+        return await _usdMarginedRestClient.NewOrderAsync(
+            symbol: binanceSymbol,
+            side: tradeType.Name.ToUpperInvariant(),
+            type: orderType.Name.ToUpperInvariant(),
+            quantity: quantity,
             cancellationToken: cancellationToken);
     }
 }

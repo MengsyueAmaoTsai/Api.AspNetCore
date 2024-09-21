@@ -48,6 +48,9 @@ internal sealed class SignalCreatedDomainEventHandler(
 
         var orderResult = await brokerage.SubmitOrderAsync(
             Symbol.From("BINANCE:LTCBTC").Value,
+            TradeType.Buy,
+            OrderType.Market,
+            0.01m,
             cancellationToken);
 
         if (orderResult.IsFailure)

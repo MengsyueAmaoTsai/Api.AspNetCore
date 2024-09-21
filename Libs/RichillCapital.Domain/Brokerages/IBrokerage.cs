@@ -8,6 +8,9 @@ public interface IBrokerage : IConnection
     string Provider { get; }
 
     Task<Result> SubmitOrderAsync(
-        Symbol symbol,
-        CancellationToken cancellationToken = default);
+            Symbol symbol,
+            TradeType tradeType,
+            OrderType orderType,
+            decimal quantity,
+            CancellationToken cancellationToken = default);
 }

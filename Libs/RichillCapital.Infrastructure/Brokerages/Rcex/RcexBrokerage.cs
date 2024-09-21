@@ -45,6 +45,9 @@ internal sealed class RcexBrokerage(
 
     public override Task<Result> SubmitOrderAsync(
         Symbol symbol,
+        TradeType tradeType,
+        OrderType orderType,
+        decimal quantity,
         CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
