@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Binance;
+using RichillCapital.Binance.Spot;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel;

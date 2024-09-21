@@ -1,6 +1,6 @@
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Binance;
+namespace RichillCapital.Binance.Spot;
 
 public interface IBinanceSpotRestClient
 {

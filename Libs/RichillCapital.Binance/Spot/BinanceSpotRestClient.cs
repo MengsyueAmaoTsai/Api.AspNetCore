@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Binance;
+namespace RichillCapital.Binance.Spot;
 
 internal sealed class BinanceSpotRestClient(
     ILogger<BinanceSpotRestClient> _logger,

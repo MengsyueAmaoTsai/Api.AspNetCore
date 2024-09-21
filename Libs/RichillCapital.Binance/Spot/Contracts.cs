@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace RichillCapital.Binance;
+namespace RichillCapital.Binance.Spot;
 
 public sealed record BinanceErrorResponse
 {

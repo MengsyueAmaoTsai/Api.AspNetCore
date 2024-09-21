@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RichillCapital.Binance;
+namespace RichillCapital.Binance.Spot;
 
 public static class BinanceExtensions
 {

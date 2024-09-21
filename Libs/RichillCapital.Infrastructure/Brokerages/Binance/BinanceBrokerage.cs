@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Binance;
+using RichillCapital.Binance.Spot;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
 
