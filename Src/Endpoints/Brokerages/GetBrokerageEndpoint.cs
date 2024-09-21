@@ -24,7 +24,7 @@ public sealed class GetBrokerageEndpoint(
     [SwaggerOperation(Tags = [ApiTags.Brokerages])]
     [AllowAnonymous]
     public override async Task<ActionResult<BrokerageDetailsResponse>> HandleAsync(
-        [FromRoute(Name = "connectionName")] string connectionName,
+        [FromRoute(Name = nameof(connectionName))] string connectionName,
         CancellationToken cancellationToken = default) =>
         await ErrorOr<string>
             .With(connectionName)

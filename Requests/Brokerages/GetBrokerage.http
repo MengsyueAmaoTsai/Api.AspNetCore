@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@ConnectionName = "RichillCapital.Exchange"
+@ConnectionName = RichillCapital.Exchange
 
 ### Get brokerage
 GET {{Localhost}}/api/v1/brokerages/{{ConnectionName}}
