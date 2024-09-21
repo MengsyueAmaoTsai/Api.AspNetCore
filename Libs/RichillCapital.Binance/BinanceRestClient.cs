@@ -115,4 +115,32 @@ internal sealed class BinanceRestClient(
 
         return Result.Success;
     }
+
+    public async Task<Result<BinanceAccountBalanceResponse[]>> GetAccountBalancesAsync(CancellationToken cancellationToken = default)
+    {
+        var path = "fapi/v3/balance";
+        var queryString = $"timestamp={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+        var signature = _signatureHandler.Sign(SecretKey, queryString);
+        queryString += $"&signature={signature}";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, path + queryString);
+
+        request.Headers.Add("X-MBX-APIKEY", ApiKey);
+
+        var response = await _httpClient.SendAsync(
+            request,
+            cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.ReadAsErrorAsync(cancellationToken);
+            _logger.LogWarning("{Error}", error);
+            return Result<BinanceAccountBalanceResponse[]>.Failure(error);
+        }
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var accountBalance = JsonConvert.DeserializeObject<BinanceAccountBalanceResponse[]>(content);
+
+        return Result<BinanceAccountBalanceResponse[]>.With(accountBalance!);
+    }
 }
