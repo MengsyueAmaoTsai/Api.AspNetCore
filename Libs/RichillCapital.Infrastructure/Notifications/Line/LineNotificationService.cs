@@ -63,11 +63,12 @@ internal sealed class LineNotificationService(
         if (string.IsNullOrWhiteSpace(token))
         {
             _logger.LogInformation("Token is empty, using development token");
+            token = DevelopmentToken;
         }
 
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(
             "Authorization",
-            "Bearer " + (token ?? DevelopmentToken));
+            $"Bearer {token}");
     }
 }

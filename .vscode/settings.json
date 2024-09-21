@@ -2,7 +2,10 @@
   "dotnet.defaultSolution": "./RichillCapital.Api.sln",
   "cSpell.words": [
     "ASPNETCORE",
+    "hmac",
+    "HMACSHA",
     "Mediat",
+    "Newtonsoft",
     "Quantower",
     "Rcex",
     "Serilog",

@@ -18,13 +18,23 @@ internal sealed class BinanceBrokerage(
         }
 
         var testResult = await _spotRestClient.TestConnectivityAsync(cancellationToken);
-
+        var serverTimeResult = await _spotRestClient.CheckServerTimeAsync(cancellationToken);
+        var exchangeInfoResult = await _spotRestClient.GetExchangeInfoAsync(cancellationToken);
         if (testResult.IsFailure)
         {
             return Result.Failure(testResult.Error);
         }
 
+        if (serverTimeResult.IsFailure)
+        {
+            return Result.Failure(serverTimeResult.Error);
+        }
+
         IsConnected = true;
+
+        _logger.LogInformation(
+            "Connected to Binance. Server time: {serverTime}",
+            serverTimeResult.Value);
 
         return Result.Success;
     }
@@ -43,6 +53,8 @@ internal sealed class BinanceBrokerage(
 
     public override async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
     {
-        return Result.Success;
+        return await _spotRestClient.NewOrderAsync(
+            timestamp: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            cancellationToken: cancellationToken);
     }
 }
