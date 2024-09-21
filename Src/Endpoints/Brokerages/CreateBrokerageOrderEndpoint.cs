@@ -31,6 +31,10 @@ public sealed class CreateBrokerageOrderEndpoint(
             .Then(req => new CreateBrokerageOrderCommand
             {
                 ConnectionName = req.ConnectionName,
+                Symbol = req.Order.Symbol,
+                TradeType = req.Order.TradeType,
+                OrderType = req.Order.OrderType,
+                Quantity = req.Order.Quantity,
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(id => new BrokerageOrderCreatedResponse

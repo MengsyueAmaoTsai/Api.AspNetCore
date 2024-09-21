@@ -60,6 +60,10 @@ internal sealed class BrokerageManager(
     public Result Remove(IBrokerage brokerage) => _brokerages.Remove(brokerage.Name);
 
     public async Task<Result> SubmitOrderAsync(
+        Symbol symbol,
+        TradeType tradeTye,
+        OrderType orderType,
+        decimal quantity,
         CancellationToken cancellationToken = default)
     {
         var brokerageResult = _brokerages.Get("RichillCapital.Binance");
@@ -72,10 +76,10 @@ internal sealed class BrokerageManager(
         var brokerage = brokerageResult.Value;
 
         var submitResult = await brokerage.SubmitOrderAsync(
-            Symbol.From("BINANCE:BTCUSDT.P").ThrowIfFailure().Value,
-            TradeType.Buy,
-            OrderType.Market,
-            1,
+            symbol,
+            tradeTye,
+            orderType,
+            quantity,
             cancellationToken);
 
         if (submitResult.IsFailure)

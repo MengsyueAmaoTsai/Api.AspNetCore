@@ -4,11 +4,6 @@ using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Binance;
 
-public interface IBinanceRestClient
-{
-    Task<Result> NewOrderAsync(string symbol, string side, string type, decimal quantity, CancellationToken cancellationToken = default);
-}
-
 internal sealed class BinanceRestClient(
     ILogger<BinanceRestClient> _logger,
     HttpClient _httpClient,
@@ -17,7 +12,6 @@ internal sealed class BinanceRestClient(
 {
     private const string ApiKey = "guVqJIzZ29JZx2BTv9VbxxOr7IehQIIRRXABm53rawtThH0XcD8EeyzUtMbIaQ92";
     private const string SecretKey = "BPwSSG45zE8ABiZ6Zm4t9gJFJMo19ExjBqOQlmLcOM5LgfyYP6V5biYrsUkZfXxm";
-    // private const string SecretKey = "d";
 
     public async Task<Result> NewOrderAsync(
         string symbol,
