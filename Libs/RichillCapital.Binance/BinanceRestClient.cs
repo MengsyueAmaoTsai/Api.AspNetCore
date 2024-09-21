@@ -1,4 +1,8 @@
+using System.Diagnostics;
+
 using Microsoft.Extensions.Logging;
+
+using Newtonsoft.Json;
 
 using RichillCapital.SharedKernel.Monads;
 
@@ -12,6 +16,41 @@ internal sealed class BinanceRestClient(
 {
     private const string ApiKey = "guVqJIzZ29JZx2BTv9VbxxOr7IehQIIRRXABm53rawtThH0XcD8EeyzUtMbIaQ92";
     private const string SecretKey = "BPwSSG45zE8ABiZ6Zm4t9gJFJMo19ExjBqOQlmLcOM5LgfyYP6V5biYrsUkZfXxm";
+
+    public async Task<Result<int>> PingAsync(CancellationToken cancellationToken = default)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        var response = await _httpClient.GetAsync("fapi/v1/ping", cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.ReadAsErrorAsync(cancellationToken);
+            _logger.LogWarning("{Error}", error);
+            return Result<int>.Failure(error);
+        }
+
+        stopwatch.Stop();
+
+        return Result<int>.With((int)stopwatch.ElapsedMilliseconds);
+    }
+
+    public async Task<Result<BinanceServerTimeResponse>> GetServerTimeAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync("fapi/v1/time", cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.ReadAsErrorAsync(cancellationToken);
+            _logger.LogWarning("{Error}", error);
+            return Result<BinanceServerTimeResponse>.Failure(error);
+        }
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var serverTime = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(content);
+
+        return Result<BinanceServerTimeResponse>.With(serverTime);
+    }
 
     public async Task<Result> NewOrderAsync(
         string symbol,
