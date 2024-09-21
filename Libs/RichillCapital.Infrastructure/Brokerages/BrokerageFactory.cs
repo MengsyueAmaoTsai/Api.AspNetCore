@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Binance;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
@@ -10,12 +11,14 @@ using RichillCapital.SharedKernel.Monads;
 namespace RichillCapital.Infrastructure.Brokerages;
 
 internal sealed class BrokerageFactory(
+    ILogger<BrokerageFactory> _logger,
     IServiceProvider _serviceProvider)
 {
     internal Result<IBrokerage> CreateBrokerage(
         string provider,
-        string connectionName) =>
-        provider switch
+        string connectionName)
+    {
+        var brokerage = provider switch
         {
             "RichillCapital" => Result<IBrokerage>.With(new RcexBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<RcexBrokerage>>(),
@@ -26,8 +29,20 @@ internal sealed class BrokerageFactory(
                 _serviceProvider.GetRequiredService<IBinanceRestClient>(),
                 connectionName)),
 
+            "Max" => Result<IBrokerage>.With(new MaxBrokerage(
+                _serviceProvider.GetRequiredService<ILogger<MaxBrokerage>>(),
+                connectionName)),
+
             _ => Result<IBrokerage>.Failure(Error.Invalid(
                 "Brokerages.NotSupported",
                 $"Brokerage connection {connectionName} is not supported."))
         };
+
+        _logger.LogInformation(
+            "Brokerage connection {connectionName} created for {provider}.",
+            connectionName,
+            provider);
+
+        return brokerage;
+    }
 }
