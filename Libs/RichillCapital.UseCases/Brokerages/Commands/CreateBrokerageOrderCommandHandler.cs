@@ -16,8 +16,8 @@ internal sealed class CreateBrokerageOrderCommandHandler(
     {
         var validationResult = Result<(Symbol, TradeType, OrderType)>.Combine(
             Symbol.From(command.Symbol),
-            TradeType.FromName(command.TradeType).ToResult(Error.Invalid($"Invalid TradeType: {command.TradeType}")),
-            OrderType.FromName(command.OrderType).ToResult(Error.Invalid($"Invalid OrderType: {command.OrderType}")));
+            TradeType.FromName(command.TradeType, ignoreCase: true).ToResult(Error.Invalid($"Invalid TradeType: {command.TradeType}")),
+            OrderType.FromName(command.OrderType, ignoreCase: true).ToResult(Error.Invalid($"Invalid OrderType: {command.OrderType}")));
 
         if (validationResult.IsFailure)
         {

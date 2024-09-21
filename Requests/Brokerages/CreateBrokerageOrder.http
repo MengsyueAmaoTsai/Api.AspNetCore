@@ -6,7 +6,7 @@ POST {{Localhost}}/api/v1/brokerages/{{ConnectionName}}/orders
 Content-Type: application/json
 
 {
-    "symbol": "BINANCE:BTCUDT.P",
+    "symbol": "BINANCE:BTCUSDT.P",
     "tradeType": "Buy",
     "orderType": "Market",
     "timeInForce": "IOC",

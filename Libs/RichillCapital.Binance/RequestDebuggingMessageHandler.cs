@@ -14,15 +14,11 @@ internal sealed class RequestDebuggingMessageHandler(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Outgoing request: {Method} {Uri}", request.Method, request.RequestUri);
-
         var stopwatch = Stopwatch.StartNew();
-
         var requestInfo = await GetRequestInfoAsync(request, cancellationToken);
         _logger.LogInformation(requestInfo);
 
         var response = await base.SendAsync(request, cancellationToken);
-
         stopwatch.Stop();
 
         if (!response.IsSuccessStatusCode)

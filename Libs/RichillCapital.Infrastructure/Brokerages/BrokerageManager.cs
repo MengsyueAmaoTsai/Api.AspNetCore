@@ -1,5 +1,6 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages;
@@ -66,6 +67,11 @@ internal sealed class BrokerageManager(
         decimal quantity,
         CancellationToken cancellationToken = default)
     {
+        if (quantity <= decimal.Zero)
+        {
+            return Result.Failure(Error.Invalid("Quantity must be greater than zero"));
+        }
+
         var brokerageResult = _brokerages.Get("RichillCapital.Binance");
 
         if (brokerageResult.IsFailure)

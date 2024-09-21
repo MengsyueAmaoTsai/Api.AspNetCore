@@ -33,6 +33,8 @@ internal static class BinanceErrors
             -2014 => "BadApiKeyFormat",
 
             -2019 => "MarginNotSufficient", // USD-M only
+
+            -4003 => "QuantityLessThanZero", // USD-M only
             _ => throw new NotImplementedException($"{nameof(binanceErrorCode)} for {binanceErrorCode} is not defined."),
         };
 
