@@ -13,6 +13,8 @@ internal sealed class MaxBrokerage(
     string name) :
     Brokerage("Max", name)
 {
+    private readonly MaxSymbolMapper _symbolMapper = new();
+
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
         // Check server time
@@ -41,7 +43,7 @@ internal sealed class MaxBrokerage(
 
         Status = ConnectionStatus.Active;
 
-        return await Task.FromResult(Result.Success);
+        return await OnStartedAsync(cancellationToken);
     }
 
     public override Task<Result> StopAsync(CancellationToken cancellationToken = default)
@@ -76,6 +78,44 @@ internal sealed class MaxBrokerage(
         if (submitResult.IsFailure)
         {
             return Result.Failure(submitResult.Error);
+        }
+
+        return Result.Success;
+    }
+
+    private async Task<Result> OnStartedAsync(CancellationToken cancellationToken = default)
+    {
+        var ordersResult = await _restClient.ListOrderHistoryAsync(
+            walletType: "spot",
+            market: "usdttwd",
+            cancellationToken);
+
+        if (ordersResult.IsFailure)
+        {
+            return Result.Failure(ordersResult.Error);
+        }
+
+        foreach (var order in ordersResult.Value)
+        {
+            var tradeType = TradeType.FromName(order.Side, ignoreCase: true).ThrowIfNull().Value;
+            var orderType = OrderType.FromName(order.OrderType, ignoreCase: true).ThrowIfNull().Value;
+
+            var internalOrder = Order.Create(
+                id: OrderId.From(order.Id).ThrowIfFailure().Value,
+                accountId: AccountId.From("000-8283782").ThrowIfFailure().Value,
+                symbol: _symbolMapper.FromExternalSymbol(order.Market),
+                tradeType: tradeType,
+                type: orderType,
+                timeInForce: TimeInForce.ImmediateOrCancel,
+                quantity: order.Volume,
+                remainingQuantity: order.RemainingVolume,
+                executedQuantity: order.ExecutedVolume,
+                status: OrderStatus.Executed,
+                createdTimeUtc: order.CreatedTimeUtc)
+                .ThrowIfError()
+                .Value;
+
+            _logger.LogInformation("Internal order: {order}", internalOrder);
         }
 
         return Result.Success;

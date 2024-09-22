@@ -29,7 +29,7 @@ public sealed record MaxOrderResponse
     public required string State { get; init; }
 
     [JsonProperty("ord_type")]
-    public required string OrderTye { get; init; }
+    public required string OrderType { get; init; }
 
     [JsonProperty("price")]
     [JsonConverter(typeof(NullableDecimalConverter))]
@@ -61,4 +61,12 @@ public sealed record MaxOrderResponse
     [JsonProperty("updated_at")]
     [JsonConverter(typeof(TimestampDateTimeOffsetConverter))]
     public required DateTimeOffset UpdatedTimeUtc { get; init; }
+}
+
+public enum MaxOrderState
+{
+    Wait = 0,
+    Done = 1,
+    Cancel = 2,
+    Convert = 3,
 }
