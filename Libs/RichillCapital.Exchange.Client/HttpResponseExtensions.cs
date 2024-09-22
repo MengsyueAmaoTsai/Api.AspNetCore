@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
 
-using RichillCapital.Http;
+using RichillCapital.Http.Client;
 using RichillCapital.SharedKernel;
 
 namespace RichillCapital.Exchange.Client;

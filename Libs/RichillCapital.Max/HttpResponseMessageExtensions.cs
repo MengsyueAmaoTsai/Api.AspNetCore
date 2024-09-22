@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-using RichillCapital.Http;
+using RichillCapital.Http.Client;
 using RichillCapital.Max.Contracts;
 using RichillCapital.SharedKernel;
 

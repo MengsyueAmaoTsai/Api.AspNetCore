@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Http;
+using RichillCapital.Http.Client;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 

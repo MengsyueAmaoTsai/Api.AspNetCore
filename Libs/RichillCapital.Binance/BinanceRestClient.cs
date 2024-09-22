@@ -2,9 +2,7 @@ using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 
-using Newtonsoft.Json;
-
-using RichillCapital.Http;
+using RichillCapital.Http.Client;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Binance;

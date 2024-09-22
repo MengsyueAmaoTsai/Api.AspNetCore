@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 using RichillCapital.SharedKernel;
 
-namespace RichillCapital.Http;
+namespace RichillCapital.Http.Client;
 
 public static class HttpResponseMessageExtensions
 {

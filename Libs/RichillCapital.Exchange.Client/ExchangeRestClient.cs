@@ -3,8 +3,7 @@ using System.Net.Http.Json;
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Contracts.Orders;
-using RichillCapital.Domain;
-using RichillCapital.Http;
+using RichillCapital.Http.Client;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
