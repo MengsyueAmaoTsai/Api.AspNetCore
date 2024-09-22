@@ -12,6 +12,7 @@ public static class MaxExtensions
     {
         services.AddDefaultRequestDebuggingMessageHandler();
         services.AddTransient<MaxSignatureHandler>();
+        services.AddScoped<MaxResponseHandler>();
 
         services
             .AddHttpClient<IMaxRestClient, MaxRestClient>(client =>
