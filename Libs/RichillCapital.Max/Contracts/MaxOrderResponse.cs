@@ -1,10 +1,11 @@
 using Newtonsoft.Json;
 
 using RichillCapital.Serialization;
+using RichillCapital.Serialization.JsonConverters;
 
 namespace RichillCapital.Max.Contracts;
 
-public sealed record MaxOpenOrderResponse
+public sealed record MaxOrderResponse
 {
     [JsonProperty("id")]
     public required string Id { get; init; }
@@ -31,9 +32,11 @@ public sealed record MaxOpenOrderResponse
     public required string OrderTye { get; init; }
 
     [JsonProperty("price")]
+    [JsonConverter(typeof(NullableDecimalConverter))]
     public required decimal Price { get; init; }
 
     [JsonProperty("stop_price")]
+    [JsonConverter(typeof(NullableDecimalConverter))]
     public required decimal StopPrice { get; init; }
 
     [JsonProperty("avg_price")]
@@ -44,6 +47,9 @@ public sealed record MaxOpenOrderResponse
 
     [JsonProperty("remaining_volume")]
     public required decimal RemainingVolume { get; init; }
+
+    [JsonProperty("executed_volume")]
+    public required decimal ExecutedVolume { get; init; }
 
     [JsonProperty("trades_count")]
     public required int TradesCount { get; init; }

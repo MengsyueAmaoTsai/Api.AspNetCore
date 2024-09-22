@@ -15,7 +15,7 @@ internal sealed class MaxBrokerage(
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _restClient.ListOpenOrdersAsync(
+        var result = await _restClient.ListClosedOrdersAsync(
             walletType: "spot",
             cancellationToken);
 

@@ -118,7 +118,7 @@ internal sealed class MaxRestClient(
         return await HandleResponse(response);
     }
 
-    public async Task<Result<MaxOpenOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default)
+    public async Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default)
     {
         var path = $"/api/v3/wallet/{walletType}/orders/open";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -140,12 +140,34 @@ internal sealed class MaxRestClient(
 
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 
-        return await HandleResponse<MaxOpenOrderResponse[]>(response);
+        return await HandleResponse<MaxOrderResponse[]>(response);
     }
 
-    public Task<Result> ListClosedOrdersAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<MaxOrderResponse[]>> ListClosedOrdersAsync(
+        string walletType,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var path = $"/api/v3/wallet/{walletType}/orders/closed";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxOrderResponse[]>(response);
     }
 
     public Task<Result> GetOrderAsync(CancellationToken cancellationToken = default)
