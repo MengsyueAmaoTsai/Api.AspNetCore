@@ -9,7 +9,7 @@ public abstract class Brokerage(
 {
     public string Provider { get; private init; } = provider;
     public string Name { get; private init; } = name;
-    public bool IsConnected { get; protected set; }
+    public ConnectionStatus Status { get; protected set; } = ConnectionStatus.Stopped;
 
     public abstract Task<Result> StartAsync(CancellationToken cancellationToken = default);
     public abstract Task<Result> StopAsync(CancellationToken cancellationToken = default);

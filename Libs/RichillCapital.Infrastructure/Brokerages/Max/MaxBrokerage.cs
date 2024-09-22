@@ -24,7 +24,7 @@ internal sealed class MaxBrokerage(
             return Result.Failure(result.Error);
         }
 
-        IsConnected = true;
+        Status = ConnectionStatus.Active;
 
         _logger.LogInformation("{value}", result.Value);
 
@@ -33,7 +33,7 @@ internal sealed class MaxBrokerage(
 
     public override Task<Result> StopAsync(CancellationToken cancellationToken = default)
     {
-        IsConnected = false;
+        Status = ConnectionStatus.Stopped;
 
         return Task.FromResult(Result.Success);
     }

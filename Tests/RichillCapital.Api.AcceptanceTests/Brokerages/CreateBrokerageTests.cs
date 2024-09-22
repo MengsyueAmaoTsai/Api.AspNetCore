@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 
 using RichillCapital.Contracts.Brokerages;
+using RichillCapital.Domain;
 
 namespace RichillCapital.Api.AcceptanceTests.Brokerages;
 
@@ -43,6 +44,6 @@ public sealed class CreateBrokerageTests(
         brokerage.Should().NotBeNull();
         brokerage!.Provider.Should().Be(request.Provider);
         brokerage!.Name.Should().Be(request.Name);
-        brokerage.IsConnected.Should().BeFalse();
+        brokerage.Status.Should().Be(ConnectionStatus.Stopped.Name);
     }
 }

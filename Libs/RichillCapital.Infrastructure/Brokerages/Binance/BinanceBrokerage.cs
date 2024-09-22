@@ -13,7 +13,7 @@ internal sealed class BinanceBrokerage(
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
-        if (IsConnected)
+        if (Status == ConnectionStatus.Active)
         {
             return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
         }
@@ -35,7 +35,8 @@ internal sealed class BinanceBrokerage(
 
         var serverTimeResponse = serverTimeResult.Value;
         var ping = pingResult.Value;
-        IsConnected = true;
+
+        Status = ConnectionStatus.Active;
 
         _logger.LogInformation(
             "Binance Brokerage started at {serverTime}. Ping: {ping}ms",
@@ -47,12 +48,12 @@ internal sealed class BinanceBrokerage(
 
     public override Task<Result> StopAsync(CancellationToken cancellationToken = default)
     {
-        if (!IsConnected)
+        if (Status == ConnectionStatus.Stopped)
         {
             return Task.FromResult(Result.Failure(BrokerageErrors.AlreadyStopped(Name)));
         }
 
-        IsConnected = false;
+        Status = ConnectionStatus.Stopped;
 
         return Task.FromResult(Result.Success);
     }

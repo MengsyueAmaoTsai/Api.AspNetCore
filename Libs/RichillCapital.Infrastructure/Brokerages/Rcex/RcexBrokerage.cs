@@ -18,12 +18,12 @@ internal sealed class RcexBrokerage(
     {
         _logger.LogInformation("Starting brokerage connection...");
 
-        if (IsConnected)
+        if (Status == ConnectionStatus.Active)
         {
             return Result.Failure(BrokerageErrors.AlreadyStarted(Name));
         }
 
-        IsConnected = true;
+        Status = ConnectionStatus.Active;
 
         _logger.LogInformation("Brokerage connection started.");
 
@@ -34,12 +34,12 @@ internal sealed class RcexBrokerage(
     {
         _logger.LogInformation("Stopping brokerage connection...");
 
-        if (!IsConnected)
+        if (Status == ConnectionStatus.Stopped)
         {
             return Result.Failure(BrokerageErrors.AlreadyStopped(Name));
         }
 
-        IsConnected = false;
+        Status = ConnectionStatus.Stopped;
 
         _logger.LogInformation("Brokerage connection stopped.");
 

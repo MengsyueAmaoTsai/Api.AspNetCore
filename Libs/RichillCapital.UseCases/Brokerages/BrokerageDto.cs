@@ -6,7 +6,7 @@ public sealed record BrokerageDto
 {
     public required string Provider { get; init; }
     public required string Name { get; init; }
-    public required bool IsConnected { get; init; }
+    public required string Status { get; init; }
 }
 
 internal static class BrokerageExtensions
@@ -17,6 +17,6 @@ internal static class BrokerageExtensions
         {
             Provider = brokerage.Provider,
             Name = brokerage.Name,
-            IsConnected = brokerage.IsConnected,
+            Status = brokerage.Status.Name,
         };
 }

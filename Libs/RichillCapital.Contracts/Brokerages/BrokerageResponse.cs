@@ -6,7 +6,7 @@ public record BrokerageResponse
 {
     public required string Provider { get; init; }
     public required string Name { get; init; }
-    public required bool IsConnected { get; init; }
+    public required string Status { get; init; }
 }
 
 public sealed record BrokerageDetailsResponse : BrokerageResponse
@@ -21,7 +21,7 @@ public static class BrokerageResponseMapping
         {
             Provider = dto.Provider,
             Name = dto.Name,
-            IsConnected = dto.IsConnected,
+            Status = dto.Status,
         };
 
     public static BrokerageDetailsResponse ToDetailsResponse(
@@ -30,6 +30,6 @@ public static class BrokerageResponseMapping
         {
             Provider = dto.Provider,
             Name = dto.Name,
-            IsConnected = dto.IsConnected,
+            Status = dto.Status,
         };
 }
