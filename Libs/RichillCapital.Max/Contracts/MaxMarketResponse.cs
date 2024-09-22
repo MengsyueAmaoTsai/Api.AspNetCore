@@ -31,3 +31,4 @@ public sealed record MaxMarketResponse
     [JsonProperty("m_wallet_supported")]
     public required bool MWalletSupported { get; init; }
 }
+

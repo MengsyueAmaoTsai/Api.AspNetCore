@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 using RichillCapital.Http;
+using RichillCapital.Max.Authentication;
 using RichillCapital.Max.Contracts;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
@@ -33,6 +34,12 @@ internal sealed class MaxRestClient(
         return await HandleResponse<MaxMarketResponse[]>(response);
     }
 
+    public async Task<Result<MaxCurrencyResponse[]>> ListCurrenciesAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync("/api/v3/currencies", cancellationToken);
+        return await HandleResponse<MaxCurrencyResponse[]>(response);
+    }
+
     public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default)
     {
         var path = "/api/v3/info";
@@ -47,36 +54,39 @@ internal sealed class MaxRestClient(
         var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
         var signature = _signatureHandler.Sign(SecretKey, payload);
 
+        var url = path + $"?nonce={nonce}";
 
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, path + $"?nonce={nonce}");
-        httpRequest.Headers.Add("X-MAX-ACCESSKEY", ApiKey);
-        httpRequest.Headers.Add("X-MAX-PAYLOAD", payload);
-        httpRequest.Headers.Add("X-MAX-SIGNATURE", signature);
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
 
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
         return await HandleResponse<MaxUserInfoResponse>(response);
     }
 
-    public async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
+    public async Task<Result> SubmitOrderAsync(
+        string pathWalletType,
+        CancellationToken cancellationToken = default)
     {
-        var path = "/api/v3/wallet/{pathWalletType}/order";
+        var path = $"/api/v3/wallet/{pathWalletType}/order";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        var body = new
+        var parametersToSign = new
         {
-            Nonce = nonce,
-            Path = path,
+            market = "btcusdt",
+            side = "buy",
+            volume = 1,
+            price = 100,
+            nonce,
+            path,
         };
 
-        var payloadBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body)));
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+        var signature = _signatureHandler.Sign(SecretKey, payload);
 
-        var signature = _signatureHandler.Sign(SecretKey, payloadBase64);
+        var url = path + $"?nonce={nonce}&market=btcusdt&side=buy&volume=1&price=100";
 
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, path);
-
-        httpRequest.Headers.Add("X-MAX-ACCESSKEY", ApiKey);
-        httpRequest.Headers.Add("X-MAX-PAYLOAD", payloadBase64);
-        httpRequest.Headers.Add("X-MAX-SIGNATURE", signature);
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
 
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 

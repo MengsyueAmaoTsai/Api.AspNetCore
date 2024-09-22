@@ -25,11 +25,14 @@ internal static class MaxErrors
     {
         var suffix = maxErrorCode switch
         {
+            1001 => "Error",
             2001 => "Error",
+            2002 => "Error",
             2006 => "Error",
             2007 => "Error",
             2008 => "Error",
             2014 => "Error",
+            2018 => "Error",
             _ => throw new NotImplementedException($"{nameof(maxErrorCode)} for {maxErrorCode} is not defined."),
         };
 
