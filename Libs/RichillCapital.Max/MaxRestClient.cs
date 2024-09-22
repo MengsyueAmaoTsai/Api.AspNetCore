@@ -41,10 +41,10 @@ internal sealed class MaxRestClient(
     }
 
     public async Task<Result<MaxAccountBalanceResponse[]>> ListAccountBalancesAsync(
-        string pathWalletType,
+        string walletType,
         CancellationToken cancellationToken = default)
     {
-        var path = $"/api/v3/wallet/{pathWalletType}/accounts";
+        var path = $"/api/v3/wallet/{walletType}/accounts";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         var parametersToSign = new
@@ -89,10 +89,10 @@ internal sealed class MaxRestClient(
     }
 
     public async Task<Result> SubmitOrderAsync(
-        string pathWalletType,
+        string walletType,
         CancellationToken cancellationToken = default)
     {
-        var path = $"/api/v3/wallet/{pathWalletType}/order";
+        var path = $"/api/v3/wallet/{walletType}/order";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         var parametersToSign = new
@@ -116,6 +116,56 @@ internal sealed class MaxRestClient(
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 
         return await HandleResponse(response);
+    }
+
+    public async Task<Result<MaxOpenOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default)
+    {
+        var path = $"/api/v3/wallet/{walletType}/orders/open";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxOpenOrderResponse[]>(response);
+    }
+
+    public Task<Result> ListClosedOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> GetOrderAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> CancelAllOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> CancelOrderAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> GetOrderDetailAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task<Result<TMaxResponse>> HandleResponse<TMaxResponse>(HttpResponseMessage httpResponse)

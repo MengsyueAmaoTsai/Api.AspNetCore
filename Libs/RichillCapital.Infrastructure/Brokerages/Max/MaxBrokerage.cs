@@ -15,8 +15,8 @@ internal sealed class MaxBrokerage(
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _restClient.ListAccountBalancesAsync(
-            pathWalletType: "spot",
+        var result = await _restClient.ListOpenOrdersAsync(
+            walletType: "spot",
             cancellationToken);
 
         if (result.IsFailure)
@@ -26,7 +26,7 @@ internal sealed class MaxBrokerage(
 
         Status = ConnectionStatus.Active;
 
-        _logger.LogInformation("{value}", result.Value);
+        _logger.LogInformation("{value}", result);
 
         return await Task.FromResult(Result.Success);
     }
@@ -57,7 +57,7 @@ internal sealed class MaxBrokerage(
             clientOrderId);
 
         var submitResult = await _restClient.SubmitOrderAsync(
-            pathWalletType: "spot",
+            walletType: "spot",
             cancellationToken);
 
         if (submitResult.IsFailure)
