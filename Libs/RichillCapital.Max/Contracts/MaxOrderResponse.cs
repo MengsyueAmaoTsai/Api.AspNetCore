@@ -21,6 +21,7 @@ public sealed record MaxOrderResponse
     public required string ClientOrderId { get; init; }
 
     [JsonProperty("group_id")]
+    [JsonConverter(typeof(NullableStringConverter))]
     public required string GroupId { get; init; }
 
     [JsonProperty("side")]
