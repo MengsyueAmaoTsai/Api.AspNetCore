@@ -16,20 +16,20 @@ namespace RichillCapital.Api.Endpoints.Users;
 
 [ApiVersion(EndpointVersion.V1)]
 public sealed class GetUserEndpoint(IMediator _mediator) : AsyncEndpoint
-    .WithRequest<GetUserRequest>
+    .WithRequest<string>
     .WithActionResult<UserDetailsResponse>
 {
     [HttpGet(ApiRoutes.Users.Get)]
     [SwaggerOperation(Tags = [ApiTags.Users])]
     [AllowAnonymous]
     public override async Task<ActionResult<UserDetailsResponse>> HandleAsync(
-        [FromRoute] GetUserRequest request,
+        [FromRoute(Name = nameof(userId))] string userId,
         CancellationToken cancellationToken = default) =>
-        await ErrorOr<GetUserRequest>
-            .With(request)
-            .Then(req => new GetUserQuery
+        await ErrorOr<string>
+            .With(userId)
+            .Then(id => new GetUserQuery
             {
-                UserId = req.UserId,
+                UserId = id,
             })
             .Then(query => _mediator.Send(query, cancellationToken))
             .Then(dto => dto.ToDetailsResponse())
