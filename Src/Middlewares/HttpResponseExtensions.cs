@@ -1,4 +1,4 @@
-using RichillCapital.Serialization;
+using RichillCapital.Serialization.Json;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 

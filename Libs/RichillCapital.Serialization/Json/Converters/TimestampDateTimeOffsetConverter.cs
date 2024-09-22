@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace RichillCapital.Serialization;
+namespace RichillCapital.Serialization.Json.Converters;
 
 public sealed class TimestampDateTimeOffsetConverter :
     JsonConverter<DateTimeOffset>

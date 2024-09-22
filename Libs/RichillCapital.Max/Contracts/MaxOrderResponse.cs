@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 
-using RichillCapital.Serialization;
-using RichillCapital.Serialization.JsonConverters;
+using RichillCapital.Serialization.Json.Converters;
 
 namespace RichillCapital.Max.Contracts;
 

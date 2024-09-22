@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace RichillCapital.Serialization;
+namespace RichillCapital.Serialization.Json;
 
 public static class StringExtensions
 {

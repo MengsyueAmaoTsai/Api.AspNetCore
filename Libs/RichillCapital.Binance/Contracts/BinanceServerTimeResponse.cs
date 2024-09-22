@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-using RichillCapital.Serialization;
+using RichillCapital.Serialization.Json.Converters;
 
 namespace RichillCapital.Binance;
 

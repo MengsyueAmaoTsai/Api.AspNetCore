@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace RichillCapital.Serialization.JsonConverters;
+namespace RichillCapital.Serialization.Json.Converters;
 
 public sealed class NullableStringConverter : JsonConverter<string>
 {
