@@ -92,6 +92,7 @@ public static class ApiRoutes
             private const string OrdersBase = $"{BrokeragesBase}/{{connectionName}}/orders";
 
             public const string Create = OrdersBase;
+            public const string List = OrdersBase;
         }
     }
 

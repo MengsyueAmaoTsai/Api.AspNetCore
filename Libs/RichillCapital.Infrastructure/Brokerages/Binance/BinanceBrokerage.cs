@@ -11,6 +11,11 @@ internal sealed class BinanceBrokerage(
     string name) :
     Brokerage("Binance", name)
 {
+    public override Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
         if (Status == ConnectionStatus.Active)

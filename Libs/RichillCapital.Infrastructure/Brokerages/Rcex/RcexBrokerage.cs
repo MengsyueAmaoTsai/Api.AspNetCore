@@ -14,6 +14,11 @@ internal sealed class RcexBrokerage(
     string name) :
     Brokerage("RichillCapital", name)
 {
+    public override Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Starting brokerage connection...");

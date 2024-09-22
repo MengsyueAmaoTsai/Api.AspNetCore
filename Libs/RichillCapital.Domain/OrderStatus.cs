@@ -10,6 +10,7 @@ public sealed class OrderStatus : Enumeration<OrderStatus>
     public static readonly OrderStatus Cancelled = new(nameof(Cancelled), 3);
     public static readonly OrderStatus PartiallyFilled = new(nameof(PartiallyFilled), 4);
     public static readonly OrderStatus Executed = new(nameof(Executed), 5);
+    public static readonly OrderStatus Expired = new(nameof(Expired), 6);
 
     private OrderStatus(string name, int value)
         : base(name, value)

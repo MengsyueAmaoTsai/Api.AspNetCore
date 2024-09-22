@@ -87,6 +87,60 @@ internal sealed class MaxBrokerage(
         return Result.Success;
     }
 
+    public override async Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        var maxOrdersResult = await _restClient.ListOrdersAsync(
+            walletType: "spot",
+            market: "usdttwd",
+            cancellationToken);
+
+        if (maxOrdersResult.IsFailure)
+        {
+            return Result<IReadOnlyCollection<Order>>.Failure(maxOrdersResult.Error);
+        }
+
+        var maxOrders = maxOrdersResult.Value;
+
+        var orderResults = maxOrders
+            .Select(mo =>
+            {
+
+                var tradeType = TradeType.FromName(mo.Side, ignoreCase: true).ThrowIfNull().Value;
+
+                var orderStatus = mo.State switch
+                {
+                    "wait" => OrderStatus.Pending,
+                    "convert" or "done" => OrderStatus.Executed,
+                    "cancel" => OrderStatus.Cancelled,
+                    _ => throw new InvalidOperationException($"Unknown max order status: {mo.State}")
+                };
+
+                return Order.Create(
+                    id: OrderId.From(mo.Id).ThrowIfFailure().Value,
+                    accountId: AccountId.From("000-8283782").ThrowIfFailure().Value,
+                    symbol: _symbolMapper.FromExternalSymbol(mo.Market),
+                    tradeType: tradeType,
+                    type: OrderType.FromName(mo.OrderType, ignoreCase: true).ThrowIfNull().Value,
+                    timeInForce: TimeInForce.ImmediateOrCancel,
+                    quantity: mo.Volume,
+                    remainingQuantity: mo.RemainingVolume,
+                    executedQuantity: mo.ExecutedVolume,
+                    status: orderStatus,
+                    createdTimeUtc: mo.CreatedTimeUtc);
+            })
+            .ToList();
+
+        if (orderResults.Any(r => r.HasError))
+        {
+            var firstError = orderResults.First(e => e.HasError).Errors.First();
+            return Result<IReadOnlyCollection<Order>>.Failure(firstError);
+        }
+
+        return Result<IReadOnlyCollection<Order>>.With(orderResults
+            .Select(r => r.Value)
+            .ToList());
+    }
+
     private async Task<Result> OnStartedAsync(CancellationToken cancellationToken = default)
     {
         var ordersResult = await _restClient.ListOrdersAsync(

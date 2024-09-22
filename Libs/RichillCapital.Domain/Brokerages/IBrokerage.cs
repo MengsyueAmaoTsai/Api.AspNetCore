@@ -16,4 +16,6 @@ public interface IBrokerage : IConnection
             decimal quantity,
             string clientOrderId,
             CancellationToken cancellationToken = default);
+
+    Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default);
 }

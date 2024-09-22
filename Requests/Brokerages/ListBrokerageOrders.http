@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@ConnectionName = RichillCapital.Max
+
+### List brokerage orders
+GET {{Localhost}}/api/v1/brokerages/{{ConnectionName}}/orders

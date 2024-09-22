@@ -1,3 +1,4 @@
+
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Domain.Brokerages;
@@ -14,12 +15,6 @@ public abstract class Brokerage(
 
     public abstract Task<Result> StartAsync(CancellationToken cancellationToken = default);
     public abstract Task<Result> StopAsync(CancellationToken cancellationToken = default);
-    public abstract Task<Result> SubmitOrderAsync(
-            Symbol symbol,
-            TradeType tradeType,
-            OrderType orderType,
-            TimeInForce timeInForce,
-            decimal quantity,
-            string clientOrderId,
-            CancellationToken cancellationToken = default);
+    public abstract Task<Result> SubmitOrderAsync(Symbol symbol, TradeType tradeType, OrderType orderType, TimeInForce timeInForce, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default);
+    public abstract Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default);
 }
