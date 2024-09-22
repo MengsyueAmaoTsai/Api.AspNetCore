@@ -6,6 +6,7 @@ namespace RichillCapital.Domain.Brokerages;
 public interface IBrokerage : IConnection
 {
     string Provider { get; }
+    DateTimeOffset CreatedTimeUtc { get; }
 
     Task<Result> SubmitOrderAsync(
             Symbol symbol,
