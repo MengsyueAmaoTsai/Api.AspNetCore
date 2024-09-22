@@ -47,6 +47,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             CreateAccount(
                 id: "SIM2121844M",
                 userId: "1",
+                connectionName: "RichillCapital.TradeStation",
                 alias: "TradeStation simulated account",
                 currency: Currency.USD,
                 DateTimeOffset.UtcNow),
@@ -54,6 +55,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             CreateAccount(
                 id: "000-8283782",
                 userId: "1",
+                connectionName: "RichillCapital.Kgi",
                 alias: "KGI Future account",
                 currency: Currency.TWD,
                 DateTimeOffset.UtcNow),
@@ -63,12 +65,14 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
     private static Account CreateAccount(
         string id,
         string userId,
+        string connectionName,
         string alias,
         Currency currency,
         DateTimeOffset createdTimeUtc) =>
         Account.Create(
             AccountId.From(id).ThrowIfFailure().Value,
             UserId.From(userId).ThrowIfFailure().Value,
+            connectionName,
             alias,
             currency,
             createdTimeUtc).ThrowIfError().Value;

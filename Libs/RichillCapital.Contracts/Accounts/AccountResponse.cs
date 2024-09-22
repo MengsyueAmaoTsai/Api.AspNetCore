@@ -6,6 +6,7 @@ public record AccountResponse
 {
     public required string Id { get; init; }
     public required string UserId { get; init; }
+    public required string ConnectionName { get; init; }
     public required string Alias { get; init; }
     public required string Currency { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
@@ -22,6 +23,7 @@ public static class AccountResponseMapping
         {
             Id = dto.Id,
             UserId = dto.UserId,
+            ConnectionName = dto.ConnectionName,
             Alias = dto.Alias,
             Currency = dto.Currency,
             CreatedTimeUtc = dto.CreatedTimeUtc,
@@ -32,6 +34,7 @@ public static class AccountResponseMapping
         {
             Id = dto.Id,
             UserId = dto.UserId,
+            ConnectionName = dto.ConnectionName,
             Alias = dto.Alias,
             Currency = dto.Currency,
             CreatedTimeUtc = dto.CreatedTimeUtc,

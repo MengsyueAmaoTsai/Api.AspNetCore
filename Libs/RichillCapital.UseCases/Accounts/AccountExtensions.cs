@@ -9,6 +9,7 @@ internal static class AccountExtensions
         {
             Id = account.Id.Value,
             UserId = account.UserId.Value,
+            ConnectionName = account.ConnectionName,
             Alias = account.Alias,
             Currency = account.Currency.Name,
             CreatedTimeUtc = account.CreatedTimeUtc,

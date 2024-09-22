@@ -14,17 +14,20 @@ public sealed class Account : Entity<AccountId>
     private Account(
         AccountId id,
         UserId userId,
+        string connectionName,
         string alias,
         Currency currency,
         DateTimeOffset createdTimeUtc) : base(id)
     {
         UserId = userId;
+        ConnectionName = connectionName;
         Alias = alias;
         Currency = currency;
         CreatedTimeUtc = createdTimeUtc;
     }
 
     public UserId UserId { get; private set; }
+    public string ConnectionName { get; private set; }
     public string Alias { get; private set; }
     public Currency Currency { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
@@ -37,6 +40,7 @@ public sealed class Account : Entity<AccountId>
     public static ErrorOr<Account> Create(
         AccountId accountId,
         UserId userId,
+        string connectionName,
         string alias,
         Currency currency,
         DateTimeOffset createdTimeUtc)
@@ -44,6 +48,7 @@ public sealed class Account : Entity<AccountId>
         var account = new Account(
             accountId,
             userId,
+            connectionName,
             alias,
             currency,
             createdTimeUtc);
