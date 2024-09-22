@@ -15,6 +15,24 @@ internal sealed class MaxBrokerage(
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
+        var serverTimeResult = await _restClient.GetServerTimeAsync(cancellationToken);
+
+        if (serverTimeResult.IsFailure)
+        {
+            return Result.Failure(serverTimeResult.Error);
+        }
+
+        var userInfo = await _restClient.GetUserInfoAsync(cancellationToken);
+
+        if (userInfo.IsFailure)
+        {
+            return Result.Failure(userInfo.Error);
+        }
+
+        _logger.LogInformation(
+            "User info: {info}",
+            userInfo.Value);
+
         var orderHistoryResult = await _restClient.ListOrderHistoryAsync(
             "spot",
             "usdttwd",
@@ -27,10 +45,10 @@ internal sealed class MaxBrokerage(
 
         Status = ConnectionStatus.Active;
 
-        foreach (var order in orderHistoryResult.Value)
-        {
-            _logger.LogInformation("{order}", order);
-        }
+        // foreach (var order in orderHistoryResult.Value)
+        // {
+        //     _logger.LogInformation("{order}", order);
+        // }
 
         return await Task.FromResult(Result.Success);
     }

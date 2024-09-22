@@ -10,22 +10,24 @@ internal sealed class MaxResponseHandler(
     ILogger<MaxResponseHandler> _logger)
 {
     internal async Task<Result<TResponse>> HandleAsync<TResponse>(
-        HttpResponseMessage httpResponseMessage)
+        HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default)
     {
         if (!httpResponseMessage.IsSuccessStatusCode)
         {
-            return await HandleErrorResponseAsync<TResponse>(httpResponseMessage);
+            return await HandleErrorResponseAsync<TResponse>(httpResponseMessage, cancellationToken);
         }
 
-        return await HandleSuccessResponseAsync<TResponse>(httpResponseMessage);
+        return await HandleSuccessResponseAsync<TResponse>(httpResponseMessage, cancellationToken);
     }
 
     internal async Task<Result> HandleAsync(
-        HttpResponseMessage httpResponseMessage)
+        HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default)
     {
         if (!httpResponseMessage.IsSuccessStatusCode)
         {
-            return await HandleErrorResponseAsync(httpResponseMessage);
+            return await HandleErrorResponseAsync(httpResponseMessage, cancellationToken);
         }
 
         return Result.Success;

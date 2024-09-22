@@ -21,71 +21,31 @@ internal sealed class MaxRestClient(
     private const string SecretKey = "NqfZFUWlIlvegz6aW4xjDOCpLQS9ExjD7DV4PFQy";
 
     public async Task<Result<MaxServerTimeResponse>> GetServerTimeAsync(
-        CancellationToken cancellationToken = default)
-    {
-        var response = await _httpClient.GetAsync(MaxApiRoutes.GetServerTime, cancellationToken);
-        return await _responseHandler.HandleAsync<MaxServerTimeResponse>(response);
-    }
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxServerTimeResponse>(
+            HttpMethod.Get,
+            "/api/v3/timestamp",
+            [],
+            false,
+            cancellationToken);
 
-    public async Task<Result<MaxMarketResponse[]>> ListMarketsAsync(CancellationToken cancellationToken = default)
-    {
-        var response = await _httpClient.GetAsync(MaxApiRoutes.ListMarkets, cancellationToken);
-        return await _responseHandler.HandleAsync<MaxMarketResponse[]>(response);
-    }
+    public async Task<Result<MaxMarketResponse[]>> ListMarketsAsync(
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxMarketResponse[]>(
+            HttpMethod.Get,
+            "/api/v3/markets",
+            [],
+            false,
+            cancellationToken);
 
-    public async Task<Result<MaxCurrencyResponse[]>> ListCurrenciesAsync(CancellationToken cancellationToken = default)
-    {
-        var response = await _httpClient.GetAsync(MaxApiRoutes.ListCurrencies, cancellationToken);
-        return await _responseHandler.HandleAsync<MaxCurrencyResponse[]>(response);
-    }
-
-    public async Task<Result<MaxAccountBalanceResponse[]>> ListAccountBalancesAsync(
-        string walletType,
-        CancellationToken cancellationToken = default)
-    {
-        var path = $"/api/v3/wallet/{walletType}/accounts";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
-        {
-            nonce,
-            path,
-        };
-
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-        return await _responseHandler.HandleAsync<MaxAccountBalanceResponse[]>(response);
-    }
-
-    public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default)
-    {
-        var path = MaxApiRoutes.GetUserInfo;
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
-        {
-            nonce,
-            path,
-        };
-
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-        return await _responseHandler.HandleAsync<MaxUserInfoResponse>(response);
-    }
+    public async Task<Result<MaxCurrencyResponse[]>> ListCurrenciesAsync(
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxCurrencyResponse[]>(
+            HttpMethod.Get,
+            "/api/v3/currencies",
+            [],
+            false,
+            cancellationToken);
 
     public async Task<Result> SubmitOrderAsync(
         string walletType,
@@ -117,168 +77,138 @@ internal sealed class MaxRestClient(
         return await _responseHandler.HandleAsync(response);
     }
 
+    public async Task<Result<MaxAccountBalanceResponse[]>> ListAccountBalancesAsync(
+        string walletType,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxAccountBalanceResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/wallet/{walletType}/accounts",
+            [],
+            true,
+            cancellationToken);
+
+    public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxUserInfoResponse>(
+            HttpMethod.Get,
+            "/api/v3/info",
+            [],
+            true,
+            cancellationToken);
+
     public async Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(
         string walletType,
-        CancellationToken cancellationToken = default)
-    {
-        var path = $"/api/v3/wallet/{walletType}/orders/open";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
-        {
-            nonce,
-            path,
-        };
-
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
-
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxOrderResponse[]>(response);
-    }
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxOrderResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/wallet/{walletType}/orders/open",
+            [],
+            true,
+            cancellationToken);
 
     public async Task<Result<MaxOrderResponse[]>> ListClosedOrdersAsync(
         string walletType,
-        CancellationToken cancellationToken = default)
-    {
-        var path = $"/api/v3/wallet/{walletType}/orders/closed";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxOrderResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/wallet/{walletType}/orders/closed",
+            [],
+            true,
+            cancellationToken);
 
-        var parametersToSign = new
-        {
-            nonce,
-            path,
-        };
+    public async Task<Result<MaxCancelAllOrdersResponse[]>> CancelAllOrdersAsync(
+        string walletType,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxCancelAllOrdersResponse[]>(
+            HttpMethod.Delete,
+            $"/api/v3/wallet/{walletType}/orders",
+            new Dictionary<string, object>(),
+            true,
+            cancellationToken);
 
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+    public async Task<Result<MaxCancelOrderResponse>> CancelOrderAsync(
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxCancelOrderResponse>(
+            HttpMethod.Delete,
+            "/api/v3/order",
+            new Dictionary<string, object>(),
+            true,
+            cancellationToken);
 
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxOrderResponse[]>(response);
-    }
+    public async Task<Result<MaxOrderResponse>> GetOrderAsync(
+        string orderId,
+        string clientOrderId,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxOrderResponse>(
+            HttpMethod.Get,
+            "/api/v3/order",
+            new Dictionary<string, object>
+            {
+                { "id", orderId },
+                { "client_oid", clientOrderId },
+            },
+            true,
+            cancellationToken);
 
     public async Task<Result<MaxOrderResponse[]>> ListOrderHistoryAsync(
         string walletType,
         string market,
         CancellationToken cancellationToken = default)
     {
-        var path = $"/api/v3/wallet/{walletType}/orders/history";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
-        {
-            market,
-            nonce,
-            path,
-        };
-
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
-
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}&market={market}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxOrderResponse[]>(response);
+        return await InvokeRequestAsync<MaxOrderResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/wallet/{walletType}/orders/history",
+            new Dictionary<string, object>
+            {
+                { "market", market },
+            },
+            true,
+            cancellationToken);
     }
 
-    public async Task<Result<MaxCancelAllOrdersResponse[]>> CancelAllOrdersAsync(
-        string walletType,
+    private async Task<Result<TResponse>> InvokeRequestAsync<TResponse>(
+        HttpMethod method,
+        string path,
+        Dictionary<string, object> parameters,
+        bool requiresAuthentication,
         CancellationToken cancellationToken = default)
     {
-        var path = $"/api/v3/wallet/{walletType}/orders";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
+        if (requiresAuthentication)
         {
-            nonce,
-            path,
-        };
+            parameters["nonce"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
 
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+        // Encode payload and sign
+        Dictionary<string, object> parametersToSign = [];
 
-        var signature = _signatureHandler.Sign(SecretKey, payload);
+        parametersToSign.Add("path", path);
 
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxCancelAllOrdersResponse[]>(response);
-    }
-
-    public async Task<Result<MaxCancelOrderResponse>> CancelOrderAsync(CancellationToken cancellationToken = default)
-    {
-        var path = "/api/v3/order";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
+        foreach (var parameter in parameters)
         {
-            nonce,
-            path,
-        };
+            parametersToSign.Add(parameter.Key, parameter.Value);
+        }
 
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+        var (encodedPayload, signature) = _signatureHandler.GenerateSignature(SecretKey, parametersToSign);
 
-        var signature = _signatureHandler.Sign(SecretKey, payload);
+        // Build request path
+        var requestPath = path;
 
-        var url = path + $"?nonce={nonce}";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxCancelOrderResponse>(response);
-    }
-
-    public async Task<Result<MaxOrderResponse>> GetOrderAsync(
-        string orderId,
-        string clientOrderId,
-        CancellationToken cancellationToken = default)
-    {
-        var path = "/api/v3/order";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
+        if (parameters.Count > 0)
         {
-            id = orderId,
-            client_oid = clientOrderId,
-            nonce,
-            path,
-        };
+            var queryString = string.Join("&", parameters.Select(x => $"{x.Key}={x.Value}"));
+            requestPath = $"{path}?{queryString}";
+        }
 
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+        // Create request
+        var request = new HttpRequestMessage(method, requestPath);
 
-        var signature = _signatureHandler.Sign(SecretKey, payload);
+        if (requiresAuthentication)
+        {
+            request.AddAuthenticationHeaders(ApiKey, encodedPayload, signature);
+        }
 
-        var url = path + $"?nonce={nonce}&id={orderId}&client_oid={clientOrderId}";
+        // Invoke request and handle response
+        var response = await _httpClient.SendAsync(request, cancellationToken);
 
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync<MaxOrderResponse>(response);
+        return await _responseHandler.HandleAsync<TResponse>(response, cancellationToken);
     }
 }
