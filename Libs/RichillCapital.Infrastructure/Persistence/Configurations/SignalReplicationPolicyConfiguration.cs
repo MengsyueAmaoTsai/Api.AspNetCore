@@ -38,35 +38,24 @@ internal sealed class SignalReplicationPolicyConfiguration :
                 value => SignalSourceId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
-        builder
-            .Property(policy => policy.TradingSymbol)
-            .HasMaxLength(Symbol.MaxLength)
-            .HasConversion(
-                symbol => symbol.Value,
-                value => Symbol.From(value).ThrowIfFailure().Value)
-            .IsRequired();
-
         builder.HasData(
         [
             CreatePolicy(
                 id: "1",
                 userId: "1",
-                sourceId: "TV-Long-Task",
-                tradingSymbol: "BINANCE:BTCUSDT.P"),
+                sourceId: "TV-Long-Task"),
         ]);
     }
 
     private static SignalReplicationPolicy CreatePolicy(
         string id,
         string userId,
-        string sourceId,
-        string tradingSymbol) =>
+        string sourceId) =>
         SignalReplicationPolicy
             .Create(
                 SignalReplicationPolicyId.From(id).ThrowIfFailure().Value,
                 UserId.From(userId).ThrowIfFailure().Value,
                 SignalSourceId.From(sourceId).ThrowIfFailure().Value,
-                Symbol.From(tradingSymbol).ThrowIfFailure().Value,
                 DateTimeOffset.UtcNow)
             .Value;
 }

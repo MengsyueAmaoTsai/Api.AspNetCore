@@ -7,7 +7,6 @@ public record SignalReplicationPolicyResponse
     public required string Id { get; init; }
     public required string UserId { get; init; }
     public required string SourceId { get; init; }
-    public required string TradingSymbol { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -24,7 +23,6 @@ public static class SignalReplicationPolicyResponseMapping
             Id = dto.Id,
             UserId = dto.UserId,
             SourceId = dto.SourceId,
-            TradingSymbol = dto.TradingSymbol,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -34,7 +32,6 @@ public static class SignalReplicationPolicyResponseMapping
             Id = dto.Id,
             UserId = dto.UserId,
             SourceId = dto.SourceId,
-            TradingSymbol = dto.TradingSymbol,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

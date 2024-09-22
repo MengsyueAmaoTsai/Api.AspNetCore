@@ -10,7 +10,6 @@ internal static class SignalReplicationPolicyExtensions
             Id = policy.Id.Value,
             UserId = policy.UserId.Value,
             SourceId = policy.SourceId.Value,
-            TradingSymbol = policy.TradingSymbol.Value,
             CreatedTimeUtc = policy.CreatedTimeUtc,
         };
 }

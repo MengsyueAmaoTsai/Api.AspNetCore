@@ -3,39 +3,35 @@ using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Domain;
 
-public sealed class SignalReplicationPolicy : Entity<SignalReplicationPolicyId>
+public sealed class SignalReplicationPolicy :
+    Entity<SignalReplicationPolicyId>
 {
     private SignalReplicationPolicy(
         SignalReplicationPolicyId id,
         UserId userId,
         SignalSourceId sourceId,
-        Symbol tradingSymbol,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
         UserId = userId;
-        TradingSymbol = tradingSymbol;
         SourceId = sourceId;
         CreatedTimeUtc = createdTimeUtc;
     }
 
     public UserId UserId { get; private set; }
     public SignalSourceId SourceId { get; private set; }
-    public Symbol TradingSymbol { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public static ErrorOr<SignalReplicationPolicy> Create(
         SignalReplicationPolicyId id,
         UserId userId,
         SignalSourceId sourceId,
-        Symbol tradingSymbol,
         DateTimeOffset createdTimeUtc)
     {
         var policy = new SignalReplicationPolicy(
             id,
             userId,
             sourceId,
-            tradingSymbol,
             createdTimeUtc);
 
         return ErrorOr<SignalReplicationPolicy>.With(policy);
