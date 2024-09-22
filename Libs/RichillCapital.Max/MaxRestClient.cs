@@ -117,7 +117,9 @@ internal sealed class MaxRestClient(
         return await _responseHandler.HandleAsync(response);
     }
 
-    public async Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default)
+    public async Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(
+        string walletType,
+        CancellationToken cancellationToken = default)
     {
         var path = $"/api/v3/wallet/{walletType}/orders/open";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
