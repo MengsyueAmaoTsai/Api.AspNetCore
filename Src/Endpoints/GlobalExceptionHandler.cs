@@ -37,7 +37,7 @@ internal sealed class GlobalExceptionHandler(
             Detail = error.Message,
             Status = (int)HttpStatusCode.InternalServerError,
             Type = InternalServerErrorType,
-            Instance = default,
+            Instance = httpContext.Request.Path,
         };
 
         problemDetails.Extensions.Add("message", exception.Message);
