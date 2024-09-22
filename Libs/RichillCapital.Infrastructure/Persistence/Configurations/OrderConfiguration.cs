@@ -159,5 +159,6 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
                 remainingQuantity,
                 executedQuantity,
                 status,
+                clientOrderId: id,
                 createdTimeUtc).ThrowIfError().Value;
 }

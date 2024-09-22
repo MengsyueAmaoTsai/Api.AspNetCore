@@ -17,6 +17,7 @@ internal static class OrderExtensions
             RemainingQuantity = order.RemainingQuantity,
             ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status.Name,
+            ClientOrderId = order.ClientOrderId,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };
 }

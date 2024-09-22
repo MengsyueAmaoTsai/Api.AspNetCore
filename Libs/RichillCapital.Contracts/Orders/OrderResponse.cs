@@ -14,6 +14,7 @@ public record OrderResponse
     public required decimal RemainingQuantity { get; init; }
     public required decimal ExecutedQuantity { get; init; }
     public required string Status { get; init; }
+    public required string ClientOrderId { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -36,6 +37,7 @@ public static class OrderResponseMapping
             RemainingQuantity = order.RemainingQuantity,
             ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status,
+            ClientOrderId = order.ClientOrderId,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };
 
@@ -52,6 +54,7 @@ public static class OrderResponseMapping
             RemainingQuantity = order.RemainingQuantity,
             ExecutedQuantity = order.ExecutedQuantity,
             Status = order.Status,
+            ClientOrderId = order.ClientOrderId,
             CreatedTimeUtc = order.CreatedTimeUtc,
         };
 }

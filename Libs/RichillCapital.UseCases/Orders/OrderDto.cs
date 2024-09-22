@@ -12,5 +12,6 @@ public sealed record OrderDto
     public required decimal RemainingQuantity { get; init; }
     public required decimal ExecutedQuantity { get; init; }
     public required string Status { get; init; }
+    public required string ClientOrderId { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

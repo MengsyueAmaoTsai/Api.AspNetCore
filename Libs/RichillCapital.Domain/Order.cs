@@ -19,6 +19,7 @@ public sealed class Order : Entity<OrderId>
         decimal remainingQuantity,
         decimal executedQuantity,
         OrderStatus status,
+        string clientOrderId,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -31,6 +32,7 @@ public sealed class Order : Entity<OrderId>
         RemainingQuantity = remainingQuantity;
         ExecutedQuantity = executedQuantity;
         Status = status;
+        ClientOrderId = clientOrderId;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -43,6 +45,7 @@ public sealed class Order : Entity<OrderId>
     public decimal RemainingQuantity { get; private set; }
     public decimal ExecutedQuantity { get; private set; }
     public OrderStatus Status { get; private set; }
+    public string ClientOrderId { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
     public IReadOnlyCollection<Execution> Executions => _executions;
@@ -58,6 +61,7 @@ public sealed class Order : Entity<OrderId>
         decimal remainingQuantity,
         decimal executedQuantity,
         OrderStatus status,
+        string clientOrderId,
         DateTimeOffset createdTimeUtc)
     {
         var order = new Order(
@@ -71,6 +75,7 @@ public sealed class Order : Entity<OrderId>
             remainingQuantity,
             executedQuantity,
             status,
+            clientOrderId,
             createdTimeUtc);
 
         order.RegisterDomainEvent(new OrderCreatedDomainEvent

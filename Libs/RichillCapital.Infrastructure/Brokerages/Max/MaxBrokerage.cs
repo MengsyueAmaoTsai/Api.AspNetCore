@@ -126,6 +126,7 @@ internal sealed class MaxBrokerage(
                     remainingQuantity: mo.RemainingVolume,
                     executedQuantity: mo.ExecutedVolume,
                     status: orderStatus,
+                    clientOrderId: mo.ClientOrderId,
                     createdTimeUtc: mo.CreatedTimeUtc);
             })
             .ToList();
@@ -143,53 +144,6 @@ internal sealed class MaxBrokerage(
 
     private async Task<Result> OnStartedAsync(CancellationToken cancellationToken = default)
     {
-        var ordersResult = await _restClient.ListOrdersAsync(
-            walletType: "spot",
-            market: "usdttwd",
-            cancellationToken);
-
-        if (ordersResult.IsFailure)
-        {
-            return Result.Failure(ordersResult.Error);
-        }
-
-        foreach (var order in ordersResult.Value)
-        {
-            var tradeType = TradeType.FromName(order.Side, ignoreCase: true).ThrowIfNull().Value;
-            var orderType = OrderType.FromName(order.OrderType, ignoreCase: true).ThrowIfNull().Value;
-
-            var internalOrder = Order.Create(
-                id: OrderId.From(order.Id).ThrowIfFailure().Value,
-                accountId: AccountId.From("000-8283782").ThrowIfFailure().Value,
-                symbol: _symbolMapper.FromExternalSymbol(order.Market),
-                tradeType: tradeType,
-                type: orderType,
-                timeInForce: TimeInForce.ImmediateOrCancel,
-                quantity: order.Volume,
-                remainingQuantity: order.RemainingVolume,
-                executedQuantity: order.ExecutedVolume,
-                status: OrderStatus.Executed,
-                createdTimeUtc: order.CreatedTimeUtc)
-                .ThrowIfError()
-                .Value;
-
-            _logger.LogInformation("Internal order: {order}", internalOrder);
-        }
-
-        var tradesResult = await _restClient.ListTradesAsync(
-            walletType: "spot",
-            cancellationToken);
-
-        if (tradesResult.IsFailure)
-        {
-            return Result.Failure(tradesResult.Error);
-        }
-
-        foreach (var trade in tradesResult.Value)
-        {
-            _logger.LogInformation("Trade: {trade}", trade);
-        }
-
         return Result.Success;
     }
 }

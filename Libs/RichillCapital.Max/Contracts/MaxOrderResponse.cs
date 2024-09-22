@@ -17,6 +17,7 @@ public sealed record MaxOrderResponse
     public required string Market { get; init; }
 
     [JsonProperty("client_oid")]
+    [JsonConverter(typeof(NullableStringConverter))]
     public required string ClientOrderId { get; init; }
 
     [JsonProperty("group_id")]

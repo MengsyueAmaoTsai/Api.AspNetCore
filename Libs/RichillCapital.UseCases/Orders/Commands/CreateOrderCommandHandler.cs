@@ -70,6 +70,7 @@ internal sealed class CreateOrderCommandHandler(
             remainingQuantity: command.Quantity,
             executedQuantity: decimal.Zero,
             status: OrderStatus.New,
+            clientOrderId: string.Empty,
             createdTimeUtc: _dateTimeProvider.UtcNow);
 
         if (errorOrOrder.HasError)
