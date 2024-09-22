@@ -77,6 +77,19 @@ internal sealed class MaxRestClient(
         return await _responseHandler.HandleAsync(response);
     }
 
+    public async Task<Result<MaxWithdrawAddressResponse[]>> ListWithdrawAddressesAsync(
+        string currency,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxWithdrawAddressResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/withdraw_addresses",
+            new()
+            {
+                { "currency", currency },
+            },
+            true,
+            cancellationToken);
+
     public async Task<Result<MaxTradeResponse[]>> ListTradesAsync(
         string walletType,
         CancellationToken cancellationToken = default) =>
