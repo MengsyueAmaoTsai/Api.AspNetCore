@@ -29,13 +29,13 @@ internal sealed class RequestDebuggingMiddleware(
             remoteIpAddress,
             elapsedMilliseconds);
 
-        await LogIfProblemDetailsAsync(context.Response);
+        await LogErrorIfFailureAsync(context.Response);
     }
 
     private static string ReplaceCrlf(string text) =>
         text.Replace("\r", "\\r").Replace("\n", "\\n");
 
-    private async Task LogIfProblemDetailsAsync(
+    private async Task LogErrorIfFailureAsync(
         HttpResponse httpResponse)
     {
         static bool IsErrorResponse(HttpResponse httpResponse) =>
