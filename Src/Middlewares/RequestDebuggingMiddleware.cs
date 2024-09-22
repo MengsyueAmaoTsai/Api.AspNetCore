@@ -28,8 +28,30 @@ internal sealed class RequestDebuggingMiddleware(
             ReplaceCrlf(path),
             remoteIpAddress,
             elapsedMilliseconds);
+
+        await LogIfProblemDetailsAsync(context.Response);
     }
 
     private static string ReplaceCrlf(string text) =>
         text.Replace("\r", "\\r").Replace("\n", "\\n");
+
+    private async Task LogIfProblemDetailsAsync(
+        HttpResponse httpResponse)
+    {
+        static bool IsErrorResponse(HttpResponse httpResponse) =>
+            httpResponse.StatusCode != 200 &&
+            httpResponse.ContentType == "application/problem+json";
+
+        if (IsErrorResponse(httpResponse))
+        {
+            var problemDetailsResult = await httpResponse.ReadProblemDetailsAsync(default);
+
+            if (problemDetailsResult.IsSuccess)
+            {
+                _logger.LogError(
+                    "Problem details: {problemDetails}",
+                    ReplaceCrlf(problemDetailsResult.Value));
+            }
+        }
+    }
 }
