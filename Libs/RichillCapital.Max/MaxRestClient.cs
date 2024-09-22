@@ -70,7 +70,7 @@ internal sealed class MaxRestClient(
         var url = path + $"?nonce={nonce}&market=btcusdt&side=buy&volume=1&price=100";
 
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, url)
-            .AddAuthenticationHeaders(ApiKey, payload, signature);
+            .AttachAuthenticationHeaderValues(ApiKey, payload, signature);
 
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 
@@ -177,19 +177,15 @@ internal sealed class MaxRestClient(
             parameters["nonce"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
-        // Encode payload and sign
-        Dictionary<string, object> parametersToSign = [];
+        var request = CreateRequest(method, path, parameters, requiresAuthentication);
 
-        parametersToSign.Add("path", path);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
 
-        foreach (var parameter in parameters)
-        {
-            parametersToSign.Add(parameter.Key, parameter.Value);
-        }
+        return await _responseHandler.HandleAsync<TResponse>(response, cancellationToken);
+    }
 
-        var (encodedPayload, signature) = _signatureHandler.GenerateSignature(SecretKey, parametersToSign);
-
-        // Build request path
+    private static string BuildRequestPath(string path, Dictionary<string, object> parameters)
+    {
         var requestPath = path;
 
         if (parameters.Count > 0)
@@ -198,17 +194,33 @@ internal sealed class MaxRestClient(
             requestPath = $"{path}?{queryString}";
         }
 
-        // Create request
-        var request = new HttpRequestMessage(method, requestPath);
+        return requestPath;
+    }
+
+    private HttpRequestMessage CreateRequest(
+        HttpMethod method,
+        string path,
+        Dictionary<string, object> parameters,
+        bool requiresAuthentication)
+    {
+        var request = new HttpRequestMessage(method, BuildRequestPath(path, parameters));
 
         if (requiresAuthentication)
         {
-            request.AddAuthenticationHeaders(ApiKey, encodedPayload, signature);
+            Dictionary<string, object> parametersToSign = [];
+
+            parametersToSign.Add("path", path);
+
+            foreach (var parameter in parameters)
+            {
+                parametersToSign.Add(parameter.Key, parameter.Value);
+            }
+
+            var (encodedPayload, signature) = _signatureHandler.GenerateSignature(SecretKey, parametersToSign);
+
+            request.AttachAuthenticationHeaderValues(ApiKey, encodedPayload, signature);
         }
 
-        // Invoke request and handle response
-        var response = await _httpClient.SendAsync(request, cancellationToken);
-
-        return await _responseHandler.HandleAsync<TResponse>(response, cancellationToken);
+        return request;
     }
 }

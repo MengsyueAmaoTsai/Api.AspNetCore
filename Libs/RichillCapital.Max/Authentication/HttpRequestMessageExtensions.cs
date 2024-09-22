@@ -2,7 +2,7 @@ namespace RichillCapital.Max.Authentication;
 
 internal static class HttpRequestMessageExtensions
 {
-    public static HttpRequestMessage AddAuthenticationHeaders(
+    public static HttpRequestMessage AttachAuthenticationHeaderValues(
         this HttpRequestMessage request,
         string apiKey,
         string payload,
