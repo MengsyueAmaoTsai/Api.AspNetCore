@@ -1,8 +1,4 @@
-﻿using System.Text;
-
-using Microsoft.Extensions.Logging;
-
-using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
 
 using RichillCapital.Max.Authentication;
 using RichillCapital.Max.Contracts;
@@ -47,35 +43,25 @@ internal sealed class MaxRestClient(
             false,
             cancellationToken);
 
-    public async Task<Result> SubmitOrderAsync(
+    public async Task<Result<MaxOrderResponse>> SubmitOrderAsync(
         string walletType,
-        CancellationToken cancellationToken = default)
-    {
-        var path = $"/api/v3/wallet/{walletType}/order";
-        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-        var parametersToSign = new
-        {
-            market = "btcusdt",
-            side = "buy",
-            volume = 1,
-            price = 100,
-            nonce,
-            path,
-        };
-
-        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
-        var signature = _signatureHandler.Sign(SecretKey, payload);
-
-        var url = path + $"?nonce={nonce}&market=btcusdt&side=buy&volume=1&price=100";
-
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, url)
-            .AttachAuthenticationHeaderValues(ApiKey, payload, signature);
-
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
-
-        return await _responseHandler.HandleAsync(response);
-    }
+        string market,
+        string side,
+        decimal volume,
+        decimal price,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxOrderResponse>(
+            HttpMethod.Post,
+            $"/api/v3/wallet/{walletType}/order",
+            new Dictionary<string, object>
+            {
+                { "market", market },
+                { "side", side },
+                { "volume", volume },
+                { "price", price },
+            },
+            true,
+            cancellationToken);
 
     public async Task<Result<MaxWithdrawAddressResponse[]>> ListWithdrawAddressesAsync(
         string currency,

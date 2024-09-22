@@ -73,6 +73,10 @@ internal sealed class MaxBrokerage(
 
         var submitResult = await _restClient.SubmitOrderAsync(
             walletType: "spot",
+            market: _symbolMapper.ToExternalSymbol(symbol),
+            side: tradeType.Name.ToLowerInvariant(),
+            volume: quantity,
+            price: 0,
             cancellationToken);
 
         if (submitResult.IsFailure)

@@ -10,7 +10,7 @@ public interface IMaxRestClient
     Task<Result<MaxCurrencyResponse[]>> ListCurrenciesAsync(CancellationToken cancellationToken = default);
     Task<Result<MaxAccountBalanceResponse[]>> ListAccountBalancesAsync(string walletType, CancellationToken cancellationToken = default);
     Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default);
-    Task<Result> SubmitOrderAsync(string walletType, CancellationToken cancellationToken = default);
+    Task<Result<MaxOrderResponse>> SubmitOrderAsync(string walletType, string market, string side, decimal volume, decimal price, CancellationToken cancellationToken = default);
     Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default);
     Task<Result<MaxOrderResponse[]>> ListClosedOrdersAsync(string walletType, CancellationToken cancellationToken = default);
     Task<Result<MaxOrderResponse[]>> ListOrdersAsync(string walletType, string market, CancellationToken cancellationToken = default);
