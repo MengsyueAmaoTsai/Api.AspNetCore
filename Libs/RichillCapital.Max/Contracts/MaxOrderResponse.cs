@@ -62,11 +62,3 @@ public sealed record MaxOrderResponse
     [JsonConverter(typeof(TimestampDateTimeOffsetConverter))]
     public required DateTimeOffset UpdatedTimeUtc { get; init; }
 }
-
-public enum MaxOrderState
-{
-    Wait = 0,
-    Done = 1,
-    Cancel = 2,
-    Convert = 3,
-}

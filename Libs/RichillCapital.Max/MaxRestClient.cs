@@ -77,6 +77,16 @@ internal sealed class MaxRestClient(
         return await _responseHandler.HandleAsync(response);
     }
 
+    public async Task<Result<MaxTradeResponse[]>> ListTradesAsync(
+        string walletType,
+        CancellationToken cancellationToken = default) =>
+        await InvokeRequestAsync<MaxTradeResponse[]>(
+            HttpMethod.Get,
+            $"/api/v3/wallet/{walletType}/trades",
+            [],
+            true,
+            cancellationToken);
+
     public async Task<Result<MaxAccountBalanceResponse[]>> ListAccountBalancesAsync(
         string walletType,
         CancellationToken cancellationToken = default) =>
@@ -149,7 +159,7 @@ internal sealed class MaxRestClient(
             true,
             cancellationToken);
 
-    public async Task<Result<MaxOrderResponse[]>> ListOrderHistoryAsync(
+    public async Task<Result<MaxOrderResponse[]>> ListOrdersAsync(
         string walletType,
         string market,
         CancellationToken cancellationToken = default)

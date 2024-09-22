@@ -85,7 +85,7 @@ internal sealed class MaxBrokerage(
 
     private async Task<Result> OnStartedAsync(CancellationToken cancellationToken = default)
     {
-        var ordersResult = await _restClient.ListOrderHistoryAsync(
+        var ordersResult = await _restClient.ListOrdersAsync(
             walletType: "spot",
             market: "usdttwd",
             cancellationToken);
@@ -116,6 +116,20 @@ internal sealed class MaxBrokerage(
                 .Value;
 
             _logger.LogInformation("Internal order: {order}", internalOrder);
+        }
+
+        var tradesResult = await _restClient.ListTradesAsync(
+            walletType: "spot",
+            cancellationToken);
+
+        if (tradesResult.IsFailure)
+        {
+            return Result.Failure(tradesResult.Error);
+        }
+
+        foreach (var trade in tradesResult.Value)
+        {
+            _logger.LogInformation("Trade: {trade}", trade);
         }
 
         return Result.Success;
