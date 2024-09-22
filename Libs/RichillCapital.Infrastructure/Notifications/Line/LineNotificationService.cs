@@ -25,8 +25,6 @@ internal sealed class LineNotificationService(
         string message,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Sending Line notification: {message}", message);
-
         if (string.IsNullOrWhiteSpace(message))
         {
             return Result.Failure(Error.Invalid($"{nameof(message)} cannot be null or empty"));
@@ -62,7 +60,7 @@ internal sealed class LineNotificationService(
     {
         if (string.IsNullOrWhiteSpace(token))
         {
-            _logger.LogInformation("Token is empty, using development token");
+            _logger.LogWarning("Token is not provided, using default token");
             token = DevelopmentToken;
         }
 
