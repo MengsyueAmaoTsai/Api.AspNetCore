@@ -24,19 +24,19 @@ internal sealed class MaxRestClient(
     public async Task<Result<MaxServerTimeResponse>> GetServerTimeAsync(
         CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/api/v3/timestamp", cancellationToken);
+        var response = await _httpClient.GetAsync(MaxApiRoutes.GetServerTime, cancellationToken);
         return await HandleResponse<MaxServerTimeResponse>(response);
     }
 
     public async Task<Result<MaxMarketResponse[]>> ListMarketsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/api/v3/markets", cancellationToken);
+        var response = await _httpClient.GetAsync(MaxApiRoutes.ListMarkets, cancellationToken);
         return await HandleResponse<MaxMarketResponse[]>(response);
     }
 
     public async Task<Result<MaxCurrencyResponse[]>> ListCurrenciesAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/api/v3/currencies", cancellationToken);
+        var response = await _httpClient.GetAsync(MaxApiRoutes.ListCurrencies, cancellationToken);
         return await HandleResponse<MaxCurrencyResponse[]>(response);
     }
 
@@ -67,7 +67,7 @@ internal sealed class MaxRestClient(
 
     public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default)
     {
-        var path = "/api/v3/info";
+        var path = MaxApiRoutes.GetUserInfo;
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         var parametersToSign = new
