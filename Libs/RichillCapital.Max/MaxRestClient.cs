@@ -251,9 +251,34 @@ internal sealed class MaxRestClient(
         return await HandleResponse<MaxCancelOrderResponse>(response);
     }
 
-    public Task<Result> GetOrderDetailAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<MaxOrderResponse>> GetOrderAsync(
+        string orderId,
+        string clientOrderId,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var path = "/api/v3/order";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            id = orderId,
+            client_oid = clientOrderId,
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}&id={orderId}&client_oid={clientOrderId}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxOrderResponse>(response);
     }
 
     private async Task<Result<TMaxResponse>> HandleResponse<TMaxResponse>(HttpResponseMessage httpResponse)
