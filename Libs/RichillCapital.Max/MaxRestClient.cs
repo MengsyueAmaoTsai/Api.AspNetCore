@@ -170,9 +170,33 @@ internal sealed class MaxRestClient(
         return await HandleResponse<MaxOrderResponse[]>(response);
     }
 
-    public Task<Result> GetOrderAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<MaxOrderResponse[]>> ListOrderHistoryAsync(
+        string walletType,
+        string market,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var path = $"/api/v3/wallet/{walletType}/orders/history";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            market,
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}&market={market}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxOrderResponse[]>(response);
     }
 
     public Task<Result> CancelAllOrdersAsync(CancellationToken cancellationToken = default)
