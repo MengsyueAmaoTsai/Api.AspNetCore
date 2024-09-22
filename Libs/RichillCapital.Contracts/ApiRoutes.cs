@@ -110,5 +110,15 @@ public static class ApiRoutes
 
         public const string Create = SignalsBase;
     }
+
+    public static class SignalReplicationPolicies
+    {
+        private const string SignalReplicationPoliciesBase = $"{ApiBase}/signal-replication-policies";
+
+        public const string List = SignalReplicationPoliciesBase;
+        public const string Create = SignalReplicationPoliciesBase;
+
+        public const string Get = $"{SignalReplicationPoliciesBase}/{{signalReplicationPolicyId}}";
+    }
 }
 
