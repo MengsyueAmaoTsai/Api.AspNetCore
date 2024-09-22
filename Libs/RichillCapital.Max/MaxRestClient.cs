@@ -23,33 +23,34 @@ internal sealed class MaxRestClient(
     public async Task<Result<MaxServerTimeResponse>> GetServerTimeAsync(
         CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("api/v3/timestamp", cancellationToken);
+        var response = await _httpClient.GetAsync("/api/v3/timestamp", cancellationToken);
         return await HandleResponse<MaxServerTimeResponse>(response);
     }
 
     public async Task<Result<MaxMarketResponse[]>> ListMarketsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("api/v3/markets", cancellationToken);
+        var response = await _httpClient.GetAsync("/api/v3/markets", cancellationToken);
         return await HandleResponse<MaxMarketResponse[]>(response);
     }
 
     public async Task<Result<MaxUserInfoResponse>> GetUserInfoAsync(CancellationToken cancellationToken = default)
     {
-        var path = "api/v3/info";
-        var nonce = DateTimeOffset.UtcNow.Millisecond;
+        var path = "/api/v3/info";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        var bodyToEncode = new
+        var parametersToSign = new
         {
-            Nonce = nonce,
-            Path = path,
+            nonce,
+            path,
         };
 
-        var encodedBody = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(bodyToEncode)));
-        var signature = _signatureHandler.Sign(SecretKey, path, encodedBody);
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+        var signature = _signatureHandler.Sign(SecretKey, payload);
 
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, path);
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, path + $"?nonce={nonce}");
         httpRequest.Headers.Add("X-MAX-ACCESSKEY", ApiKey);
-        httpRequest.Headers.Add("X-MAX-PAYLOAD", encodedBody);
+        httpRequest.Headers.Add("X-MAX-PAYLOAD", payload);
         httpRequest.Headers.Add("X-MAX-SIGNATURE", signature);
 
         var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
@@ -58,7 +59,7 @@ internal sealed class MaxRestClient(
 
     public async Task<Result> SubmitOrderAsync(CancellationToken cancellationToken = default)
     {
-        var path = "api/v3/wallet/{pathWalletType}/order";
+        var path = "/api/v3/wallet/{pathWalletType}/order";
         var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         var body = new
@@ -69,7 +70,7 @@ internal sealed class MaxRestClient(
 
         var payloadBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body)));
 
-        var signature = _signatureHandler.Sign(SecretKey, path, payloadBase64);
+        var signature = _signatureHandler.Sign(SecretKey, payloadBase64);
 
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, path);
 

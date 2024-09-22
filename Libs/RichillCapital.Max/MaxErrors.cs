@@ -29,6 +29,7 @@ internal static class MaxErrors
             2006 => "Error",
             2007 => "Error",
             2008 => "Error",
+            2014 => "Error",
             _ => throw new NotImplementedException($"{nameof(maxErrorCode)} for {maxErrorCode} is not defined."),
         };
 
