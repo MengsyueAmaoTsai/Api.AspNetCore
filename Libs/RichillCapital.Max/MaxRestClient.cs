@@ -199,14 +199,56 @@ internal sealed class MaxRestClient(
         return await HandleResponse<MaxOrderResponse[]>(response);
     }
 
-    public Task<Result> CancelAllOrdersAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<MaxCancelAllOrdersResponse[]>> CancelAllOrdersAsync(
+        string walletType,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var path = $"/api/v3/wallet/{walletType}/orders";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxCancelAllOrdersResponse[]>(response);
     }
 
-    public Task<Result> CancelOrderAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<MaxCancelOrderResponse>> CancelOrderAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var path = "/api/v3/order";
+        var nonce = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        var parametersToSign = new
+        {
+            nonce,
+            path,
+        };
+
+        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(parametersToSign)));
+
+        var signature = _signatureHandler.Sign(SecretKey, payload);
+
+        var url = path + $"?nonce={nonce}";
+
+        var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url)
+            .AddAuthenticationHeaders(ApiKey, payload, signature);
+
+        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+        return await HandleResponse<MaxCancelOrderResponse>(response);
     }
 
     public Task<Result> GetOrderDetailAsync(CancellationToken cancellationToken = default)

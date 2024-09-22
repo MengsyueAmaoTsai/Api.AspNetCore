@@ -14,7 +14,7 @@ public interface IMaxRestClient
     Task<Result<MaxOrderResponse[]>> ListOpenOrdersAsync(string walletType, CancellationToken cancellationToken = default);
     Task<Result<MaxOrderResponse[]>> ListClosedOrdersAsync(string walletType, CancellationToken cancellationToken = default);
     Task<Result<MaxOrderResponse[]>> ListOrderHistoryAsync(string walletType, string market, CancellationToken cancellationToken = default);
-    Task<Result> CancelAllOrdersAsync(CancellationToken cancellationToken = default);
-    Task<Result> CancelOrderAsync(CancellationToken cancellationToken = default);
+    Task<Result<MaxCancelAllOrdersResponse[]>> CancelAllOrdersAsync(string walletType, CancellationToken cancellationToken = default);
+    Task<Result<MaxCancelOrderResponse>> CancelOrderAsync(CancellationToken cancellationToken = default);
     Task<Result> GetOrderDetailAsync(CancellationToken cancellationToken = default);
 }
