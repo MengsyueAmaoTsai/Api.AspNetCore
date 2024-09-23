@@ -10,8 +10,9 @@ namespace RichillCapital.Infrastructure.DataFeeds.Max;
 internal sealed class MaxDataFeed(
     ILogger<MaxDataFeed> _logger,
     IMaxRestClient _restClient,
-    string name) :
-    DataFeed("Max", name)
+    string name,
+    IReadOnlyDictionary<string, object> arguments) :
+    DataFeed("Max", name, arguments)
 {
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {

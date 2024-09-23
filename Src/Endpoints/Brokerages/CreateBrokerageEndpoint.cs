@@ -30,6 +30,7 @@ public sealed class CreateBrokerageEndpoint(
             {
                 Provider = req.Provider,
                 Name = req.Name,
+                Arguments = req.Arguments
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(dto => dto.ToDetailsResponse())

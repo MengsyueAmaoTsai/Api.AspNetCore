@@ -4,12 +4,13 @@ namespace RichillCapital.Domain.Brokerages;
 
 public abstract class Brokerage(
     string provider,
-    string name) :
+    string name,
+    IReadOnlyDictionary<string, object> arguments) :
     IBrokerage
 {
     public string Provider { get; private init; } = provider;
     public string Name { get; private init; } = name;
-    public IReadOnlyDictionary<string, object> Arguments { get; private init; } = new Dictionary<string, object>();
+    public IReadOnlyDictionary<string, object> Arguments { get; private init; } = arguments;
     public ConnectionStatus Status { get; protected set; } = ConnectionStatus.Stopped;
     public DateTimeOffset CreatedTimeUtc { get; private init; } = DateTimeOffset.UtcNow;
 

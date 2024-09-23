@@ -15,26 +15,33 @@ internal sealed class BrokerageFactory(
     ILogger<BrokerageFactory> _logger,
     IServiceProvider _serviceProvider)
 {
+    internal Result<IBrokerage> CreateBrokerage(BrokerageProfile profile) =>
+        CreateBrokerage(profile.Provider, profile.Name, profile.Arguments);
+
     internal Result<IBrokerage> CreateBrokerage(
         string provider,
-        string connectionName)
+        string connectionName,
+        IReadOnlyDictionary<string, object> arguments)
     {
         var brokerage = provider switch
         {
             "RichillCapital" => Result<IBrokerage>.With(new RcexBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<RcexBrokerage>>(),
                 _serviceProvider.GetRequiredService<IExchangeRestClient>(),
-                connectionName)),
+                connectionName,
+                arguments)),
 
             "Binance" => Result<IBrokerage>.With(new BinanceBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<BinanceBrokerage>>(),
                 _serviceProvider.GetRequiredService<IBinanceRestClient>(),
-                connectionName)),
+                connectionName,
+                arguments)),
 
             "Max" => Result<IBrokerage>.With(new MaxBrokerage(
                 _serviceProvider.GetRequiredService<ILogger<MaxBrokerage>>(),
                 _serviceProvider.GetRequiredService<IMaxRestClient>(),
-                connectionName)),
+                connectionName,
+                arguments)),
 
             _ => Result<IBrokerage>.Failure(BrokerageErrors.NotSupported(provider)),
         };

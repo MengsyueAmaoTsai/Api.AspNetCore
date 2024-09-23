@@ -10,8 +10,9 @@ namespace RichillCapital.Infrastructure.Brokerages.Max;
 internal sealed class MaxBrokerage(
     ILogger<MaxBrokerage> _logger,
     IMaxRestClient _restClient,
-    string name) :
-    Brokerage("Max", name)
+    string name,
+    IReadOnlyDictionary<string, object> arguments) :
+    Brokerage("Max", name, arguments)
 {
     private readonly MaxSymbolMapper _symbolMapper = new();
 

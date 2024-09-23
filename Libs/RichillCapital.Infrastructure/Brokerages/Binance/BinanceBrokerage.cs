@@ -8,8 +8,9 @@ using RichillCapital.SharedKernel.Monads;
 internal sealed class BinanceBrokerage(
     ILogger<BinanceBrokerage> _logger,
     IBinanceRestClient _restClient,
-    string name) :
-    Brokerage("Binance", name)
+    string name,
+    IReadOnlyDictionary<string, object> arguments) :
+    Brokerage("Binance", name, arguments)
 {
     public override Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default)
     {

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 
 using RichillCapital.Domain.DataFeeds;
 using RichillCapital.Extensions.Options;
+using RichillCapital.Infrastructure.DataFeeds.Max;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.DataFeeds;
@@ -20,7 +21,7 @@ public static class DataFeedExtensions
 
         // services.AddRichillCapitalDataFeed();
         // services.AddBinanceDataFeed();
-        // services.AddMaxDataFeed();
+        services.AddMaxDataFeed();
 
         using var scope = services.BuildServiceProvider().CreateScope();
 
@@ -37,7 +38,7 @@ public static class DataFeedExtensions
             if (profile.Enabled)
             {
                 factory
-                    .CreateDataFeed(profile.Provider, profile.Name)
+                    .CreateDataFeed(profile)
                     .ThrowIfFailure()
                     .Then(DataFeeds.Add)
                     .ThrowIfFailure();

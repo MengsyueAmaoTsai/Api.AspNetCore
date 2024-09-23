@@ -10,37 +10,12 @@ internal sealed class BrokerageManager(
     BrokerageFactory _factory) :
     IBrokerageManager
 {
-    public async Task<Result<IBrokerage>> CreateAndStartAsync(
-        string provider,
-        string name,
-        CancellationToken cancellationToken = default)
-    {
-        var brokerageResult = _factory.CreateBrokerage(provider, name);
-
-        if (brokerageResult.IsFailure)
-        {
-            return Result<IBrokerage>.Failure(brokerageResult.Error);
-        }
-
-        var brokerage = brokerageResult.Value;
-        _brokerages.Add(brokerage);
-
-        var startResult = await brokerage.StartAsync(cancellationToken);
-
-        if (startResult.IsFailure)
-        {
-            return Result<IBrokerage>.Failure(startResult.Error);
-        }
-
-        return Result<IBrokerage>.With(brokerage);
-    }
-
     public Result<IBrokerage> GetByName(string name) => _brokerages.Get(name);
     public IReadOnlyCollection<IBrokerage> ListAll() => _brokerages.All;
 
-    public Result<IBrokerage> Create(string provider, string name)
+    public Result<IBrokerage> Create(string provider, string name, IReadOnlyDictionary<string, object> arguments)
     {
-        var createResult = _factory.CreateBrokerage(provider, name);
+        var createResult = _factory.CreateBrokerage(provider, name, arguments);
 
         if (createResult.IsFailure)
         {

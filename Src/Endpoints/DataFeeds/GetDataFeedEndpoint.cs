@@ -6,34 +6,35 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
-using RichillCapital.Contracts.Brokerages;
+using RichillCapital.Contracts.DataFeeds;
 using RichillCapital.SharedKernel.Monads;
-using RichillCapital.UseCases.Brokerages.Queries;
+using RichillCapital.UseCases.DataFeeds.Queries;
 
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace RichillCapital.Api.Endpoints.Brokerages;
+namespace RichillCapital.Api.Endpoints.DataFeeds;
 
 [ApiVersion(EndpointVersion.V1)]
-public sealed class GetBrokerageEndpoint(
+public sealed class GetDataFeedEndpoint(
     IMediator _mediator) : AsyncEndpoint
     .WithRequest<string>
-    .WithActionResult<BrokerageDetailsResponse>
+    .WithActionResult<DataFeedDetailsResponse>
 {
-    [HttpGet(ApiRoutes.Brokerages.Get)]
+    [HttpGet(ApiRoutes.DataFeeds.Get)]
     [SwaggerOperation(
-        Summary = "Get a brokerage by connection name.",
-        OperationId = "Brokerages.Get",
-        Tags = [ApiTags.Brokerages])]
+        Summary = "Get a data feed by connection name.",
+        OperationId = "DataFeeds.Get",
+        Tags = [ApiTags.DataFeeds])]
     [AllowAnonymous]
-    public override async Task<ActionResult<BrokerageDetailsResponse>> HandleAsync(
+    public override async Task<ActionResult<DataFeedDetailsResponse>> HandleAsync(
         [FromRoute(Name = nameof(connectionName))] string connectionName,
         CancellationToken cancellationToken = default) =>
         await ErrorOr<string>
             .With(connectionName)
-            .Then(name => new GetBrokerageQuery
+            .Then(name => new GetDataFeedQuery
+
             {
-                ConnectionName = name,
+                ConnectionName = name
             })
             .Then(query => _mediator.Send(query, cancellationToken))
             .Then(dto => dto.ToDetailsResponse())

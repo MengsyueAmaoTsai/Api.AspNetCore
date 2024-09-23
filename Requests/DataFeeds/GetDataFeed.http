@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@ConnectionName = RichillCapital.Max
+
+### Get data feed
+GET https://localhost:10000/api/v1/data-feeds/{{ConnectionName}}

@@ -8,37 +8,12 @@ internal sealed class DataFeedManager(
     DataFeedFactory _factory) :
     IDataFeedManager
 {
-    public async Task<Result<IDataFeed>> CreateAndStartAsync(
-        string provider,
-        string name,
-        CancellationToken cancellationToken = default)
-    {
-        var DataFeedResult = _factory.CreateDataFeed(provider, name);
-
-        if (DataFeedResult.IsFailure)
-        {
-            return Result<IDataFeed>.Failure(DataFeedResult.Error);
-        }
-
-        var DataFeed = DataFeedResult.Value;
-        _DataFeeds.Add(DataFeed);
-
-        var startResult = await DataFeed.StartAsync(cancellationToken);
-
-        if (startResult.IsFailure)
-        {
-            return Result<IDataFeed>.Failure(startResult.Error);
-        }
-
-        return Result<IDataFeed>.With(DataFeed);
-    }
-
     public Result<IDataFeed> GetByName(string name) => _DataFeeds.Get(name);
     public IReadOnlyCollection<IDataFeed> ListAll() => _DataFeeds.All;
 
-    public Result<IDataFeed> Create(string provider, string name)
+    public Result<IDataFeed> Create(string provider, string name, IReadOnlyDictionary<string, object> arguments)
     {
-        var createResult = _factory.CreateDataFeed(provider, name);
+        var createResult = _factory.CreateDataFeed(provider, name, arguments);
 
         if (createResult.IsFailure)
         {

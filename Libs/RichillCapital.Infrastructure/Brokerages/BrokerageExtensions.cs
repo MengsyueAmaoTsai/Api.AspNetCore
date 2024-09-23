@@ -40,7 +40,7 @@ public static class BrokerageExtensions
             if (profile.Enabled)
             {
                 factory
-                    .CreateBrokerage(profile.Provider, profile.Name)
+                    .CreateBrokerage(profile)
                     .ThrowIfFailure()
                     .Then(brokerages.Add)
                     .ThrowIfFailure();

@@ -14,7 +14,8 @@ internal sealed class CreateBrokerageCommandHandler(
     {
         var result = _brokerageManager.Create(
             command.Provider,
-            command.Name);
+            command.Name,
+            command.Arguments);
 
         if (result.IsFailure)
         {

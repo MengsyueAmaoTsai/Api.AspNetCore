@@ -11,8 +11,9 @@ namespace RichillCapital.Infrastructure.Brokerages.Rcex;
 internal sealed class RcexBrokerage(
     ILogger<RcexBrokerage> _logger,
     IExchangeRestClient _restClient,
-    string name) :
-    Brokerage("RichillCapital", name)
+    string name,
+    IReadOnlyDictionary<string, object> arguments) :
+    Brokerage("RichillCapital", name, arguments)
 {
     public override Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default)
     {

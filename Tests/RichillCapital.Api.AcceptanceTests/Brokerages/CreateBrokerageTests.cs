@@ -19,6 +19,10 @@ public sealed class CreateBrokerageTests(
         {
             Provider = "Binance",
             Name = ExistingConnectionName,
+            Arguments = new Dictionary<string, object>
+            {
+                { "ApiKey", "<ApiKey>" },
+            },
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/brokerages", request);
@@ -33,6 +37,10 @@ public sealed class CreateBrokerageTests(
         {
             Provider = "Binance",
             Name = "New connection name from AcceptanceTests",
+            Arguments = new Dictionary<string, object>
+            {
+                { "ApiKey", "<ApiKey>" },
+            },
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/brokerages", request);

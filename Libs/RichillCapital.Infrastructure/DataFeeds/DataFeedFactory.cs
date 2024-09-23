@@ -12,16 +12,21 @@ internal sealed class DataFeedFactory(
     ILogger<DataFeedFactory> _logger,
     IServiceProvider _serviceProvider)
 {
+    internal Result<IDataFeed> CreateDataFeed(DataFeedProfile profile) =>
+        CreateDataFeed(profile.Provider, profile.Name, profile.Arguments);
+
     internal Result<IDataFeed> CreateDataFeed(
         string provider,
-        string connectionName)
+        string connectionName,
+        IReadOnlyDictionary<string, object> arguments)
     {
         var DataFeed = provider switch
         {
             "Max" => Result<IDataFeed>.With(new MaxDataFeed(
                 _serviceProvider.GetRequiredService<ILogger<MaxDataFeed>>(),
                 _serviceProvider.GetRequiredService<IMaxRestClient>(),
-                connectionName)),
+                connectionName,
+                arguments)),
 
             _ => Result<IDataFeed>.Failure(DataFeedErrors.NotSupported(provider)),
         };

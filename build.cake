@@ -82,6 +82,13 @@ Task("Publish")
             });
     });
 
+
+Task("Commit")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
+    .IsDependentOn("Build")
+    .IsDependentOn("UnitTests");
+
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
@@ -90,11 +97,6 @@ Task("Default")
     .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
 
-Task("Commit")
-    .IsDependentOn("Clean")
-    .IsDependentOn("Restore")
-    .IsDependentOn("Build")
-    .IsDependentOn("UnitTests");
 
 var target = Argument("target", "Default");
 RunTarget(target);

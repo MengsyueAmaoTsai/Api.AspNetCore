@@ -8,11 +8,7 @@ public interface IBrokerageManager
     Task<Result<IBrokerage>> StopAsync(string connectionName, CancellationToken cancellationToken = default);
     IReadOnlyCollection<IBrokerage> ListAll();
     Result<IBrokerage> GetByName(string name);
-    Task<Result<IBrokerage>> CreateAndStartAsync(
-        string provider,
-        string name,
-        CancellationToken cancellationToken = default);
-    Result<IBrokerage> Create(string provider, string name);
+    Result<IBrokerage> Create(string provider, string name, IReadOnlyDictionary<string, object> arguments);
     Result Remove(IBrokerage brokerage);
     Task<Result> SubmitOrderAsync(string connectionName, Symbol symbol, TradeType tradeType, OrderType orderType, TimeInForce timeInForce, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default);
 }
