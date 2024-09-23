@@ -31,7 +31,7 @@ internal sealed class OrderReplicationMappingConfiguration :
             .IsRequired();
 
         builder
-            .Property(mapping => mapping.TargetSymbol)
+            .Property(mapping => mapping.DestinationSymbol)
             .HasMaxLength(Symbol.MaxLength)
             .HasConversion(
                 symbol => symbol.Value,
@@ -39,7 +39,7 @@ internal sealed class OrderReplicationMappingConfiguration :
             .IsRequired();
 
         builder
-            .Property(mapping => mapping.TargetAccountId)
+            .Property(mapping => mapping.DestinationAccountId)
             .HasMaxLength(AccountId.MaxLength)
             .HasConversion(
                 id => id.Value,
@@ -54,9 +54,9 @@ internal sealed class OrderReplicationMappingConfiguration :
             .IsRequired();
 
         builder
-            .HasOne(mapping => mapping.TargetAccount)
+            .HasOne(mapping => mapping.DestinationAccount)
             .WithMany()
-            .HasForeignKey(mapping => mapping.TargetAccountId)
+            .HasForeignKey(mapping => mapping.DestinationAccountId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasData(
@@ -65,8 +65,8 @@ internal sealed class OrderReplicationMappingConfiguration :
                 id: "1",
                 policyId: "1",
                 sourceSymbol: "BINANCE:BTCUSDT",
-                targetSymbol: "BINANCE:BTCUSDT",
-                targetAccountId: "000-8283782"),
+                destinationSymbol: "BINANCE:BTCUSDT",
+                destinationAccountId: "000-8283782"),
         ]);
     }
 
@@ -74,14 +74,14 @@ internal sealed class OrderReplicationMappingConfiguration :
         string id,
         string policyId,
         string sourceSymbol,
-        string targetSymbol,
-        string targetAccountId) =>
+        string destinationSymbol,
+        string destinationAccountId) =>
         OrderReplicationMapping.Create(
             OrderReplicationMappingId.From(id).ThrowIfFailure().Value,
             SignalReplicationPolicyId.From(policyId).ThrowIfFailure().Value,
             Symbol.From(sourceSymbol).ThrowIfFailure().Value,
-            Symbol.From(targetSymbol).ThrowIfFailure().Value,
-            AccountId.From(targetAccountId).ThrowIfFailure().Value)
+            Symbol.From(destinationSymbol).ThrowIfFailure().Value,
+            AccountId.From(destinationAccountId).ThrowIfFailure().Value)
         .ThrowIfError()
         .Value;
 }

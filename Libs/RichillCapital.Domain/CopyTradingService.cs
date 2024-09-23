@@ -31,8 +31,8 @@ internal sealed class CopyTradingService(
 
             var submitResult = await _brokerageManager
                 .SubmitOrderAsync(
-                    mapping.TargetAccount.ConnectionName,
-                    mapping.TargetSymbol,
+                    mapping.DestinationAccount.ConnectionName,
+                    mapping.DestinationSymbol,
                     signal.TradeType,
                     OrderType.Market,
                     TimeInForce.ImmediateOrCancel,
@@ -45,7 +45,7 @@ internal sealed class CopyTradingService(
                 _logger.LogWarning(
                     "Failed to submit order for signal {SignalId} to account {AccountId}. Error: {Error}",
                     signal.Id,
-                    mapping.TargetAccount.Id,
+                    mapping.DestinationAccount.Id,
                     submitResult.Error);
             }
         }
