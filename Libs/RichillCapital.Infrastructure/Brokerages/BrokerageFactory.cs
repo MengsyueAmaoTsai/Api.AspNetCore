@@ -7,7 +7,6 @@ using RichillCapital.Exchange.Client;
 using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Infrastructure.Brokerages.Rcex;
 using RichillCapital.Max;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages;
