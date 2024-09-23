@@ -90,5 +90,11 @@ Task("Default")
     .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
 
+Task("Commit")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
+    .IsDependentOn("Build")
+    .IsDependentOn("UnitTests");
+
 var target = Argument("target", "Default");
 RunTarget(target);
