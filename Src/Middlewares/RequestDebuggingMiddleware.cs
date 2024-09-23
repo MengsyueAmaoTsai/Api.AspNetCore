@@ -9,6 +9,7 @@ internal sealed class RequestDebuggingMiddleware(
     ILogger<RequestDebuggingMiddleware> _logger) :
     IMiddleware
 {
+    private const string AnonymousUserName = "Anonymous";
     private const string NoHeaders = "No headers";
     private const string NoQueryString = "No query string";
     private const string NoRequestBody = "No request body";
@@ -20,7 +21,7 @@ internal sealed class RequestDebuggingMiddleware(
     {
         var method = context.Request.Method;
         var path = context.Request.Path;
-        var user = context.User.Identity?.Name ?? "Anonymous";
+        var currentUser = context.User.Identity?.Name ?? AnonymousUserName;
         var remoteIpAddress = context.Connection.RemoteIpAddress;
         var queryString = context.Request.QueryString;
         var requestBodyInfo = await ReadRequestBodyAsync(context.Request);
@@ -30,7 +31,7 @@ internal sealed class RequestDebuggingMiddleware(
             "Incoming request - {method} {path} from {user}@{remoteAddress}",
             method,
             path,
-            user,
+            currentUser,
             remoteIpAddress);
 
         var originalResponseBodyStream = context.Response.Body;
