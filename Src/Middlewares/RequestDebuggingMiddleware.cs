@@ -90,19 +90,17 @@ internal sealed class RequestDebuggingMiddleware(
             NoHeaders :
             string.Join("\n", responseHeaders);
 
-        _logger.LogWarning(
-            "Error response - Status: {StatusCode}\n" +
-            "- Request Headers:\n{RequestHeaders}\n" +
-            "- QueryString: {QueryString}\n" +
-            "- Request Body: {RequestBody}\n" +
-            "- Response Headers:\n{ResponseHeaders}\n" +
-            "- Response Body:\n{ResponseBody}",
-            context.Response.StatusCode,
-            requestHeaderInfo,
-            queryString ?? NoQueryString,
-            requestBodyInfo ?? NoRequestBody,
-            responseHeaderInfo,
-            responseBodyInfo ?? NoResponseBody);
+        var logMessage = new StringBuilder()
+            .AppendLine("----- Request Details -----")
+            .AppendLine($"Request Headers:\n{requestHeaderInfo}")
+            .AppendLine($"QueryString: {queryString ?? NoQueryString}")
+            .AppendLine($"Request Body:\n{requestBodyInfo ?? NoRequestBody}")
+            .AppendLine("----- Response Details -----")
+            .AppendLine($"Response Headers:\n{responseHeaderInfo}")
+            .AppendLine($"Response Body:\n{responseBodyInfo ?? NoResponseBody}")
+            .ToString();
+
+        _logger.LogWarning(logMessage);
     }
 
     private static async Task<string> ReadRequestBodyAsync(HttpRequest request)

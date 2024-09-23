@@ -12,6 +12,5 @@ Content-Type: application/json
     "origin": "RichillCapital.Quant.TradingView",
     "symbol": "BINANCE:BTCUSDT.P",
     "tradeType": "Sell",
-    "orderType": "market",
     "quantity": 1
 }
