@@ -53,6 +53,11 @@ internal sealed class LineNotificationService(
         return Result.Success;
     }
 
+    public async Task<Result> SendAsync(
+        string message,
+        CancellationToken cancellationToken = default) =>
+        await SendAsync(string.Empty, message, cancellationToken);
+
     private static StringContent CreateContent(string message) =>
         new($"message=\n{message}", Encoding.UTF8, "application/x-www-form-urlencoded");
 

@@ -27,16 +27,13 @@ internal sealed class SignalCreatedDomainEventHandler(
             .AppendLine($"Quantity: {domainEvent.Quantity}")
             .ToString();
 
-        var result = await _lineNotification.SendAsync(
-            string.Empty,
-            message,
-            cancellationToken);
+        var notifyResult = await _lineNotification.SendAsync(message, cancellationToken);
 
-        if (result.IsFailure)
+        if (notifyResult.IsFailure)
         {
             _logger.LogError(
                 "Failed to send Line notification: {message}",
-                result.Error.Message);
+                notifyResult.Error.Message);
         }
     }
 
