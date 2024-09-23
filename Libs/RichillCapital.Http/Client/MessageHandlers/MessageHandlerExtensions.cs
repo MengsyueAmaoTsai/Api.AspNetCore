@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RichillCapital.Http.Client.MessageHandlers;
 
@@ -7,7 +8,7 @@ public static class DefaultRequestDebuggingMessageHandlerExtensions
     public static IServiceCollection AddDefaultRequestDebuggingMessageHandler(
         this IServiceCollection services)
     {
-        services.AddTransient<DefaultRequestDebuggingMessageHandler>();
+        services.TryAddTransient<DefaultRequestDebuggingMessageHandler>();
 
         return services;
     }

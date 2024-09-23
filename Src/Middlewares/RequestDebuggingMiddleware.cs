@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using System.Text;
 
-using Microsoft.IdentityModel.Tokens;
-
 namespace RichillCapital.Api.Middlewares;
 
 internal sealed class RequestDebuggingMiddleware(

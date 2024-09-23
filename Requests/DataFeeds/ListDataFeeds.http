@@ -1,0 +1,4 @@
+@Localhost = https://localhost:10000
+
+### List data feeds
+GET https://localhost:10000/api/v1/data-feeds
