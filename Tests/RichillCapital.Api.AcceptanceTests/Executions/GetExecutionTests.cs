@@ -13,7 +13,7 @@ public sealed class GetExecutionTests(
     [Fact]
     public async Task Should_ReturnExecution()
     {
-        var executionId = "1";
+        var executionId = "00004714";
         var execution = await Client.GetFromJsonAsync<ExecutionDetailsResponse>($"api/v1/executions/{executionId}");
 
         execution.Should().NotBeNull();
