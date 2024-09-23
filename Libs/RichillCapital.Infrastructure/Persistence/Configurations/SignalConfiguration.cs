@@ -31,6 +31,11 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .IsRequired();
 
         builder
+            .Property(signal => signal.Origin)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
             .Property(signal => signal.Symbol)
             .HasMaxLength(Symbol.MaxLength)
             .HasConversion(
@@ -44,7 +49,7 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .IsRequired();
 
         builder
-            .Property(signal => signal.Origin)
+            .Property(signal => signal.Status)
             .HasEnumerationValueConversion()
             .IsRequired();
 
@@ -66,6 +71,7 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
                 tradeType: TradeType.Buy,
                 quantity: 0.1m,
                 latency: 1000,
+                SignalStatus.Emitted,
                 createdTimeUtc: DateTimeOffset.Parse("2021-10-01T00:00:00Z")),
         ]);
     }
@@ -79,6 +85,7 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
         TradeType tradeType,
         decimal quantity,
         long latency,
+        SignalStatus status,
         DateTimeOffset createdTimeUtc) =>
         Signal
             .Create(
@@ -90,6 +97,7 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
                 tradeType,
                 quantity,
                 latency,
+                status,
                 createdTimeUtc)
             .ThrowIfError().Value;
 }

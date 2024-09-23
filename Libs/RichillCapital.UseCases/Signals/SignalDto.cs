@@ -9,5 +9,7 @@ public sealed record SignalDto
     public required DateTimeOffset Time { get; init; }
     public required string TradeType { get; init; }
     public required decimal Quantity { get; init; }
+    public required string Status { get; init; }
+    public required long Latency { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

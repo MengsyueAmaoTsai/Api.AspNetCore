@@ -18,6 +18,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType tradeType,
         decimal quantity,
         long latency,
+        SignalStatus status,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -28,6 +29,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType = tradeType;
         Quantity = quantity;
         Latency = latency;
+        Status = status;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -38,6 +40,7 @@ public sealed class Signal : Entity<SignalId>
     public TradeType TradeType { get; init; }
     public decimal Quantity { get; init; }
     public long Latency { get; init; }
+    public SignalStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; init; }
 
     public static ErrorOr<Signal> Create(
@@ -49,6 +52,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType tradeType,
         decimal quantity,
         long latency,
+        SignalStatus status,
         DateTimeOffset createdTimeUtc)
     {
         if (time == default)
@@ -80,6 +84,7 @@ public sealed class Signal : Entity<SignalId>
             tradeType,
             quantity,
             latency,
+            status,
             createdTimeUtc);
 
         signal.RegisterDomainEvent(new SignalCreatedDomainEvent

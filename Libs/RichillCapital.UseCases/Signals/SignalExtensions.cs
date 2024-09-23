@@ -14,6 +14,8 @@ internal static class SignalExtensions
             Time = signal.Time,
             TradeType = signal.TradeType.Name,
             Quantity = signal.Quantity,
+            Latency = signal.Latency,
+            Status = signal.Status.Name,
             CreatedTimeUtc = signal.CreatedTimeUtc,
         };
 }

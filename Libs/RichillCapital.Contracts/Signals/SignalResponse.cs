@@ -11,6 +11,8 @@ public record SignalResponse
     public required DateTimeOffset Time { get; init; }
     public required string TradeType { get; init; }
     public required decimal Quantity { get; init; }
+    public required long Latency { get; init; }
+    public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -30,6 +32,8 @@ public static class SignalResponseMapping
             Time = dto.Time,
             TradeType = dto.TradeType,
             Quantity = dto.Quantity,
+            Latency = dto.Latency,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -43,6 +47,8 @@ public static class SignalResponseMapping
             Time = dto.Time,
             TradeType = dto.TradeType,
             Quantity = dto.Quantity,
+            Latency = dto.Latency,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

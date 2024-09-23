@@ -55,6 +55,7 @@ internal sealed class CreateSignalCommandHandler(
             tradeType,
             command.Quantity,
             latency,
+            SignalStatus.Emitted,
             createdTimeUtc);
 
         if (errorOrSignal.HasError)
