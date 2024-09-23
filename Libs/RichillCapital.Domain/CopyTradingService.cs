@@ -2,9 +2,8 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Brokerages;
+using RichillCapital.Domain.Specifications;
 using RichillCapital.SharedKernel.Monads;
-using RichillCapital.SharedKernel.Specifications;
-using RichillCapital.SharedKernel.Specifications.Builders;
 
 namespace RichillCapital.Domain;
 
@@ -55,13 +54,3 @@ internal sealed class CopyTradingService(
         return Result.Success;
     }
 }
-
-public sealed class SignalReplicationsSpecification : Specification<SignalReplicationPolicy>
-{
-    public SignalReplicationsSpecification()
-    {
-        Query.Include(p => p.ReplicationMappings)
-            .ThenInclude(m => m.DestinationAccount);
-    }
-}
-
