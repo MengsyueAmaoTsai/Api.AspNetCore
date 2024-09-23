@@ -17,20 +17,20 @@ namespace RichillCapital.Api.Endpoints.SignalSources;
 [ApiVersion(EndpointVersion.V1)]
 public sealed class GetSignalSourceEndpoint(
     IMediator _mediator) : AsyncEndpoint
-    .WithRequest<GetSignalSourceRequest>
+    .WithRequest<string>
     .WithActionResult<SignalSourceDetailsResponse>
 {
     [HttpGet(ApiRoutes.SignalSources.Get)]
     [SwaggerOperation(Tags = [ApiTags.SignalSources])]
     [AllowAnonymous]
     public override async Task<ActionResult<SignalSourceDetailsResponse>> HandleAsync(
-        [FromRoute] GetSignalSourceRequest request,
+        [FromRoute(Name = nameof(signalSourceId))] string signalSourceId,
         CancellationToken cancellationToken = default) =>
-        await ErrorOr<GetSignalSourceRequest>
-            .With(request)
-            .Then(req => new GetSignalSourceQuery
+        await ErrorOr<string>
+            .With(signalSourceId)
+            .Then(id => new GetSignalSourceQuery
             {
-                SignalSourceId = req.SignalSourceId
+                SignalSourceId = id,
             })
             .Then(query => _mediator.Send(query, cancellationToken))
             .Then(dto => dto.ToDetailsResponse())

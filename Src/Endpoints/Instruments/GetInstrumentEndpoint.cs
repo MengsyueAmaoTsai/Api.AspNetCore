@@ -17,20 +17,20 @@ namespace RichillCapital.Api.Endpoints.Instruments;
 [ApiVersion(EndpointVersion.V1)]
 public sealed class GetInstrumentEndpoint(
     IMediator _mediator) : AsyncEndpoint
-    .WithRequest<GetInstrumentRequest>
+    .WithRequest<string>
     .WithActionResult<InstrumentDetailsResponse>
 {
     [HttpGet(ApiRoutes.Instruments.Get)]
     [SwaggerOperation(Tags = [ApiTags.Instruments])]
     [AllowAnonymous]
     public override async Task<ActionResult<InstrumentDetailsResponse>> HandleAsync(
-        [FromRoute] GetInstrumentRequest request,
+        [FromRoute(Name = nameof(symbol))] string symbol,
         CancellationToken cancellationToken = default) =>
-        await ErrorOr<GetInstrumentRequest>
-            .With(request)
-            .Then(req => new GetInstrumentQuery
+        await ErrorOr<string>
+            .With(symbol)
+            .Then(symbol => new GetInstrumentQuery
             {
-                Symbol = req.Symbol,
+                Symbol = symbol,
             })
             .Then(query => _mediator.Send(query, cancellationToken))
             .Then(instrument => instrument.ToDetailsResponse())
