@@ -1,6 +1,6 @@
-namespace RichillCapital.UseCases.Brokerages;
+﻿namespace RichillCapital.UseCases.DataFeeds;
 
-public sealed record BrokerageDto
+public sealed record DataFeedDto
 {
     public required string Provider { get; init; }
     public required string Name { get; init; }

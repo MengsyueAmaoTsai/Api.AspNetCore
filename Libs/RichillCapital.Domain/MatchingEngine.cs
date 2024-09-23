@@ -1,11 +1,13 @@
 using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.Domain.DataFeeds;
 
 namespace RichillCapital.Domain;
 
 internal sealed class FakeMatchingEngine(
-    ILogger<FakeMatchingEngine> _logger) :
+    ILogger<FakeMatchingEngine> _logger,
+    IDataFeedManager _dataFeedManager) :
     IMatchingEngine
 {
     public void MatchOrder(Order order)

@@ -11,6 +11,7 @@ internal sealed class ApiTags
     internal const string Positions = nameof(Positions);
     internal const string Trades = nameof(Trades);
     internal const string Brokerages = nameof(Brokerages);
+    internal const string DataFeeds = nameof(DataFeeds);
     internal const string SignalSources = nameof(SignalSources);
     internal const string Signals = nameof(Signals);
     internal const string SignalSubscriptions = nameof(SignalSubscriptions);

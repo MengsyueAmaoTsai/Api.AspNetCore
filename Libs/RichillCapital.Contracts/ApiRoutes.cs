@@ -96,6 +96,27 @@ public static class ApiRoutes
         }
     }
 
+    public static class DataFeeds
+    {
+        private const string DataFeedsBase = $"{ApiBase}/data-feeds";
+
+        public const string List = DataFeedsBase;
+        public const string Create = DataFeedsBase;
+
+        public const string Get = $"{DataFeedsBase}/{{connectionName}}";
+        public const string Delete = $"{DataFeedsBase}/{{connectionName}}";
+
+        public const string Start = $"{DataFeedsBase}/{{connectionName}}/start";
+        public const string Stop = $"{DataFeedsBase}/{{connectionName}}/stop";
+
+        public static class Instruments
+        {
+            private const string InstrumentsBase = $"{DataFeedsBase}/{{connectionName}}/instruments";
+
+            public const string List = InstrumentsBase;
+        }
+    }
+
     public static class SignalSources
     {
         private const string SignalSourcesBase = $"{ApiBase}/signal-sources";
