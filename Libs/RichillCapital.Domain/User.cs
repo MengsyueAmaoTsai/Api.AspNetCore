@@ -7,6 +7,7 @@ public sealed class User : Entity<UserId>
 {
     private readonly List<WatchList> _watchLists = [];
     private readonly List<Account> _accounts = [];
+    private readonly List<SignalSubscription> _SignalSubscriptions = [];
 
     public User(
         UserId id,

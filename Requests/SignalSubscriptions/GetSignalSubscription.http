@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@SubscriptionId = 1
+
+### Get signal subscription
+GET {{Localhost}}/api/v1/signal-subscriptions/{{SubscriptionId}}

@@ -114,6 +114,14 @@ public static class ApiRoutes
         public const string Get = $"{SignalsBase}/{{signalId}}";
     }
 
+    public static class SignalSubscriptions
+    {
+        private const string SignalSubscriptionsBase = $"{ApiBase}/signal-subscriptions";
+
+        public const string List = SignalSubscriptionsBase;
+        public const string Get = $"{SignalSubscriptionsBase}/{{signalSubscriptionId}}";
+    }
+
     public static class SignalReplicationPolicies
     {
         private const string SignalReplicationPoliciesBase = $"{ApiBase}/signal-replication-policies";
