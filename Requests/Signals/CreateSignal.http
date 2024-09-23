@@ -1,6 +1,10 @@
 @Localhost = https://localhost:10000
-@Origin = RichillCapital.Quant.TradingView
+
+@Time = 2024-09-23T09:20:50Z
 @SourceId = TV-Long-Task
+@Origin = VSCodeRestClient
+@Symbol = BINANCE:BTCUSDT.P
+@TradeType = Buy
 
 ### Create signal
 POST {{Localhost}}/api/v1/signals
@@ -8,9 +12,9 @@ Content-Type: application/json
 
 {
     "time": "2024-09-23T09:20:50Z",
-    "sourceId": "TV-Long-Task",
-    "origin": "RichillCapital.Quant.TradingView",
-    "symbol": "BINANCE:BTCUSDT.P",
-    "tradeType": "Sell",
+    "sourceId": "{{SourceId}}",
+    "origin": "{{Origin}}",
+    "symbol": "{{Symbol}}",
+    "tradeType": "{{TradeType}}",
     "quantity": 1
 }
