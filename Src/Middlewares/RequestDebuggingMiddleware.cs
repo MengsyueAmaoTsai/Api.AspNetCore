@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text;
 
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
 
 namespace RichillCapital.Api.Middlewares;
@@ -10,6 +9,11 @@ internal sealed class RequestDebuggingMiddleware(
     ILogger<RequestDebuggingMiddleware> _logger) :
     IMiddleware
 {
+    private const string NoHeaders = "No headers";
+    private const string NoQueryString = "No query string";
+    private const string NoRequestBody = "No request body";
+    private const string NoResponseBody = "No response body";
+
     public async Task InvokeAsync(
         HttpContext context,
         RequestDelegate next)
@@ -79,11 +83,11 @@ internal sealed class RequestDebuggingMiddleware(
             .Select(header => $"{header.Key}: {header.Value}").ToArray();
 
         var requestHeaderInfo = requestHeaders.IsNullOrEmpty() ?
-            "No request headers" :
+            NoHeaders :
             string.Join("\n", requestHeaders);
 
         var responseHeaderInfo = requestHeaders.IsNullOrEmpty() ?
-            "No response headers" :
+            NoHeaders :
             string.Join("\n", responseHeaders);
 
         _logger.LogWarning(
@@ -95,10 +99,10 @@ internal sealed class RequestDebuggingMiddleware(
             "- Response Body:\n{ResponseBody}",
             context.Response.StatusCode,
             requestHeaderInfo,
-            queryString ?? "No query string",
-            requestBodyInfo ?? "No request body",
+            queryString ?? NoQueryString,
+            requestBodyInfo ?? NoRequestBody,
             responseHeaderInfo,
-            responseBodyInfo ?? "No response body");
+            responseBodyInfo ?? NoResponseBody);
     }
 
     private static async Task<string> ReadRequestBodyAsync(HttpRequest request)

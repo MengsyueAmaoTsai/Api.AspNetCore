@@ -10,8 +10,8 @@ Content-Type: application/json
     "time": "2024-09-23T04:31:30Z",
     "sourceId": "TV-Long-Task",
     "origin": "RichillCapital.Quant.TradingView",
-    "symbol": "asd:asd",
-    "tradeType": "d",
+    "symbol": "BINANCE:BTCUSDT.P",
+    "tradeType": "Sell",
     "orderType": "market",
     "quantity": 1
 }
