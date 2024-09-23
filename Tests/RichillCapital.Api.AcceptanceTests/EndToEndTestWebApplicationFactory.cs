@@ -1,3 +1,5 @@
+using DotNet.Testcontainers.Builders;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -19,6 +21,7 @@ public sealed class EndToEndTestWebApplicationFactory :
          .WithEnvironment("ACCEPT_EULA", "Y")
          .WithEnvironment("SA_PASSWORD", "Pa55w0rd!")
          .WithPassword("Pa55w0rd!")
+         .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
          .Build();
 
     public Task InitializeAsync()

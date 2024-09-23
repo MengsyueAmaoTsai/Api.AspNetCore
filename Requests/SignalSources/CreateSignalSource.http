@@ -5,7 +5,7 @@ POST {{Localhost}}/api/v1/signal-sources
 Content-Type: application/json
 
 {
-    "id": "TestId",
-    "name": "",
-    "description": ""
+    "id": "test",
+    "name": "Test signal source",
+    "description": "test signal source created from vscode rest client"
 }

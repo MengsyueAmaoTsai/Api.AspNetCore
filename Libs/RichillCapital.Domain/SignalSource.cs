@@ -36,6 +36,11 @@ public sealed class SignalSource : Entity<SignalSourceId>
         string description,
         DateTimeOffset createdTimeUtc)
     {
+        if (string.IsNullOrEmpty(name))
+        {
+            return ErrorOr<SignalSource>.WithError(Error.Invalid($"'{nameof(name)}' cannot be null or empty."));
+        }
+
         var source = new SignalSource(
             id,
             name,
