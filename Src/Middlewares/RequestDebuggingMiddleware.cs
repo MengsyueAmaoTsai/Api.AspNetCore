@@ -59,49 +59,11 @@ internal sealed class RequestDebuggingMiddleware(
             path,
             elapsedMilliseconds);
 
-        LogContextDetailsIfError(
+        LogHttpContextDetailsIfError(
             context,
             queryString.ToString(),
             requestBodyInfo,
             responseBodyInfo);
-    }
-
-    private void LogContextDetailsIfError(
-        HttpContext context,
-        string queryString,
-        string requestBodyInfo,
-        string responseBodyInfo)
-    {
-        if (context.Response.StatusCode < 400)
-        {
-            return;
-        }
-
-        var requestHeaders = context.Request.Headers
-            .Select(header => $"{header.Key}: {header.Value}").ToArray();
-
-        var responseHeaders = context.Response.Headers
-            .Select(header => $"{header.Key}: {header.Value}").ToArray();
-
-        var requestHeaderInfo = requestHeaders.IsNullOrEmpty() ?
-            NoHeaders :
-            string.Join("\n", requestHeaders);
-
-        var responseHeaderInfo = requestHeaders.IsNullOrEmpty() ?
-            NoHeaders :
-            string.Join("\n", responseHeaders);
-
-        var logMessage = new StringBuilder()
-            .AppendLine("----- Request Details -----")
-            .AppendLine($"Request Headers:\n{requestHeaderInfo}")
-            .AppendLine($"QueryString: {queryString ?? NoQueryString}")
-            .AppendLine($"Request Body:\n{requestBodyInfo ?? NoRequestBody}")
-            .AppendLine("----- Response Details -----")
-            .AppendLine($"Response Headers:\n{responseHeaderInfo}")
-            .AppendLine($"Response Body:\n{responseBodyInfo ?? NoResponseBody}")
-            .ToString();
-
-        _logger.LogWarning(logMessage);
     }
 
     private static async Task<string> ReadRequestBodyAsync(HttpRequest request)
@@ -119,5 +81,43 @@ internal sealed class RequestDebuggingMiddleware(
         request.Body.Position = 0;
 
         return body;
+    }
+
+    private void LogHttpContextDetailsIfError(
+        HttpContext context,
+        string queryString,
+        string requestBodyInfo,
+        string responseBodyInfo)
+    {
+        if (context.Response.StatusCode < 400)
+        {
+            return;
+        }
+
+        var requestHeaders = context.Request.Headers
+            .Select(header => $"{header.Key}: {header.Value}").ToArray();
+
+        var responseHeaders = context.Response.Headers
+            .Select(header => $"{header.Key}: {header.Value}").ToArray();
+
+        var requestHeaderInfo = requestHeaders.Any() ?
+            string.Join("\n", requestHeaders) :
+            NoHeaders;
+
+        var responseHeaderInfo = requestHeaders.Any() ?
+            string.Join("\n", responseHeaders) :
+            NoHeaders;
+
+        var logMessage = new StringBuilder()
+            .AppendLine("----- Request Details -----")
+            .AppendLine($"Request Headers:\n{requestHeaderInfo}")
+            .AppendLine($"QueryString: {queryString ?? NoQueryString}")
+            .AppendLine($"Request Body:\n{requestBodyInfo ?? NoRequestBody}")
+            .AppendLine("----- Response Details -----")
+            .AppendLine($"Response Headers:\n{responseHeaderInfo}")
+            .AppendLine($"Response Body:\n{responseBodyInfo ?? NoResponseBody}")
+            .ToString();
+
+        _logger.LogWarning(logMessage);
     }
 }

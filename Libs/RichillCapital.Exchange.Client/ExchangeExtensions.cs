@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using RichillCapital.Http;
+using RichillCapital.Http.Client.MessageHandlers;
 
 namespace RichillCapital.Exchange.Client;
 
