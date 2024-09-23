@@ -26,6 +26,7 @@ COPY ./Libs/RichillCapital.Binance/*.csproj ./Libs/RichillCapital.Binance/
 COPY ./Libs/RichillCapital.Max/*.csproj ./Libs/RichillCapital.Max/
 
 COPY ./Tests/RichillCapital.Api.AcceptanceTests/*.csproj ./Tests/RichillCapital.Api.AcceptanceTests/
+COPY ./Tests/RichillCapital.Api.ArchitectureTests/*.csproj ./Tests/RichillCapital.Api.ArchitectureTests/
 COPY ./Tests/RichillCapital.Domain.UnitTests/*.csproj ./Tests/RichillCapital.Domain.UnitTests/
 
 RUN dotnet cake --target restore 
