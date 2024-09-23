@@ -2,13 +2,18 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 internal sealed class SignalCreatedDomainEventHandler(
     ILogger<SignalCreatedDomainEventHandler> _logger,
-    ILineNotificationService _lineNotification) :
+    ILineNotificationService _lineNotification,
+    IRepository<Signal> _signalRepository,
+    ISignalManager _signalManager,
+    IUnitOfWork _unitOfWork) :
     IDomainEventHandler<SignalCreatedDomainEvent>
 {
     public async Task Handle(
@@ -25,6 +30,7 @@ internal sealed class SignalCreatedDomainEventHandler(
             .AppendLine($"TradeType: {domainEvent.TradeType}")
             .AppendLine($"OrderType: {domainEvent.OrderType}")
             .AppendLine($"Quantity: {domainEvent.Quantity}")
+            .AppendLine($"Latency: {domainEvent.Latency}")
             .ToString();
 
         var notifyResult = await _lineNotification.SendAsync(message, cancellationToken);
@@ -35,11 +41,27 @@ internal sealed class SignalCreatedDomainEventHandler(
                 "Failed to send Line notification: {message}",
                 notifyResult.Error.Message);
         }
+
+        var signal = (await _signalRepository
+            .GetByIdAsync(domainEvent.SignalId, cancellationToken)
+            .ThrowIfNull())
+            .Value;
+
+        if (domainEvent.Latency > Signal.MaxLatencyInMilliseconds)
+        {
+            await _signalManager.MarkAsDelayedAsync(signal);
+        }
+        else
+        {
+            await _signalManager.AcceptAsync(signal);
+        }
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     private void LogEvent(SignalCreatedDomainEvent @event) =>
         _logger.LogInformation(
-            "[SignalCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} for source id: {sourceId} from {origin}. {time}",
+            "[SignalCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} for source id: {sourceId} from {origin}. {time} Latency: {latency}",
             @event.TradeType,
             @event.Quantity,
             @event.Symbol,
@@ -47,5 +69,6 @@ internal sealed class SignalCreatedDomainEventHandler(
             @event.OrderType,
             @event.SourceId,
             @event.Origin,
-            @event.Time);
+            @event.Time,
+            @event.Latency);
 }

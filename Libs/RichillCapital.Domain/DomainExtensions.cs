@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
+using RichillCapital.Domain.Abstractions;
+
 namespace RichillCapital.Domain;
 
 public static class DomainExtensions
@@ -8,6 +10,8 @@ public static class DomainExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IMatchingEngine, FakeMatchingEngine>();
+
+        services.AddScoped<ISignalManager, SignalManager>();
 
         return services;
     }

@@ -19,8 +19,11 @@ public static class SignalErrors
     public static Error InvalidOrderType(string orderType) =>
         Error.Invalid("Signals.InvalidOrderType", $"Invalid order type: {orderType}");
 
-    public static Error InvalidQuantity =
-        Error.Invalid("Signals.InvalidQuantity", "Quantity must be greater than 0");
+    public static Error InvalidQuantity(decimal quantity) =>
+        Error.Invalid("Signals.InvalidQuantity", $"Quantity must be greater than 0. Got: {quantity}");
+
+    public static Error InvalidLatency(long latency) =>
+        Error.Invalid("Signals.InvalidLatency", $"Latency must be greater than 0. Got: {latency}");
 
     public static Error NotFound(SignalId signalId) =>
         Error.NotFound(

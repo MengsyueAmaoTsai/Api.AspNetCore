@@ -7,6 +7,8 @@ namespace RichillCapital.Domain;
 
 public sealed class Signal : Entity<SignalId>
 {
+    public const int MaxLatencyInMilliseconds = 1000 * 15;
+
     private Signal(
         SignalId id,
         SignalSourceId sourceId,
@@ -16,6 +18,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType tradeType,
         OrderType orderType,
         decimal quantity,
+        long latency,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
@@ -26,6 +29,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType = tradeType;
         OrderType = orderType;
         Quantity = quantity;
+        Latency = latency;
         CreatedTimeUtc = createdTimeUtc;
     }
 
@@ -36,6 +40,7 @@ public sealed class Signal : Entity<SignalId>
     public TradeType TradeType { get; init; }
     public OrderType OrderType { get; init; }
     public decimal Quantity { get; init; }
+    public long Latency { get; init; }
     public DateTimeOffset CreatedTimeUtc { get; init; }
 
     public static ErrorOr<Signal> Create(
@@ -47,6 +52,7 @@ public sealed class Signal : Entity<SignalId>
         TradeType tradeType,
         OrderType orderType,
         decimal quantity,
+        long latency,
         DateTimeOffset createdTimeUtc)
     {
         if (time == default)
@@ -61,7 +67,12 @@ public sealed class Signal : Entity<SignalId>
 
         if (quantity <= 0)
         {
-            return ErrorOr<Signal>.WithError(SignalErrors.InvalidQuantity);
+            return ErrorOr<Signal>.WithError(SignalErrors.InvalidQuantity(quantity));
+        }
+
+        if (latency < 0)
+        {
+            return ErrorOr<Signal>.WithError(SignalErrors.InvalidLatency(latency));
         }
 
         var signal = new Signal(
@@ -73,19 +84,44 @@ public sealed class Signal : Entity<SignalId>
             tradeType,
             orderType,
             quantity,
+            latency,
             createdTimeUtc);
 
         signal.RegisterDomainEvent(new SignalCreatedDomainEvent
         {
-            Time = time,
+            SignalId = id,
             SourceId = sourceId,
             Origin = origin,
             Symbol = symbol,
+            Time = time,
             TradeType = tradeType,
             OrderType = orderType,
             Quantity = quantity,
+            Latency = signal.Latency,
         });
 
         return ErrorOr<Signal>.With(signal);
+    }
+
+    public Result Delay()
+    {
+        RegisterDomainEvent(new SignalDelayedDomainEvent()
+        {
+            SignalId = Id,
+            SourceId = SourceId,
+        });
+
+        return Result.Success;
+    }
+
+    public Result Accept()
+    {
+        RegisterDomainEvent(new SignalAcceptedDomainEvent()
+        {
+            SignalId = Id,
+            SourceId = SourceId,
+        });
+
+        return Result.Success;
     }
 }
