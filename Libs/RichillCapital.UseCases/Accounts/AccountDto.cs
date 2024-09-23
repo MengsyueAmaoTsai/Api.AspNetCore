@@ -1,5 +1,3 @@
-using RichillCapital.UseCases.Trades;
-
 namespace RichillCapital.UseCases.Accounts;
 
 public sealed record AccountDto
@@ -10,10 +8,4 @@ public sealed record AccountDto
     public required string Alias { get; init; }
     public required string Currency { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
-}
-
-public sealed record AccountPerformanceDto
-{
-    public required DateTimeOffset TimeUtc { get; init; }
-    public required IEnumerable<TradeDto> ClosedTrades { get; init; }
 }
