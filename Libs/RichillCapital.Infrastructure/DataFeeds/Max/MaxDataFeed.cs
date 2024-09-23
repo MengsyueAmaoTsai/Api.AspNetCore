@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 
 using RichillCapital.Domain;
 using RichillCapital.Domain.DataFeeds;
+using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Max;
 using RichillCapital.SharedKernel.Monads;
 
@@ -14,6 +15,8 @@ internal sealed class MaxDataFeed(
     IReadOnlyDictionary<string, object> arguments) :
     DataFeed("Max", name, arguments)
 {
+    private readonly MaxSymbolMapper _symbolMapper = new();
+
     public override async Task<Result> StartAsync(CancellationToken cancellationToken = default)
     {
         // Check server time
@@ -59,6 +62,27 @@ internal sealed class MaxDataFeed(
 
     public override async Task<Result<IReadOnlyCollection<Instrument>>> ListInstrumentsAsync(CancellationToken cancellationToken = default)
     {
-        return Result<IReadOnlyCollection<Instrument>>.With([]);
+        var marketsResult = await _restClient.ListMarketsAsync(cancellationToken);
+
+        if (marketsResult.IsFailure)
+        {
+            return Result<IReadOnlyCollection<Instrument>>.Failure(marketsResult.Error);
+        }
+
+        var markets = marketsResult.Value;
+
+        var instruments = markets
+            .Select(m => Instrument
+                .Create(
+                    _symbolMapper.FromExternalSymbol(m.Id),
+                    m.Id,
+                    InstrumentType.CryptoCurrency,
+                    1,
+                    DateTimeOffset.UtcNow)
+                .ThrowIfError()
+                .Value)
+            .ToList();
+
+        return Result<IReadOnlyCollection<Instrument>>.With(instruments);
     }
 }

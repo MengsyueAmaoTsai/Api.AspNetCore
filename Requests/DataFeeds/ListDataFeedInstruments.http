@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@ConnectionName = RichillCapital.Max
+
+### List data feed instruments
+GET {{Localhost}}/api/v1/data-feeds/{{ConnectionName}}/instruments
