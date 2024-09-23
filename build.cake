@@ -27,12 +27,43 @@ Task("Build")
             });
     });
 
+var dotNetTestSettings = new DotNetTestSettings
+{
+    Configuration = buildConfiguration,
+    NoBuild = true,
+    NoRestore = true,
+};
+
+Task("UnitTests")
+    .Does(() =>
+    {
+        var projects = new List<string>
+        {
+            "./Tests/RichillCapital.Domain.UnitTests/RichillCapital.Domain.UnitTests.csproj",
+        };
+
+        foreach (var project in projects)
+        {
+            Information("Running unit tests for {0}", project);
+
+            DotNetTest(project, dotNetTestSettings);
+        }
+    });
+
 Task("AcceptanceTests")
     .Does(() =>
     {
-        DotNetTest(
+        var projects = new List<string>
+        {
             "./Tests/RichillCapital.Api.AcceptanceTests/RichillCapital.Api.AcceptanceTests.csproj",
-            dotNetTestSettings);
+        };
+
+        foreach (var project in projects)
+        {
+            Information("Running acceptance tests for {0}", project);
+
+            DotNetTest(project, dotNetTestSettings);
+        }
     });
 
 Task("Publish")
@@ -55,6 +86,7 @@ Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("UnitTests")
     .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
 
