@@ -32,12 +32,7 @@ Task("AcceptanceTests")
     {
         DotNetTest(
             "./Tests/RichillCapital.Api.AcceptanceTests/RichillCapital.Api.AcceptanceTests.csproj",
-            new DotNetTestSettings
-            {
-                Configuration = buildConfiguration,
-                NoBuild = true,
-                NoRestore = true,
-            });
+            dotNetTestSettings);
     });
 
 Task("Publish")

@@ -7,12 +7,6 @@
 POST {{Localhost}}/api/v1/signals
 Content-Type: application/json
 
-# {
-#     "time": "2021-07-01T00:00:00Z",
-#     "origin": "{{Origin}}",
-#     "sourceId": "{{SourceId}}",
-#     "symbol": "BINANCE:BTCUSDT",
-#     "tradeType": "Buy",
-#     "orderType": "Market",
-#     "quantity": 0.01
-# }
+{
+    "time": "2021-07-01T00:00:00Z"
+}
