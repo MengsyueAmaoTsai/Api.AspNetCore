@@ -16,7 +16,8 @@ public sealed class CreateSignalReplicationPolicyTests(
         var request = new CreateSignalReplicationPolicyRequest
         {
             UserId = "1",
-            SourceId = "TV-Long-Task"
+            SourceId = "TV-Long-Task",
+            Multiplier = 1,
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signal-replication-policies", request);

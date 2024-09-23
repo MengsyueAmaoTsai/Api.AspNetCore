@@ -30,7 +30,8 @@ public sealed class CreateSignalReplicationPolicyEndpoint(IMediator _mediator) :
             .Then(req => new CreateSignalReplicationPolicyCommand
             {
                 UserId = req.UserId,
-                SourceId = req.SourceId
+                SourceId = req.SourceId,
+                Multiplier = req.Multiplier
             })
             .Then(command => _mediator.Send(command, cancellationToken))
             .Then(id => new SignalReplicationPolicyCreatedResponse

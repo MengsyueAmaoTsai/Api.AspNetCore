@@ -42,6 +42,7 @@ internal sealed class CreateSignalReplicationPolicyCommandHandler(
             SignalReplicationPolicyId.NewSignalReplicationPolicyId(),
             userId,
             sourceId,
+            command.Multiplier,
             DateTimeOffset.UtcNow);
 
         if (errorOrPolicy.HasError)

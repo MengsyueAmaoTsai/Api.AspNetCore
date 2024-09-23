@@ -26,5 +26,22 @@ internal sealed class SignalAcceptedDomainEventHandler(
             cancellationToken);
 
         var source = maybeSource.ThrowIfNull().Value;
+
+        var policies = source.ReplicationPolicies;
+
+        if (policies.Any())
+        {
+            _logger.LogInformation(
+                "[SignalAccepted] {sourceId} has {policyCount} policies",
+                domainEvent.SourceId,
+                policies.Count);
+        }
+        else
+        {
+            _logger.LogInformation(
+                "[SignalAccepted] {signalId} has no policies",
+                domainEvent.SourceId);
+        }
+
     }
 }

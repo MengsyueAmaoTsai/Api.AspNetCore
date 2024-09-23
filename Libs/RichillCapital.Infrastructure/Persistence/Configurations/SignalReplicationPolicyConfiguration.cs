@@ -57,19 +57,22 @@ internal sealed class SignalReplicationPolicyConfiguration :
             CreatePolicy(
                 id: "1",
                 userId: "1",
-                sourceId: "TV-Long-Task"),
+                sourceId: "TV-Long-Task",
+                multiplier: 1),
         ]);
     }
 
     private static SignalReplicationPolicy CreatePolicy(
         string id,
         string userId,
-        string sourceId) =>
+        string sourceId,
+        decimal multiplier) =>
         SignalReplicationPolicy
             .Create(
                 SignalReplicationPolicyId.From(id).ThrowIfFailure().Value,
                 UserId.From(userId).ThrowIfFailure().Value,
                 SignalSourceId.From(sourceId).ThrowIfFailure().Value,
+                multiplier,
                 DateTimeOffset.UtcNow)
             .Value;
 }

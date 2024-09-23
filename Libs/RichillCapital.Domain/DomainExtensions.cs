@@ -13,6 +13,8 @@ public static class DomainExtensions
 
         services.AddScoped<ISignalManager, SignalManager>();
 
+        services.AddScoped<ICopyTradingService, CopyTradingService>();
+
         return services;
     }
 }
