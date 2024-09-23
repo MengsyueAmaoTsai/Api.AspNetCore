@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
 
 namespace RichillCapital.Api.Middlewares;
@@ -17,7 +18,10 @@ internal sealed class RequestDebuggingMiddleware(
         var path = context.Request.Path;
         var user = context.User.Identity?.Name ?? "Anonymous";
         var remoteIpAddress = context.Connection.RemoteIpAddress;
+        var queryString = context.Request.QueryString;
+        var requestBodyInfo = await ReadRequestBodyAsync(context.Request);
 
+        var stopwatch = Stopwatch.StartNew();
         _logger.LogInformation(
             "Incoming request - {method} {path} from {user}@{remoteAddress}",
             method,
@@ -25,12 +29,22 @@ internal sealed class RequestDebuggingMiddleware(
             user,
             remoteIpAddress);
 
-        var stopwatch = Stopwatch.StartNew();
+        var originalResponseBodyStream = context.Response.Body;
+
+        using var responseBody = new MemoryStream();
+        context.Response.Body = responseBody;
 
         await next(context);
 
-        var elapsedMilliseconds = (int)stopwatch.Elapsed.TotalMilliseconds;
+        responseBody.Seek(0, SeekOrigin.Begin);
 
+        var responseBodyInfo = await new StreamReader(responseBody).ReadToEndAsync();
+
+        responseBody.Seek(0, SeekOrigin.Begin);
+
+        await responseBody.CopyToAsync(originalResponseBodyStream);
+
+        var elapsedMilliseconds = (int)stopwatch.Elapsed.TotalMilliseconds;
         var statusCode = context.Response.StatusCode;
 
         _logger.LogInformation(
@@ -40,10 +54,18 @@ internal sealed class RequestDebuggingMiddleware(
             path,
             elapsedMilliseconds);
 
-        await LogDetailsIfErrorAsync(context);
+        LogContextDetailsIfError(
+            context,
+            queryString.ToString(),
+            requestBodyInfo,
+            responseBodyInfo);
     }
 
-    private async Task LogDetailsIfErrorAsync(HttpContext context)
+    private void LogContextDetailsIfError(
+        HttpContext context,
+        string queryString,
+        string requestBodyInfo,
+        string responseBodyInfo)
     {
         if (context.Response.StatusCode < 400)
         {
@@ -64,20 +86,19 @@ internal sealed class RequestDebuggingMiddleware(
             "No response headers" :
             string.Join("\n", responseHeaders);
 
-        var queryString = context.Request.QueryString.ToString() ?? "No query string";
-        var requestBody = await ReadRequestBodyAsync(context.Request) ?? "No request body";
-
-        _logger.LogError(
+        _logger.LogWarning(
             "Error response - Status: {StatusCode}\n" +
             "- Request Headers:\n{RequestHeaders}\n" +
             "- QueryString: {QueryString}\n" +
             "- Request Body: {RequestBody}\n" +
-            "- Response Headers:\n{ResponseHeaders}",
+            "- Response Headers:\n{ResponseHeaders}\n" +
+            "- Response Body:\n{ResponseBody}",
             context.Response.StatusCode,
             requestHeaderInfo,
-            queryString,
-            requestBody,
-            responseHeaderInfo);
+            queryString ?? "No query string",
+            requestBodyInfo ?? "No request body",
+            responseHeaderInfo,
+            responseBodyInfo ?? "No response body");
     }
 
     private static async Task<string> ReadRequestBodyAsync(HttpRequest request)
@@ -89,6 +110,7 @@ internal sealed class RequestDebuggingMiddleware(
             request.Body,
             Encoding.UTF8,
             leaveOpen: true);
+
         var body = await reader.ReadToEndAsync();
 
         request.Body.Position = 0;

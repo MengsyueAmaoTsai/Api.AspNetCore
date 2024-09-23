@@ -14,8 +14,9 @@ internal sealed class SignalDelayedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "[SignalDelayed] {signalId}",
-            domainEvent.SourceId);
+            "[SignalDelayed] {signalId} delayed for {delay}ms",
+            domainEvent.SourceId,
+            domainEvent.Latency);
 
         return Task.CompletedTask;
     }

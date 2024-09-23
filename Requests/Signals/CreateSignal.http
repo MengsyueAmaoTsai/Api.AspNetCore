@@ -1,4 +1,3 @@
-
 @Localhost = https://localhost:10000
 @Origin = RichillCapital.Quant.TradingView
 @SourceId = TV-Long-Task
@@ -8,11 +7,11 @@ POST {{Localhost}}/api/v1/signals
 Content-Type: application/json
 
 {
-    "time": "2024-09-23T03:48:50Z",
+    "time": "2024-09-23T04:31:30Z",
     "sourceId": "TV-Long-Task",
     "origin": "RichillCapital.Quant.TradingView",
     "symbol": "asd:asd",
-    "tradeType": "buy",
+    "tradeType": "d",
     "orderType": "market",
     "quantity": 1
 }

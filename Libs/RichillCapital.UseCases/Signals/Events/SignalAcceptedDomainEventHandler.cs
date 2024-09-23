@@ -1,15 +1,19 @@
 using Microsoft.Extensions.Logging;
 
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Signals.Events;
 
 internal sealed class SignalAcceptedDomainEventHandler(
-    ILogger<SignalAcceptedDomainEventHandler> _logger) :
+    ILogger<SignalAcceptedDomainEventHandler> _logger,
+    IReadOnlyRepository<SignalSource> _signalSourceRepository) :
     IDomainEventHandler<SignalAcceptedDomainEvent>
 {
-    public Task Handle(
+    public async Task Handle(
         SignalAcceptedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
@@ -17,6 +21,10 @@ internal sealed class SignalAcceptedDomainEventHandler(
             "[SignalAccepted] {signalId}",
             domainEvent.SourceId);
 
-        return Task.CompletedTask;
+        var maybeSource = await _signalSourceRepository.GetByIdAsync(
+            domainEvent.SourceId,
+            cancellationToken);
+
+        var source = maybeSource.ThrowIfNull().Value;
     }
 }

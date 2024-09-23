@@ -99,10 +99,11 @@ public sealed class Signal : Entity<SignalId>
 
     public Result Delay()
     {
-        RegisterDomainEvent(new SignalDelayedDomainEvent()
+        RegisterDomainEvent(new SignalDelayedDomainEvent
         {
             SignalId = Id,
             SourceId = SourceId,
+            Latency = Latency,
         });
 
         return Result.Success;
@@ -110,7 +111,7 @@ public sealed class Signal : Entity<SignalId>
 
     public Result Accept()
     {
-        RegisterDomainEvent(new SignalAcceptedDomainEvent()
+        RegisterDomainEvent(new SignalAcceptedDomainEvent
         {
             SignalId = Id,
             SourceId = SourceId,
