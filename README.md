@@ -4,4 +4,4 @@
 
 [![ASP.NET Web API Continuous Deployment](https://github.com/MengsyueAmaoTsai/Api.AspNetCore/actions/workflows/cd.yml/badge.svg)](https://github.com/MengsyueAmaoTsai/Api.AspNetCore/actions/workflows/cd.yml)
 
-## [Azure (Staging)](https://api.richillcapital.com/swagger)
+## [Swagger Documentation](https://api.richillcapital.com/swagger)
