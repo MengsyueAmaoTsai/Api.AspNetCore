@@ -23,7 +23,7 @@ internal sealed class SignalCreatedDomainEventHandler(
         LogEvent(domainEvent);
 
         var message = new StringBuilder()
-            .AppendLine($"Time: {domainEvent.Time}")
+            .AppendLine($"Time: {domainEvent.Time:yyyy-MM-dd HH:mm:ss.fff}")
             .AppendLine($"SourceId: {domainEvent.SourceId}")
             .AppendLine($"Origin: {domainEvent.Origin}")
             .AppendLine($"Symbol: {domainEvent.Symbol}")
@@ -66,6 +66,6 @@ internal sealed class SignalCreatedDomainEventHandler(
             @event.Symbol,
             @event.SourceId,
             @event.Origin,
-            @event.Time,
+            @event.Time.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             @event.Latency);
 }
