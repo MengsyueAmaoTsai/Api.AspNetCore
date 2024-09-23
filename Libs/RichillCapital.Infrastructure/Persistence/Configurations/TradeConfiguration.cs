@@ -52,21 +52,74 @@ internal sealed class TradeConfiguration : IEntityTypeConfiguration<Trade>
 
         builder.HasData(
         [
-            CreateTrade(
-                id: "1",
-                accountId: "SIM2121844M",
-                symbol: "NASDAQ:MSFT",
-                side: Side.Long,
-                quantity: 1,
-                entryPrice: 17000,
-                entryTimeUtc: DateTimeOffset.UtcNow,
-                exitPrice: 17010,
-                exitTimeUtc: DateTimeOffset.UtcNow.AddHours(1),
-                commission: 3,
-                tax: 5,
-                swap: 1,
-                profitLoss: 100),
+            .. CreateTrades_KgiFutures(),
         ]);
+    }
+
+    private static IEnumerable<Trade> CreateTrades_KgiFutures()
+    {
+        var accountId = "000-8283782";
+        var symbol = "TAIFEX:TMF";
+
+        yield return CreateTrade(
+            id: "1",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Short,
+            quantity: 1,
+            entryPrice: 21719,
+            entryTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 32, TimeSpan.Zero),
+            exitPrice: 21584,
+            exitTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 53, TimeSpan.Zero),
+            commission: 32,
+            tax: 8,
+            swap: 0,
+            profitLoss: -1350);
+
+        yield return CreateTrade(
+            id: "2",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Short,
+            quantity: 1,
+            entryPrice: 21720,
+            entryTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 39, TimeSpan.Zero),
+            exitPrice: 21584,
+            exitTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 55, TimeSpan.Zero),
+            commission: 32,
+            tax: 8,
+            swap: 0,
+            profitLoss: -1340);
+
+        yield return CreateTrade(
+            id: "3",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Long,
+            quantity: 1,
+            entryPrice: 21878,
+            entryTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 56, 55, TimeSpan.Zero),
+            exitPrice: 21858,
+            exitTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 57, 07, TimeSpan.Zero),
+            commission: 32,
+            tax: 8,
+            swap: 0,
+            profitLoss: -200);
+
+        yield return CreateTrade(
+            id: "4",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Short,
+            quantity: 1,
+            entryPrice: 21871,
+            entryTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 58, 26, TimeSpan.Zero),
+            exitPrice: 21869,
+            exitTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 59, 23, TimeSpan.Zero),
+            commission: 32,
+            tax: 8,
+            swap: 0,
+            profitLoss: 20);
     }
 
     private static Trade CreateTrade(

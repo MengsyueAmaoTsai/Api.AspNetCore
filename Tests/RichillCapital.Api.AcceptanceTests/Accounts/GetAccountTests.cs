@@ -13,7 +13,7 @@ public sealed class GetAccountTests(
     [Fact]
     public async Task Should_ReturnAccount()
     {
-        var accountId = "SIM2121844M";
+        var accountId = "000-8283782";
 
         var account = await Client.GetFromJsonAsync<AccountDetailsResponse>($"api/v1/accounts/{accountId}");
 

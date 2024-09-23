@@ -45,26 +45,10 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasData(
         [
             CreateAccount(
-                id: "SIM0000000",
-                userId: "1",
-                connectionName: "RichillCapital.Exchange",
-                alias: "Simulated account",
-                currency: Currency.TWD,
-                DateTimeOffset.UtcNow),
-
-            CreateAccount(
-                id: "SIM2121844M",
-                userId: "1",
-                connectionName: "RichillCapital.TradeStation",
-                alias: "TradeStation simulated account",
-                currency: Currency.USD,
-                DateTimeOffset.UtcNow),
-
-            CreateAccount(
                 id: "000-8283782",
                 userId: "1",
                 connectionName: "RichillCapital.Kgi",
-                alias: "KGI Future account",
+                alias: "凱基期貨",
                 currency: Currency.TWD,
                 DateTimeOffset.UtcNow),
         ]);

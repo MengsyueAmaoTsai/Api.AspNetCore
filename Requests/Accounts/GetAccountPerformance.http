@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@AccountId = SIM2121844M
+@AccountId = 000-8283782
 
 ### Get account
 GET {{Localhost}}/api/v1/accounts/{{AccountId}}/performance

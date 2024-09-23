@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@TradeStationSimulatedAccountId = SIM2121844M
+@TradeStationSimulatedAccountId = 000-8283782
 @Symbol = NASDAQ:AAPL
 
 ### Create order

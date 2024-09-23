@@ -92,21 +92,134 @@ internal sealed class ExecutionConfiguration :
 
         builder.HasData(
         [
-            CreateExecution(
-                id: "1",
-                accountId: "SIM2121844M",
-                orderId: "853434844",
-                positionId: "PID1",
-                symbol: "NASDAQ:MSFT",
-                tradeType: TradeType.Buy,
-                orderType: OrderType.Market,
-                timeInForce: TimeInForce.ImmediateOrCancel,
-                quantity: 500,
-                price: 434.88m,
-                commission: 5,
-                tax: 0,
-                createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
+            .. CreateExecutions_KgiFutures(),
         ]);
+    }
+
+    private static IEnumerable<Execution> CreateExecutions_KgiFutures()
+    {
+        var accountId = "000-8283782";
+        var symbol = "TAIFEX:TMF";
+
+        yield return CreateExecution(
+            id: "00004714",
+            accountId: accountId,
+            orderId: "1",
+            positionId: "PID1",
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21719,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 32, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00004697",
+            accountId: accountId,
+            orderId: "2",
+            positionId: "PID1",
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21720,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 39, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00031776",
+            accountId: accountId,
+            orderId: "3",
+            positionId: "PID1",
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21584,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 53, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00031860",
+            accountId: accountId,
+            orderId: "4",
+            positionId: "PID1",
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21584,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 55, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00032312",
+            accountId: accountId,
+            orderId: "5",
+            positionId: "PID2",
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21878,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 56, 55, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00032434",
+            accountId: accountId,
+            orderId: "6",
+            positionId: "PID2",
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21858,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 57, 07, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00032399",
+            accountId: accountId,
+            orderId: "7",
+            positionId: "PID3",
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21871,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 58, 26, TimeSpan.Zero));
+
+        yield return CreateExecution(
+            id: "00032400",
+            accountId: accountId,
+            orderId: "8",
+            positionId: "PID3",
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            price: 21869,
+            commission: 16,
+            tax: 4,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 59, 23, TimeSpan.Zero));
     }
 
     private static Execution CreateExecution(

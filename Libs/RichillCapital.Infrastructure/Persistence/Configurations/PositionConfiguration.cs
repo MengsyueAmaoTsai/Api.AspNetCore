@@ -57,19 +57,53 @@ internal sealed class PositionConfiguration : IEntityTypeConfiguration<Position>
 
         builder.HasData(
         [
-            CreatePosition(
-                id: "PID1",
-                accountId: "SIM2121844M",
-                symbol: "NASDAQ:MSFT",
-                side: Side.Long,
-                quantity: 500,
-                averagePrice: 434.88m,
-                commission: 5m,
-                tax: decimal.Zero,
-                swap: decimal.Zero,
-                status: PositionStatus.Open,
-                createdTimeUtc: new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero)),
+            .. CreatePositions_KgiFutures()
         ]);
+    }
+
+    private static IEnumerable<Position> CreatePositions_KgiFutures()
+    {
+        var accountId = "000-8283782";
+        var symbol = "TAIFEX:TMF";
+
+        yield return CreatePosition(
+            id: "PID1",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Short,
+            quantity: 0,
+            averagePrice: 0,
+            commission: 64,
+            tax: 16,
+            swap: decimal.Zero,
+            status: PositionStatus.Closed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 32, TimeSpan.Zero));
+
+        yield return CreatePosition(
+            id: "PID2",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Long,
+            quantity: 0,
+            averagePrice: 0,
+            commission: 32,
+            tax: 8,
+            swap: decimal.Zero,
+            status: PositionStatus.Closed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 56, 55, TimeSpan.Zero));
+
+        yield return CreatePosition(
+            id: "PID3",
+            accountId: accountId,
+            symbol: symbol,
+            side: Side.Short,
+            quantity: 0,
+            averagePrice: 0,
+            commission: 32,
+            tax: 8,
+            swap: decimal.Zero,
+            status: PositionStatus.Closed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 58, 26, TimeSpan.Zero));
     }
 
     private static Position CreatePosition(

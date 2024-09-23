@@ -67,12 +67,11 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasData(
         [
-            .. CreateTradeStationOrders(),
-            .. CreateKgiFutureOrders(),
+            .. CreateOrders_KgiFutures(),
         ]);
     }
 
-    private static IEnumerable<Order> CreateKgiFutureOrders()
+    private static IEnumerable<Order> CreateOrders_KgiFutures()
     {
         var accountId = "000-8283782";
         var symbol = "TAIFEX:TMF";
@@ -84,24 +83,24 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             tradeType: TradeType.Sell,
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
-            quantity: 2,
+            quantity: 1,
             remainingQuantity: 0,
-            executedQuantity: 2,
-            OrderStatus.Executed,
-            new DateTimeOffset(2024, 9, 12, 3, 18, 32, TimeSpan.Zero));
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 32, TimeSpan.Zero));
 
         yield return CreateOrder(
             id: "2",
             accountId: accountId,
             symbol: symbol,
-            tradeType: TradeType.Buy,
+            tradeType: TradeType.Sell,
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
             quantity: 1,
             remainingQuantity: 0,
             executedQuantity: 1,
-            OrderStatus.Executed,
-            new DateTimeOffset(2024, 9, 12, 17, 14, 53, TimeSpan.Zero));
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 12, 11, 18, 39, TimeSpan.Zero));
 
         yield return CreateOrder(
             id: "3",
@@ -113,27 +112,74 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             quantity: 1,
             remainingQuantity: 0,
             executedQuantity: 1,
-            OrderStatus.Executed,
-            new DateTimeOffset(2024, 9, 12, 17, 14, 55, TimeSpan.Zero));
-    }
-
-    private static IEnumerable<Order> CreateTradeStationOrders()
-    {
-        var accountId = "SIM2121844M";
-        var symbol = "NASDAQ:MSFT";
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 53, TimeSpan.Zero));
 
         yield return CreateOrder(
-            id: "853434844",
+            id: "4",
             accountId: accountId,
             symbol: symbol,
             tradeType: TradeType.Buy,
             orderType: OrderType.Market,
             timeInForce: TimeInForce.ImmediateOrCancel,
-            quantity: 500,
+            quantity: 1,
             remainingQuantity: 0,
-            executedQuantity: 500,
-            OrderStatus.Executed,
-            new DateTimeOffset(2024, 9, 17, 19, 58, 31, TimeSpan.Zero));
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 41, 55, TimeSpan.Zero));
+
+
+        yield return CreateOrder(
+            id: "5",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 56, 55, TimeSpan.Zero));
+
+        yield return CreateOrder(
+            id: "6",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 56, 07, TimeSpan.Zero));
+
+        yield return CreateOrder(
+            id: "7",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Sell,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 58, 26, TimeSpan.Zero));
+
+        yield return CreateOrder(
+            id: "8",
+            accountId: accountId,
+            symbol: symbol,
+            tradeType: TradeType.Buy,
+            orderType: OrderType.Market,
+            timeInForce: TimeInForce.ImmediateOrCancel,
+            quantity: 1,
+            remainingQuantity: 0,
+            executedQuantity: 1,
+            status: OrderStatus.Executed,
+            createdTimeUtc: new DateTimeOffset(2024, 9, 13, 1, 59, 23, TimeSpan.Zero));
     }
 
     private static Order CreateOrder(
