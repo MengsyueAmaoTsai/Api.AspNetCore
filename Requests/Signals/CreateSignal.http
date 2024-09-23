@@ -7,7 +7,7 @@ POST {{Localhost}}/api/v1/signals
 Content-Type: application/json
 
 {
-    "time": "2024-09-23T06:59:30Z",
+    "time": "2024-09-23T09:20:50Z",
     "sourceId": "TV-Long-Task",
     "origin": "RichillCapital.Quant.TradingView",
     "symbol": "BINANCE:BTCUSDT.P",

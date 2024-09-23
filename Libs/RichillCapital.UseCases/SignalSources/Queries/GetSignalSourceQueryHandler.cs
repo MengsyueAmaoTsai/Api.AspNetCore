@@ -1,4 +1,3 @@
-
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Errors;

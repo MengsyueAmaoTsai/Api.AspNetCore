@@ -10,7 +10,8 @@ namespace RichillCapital.UseCases.Signals.Events;
 
 internal sealed class SignalAcceptedDomainEventHandler(
     ILogger<SignalAcceptedDomainEventHandler> _logger,
-    IReadOnlyRepository<SignalSource> _signalSourceRepository) :
+    IReadOnlyRepository<Signal> _signalRepository,
+    ICopyTradingService _copyTradingService) :
     IDomainEventHandler<SignalAcceptedDomainEvent>
 {
     public async Task Handle(
@@ -21,27 +22,19 @@ internal sealed class SignalAcceptedDomainEventHandler(
             "[SignalAccepted] {signalId}",
             domainEvent.SourceId);
 
-        var maybeSource = await _signalSourceRepository.GetByIdAsync(
-            domainEvent.SourceId,
-            cancellationToken);
+        var signal = (await _signalRepository
+            .FirstOrDefaultAsync(s => s.Id == domainEvent.SignalId, cancellationToken)
+            .ThrowIfNull())
+            .Value;
 
-        var source = maybeSource.ThrowIfNull().Value;
+        var result = await _copyTradingService.ReplicateSignalAsync(signal, cancellationToken);
 
-        var policies = source.ReplicationPolicies;
-
-        if (policies.Any())
+        if (result.IsFailure)
         {
-            _logger.LogInformation(
-                "[SignalAccepted] {sourceId} has {policyCount} policies",
+            _logger.LogError(
+                "[SignalAccepted] {signalId} failed to replicate signal: {error}",
                 domainEvent.SourceId,
-                policies.Count);
+                result.Error);
         }
-        else
-        {
-            _logger.LogInformation(
-                "[SignalAccepted] {signalId} has no policies",
-                domainEvent.SourceId);
-        }
-
     }
 }

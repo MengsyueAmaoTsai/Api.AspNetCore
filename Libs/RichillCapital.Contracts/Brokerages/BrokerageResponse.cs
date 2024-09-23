@@ -7,6 +7,7 @@ public record BrokerageResponse
     public required string Provider { get; init; }
     public required string Name { get; init; }
     public required string Status { get; init; }
+    public required Dictionary<string, object> Arguments { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -23,6 +24,7 @@ public static class BrokerageResponseMapping
             Provider = dto.Provider,
             Name = dto.Name,
             Status = dto.Status,
+            Arguments = dto.Arguments,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -33,6 +35,7 @@ public static class BrokerageResponseMapping
             Provider = dto.Provider,
             Name = dto.Name,
             Status = dto.Status,
+            Arguments = dto.Arguments,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

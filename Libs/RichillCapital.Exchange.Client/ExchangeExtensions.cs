@@ -6,14 +6,16 @@ namespace RichillCapital.Exchange.Client;
 
 public static class ExchangeExtensions
 {
-    public static IServiceCollection AddExchangeRestClient(this IServiceCollection services)
+    public static IServiceCollection AddExchangeRestClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         services.AddDefaultRequestDebuggingMessageHandler();
 
         services
             .AddHttpClient<IExchangeRestClient, ExchangeRestClient>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:10000");
+                client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Clear();
             })
             .AddDefaultRequestDebuggingMessageHandler();

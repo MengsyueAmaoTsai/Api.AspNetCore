@@ -64,9 +64,9 @@ internal sealed class OrderReplicationMappingConfiguration :
             CreateMapping(
                 id: "1",
                 policyId: "1",
-                sourceSymbol: "BINANCE:BTCUSDT",
-                destinationSymbol: "BINANCE:BTCUSDT",
-                destinationAccountId: "000-8283782"),
+                sourceSymbol: "BINANCE:BTCUSDT.P",
+                destinationSymbol: "BINANCE:BTCUSDT.P",
+                destinationAccountId: "SIM0000000"),
         ]);
     }
 

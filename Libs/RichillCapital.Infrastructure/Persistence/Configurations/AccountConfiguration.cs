@@ -45,6 +45,14 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasData(
         [
             CreateAccount(
+                id: "SIM0000000",
+                userId: "1",
+                connectionName: "RichillCapital.Exchange",
+                alias: "Simulated account",
+                currency: Currency.TWD,
+                DateTimeOffset.UtcNow),
+
+            CreateAccount(
                 id: "SIM2121844M",
                 userId: "1",
                 connectionName: "RichillCapital.TradeStation",

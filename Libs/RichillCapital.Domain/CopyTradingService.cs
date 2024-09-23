@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Brokerages;
 using RichillCapital.SharedKernel.Monads;
+using RichillCapital.SharedKernel.Specifications;
+using RichillCapital.SharedKernel.Specifications.Builders;
 
 namespace RichillCapital.Domain;
 
@@ -17,7 +19,7 @@ internal sealed class CopyTradingService(
         CancellationToken cancellationToken = default)
     {
         var policies = await _signalReplicationPolicyRepository.ListAsync(
-            p => p.SourceId == signal.SourceId,
+            new SignalReplicationsSpecification(),
             cancellationToken);
 
         foreach (var policy in policies)
@@ -53,3 +55,13 @@ internal sealed class CopyTradingService(
         return Result.Success;
     }
 }
+
+public sealed class SignalReplicationsSpecification : Specification<SignalReplicationPolicy>
+{
+    public SignalReplicationsSpecification()
+    {
+        Query.Include(p => p.ReplicationMappings)
+            .ThenInclude(m => m.DestinationAccount);
+    }
+}
+
