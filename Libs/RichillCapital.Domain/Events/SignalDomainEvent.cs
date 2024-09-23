@@ -23,6 +23,10 @@ public sealed record SignalDelayedDomainEvent : SignalDomainEvent
     public required long Latency { get; init; }
 }
 
-public sealed record SignalAcceptedDomainEvent : SignalDomainEvent
+public sealed record SignalEmittedDomainEvent : SignalDomainEvent
+{
+}
+
+public sealed record SignalBlockedDomainEvent : SignalDomainEvent
 {
 }

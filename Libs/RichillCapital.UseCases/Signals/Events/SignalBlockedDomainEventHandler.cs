@@ -1,0 +1,40 @@
+using Microsoft.Extensions.Logging;
+
+using RichillCapital.Domain;
+using RichillCapital.Domain.Abstractions;
+using RichillCapital.Domain.Events;
+using RichillCapital.SharedKernel.Monads;
+using RichillCapital.UseCases.Abstractions;
+
+namespace RichillCapital.UseCases.Signals.Events;
+
+internal sealed class SignalBlockedDomainEventHandler(
+    ILogger<SignalBlockedDomainEventHandler> _logger,
+    IReadOnlyRepository<Signal> _signalRepository,
+    ICopyTradingService _copyTradingService) :
+    IDomainEventHandler<SignalBlockedDomainEvent>
+{
+    public async Task Handle(
+        SignalBlockedDomainEvent domainEvent,
+        CancellationToken cancellationToken)
+    {
+        _logger.LogInformation(
+            "[SignalAccepted] {signalId}",
+            domainEvent.SourceId);
+
+        var signal = (await _signalRepository
+            .FirstOrDefaultAsync(s => s.Id == domainEvent.SignalId, cancellationToken)
+            .ThrowIfNull())
+            .Value;
+
+        var result = await _copyTradingService.ReplicateSignalAsync(signal, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            _logger.LogError(
+                "[SignalAccepted] {signalId} failed to replicate signal: {error}",
+                domainEvent.SourceId,
+                result.Error);
+        }
+    }
+}

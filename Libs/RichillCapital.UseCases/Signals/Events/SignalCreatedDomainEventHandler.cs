@@ -49,12 +49,11 @@ internal sealed class SignalCreatedDomainEventHandler(
         if (domainEvent.Latency > Signal.MaxLatencyInMilliseconds)
         {
             await _signalManager.MarkAsDelayedAsync(signal);
-        }
-        else
-        {
-            await _signalManager.AcceptAsync(signal);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return;
         }
 
+        await _signalManager.EmitAsync(signal, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 

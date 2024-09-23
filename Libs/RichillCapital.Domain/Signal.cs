@@ -104,6 +104,7 @@ public sealed class Signal : Entity<SignalId>
 
     public Result Delay()
     {
+        Status = SignalStatus.Delayed;
         RegisterDomainEvent(new SignalDelayedDomainEvent
         {
             SignalId = Id,
@@ -114,9 +115,23 @@ public sealed class Signal : Entity<SignalId>
         return Result.Success;
     }
 
-    public Result Accept()
+    public Result Emit()
     {
-        RegisterDomainEvent(new SignalAcceptedDomainEvent
+        Status = SignalStatus.Emitted;
+        RegisterDomainEvent(new SignalEmittedDomainEvent
+        {
+            SignalId = Id,
+            SourceId = SourceId,
+        });
+
+        return Result.Success;
+    }
+
+    public Result Block()
+    {
+        Status = SignalStatus.Blocked;
+
+        RegisterDomainEvent(new SignalBlockedDomainEvent
         {
             SignalId = Id,
             SourceId = SourceId,

@@ -7,11 +7,11 @@ internal sealed class SignalManager(
     IRepository<Signal> _signalRepository) :
     ISignalManager
 {
-    public async Task<Result> AcceptAsync(
+    public async Task<Result> EmitAsync(
         Signal signal,
         CancellationToken cancellationToken = default)
     {
-        var result = signal.Accept();
+        var result = signal.Emit();
 
         if (result.IsFailure)
         {

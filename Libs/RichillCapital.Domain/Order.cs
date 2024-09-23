@@ -179,7 +179,4 @@ public sealed class Order : Entity<OrderId>
 
         return Result.Success;
     }
-
-    public override string ToString() =>
-        $"{TradeType} {ExecutedQuantity}/{Quantity} {Symbol} @ {Type} {Type} {TimeInForce} {Status}";
 }

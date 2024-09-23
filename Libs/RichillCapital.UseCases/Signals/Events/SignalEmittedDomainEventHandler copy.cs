@@ -8,18 +8,18 @@ using RichillCapital.UseCases.Abstractions;
 
 namespace RichillCapital.UseCases.Signals.Events;
 
-internal sealed class SignalAcceptedDomainEventHandler(
-    ILogger<SignalAcceptedDomainEventHandler> _logger,
+internal sealed class SignalEmittedDomainEventHandler(
+    ILogger<SignalEmittedDomainEventHandler> _logger,
     IReadOnlyRepository<Signal> _signalRepository,
     ICopyTradingService _copyTradingService) :
-    IDomainEventHandler<SignalAcceptedDomainEvent>
+    IDomainEventHandler<SignalEmittedDomainEvent>
 {
     public async Task Handle(
-        SignalAcceptedDomainEvent domainEvent,
+        SignalEmittedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "[SignalAccepted] {signalId}",
+            "[SignalEmitted] {signalId}",
             domainEvent.SourceId);
 
         var signal = (await _signalRepository
@@ -32,7 +32,7 @@ internal sealed class SignalAcceptedDomainEventHandler(
         if (result.IsFailure)
         {
             _logger.LogError(
-                "[SignalAccepted] {signalId} failed to replicate signal: {error}",
+                "[SignalEmitted] {signalId} failed to replicate signal: {error}",
                 domainEvent.SourceId,
                 result.Error);
         }
