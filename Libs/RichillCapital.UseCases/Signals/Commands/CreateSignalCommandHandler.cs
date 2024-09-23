@@ -1,7 +1,6 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Errors;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -9,6 +8,7 @@ namespace RichillCapital.UseCases.Signals.Commands;
 
 internal sealed class CreateSignalCommandHandler(
     IReadOnlyRepository<SignalSource> _signalSourceRepository,
+    IDateTimeProvider _dateTimeProvider,
     IRepository<Signal> _signalRepository,
     IUnitOfWork _unitOfWork) :
     ICommandHandler<CreateSignalCommand, ErrorOr<SignalId>>
@@ -17,16 +17,16 @@ internal sealed class CreateSignalCommandHandler(
         CreateSignalCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = Result<(SignalSourceId, SignalOrigin, Symbol, TradeType, OrderType)>.Combine(
-            SignalSourceId.From(command.SourceId),
-            SignalOrigin.FromName(command.Origin)
-                .ToResult(SignalErrors.InvalidOrigin(command.Origin)),
-            Symbol.From(command.Symbol),
-            TradeType.FromName(command.TradeType, ignoreCase: true)
-                .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
-            OrderType.FromName(command.OrderType, ignoreCase: true)
-                .ToResult(Error.Invalid($"Invalid order type: {command.OrderType}")));
-
+        var validationResult = Result<(SignalSourceId, SignalOrigin, Symbol, TradeType, OrderType)>
+            .Combine(
+                SignalSourceId.From(command.SourceId),
+                SignalOrigin.FromName(command.Origin)
+                    .ToResult(SignalErrors.IllegalOrigin(command.Origin)),
+                Symbol.From(command.Symbol),
+                TradeType.FromName(command.TradeType, ignoreCase: true)
+                    .ToResult(SignalErrors.InvalidTradeType(command.TradeType)),
+                OrderType.FromName(command.OrderType, ignoreCase: true)
+                    .ToResult(SignalErrors.InvalidOrderType(command.OrderType)));
 
         if (validationResult.IsFailure)
         {
@@ -40,18 +40,18 @@ internal sealed class CreateSignalCommandHandler(
             return ErrorOr<SignalId>.WithError(SignalErrors.SourceNotFound(sourceId));
         }
 
-        var now = DateTimeOffset.UtcNow;
+        var createdTimeUtc = _dateTimeProvider.UtcNow;
 
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             sourceId,
-            command.Time,
             origin,
             symbol,
+            command.Time,
             tradeType,
             orderType,
             command.Quantity,
-            now);
+            createdTimeUtc);
 
         if (errorOrSignal.HasError)
         {

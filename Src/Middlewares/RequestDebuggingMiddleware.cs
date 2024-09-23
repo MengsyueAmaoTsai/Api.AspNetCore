@@ -89,13 +89,10 @@ internal sealed class RequestDebuggingMiddleware(
             request.Body,
             Encoding.UTF8,
             leaveOpen: true);
-
         var body = await reader.ReadToEndAsync();
+
         request.Body.Position = 0;
 
         return body;
     }
-
-    private static string ReplaceCrlf(string text) =>
-        text.Replace("\r", "\\r").Replace("\n", "\\n");
 }

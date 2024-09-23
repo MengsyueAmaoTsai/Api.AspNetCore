@@ -1,3 +1,4 @@
+using RichillCapital.Domain.Errors;
 using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
@@ -9,9 +10,9 @@ public sealed class Signal : Entity<SignalId>
     private Signal(
         SignalId id,
         SignalSourceId sourceId,
-        DateTimeOffset time,
         SignalOrigin origin,
         Symbol symbol,
+        DateTimeOffset time,
         TradeType tradeType,
         OrderType orderType,
         decimal quantity,
@@ -19,9 +20,9 @@ public sealed class Signal : Entity<SignalId>
         : base(id)
     {
         SourceId = sourceId;
-        Time = time;
         Origin = origin;
         Symbol = symbol;
+        Time = time;
         TradeType = tradeType;
         OrderType = orderType;
         Quantity = quantity;
@@ -29,9 +30,9 @@ public sealed class Signal : Entity<SignalId>
     }
 
     public SignalSourceId SourceId { get; init; }
-    public DateTimeOffset Time { get; init; }
     public SignalOrigin Origin { get; init; }
     public Symbol Symbol { get; init; }
+    public DateTimeOffset Time { get; init; }
     public TradeType TradeType { get; init; }
     public OrderType OrderType { get; init; }
     public decimal Quantity { get; init; }
@@ -40,20 +41,35 @@ public sealed class Signal : Entity<SignalId>
     public static ErrorOr<Signal> Create(
         SignalId id,
         SignalSourceId sourceId,
-        DateTimeOffset time,
         SignalOrigin origin,
         Symbol symbol,
+        DateTimeOffset time,
         TradeType tradeType,
         OrderType orderType,
         decimal quantity,
         DateTimeOffset createdTimeUtc)
     {
+        if (time == default)
+        {
+            return ErrorOr<Signal>.WithError(SignalErrors.InvalidTime(time));
+        }
+
+        if (time > createdTimeUtc)
+        {
+            return ErrorOr<Signal>.WithError(SignalErrors.TimeInFuture);
+        }
+
+        if (quantity <= 0)
+        {
+            return ErrorOr<Signal>.WithError(SignalErrors.InvalidQuantity);
+        }
+
         var signal = new Signal(
             id,
             sourceId,
-            time,
             origin,
             symbol,
+            time,
             tradeType,
             orderType,
             quantity,
