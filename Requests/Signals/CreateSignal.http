@@ -8,5 +8,9 @@ POST {{Localhost}}/api/v1/signals
 Content-Type: application/json
 
 {
-    "time": "2021-07-01T00:00:00Z"
+    "sourceId": "TV-Long-Task",
+    "origin": "RichillCapital.Quant.TradingView",
+    "symbol": "asd:asd",
+    "tradeType": "buy",
+    "orderType": "market"
 }

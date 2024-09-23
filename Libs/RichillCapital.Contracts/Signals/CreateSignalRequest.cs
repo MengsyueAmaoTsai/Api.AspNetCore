@@ -2,11 +2,11 @@ namespace RichillCapital.Contracts.Signals;
 
 public sealed record CreateSignalRequest
 {
-    public required DateTimeOffset Time { get; init; }
-    public required string SourceId { get; init; }
-    public required string Origin { get; init; }
-    public required string Symbol { get; init; }
-    public required string TradeType { get; init; }
-    public required string OrderType { get; init; }
-    public required decimal Quantity { get; init; }
+    public DateTimeOffset Time { get; init; }
+    public string SourceId { get; init; } = string.Empty;
+    public string Origin { get; init; } = string.Empty;
+    public string Symbol { get; init; } = string.Empty;
+    public string TradeType { get; init; } = string.Empty;
+    public string OrderType { get; init; } = string.Empty;
+    public decimal Quantity { get; init; }
 }

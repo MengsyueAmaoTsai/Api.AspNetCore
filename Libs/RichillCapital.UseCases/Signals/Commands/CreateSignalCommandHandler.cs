@@ -22,9 +22,9 @@ internal sealed class CreateSignalCommandHandler(
             SignalOrigin.FromName(command.Origin)
                 .ToResult(SignalErrors.InvalidOrigin(command.Origin)),
             Symbol.From(command.Symbol),
-            TradeType.FromName(command.TradeType)
+            TradeType.FromName(command.TradeType, ignoreCase: true)
                 .ToResult(Error.Invalid($"Invalid trade type: {command.TradeType}")),
-            OrderType.FromName(command.OrderType)
+            OrderType.FromName(command.OrderType, ignoreCase: true)
                 .ToResult(Error.Invalid($"Invalid order type: {command.OrderType}")));
 
 
@@ -35,13 +35,9 @@ internal sealed class CreateSignalCommandHandler(
 
         var (sourceId, origin, symbol, tradeType, orderType) = validationResult.Value;
 
-        var maybeSignalSource = await _signalSourceRepository.FirstOrDefaultAsync(
-            s => s.Id == sourceId,
-            cancellationToken);
-
-        if (maybeSignalSource.IsNull)
+        if (!await _signalSourceRepository.AnyAsync(s => s.Id == sourceId, cancellationToken))
         {
-            return ErrorOr<SignalId>.WithError(SignalSourceErrors.NotFound(sourceId));
+            return ErrorOr<SignalId>.WithError(SignalErrors.SourceNotFound(sourceId));
         }
 
         var now = DateTimeOffset.UtcNow;
