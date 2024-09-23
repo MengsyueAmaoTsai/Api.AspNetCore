@@ -48,6 +48,13 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .HasEnumerationValueConversion()
             .IsRequired();
 
+        builder
+            .HasOne<SignalSource>()
+            .WithMany(source => source.Signals)
+            .HasForeignKey(signal => signal.SourceId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         builder.HasData(
         [
             CreateSignal(

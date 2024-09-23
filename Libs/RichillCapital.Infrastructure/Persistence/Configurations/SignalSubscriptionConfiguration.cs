@@ -38,6 +38,20 @@ internal sealed class SignalSubscriptionConfiguration :
                 value => SignalSourceId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
+        builder
+            .HasOne<SignalSource>()
+            .WithMany(source => source.Subscriptions)
+            .HasForeignKey(subscription => subscription.SourceId)
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired();
+
+        builder
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(subscription => subscription.UserId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         builder.HasData(
         [
             CreateSubscription(

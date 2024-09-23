@@ -6,6 +6,10 @@ namespace RichillCapital.Domain;
 
 public sealed class SignalSource : Entity<SignalSourceId>
 {
+    private readonly List<Signal> _signals = [];
+    private readonly List<SignalSubscription> _subscriptions = [];
+    private readonly List<SignalReplicationPolicy> _replicationPolicies = [];
+
     private SignalSource(
         SignalSourceId id,
         string name,
@@ -21,6 +25,10 @@ public sealed class SignalSource : Entity<SignalSourceId>
     public string Name { get; private set; }
     public string Description { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public IReadOnlyCollection<Signal> Signals => _signals;
+    public IReadOnlyCollection<SignalSubscription> Subscriptions => _subscriptions;
+    public IReadOnlyCollection<SignalReplicationPolicy> ReplicationPolicies => _replicationPolicies;
 
     public static ErrorOr<SignalSource> Create(
         SignalSourceId id,

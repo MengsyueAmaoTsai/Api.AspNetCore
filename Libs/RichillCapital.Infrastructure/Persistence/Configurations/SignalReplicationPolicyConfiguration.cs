@@ -38,6 +38,20 @@ internal sealed class SignalReplicationPolicyConfiguration :
                 value => SignalSourceId.From(value).ThrowIfFailure().Value)
             .IsRequired();
 
+        builder
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(policy => policy.UserId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        builder
+            .HasOne<SignalSource>()
+            .WithMany()
+            .HasForeignKey(policy => policy.SourceId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         builder.HasData(
         [
             CreatePolicy(
