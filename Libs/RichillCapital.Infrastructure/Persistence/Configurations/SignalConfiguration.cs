@@ -44,13 +44,45 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .IsRequired();
 
         builder
-            .Property(signal => signal.OrderType)
-            .HasEnumerationValueConversion()
-            .IsRequired();
-
-        builder
             .Property(signal => signal.Origin)
             .HasEnumerationValueConversion()
             .IsRequired();
+
+        builder.HasData(
+        [
+            CreateSignal(
+                id: "1",
+                sourceId: "TV-Long-Task",
+                origin: SignalOrigin.TradingView,
+                symbol: "BINANCE:BTCUSDT.P",
+                time: DateTimeOffset.Parse("2021-10-01T00:00:00Z"),
+                tradeType: TradeType.Buy,
+                quantity: 0.1m,
+                latency: 1000,
+                createdTimeUtc: DateTimeOffset.Parse("2021-10-01T00:00:00Z")),
+        ]);
     }
+
+    private static Signal CreateSignal(
+        string id,
+        string sourceId,
+        SignalOrigin origin,
+        string symbol,
+        DateTimeOffset time,
+        TradeType tradeType,
+        decimal quantity,
+        long latency,
+        DateTimeOffset createdTimeUtc) =>
+        Signal
+            .Create(
+                SignalId.From(id).ThrowIfFailure().Value,
+                SignalSourceId.From(sourceId).ThrowIfFailure().Value,
+                origin,
+                Symbol.From(symbol).ThrowIfFailure().Value,
+                time,
+                tradeType,
+                quantity,
+                latency,
+                createdTimeUtc)
+            .ThrowIfError().Value;
 }

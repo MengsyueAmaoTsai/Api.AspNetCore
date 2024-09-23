@@ -13,7 +13,6 @@ internal static class SignalExtensions
             Symbol = signal.Symbol.Value,
             Time = signal.Time,
             TradeType = signal.TradeType.Name,
-            OrderType = signal.OrderType.Name,
             Quantity = signal.Quantity,
             CreatedTimeUtc = signal.CreatedTimeUtc,
         };

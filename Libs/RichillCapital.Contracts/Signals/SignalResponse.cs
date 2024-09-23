@@ -10,7 +10,6 @@ public record SignalResponse
     public required string Symbol { get; init; }
     public required DateTimeOffset Time { get; init; }
     public required string TradeType { get; init; }
-    public required string OrderType { get; init; }
     public required decimal Quantity { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
@@ -30,7 +29,6 @@ public static class SignalResponseMapping
             Symbol = dto.Symbol,
             Time = dto.Time,
             TradeType = dto.TradeType,
-            OrderType = dto.OrderType,
             Quantity = dto.Quantity,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
@@ -44,7 +42,6 @@ public static class SignalResponseMapping
             Symbol = dto.Symbol,
             Time = dto.Time,
             TradeType = dto.TradeType,
-            OrderType = dto.OrderType,
             Quantity = dto.Quantity,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };

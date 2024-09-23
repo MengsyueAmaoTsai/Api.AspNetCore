@@ -8,7 +8,6 @@ public sealed record SignalDto
     public required string Symbol { get; init; }
     public required DateTimeOffset Time { get; init; }
     public required string TradeType { get; init; }
-    public required string OrderType { get; init; }
     public required decimal Quantity { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }

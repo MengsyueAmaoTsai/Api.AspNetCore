@@ -28,7 +28,6 @@ internal sealed class SignalCreatedDomainEventHandler(
             .AppendLine($"Origin: {domainEvent.Origin}")
             .AppendLine($"Symbol: {domainEvent.Symbol}")
             .AppendLine($"TradeType: {domainEvent.TradeType}")
-            .AppendLine($"OrderType: {domainEvent.OrderType}")
             .AppendLine($"Quantity: {domainEvent.Quantity}")
             .AppendLine($"Latency: {domainEvent.Latency}")
             .ToString();
@@ -61,12 +60,10 @@ internal sealed class SignalCreatedDomainEventHandler(
 
     private void LogEvent(SignalCreatedDomainEvent @event) =>
         _logger.LogInformation(
-            "[SignalCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} for source id: {sourceId} from {origin}. {time} Latency: {latency}",
+            "[SignalCreated] {tradeType} {quantity} {symbol} for source id: {sourceId} from {origin}. OriginTime: {time} Latency: {latency}",
             @event.TradeType,
             @event.Quantity,
             @event.Symbol,
-            @event.OrderType,
-            @event.OrderType,
             @event.SourceId,
             @event.Origin,
             @event.Time,

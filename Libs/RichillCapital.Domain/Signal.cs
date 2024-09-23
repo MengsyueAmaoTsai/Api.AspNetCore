@@ -16,7 +16,6 @@ public sealed class Signal : Entity<SignalId>
         Symbol symbol,
         DateTimeOffset time,
         TradeType tradeType,
-        OrderType orderType,
         decimal quantity,
         long latency,
         DateTimeOffset createdTimeUtc)
@@ -27,7 +26,6 @@ public sealed class Signal : Entity<SignalId>
         Symbol = symbol;
         Time = time;
         TradeType = tradeType;
-        OrderType = orderType;
         Quantity = quantity;
         Latency = latency;
         CreatedTimeUtc = createdTimeUtc;
@@ -38,7 +36,6 @@ public sealed class Signal : Entity<SignalId>
     public Symbol Symbol { get; init; }
     public DateTimeOffset Time { get; init; }
     public TradeType TradeType { get; init; }
-    public OrderType OrderType { get; init; }
     public decimal Quantity { get; init; }
     public long Latency { get; init; }
     public DateTimeOffset CreatedTimeUtc { get; init; }
@@ -50,7 +47,6 @@ public sealed class Signal : Entity<SignalId>
         Symbol symbol,
         DateTimeOffset time,
         TradeType tradeType,
-        OrderType orderType,
         decimal quantity,
         long latency,
         DateTimeOffset createdTimeUtc)
@@ -82,7 +78,6 @@ public sealed class Signal : Entity<SignalId>
             symbol,
             time,
             tradeType,
-            orderType,
             quantity,
             latency,
             createdTimeUtc);
@@ -95,7 +90,6 @@ public sealed class Signal : Entity<SignalId>
             Symbol = symbol,
             Time = time,
             TradeType = tradeType,
-            OrderType = orderType,
             Quantity = quantity,
             Latency = signal.Latency,
         });

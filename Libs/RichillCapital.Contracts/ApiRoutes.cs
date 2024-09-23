@@ -109,7 +109,9 @@ public static class ApiRoutes
     {
         private const string SignalsBase = $"{ApiBase}/signals";
 
+        public const string List = SignalsBase;
         public const string Create = SignalsBase;
+        public const string Get = $"{SignalsBase}/{{signalId}}";
     }
 
     public static class SignalReplicationPolicies

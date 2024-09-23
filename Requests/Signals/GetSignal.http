@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+@SignalId = 1
+
+### Get signal
+GET {{Localhost}}/api/v1/signals/{{SignalId}}

@@ -14,7 +14,6 @@ public sealed record SignalCreatedDomainEvent : SignalDomainEvent
     public required Symbol Symbol { get; init; }
     public required DateTimeOffset Time { get; init; }
     public required TradeType TradeType { get; init; }
-    public required OrderType OrderType { get; init; }
     public required decimal Quantity { get; init; }
     public required long Latency { get; init; }
 }
