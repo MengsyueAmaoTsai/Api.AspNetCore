@@ -7,7 +7,7 @@ public sealed record BrokerageDto
     public required string Provider { get; init; }
     public required string Name { get; init; }
     public required string Status { get; init; }
-    public required Dictionary<string, object> Arguments { get; init; }
+    public required IReadOnlyDictionary<string, object> Arguments { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -20,7 +20,7 @@ internal static class BrokerageExtensions
             Provider = brokerage.Provider,
             Name = brokerage.Name,
             Status = brokerage.Status.Name,
-            Arguments = brokerage.Arguments.ToDictionary(),
+            Arguments = brokerage.Arguments,
             CreatedTimeUtc = brokerage.CreatedTimeUtc,
         };
 }
