@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Serializatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Domain.UnitTests", "Tests\RichillCapital.Domain.UnitTests\RichillCapital.Domain.UnitTests.csproj", "{CCF8D307-BDA2-4608-88AD-A11FFC9F0326}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichillCapital.Api.ArchitectureTests", "Tests\RichillCapital.Api.ArchitectureTests\RichillCapital.Api.ArchitectureTests.csproj", "{331958D3-D904-454B-8FBD-BB30E266B335}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{CCF8D307-BDA2-4608-88AD-A11FFC9F0326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCF8D307-BDA2-4608-88AD-A11FFC9F0326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCF8D307-BDA2-4608-88AD-A11FFC9F0326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{331958D3-D904-454B-8FBD-BB30E266B335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{331958D3-D904-454B-8FBD-BB30E266B335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{331958D3-D904-454B-8FBD-BB30E266B335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{331958D3-D904-454B-8FBD-BB30E266B335}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +110,6 @@ Global
 		{62CC73DB-90D7-48E4-AEC2-C4ECD554A1F9} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
 		{19515C58-F664-4B2D-8008-834B29BF4D9D} = {55027344-BA88-4E87-87E1-008DDD6D87A6}
 		{CCF8D307-BDA2-4608-88AD-A11FFC9F0326} = {52397D60-CE31-4D0C-B279-25306D77BCCB}
+		{331958D3-D904-454B-8FBD-BB30E266B335} = {52397D60-CE31-4D0C-B279-25306D77BCCB}
 	EndGlobalSection
 EndGlobal

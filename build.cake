@@ -34,6 +34,22 @@ var dotNetTestSettings = new DotNetTestSettings
     NoRestore = true,
 };
 
+Task("ArchitectureTests")
+    .Does(() =>
+    {
+        var projects = new List<string>
+        {
+            "./Tests/RichillCapital.Api.ArchitectureTests/RichillCapital.Api.ArchitectureTests.csproj",
+        };
+
+        foreach (var project in projects)
+        {
+            Information("Running architecture tests for {0}", project);
+
+            DotNetTest(project, dotNetTestSettings);
+        }
+    });
+
 Task("UnitTests")
     .Does(() =>
     {
@@ -87,12 +103,14 @@ Task("Commit")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("ArchitectureTests")
     .IsDependentOn("UnitTests");
 
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("ArchitectureTests")
     .IsDependentOn("UnitTests")
     .IsDependentOn("AcceptanceTests")
     .IsDependentOn("Publish");
