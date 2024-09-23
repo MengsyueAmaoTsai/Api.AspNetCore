@@ -38,6 +38,8 @@ public static class ApiRoutes
 
         public const string List = AccountsBase;
         public const string Get = $"{AccountsBase}/{{accountId}}";
+
+        public const string GetPerformance = $"{Get}/performance";
     }
 
     public static class Orders
