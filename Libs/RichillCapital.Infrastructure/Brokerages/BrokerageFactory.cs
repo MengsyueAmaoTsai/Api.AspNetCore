@@ -37,9 +37,7 @@ internal sealed class BrokerageFactory(
                 _serviceProvider.GetRequiredService<IMaxRestClient>(),
                 connectionName)),
 
-            _ => Result<IBrokerage>.Failure(Error.Invalid(
-                "Brokerages.NotSupported",
-                $"Brokerage connection {connectionName} is not supported."))
+            _ => Result<IBrokerage>.Failure(BrokerageErrors.NotSupported(provider)),
         };
 
         _logger.LogInformation(

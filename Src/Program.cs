@@ -12,6 +12,7 @@ using RichillCapital.Infrastructure.Identity;
 using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
 using RichillCapital.UseCases;
+using RichillCapital.Infrastructure.DataFeeds;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ builder.Services.AddLineNotification();
 builder.Services.AddBrokerages();
 
 // Infrastructure - DataFeeds
+builder.Services.AddDataFeeds();
 
 // Infrastructure - Payments
 // builder.Services.AddPayments();

@@ -1,5 +1,4 @@
 using RichillCapital.Domain.Brokerages;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.Brokerages;

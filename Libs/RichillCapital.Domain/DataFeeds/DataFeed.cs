@@ -1,20 +1,20 @@
-using RichillCapital.SharedKernel.Monads;
+﻿using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Domain.Brokerages;
+namespace RichillCapital.Domain.DataFeeds;
 
-public abstract class Brokerage(
+public abstract class DataFeed(
     string provider,
     string name) :
-    IBrokerage
+    IDataFeed
 {
     public string Provider { get; private init; } = provider;
     public string Name { get; private init; } = name;
     public IReadOnlyDictionary<string, object> Arguments { get; private init; } = new Dictionary<string, object>();
     public ConnectionStatus Status { get; protected set; } = ConnectionStatus.Stopped;
+
     public DateTimeOffset CreatedTimeUtc { get; private init; } = DateTimeOffset.UtcNow;
 
+    public abstract Task<Result<IReadOnlyCollection<Instrument>>> ListInstrumentsAsync(CancellationToken cancellationToken = default);
     public abstract Task<Result> StartAsync(CancellationToken cancellationToken = default);
     public abstract Task<Result> StopAsync(CancellationToken cancellationToken = default);
-    public abstract Task<Result> SubmitOrderAsync(Symbol symbol, TradeType tradeType, OrderType orderType, TimeInForce timeInForce, decimal quantity, string clientOrderId, CancellationToken cancellationToken = default);
-    public abstract Task<Result<IReadOnlyCollection<Order>>> ListOrdersAsync(CancellationToken cancellationToken = default);
 }
