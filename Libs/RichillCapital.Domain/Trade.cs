@@ -81,11 +81,19 @@ public sealed class Trade : Entity<TradeId>
 
         trade.RegisterDomainEvent(new TradeCreatedDomainEvent
         {
-            TradeId = trade.Id,
-            AccountId = trade.AccountId,
-            Symbol = trade.Symbol,
-            Side = trade.Side,
-            Quantity = trade.Quantity,
+            TradeId = id,
+            AccountId = accountId,
+            Symbol = symbol,
+            Side = side,
+            Quantity = quantity,
+            EntryPrice = entryPrice,
+            EntryTimeUtc = entryTimeUtc,
+            ExitPrice = exitPrice,
+            ExitTimeUtc = exitTimeUtc,
+            Commission = commission,
+            Tax = tax,
+            Swap = swap,
+            ProfitLoss = profitLoss,
         });
 
         return ErrorOr<Trade>.With(trade);

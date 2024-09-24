@@ -44,7 +44,7 @@ public sealed class CreateSignalTests(
         signal!.TradeType.Should().Be(request.TradeType);
         signal!.Quantity.Should().Be(request.Quantity);
         signal!.Latency.Should().BeGreaterOrEqualTo(0);
-        signal!.Status.Should().Be(SignalStatus.Emitted.Name);
+        signal!.Status.Should().Be(SignalStatus.Created.Name);
         signal!.CreatedTimeUtc.Should().BeCloseTo(DateTimeOffset.UtcNow, 2.Seconds());
     }
 }
