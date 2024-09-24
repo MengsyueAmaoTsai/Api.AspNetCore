@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 using RichillCapital.Domain;
 
 namespace RichillCapital.UseCases.SignalSources;
