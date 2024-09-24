@@ -66,7 +66,7 @@ internal sealed class OrderReplicationMappingConfiguration :
                 policyId: "1",
                 sourceSymbol: "BINANCE:BTCUSDT.P",
                 destinationSymbol: "BINANCE:BTCUSDT.P",
-                destinationAccountId: "000-8283782"),
+                destinationAccountId: "SIM-0000000000000000"),
         ]);
     }
 

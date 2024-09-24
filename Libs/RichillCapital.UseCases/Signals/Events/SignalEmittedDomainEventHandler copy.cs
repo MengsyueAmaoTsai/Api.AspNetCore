@@ -18,9 +18,7 @@ internal sealed class SignalEmittedDomainEventHandler(
         SignalEmittedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation(
-            "[SignalEmitted] {signalId}",
-            domainEvent.SourceId);
+        _logger.LogSignalDomainEvent(domainEvent);
 
         var signal = (await _signalRepository
             .FirstOrDefaultAsync(s => s.Id == domainEvent.SignalId, cancellationToken)

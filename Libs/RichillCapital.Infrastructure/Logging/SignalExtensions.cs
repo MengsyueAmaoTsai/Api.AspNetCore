@@ -1,27 +1,11 @@
 using Microsoft.Extensions.Logging;
 
-using RichillCapital.Domain;
 using RichillCapital.Domain.Events;
 
-namespace RichillCapital.UseCases.Signals;
+namespace RichillCapital.Infrastructure.Logging;
 
 internal static class SignalExtensions
 {
-    internal static SignalDto ToDto(this Signal signal) =>
-        new()
-        {
-            Id = signal.Id.Value,
-            SourceId = signal.SourceId.Value,
-            Origin = signal.Origin.Name,
-            Symbol = signal.Symbol.Value,
-            Time = signal.Time,
-            TradeType = signal.TradeType.Name,
-            Quantity = signal.Quantity,
-            Latency = signal.Latency,
-            Status = signal.Status.Name,
-            CreatedTimeUtc = signal.CreatedTimeUtc,
-        };
-
     internal static void LogSignalDomainEvent<T>(
         this ILogger<T> logger,
         SignalDomainEvent domainEvent) =>

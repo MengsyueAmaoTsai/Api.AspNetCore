@@ -96,7 +96,9 @@ public sealed class Signal : Entity<SignalId>
             Time = time,
             TradeType = tradeType,
             Quantity = quantity,
-            Latency = signal.Latency,
+            Latency = latency,
+            Status = status,
+            CreatedTimeUtc = createdTimeUtc,
         });
 
         return ErrorOr<Signal>.With(signal);
@@ -109,7 +111,14 @@ public sealed class Signal : Entity<SignalId>
         {
             SignalId = Id,
             SourceId = SourceId,
+            Origin = Origin,
+            Symbol = Symbol,
+            Time = Time,
+            TradeType = TradeType,
+            Quantity = Quantity,
             Latency = Latency,
+            Status = Status,
+            CreatedTimeUtc = CreatedTimeUtc,
         });
 
         return Result.Success;
@@ -122,6 +131,14 @@ public sealed class Signal : Entity<SignalId>
         {
             SignalId = Id,
             SourceId = SourceId,
+            Origin = Origin,
+            Symbol = Symbol,
+            Time = Time,
+            TradeType = TradeType,
+            Quantity = Quantity,
+            Latency = Latency,
+            Status = Status,
+            CreatedTimeUtc = CreatedTimeUtc,
         });
 
         return Result.Success;
@@ -135,6 +152,14 @@ public sealed class Signal : Entity<SignalId>
         {
             SignalId = Id,
             SourceId = SourceId,
+            Origin = Origin,
+            Symbol = Symbol,
+            Time = Time,
+            TradeType = TradeType,
+            Quantity = Quantity,
+            Latency = Latency,
+            Status = Status,
+            CreatedTimeUtc = CreatedTimeUtc,
         });
 
         return Result.Success;

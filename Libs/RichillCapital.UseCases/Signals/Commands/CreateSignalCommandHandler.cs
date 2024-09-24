@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Errors;
@@ -9,7 +7,6 @@ using RichillCapital.UseCases.Abstractions;
 namespace RichillCapital.UseCases.Signals.Commands;
 
 internal sealed class CreateSignalCommandHandler(
-    ILogger<CreateSignalCommandHandler> _logger,
     IReadOnlyRepository<SignalSource> _signalSourceRepository,
     IDateTimeProvider _dateTimeProvider,
     IRepository<Signal> _signalRepository,
@@ -44,8 +41,6 @@ internal sealed class CreateSignalCommandHandler(
         var createdTimeUtc = _dateTimeProvider.UtcNow;
         var latency = (long)(createdTimeUtc - command.Time).TotalMilliseconds;
 
-        _logger.LogInformation("{CreatedTimeUtc} - {Time} = {Latency}", createdTimeUtc, command.Time, latency);
-
         var errorOrSignal = Signal.Create(
             SignalId.NewSignalId(),
             sourceId,
@@ -55,7 +50,7 @@ internal sealed class CreateSignalCommandHandler(
             tradeType,
             command.Quantity,
             latency,
-            SignalStatus.Emitted,
+            SignalStatus.Created,
             createdTimeUtc);
 
         if (errorOrSignal.HasError)

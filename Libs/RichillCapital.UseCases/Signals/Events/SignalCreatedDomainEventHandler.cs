@@ -7,6 +7,7 @@ using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Events;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
+using RichillCapital.UseCases.Signals;
 
 internal sealed class SignalCreatedDomainEventHandler(
     ILogger<SignalCreatedDomainEventHandler> _logger,
@@ -20,7 +21,8 @@ internal sealed class SignalCreatedDomainEventHandler(
         SignalCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        LogEvent(domainEvent);
+        _logger.LogSignalDomainEvent(domainEvent);
+
 
         var message = new StringBuilder()
             .AppendLine($"Time: {domainEvent.Time:yyyy-MM-dd HH:mm:ss.fff}")
@@ -59,12 +61,17 @@ internal sealed class SignalCreatedDomainEventHandler(
 
     private void LogEvent(SignalCreatedDomainEvent @event) =>
         _logger.LogInformation(
-            "[SignalCreated] {tradeType} {quantity} {symbol} for source id: {sourceId} from {origin}. OriginTime: {time} Latency: {latency}",
-            @event.TradeType,
-            @event.Quantity,
-            @event.Symbol,
+            "[SignalCreated] - Signal {SignalId} from {SourceId} ({Origin}) has been {Status} at {CreatedTimeUtc}. " +
+            "Latency: {Latency}ms. " +
+            "Trading info: {Time} {TradeType} {Quantity} {Symbol}",
+            @event.SignalId,
             @event.SourceId,
             @event.Origin,
-            @event.Time.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-            @event.Latency);
+            @event.Status,
+            @event.CreatedTimeUtc.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            @event.Latency,
+            @event.Time.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            @event.Symbol,
+            @event.TradeType,
+            @event.Quantity);
 }

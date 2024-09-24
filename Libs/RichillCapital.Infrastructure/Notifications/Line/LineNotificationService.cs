@@ -65,7 +65,7 @@ internal sealed class LineNotificationService(
     {
         if (string.IsNullOrWhiteSpace(token))
         {
-            _logger.LogWarning("Token is not provided, using default token");
+            _logger.LogWarning("Set bearer token but not provided, using default token instead");
             token = DevelopmentToken;
         }
 
