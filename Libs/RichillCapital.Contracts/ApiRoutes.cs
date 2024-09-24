@@ -37,6 +37,7 @@ public static class ApiRoutes
         private const string AccountsBase = $"{ApiBase}/accounts";
 
         public const string List = AccountsBase;
+        public const string Create = AccountsBase;
         public const string Get = $"{AccountsBase}/{{accountId}}";
 
         public const string GetPerformance = $"{Get}/performance";
