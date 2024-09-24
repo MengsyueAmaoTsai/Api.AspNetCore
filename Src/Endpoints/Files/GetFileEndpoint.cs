@@ -4,7 +4,6 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using RichillCapital.Api.Endpoints;
 using RichillCapital.Contracts;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Files;
@@ -12,7 +11,7 @@ using RichillCapital.UseCases.Files.Queries;
 
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace RichillCapital.Endpoints.Files;
+namespace RichillCapital.Api.Endpoints.Files;
 
 [ApiVersion(EndpointVersion.V1)]
 public sealed class GetFileEndpoint(

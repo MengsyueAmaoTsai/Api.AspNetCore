@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 
-using RichillCapital.Api.Endpoints;
+using RichillCapital.Contracts;
+using RichillCapital.Contracts.Files;
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Files;
 
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace RichillCapital.Contracts.Files;
+namespace RichillCapital.Api.Endpoints.Files;
 
 public sealed class CreateFileEndpoint(
     IDateTimeProvider _dateTimeProvider,

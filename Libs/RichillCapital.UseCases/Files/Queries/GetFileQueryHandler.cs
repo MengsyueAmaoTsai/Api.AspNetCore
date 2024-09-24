@@ -1,6 +1,6 @@
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.Domain.Errors;
 using RichillCapital.Domain.Files;
-using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -27,7 +27,7 @@ internal sealed class GetFileQueryHandler(
 
         if (maybeFile.IsNull)
         {
-            return ErrorOr<FileDto>.WithError(Error.NotFound($"File with id {id} not found"));
+            return ErrorOr<FileDto>.WithError(FileErrors.NotFound(id));
         }
 
         var file = maybeFile.Value;
