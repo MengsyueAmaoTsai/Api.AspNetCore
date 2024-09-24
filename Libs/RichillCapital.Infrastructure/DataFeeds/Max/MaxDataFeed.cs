@@ -4,6 +4,8 @@ using RichillCapital.Domain;
 using RichillCapital.Domain.DataFeeds;
 using RichillCapital.Infrastructure.Brokerages.Max;
 using RichillCapital.Max;
+using RichillCapital.Max.Contracts;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
 namespace RichillCapital.Infrastructure.DataFeeds.Max;
@@ -60,7 +62,8 @@ internal sealed class MaxDataFeed(
         return Result.Success;
     }
 
-    public override async Task<Result<IReadOnlyCollection<Instrument>>> ListInstrumentsAsync(CancellationToken cancellationToken = default)
+    public override async Task<Result<IReadOnlyCollection<Instrument>>> ListInstrumentsAsync(
+        CancellationToken cancellationToken = default)
     {
         var marketsResult = await _restClient.ListMarketsAsync(cancellationToken);
 
@@ -69,32 +72,47 @@ internal sealed class MaxDataFeed(
             return Result<IReadOnlyCollection<Instrument>>.Failure(marketsResult.Error);
         }
 
-        var markets = marketsResult.Value;
+        var instrumentResults = marketsResult.Value
+            .Select(MapToInstrument)
+            .ToList();
 
-        var instruments = markets
-            .Select(m =>
-            {
-                _logger.LogInformation("Market: {market}", m.QuoteUnit);
-                var quoteCurrency = Currency.FromName(m.QuoteUnit, ignoreCase: true);
-                if (quoteCurrency.IsNull)
-                {
-                    _logger.LogWarning("Unknown quote currency: {quoteCurrency}", m.QuoteUnit);
-                    throw new InvalidOperationException($"Unknown quote currency: {m.QuoteUnit}");
-                }
+        if (instrumentResults.Any(instrument => instrument.IsFailure))
+        {
+            return Result<IReadOnlyCollection<Instrument>>.Failure(
+                instrumentResults.First(instrument => instrument.IsFailure).Error);
+        }
 
-                return Instrument
-                .Create(
-                    symbol: _symbolMapper.FromExternalSymbol(m.Id),
-                    description: m.Id,
-                    type: InstrumentType.CryptoCurrency,
-                    quoteCurrency: quoteCurrency.Value,
-                    contractUnit: 1,
-                    DateTimeOffset.UtcNow)
-                .ThrowIfError()
-                .Value;
-            })
+        var instruments = instrumentResults
+            .Select(instrument => instrument.Value)
             .ToList();
 
         return Result<IReadOnlyCollection<Instrument>>.With(instruments);
+    }
+
+    private Result<Instrument> MapToInstrument(MaxMarketResponse market)
+    {
+        var symbol = _symbolMapper.FromExternalSymbol(market.Id);
+        var maybeQuoteCurrency = Currency.FromName(market.QuoteUnit, ignoreCase: true);
+
+        if (maybeQuoteCurrency.IsNull)
+        {
+            return Result<Instrument>.Failure(Error.Invalid($"Cannot map quote currency: {market.QuoteUnit}"));
+        }
+
+        var errorOrInstrument = Instrument
+            .Create(
+                symbol: symbol,
+                description: market.Id,
+                type: InstrumentType.CryptoCurrency,
+                quoteCurrency: maybeQuoteCurrency.Value,
+                contractUnit: 1,
+                createdTimeUtc: DateTimeOffset.UtcNow);
+
+        if (errorOrInstrument.HasError)
+        {
+            return Result<Instrument>.Failure(errorOrInstrument.Errors.First());
+        }
+
+        return Result<Instrument>.With(errorOrInstrument.Value);
     }
 }
