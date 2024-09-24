@@ -13,7 +13,15 @@ public sealed record SignalSourceCreatedDomainEventHandler(
         SignalSourceCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("[SignalSourceCreated] {id}", domainEvent.SignalSourceId);
+        _logger.LogInformation(
+            "[{EventName}] Signal source {SourceId} has been {Status} at {CreatedTimeUtc}. " +
+            "Name: {Name}, Description: {Description}.",
+            typeof(SignalSourceCreatedDomainEvent).Name,
+            domainEvent.SignalSourceId,
+            domainEvent.Status,
+            domainEvent.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss"),
+            domainEvent.Name,
+            domainEvent.Description);
 
         return Task.CompletedTask;
     }

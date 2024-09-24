@@ -55,6 +55,10 @@ public sealed class SignalSource : Entity<SignalSourceId>
         source.RegisterDomainEvent(new SignalSourceCreatedDomainEvent
         {
             SignalSourceId = source.Id,
+            Name = source.Name,
+            Description = source.Description,
+            Status = source.Status,
+            CreatedTimeUtc = source.CreatedTimeUtc,
         });
 
         return ErrorOr<SignalSource>.With(source);
