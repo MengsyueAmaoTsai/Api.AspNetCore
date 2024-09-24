@@ -81,16 +81,19 @@ public sealed class Execution : Entity<ExecutionId>
 
         execution.RegisterDomainEvent(new ExecutionCreatedDomainEvent
         {
-            ExecutionId = execution.Id,
-            AccountId = execution.AccountId,
-            Symbol = execution.Symbol,
-            TradeType = execution.TradeType,
-            OrderType = execution.OrderType,
-            TimeInForce = execution.TimeInForce,
-            Quantity = execution.Quantity,
-            Price = execution.Price,
-            Commission = execution.Commission,
-            Tax = execution.Tax,
+            ExecutionId = id,
+            AccountId = accountId,
+            OrderId = orderId,
+            PositionId = positionId,
+            Symbol = symbol,
+            TradeType = tradeType,
+            OrderType = orderType,
+            TimeInForce = timeInForce,
+            Quantity = quantity,
+            Price = price,
+            Commission = commission,
+            Tax = tax,
+            CreatedTimeUtc = createdTimeUtc,
         });
 
         return ErrorOr<Execution>.With(execution);

@@ -34,7 +34,7 @@ internal static class OrderExtensions
             domainEvent.OrderId,
             domainEvent.AccountId,
             domainEvent.Status,
-            domainEvent.CreatedTimeUtc.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            domainEvent.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             domainEvent.TradeType,
             domainEvent.Quantity,
             domainEvent.Symbol,

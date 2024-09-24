@@ -14,14 +14,21 @@ internal sealed class ExecutionCreatedDomainEventHandler(
         CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            "[ExecutionCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} for execution id: {executionId}",
+            "[{EventName}] Execution {ExecutionId} for Account {AccountId} has been Created at {CreatedTimeUtc}. " +
+            "{TradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce}. " +
+            "Commission: {Commission} Tax: {Tax}.",
+            domainEvent.GetType().Name,
+            domainEvent.ExecutionId,
+            domainEvent.AccountId,
+            domainEvent.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss"),
             domainEvent.TradeType,
             domainEvent.Quantity,
             domainEvent.Symbol,
             domainEvent.Price,
             domainEvent.OrderType,
             domainEvent.TimeInForce,
-            domainEvent.ExecutionId);
+            domainEvent.Commission,
+            domainEvent.Tax);
 
         return Task.CompletedTask;
     }

@@ -34,9 +34,9 @@ internal static class SignalExtensions
             domainEvent.SourceId,
             domainEvent.Origin,
             domainEvent.Status,
-            domainEvent.CreatedTimeUtc.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            domainEvent.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             domainEvent.Latency,
-            domainEvent.Time.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            domainEvent.Time.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             domainEvent.Symbol,
             domainEvent.TradeType,
             domainEvent.Quantity);

@@ -68,9 +68,9 @@ internal sealed class SignalCreatedDomainEventHandler(
             @event.SourceId,
             @event.Origin,
             @event.Status,
-            @event.CreatedTimeUtc.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            @event.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             @event.Latency,
-            @event.Time.ToString("HH:mm:ss.fff dd-MM-yyyy"),
+            @event.Time.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             @event.Symbol,
             @event.TradeType,
             @event.Quantity);
