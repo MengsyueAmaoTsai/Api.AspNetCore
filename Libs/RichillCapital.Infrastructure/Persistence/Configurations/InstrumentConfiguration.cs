@@ -38,6 +38,11 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             .HasEnumerationValueConversion()
             .IsRequired();
 
+        builder
+            .Property(instrument => instrument.QuoteCurrency)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
         builder.HasData([
             .. CreateInstruments_TAIFEX(),
             .. CreateCryptoSwaps(),
@@ -50,59 +55,77 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             symbol: "TAIFEX:TXF",
             description: "TAIFEX Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 200);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:MXF",
             description: "Mini-TAIFEX Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 50);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:TMF",
             description: "Micro TAIFEX Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 10);
 
         yield return CreateInstrument(
             symbol: "TAIFEX:EXF",
             description: "TAIFEX Electronic Sector Index Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 4000);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:ZEF",
             description: "TAIFEX Electronic Sector Index Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 500);
 
         yield return CreateInstrument(
             symbol: "TAIFEX:FXF",
             description: "TAIFEX Finance Sector Index Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 1000);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:ZFF",
             description: "Mini TAIFEX Finance Sector Index Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 250);
 
         yield return CreateInstrument(
             symbol: "TAIFEX:UNF",
             description: "TAIFEX Nasdaq-100 Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 50);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:UDF",
             description: "TAIFEX Dow Jones Industrial Average Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 20);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:SPF",
             description: "TAIFEX S&P 500 Futures",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 20);
+
         yield return CreateInstrument(
             symbol: "TAIFEX:SXF",
             description: "TAIFEX PHLX Semiconductor SectorTM Index",
             type: InstrumentType.Future,
+            quoteCurrency: Currency.TWD,
             contractUnit: 80);
     }
 
@@ -115,16 +138,21 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
             symbol: "BINANCE:BTCUSDT.P",
             description: "BTC/USDT Perpetual Swap",
             type: instrumentType,
+            quoteCurrency: Currency.USDT,
             contractUnit: contractUnit);
+
         yield return CreateInstrument(
             symbol: "BINANCE:ETHUSDT.P",
             description: "ETH/USDT Perpetual Swap",
             type: instrumentType,
+            quoteCurrency: Currency.USDT,
             contractUnit: contractUnit);
+
         yield return CreateInstrument(
             symbol: "BINANCE:BNBUSDT.P",
             description: "BNB/USDT Perpetual Swap",
             type: instrumentType,
+            quoteCurrency: Currency.USDT,
             contractUnit: contractUnit);
     }
 
@@ -132,12 +160,14 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
         string symbol,
         string description,
         InstrumentType type,
+        Currency quoteCurrency,
         decimal contractUnit) =>
         Instrument
             .Create(
                 symbol: Symbol.From(symbol).ThrowIfFailure().Value,
                 description: description,
                 type: type,
+                quoteCurrency: quoteCurrency,
                 contractUnit: contractUnit,
                 createdTimeUtc: DateTimeOffset.UtcNow)
             .ThrowIfError()

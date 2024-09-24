@@ -10,6 +10,7 @@ internal static class InstrumentExtensions
             Symbol = instrument.Symbol.Value,
             Description = instrument.Description,
             Type = instrument.Type.Name,
+            QuoteCurrency = instrument.QuoteCurrency.Name,
             ContractUnit = instrument.ContractUnit,
             CreatedTimeUtc = instrument.CreatedTimeUtc,
         };

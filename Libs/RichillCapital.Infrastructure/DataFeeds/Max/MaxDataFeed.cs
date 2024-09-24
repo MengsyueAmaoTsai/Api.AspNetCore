@@ -72,15 +72,27 @@ internal sealed class MaxDataFeed(
         var markets = marketsResult.Value;
 
         var instruments = markets
-            .Select(m => Instrument
+            .Select(m =>
+            {
+                _logger.LogInformation("Market: {market}", m.QuoteUnit);
+                var quoteCurrency = Currency.FromName(m.QuoteUnit, ignoreCase: true);
+                if (quoteCurrency.IsNull)
+                {
+                    _logger.LogWarning("Unknown quote currency: {quoteCurrency}", m.QuoteUnit);
+                    throw new InvalidOperationException($"Unknown quote currency: {m.QuoteUnit}");
+                }
+
+                return Instrument
                 .Create(
-                    _symbolMapper.FromExternalSymbol(m.Id),
-                    m.Id,
-                    InstrumentType.CryptoCurrency,
-                    1,
+                    symbol: _symbolMapper.FromExternalSymbol(m.Id),
+                    description: m.Id,
+                    type: InstrumentType.CryptoCurrency,
+                    quoteCurrency: quoteCurrency.Value,
+                    contractUnit: 1,
                     DateTimeOffset.UtcNow)
                 .ThrowIfError()
-                .Value)
+                .Value;
+            })
             .ToList();
 
         return Result<IReadOnlyCollection<Instrument>>.With(instruments);

@@ -7,6 +7,7 @@ public record InstrumentResponse
     public required string Symbol { get; init; }
     public required string Description { get; init; }
     public required string Type { get; init; }
+    public required string QuoteCurrency { get; init; }
     public required decimal ContractUnit { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
@@ -24,6 +25,7 @@ public static class InstrumentResponseMapping
             Symbol = instrument.Symbol,
             Description = instrument.Description,
             Type = instrument.Type,
+            QuoteCurrency = instrument.QuoteCurrency,
             ContractUnit = instrument.ContractUnit,
             CreatedTimeUtc = instrument.CreatedTimeUtc,
         };
@@ -36,6 +38,7 @@ public static class InstrumentResponseMapping
             Symbol = instrument.Symbol,
             Description = instrument.Description,
             Type = instrument.Type,
+            QuoteCurrency = instrument.QuoteCurrency,
             ContractUnit = instrument.ContractUnit,
             CreatedTimeUtc = instrument.CreatedTimeUtc,
         };

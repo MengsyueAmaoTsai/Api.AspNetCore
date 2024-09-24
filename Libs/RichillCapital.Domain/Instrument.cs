@@ -9,12 +9,14 @@ public sealed class Instrument : Entity<Symbol>
         Symbol symbol,
         string description,
         InstrumentType type,
+        Currency quoteCurrency,
         decimal contractUnit,
         DateTimeOffset createdTimeUtc)
         : base(symbol)
     {
         Description = description;
         Type = type;
+        QuoteCurrency = quoteCurrency;
         ContractUnit = contractUnit;
         CreatedTimeUtc = createdTimeUtc;
     }
@@ -22,7 +24,7 @@ public sealed class Instrument : Entity<Symbol>
     public Symbol Symbol => Id;
     public string Description { get; private set; }
     public InstrumentType Type { get; private set; }
-
+    public Currency QuoteCurrency { get; private set; }
     public decimal ContractUnit { get; private set; }
 
     public DateTimeOffset CreatedTimeUtc { get; private set; }
@@ -31,6 +33,7 @@ public sealed class Instrument : Entity<Symbol>
         Symbol symbol,
         string description,
         InstrumentType type,
+        Currency quoteCurrency,
         decimal contractUnit,
         DateTimeOffset createdTimeUtc)
     {
@@ -38,6 +41,7 @@ public sealed class Instrument : Entity<Symbol>
             symbol,
             description,
             type,
+            quoteCurrency,
             contractUnit,
             createdTimeUtc);
 
