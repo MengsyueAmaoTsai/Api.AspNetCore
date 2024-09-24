@@ -8,3 +8,7 @@ public sealed record SignalSourceDto
     public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
+
+public sealed record SignalSourcePerformanceDto
+{
+}
