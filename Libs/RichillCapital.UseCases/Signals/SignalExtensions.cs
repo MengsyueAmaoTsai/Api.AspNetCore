@@ -26,7 +26,7 @@ internal static class SignalExtensions
         this ILogger<T> logger,
         SignalDomainEvent domainEvent) =>
         logger.LogInformation(
-            "[{EventName}] - Signal {SignalId} from {SourceId} ({Origin}) has been {Status} at {CreatedTimeUtc}. " +
+            "[{EventName}] - Signal {SignalId} from {SourceId} ({Origin}) has been {Status} at {UpdatedTimeUtc}. " +
             "Latency: {Latency}ms. " +
             "Trading info: {Time} {TradeType} {Quantity} {Symbol}",
             domainEvent.GetType().Name,

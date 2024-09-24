@@ -19,7 +19,7 @@ internal sealed class OrderExecutedDomainEventHandler(
         OrderExecutedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        LogEvent(domainEvent);
+        _logger.LogOrderDomainEvent(domainEvent);
 
         var positionSide = domainEvent.TradeType.ToSide();
         var executionQuantity = domainEvent.Quantity;
@@ -146,17 +146,6 @@ internal sealed class OrderExecutedDomainEventHandler(
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-
-    private void LogEvent(OrderExecutedDomainEvent domainEvent) =>
-        _logger.LogInformation(
-            "[OrderExecuted] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} for order id: {orderId}",
-            domainEvent.TradeType,
-            domainEvent.Quantity,
-            domainEvent.Symbol,
-            domainEvent.Price,
-            domainEvent.OrderType,
-            domainEvent.TimeInForce,
-            domainEvent.OrderId);
 
     private void ReducePosition(
         Position position,

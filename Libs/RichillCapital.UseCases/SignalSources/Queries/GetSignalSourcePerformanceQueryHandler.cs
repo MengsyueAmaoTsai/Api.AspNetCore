@@ -53,6 +53,8 @@ internal sealed class GetSignalSourcePerformanceQueryHandler(
                 trade.Symbol);
         }
 
+        _logger.LogInformation("Total trades: {TotalTrades}", trades.Count);
+
         return ErrorOr<SignalSourcePerformanceDto>.With(new SignalSourcePerformanceDto
         {
         });

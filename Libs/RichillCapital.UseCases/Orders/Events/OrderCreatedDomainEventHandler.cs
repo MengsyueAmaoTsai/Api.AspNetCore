@@ -18,7 +18,7 @@ internal sealed class OrderCreatedDomainEventHandler(
         OrderCreatedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        LogEvent(domainEvent);
+        _logger.LogOrderDomainEvent(domainEvent);
 
         var order = (await _orderRepository
             .GetByIdAsync(domainEvent.OrderId, cancellationToken)
@@ -57,17 +57,6 @@ internal sealed class OrderCreatedDomainEventHandler(
         _orderRepository.Update(order);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-
-    private void LogEvent(OrderCreatedDomainEvent @event) =>
-        _logger.LogInformation(
-            "[OrderCreated] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} for order id: {orderId}",
-            @event.TradeType,
-            @event.Quantity,
-            @event.Symbol,
-            @event.OrderType,
-            @event.OrderType,
-            @event.TimeInForce,
-            @event.OrderId);
 
     private Result EvaluateOrderPlacement(Order order)
     {

@@ -80,14 +80,18 @@ public sealed class Order : Entity<OrderId>
 
         order.RegisterDomainEvent(new OrderCreatedDomainEvent
         {
-            OrderId = id,
             AccountId = accountId,
+            OrderId = id,
             Symbol = symbol,
             TradeType = tradeType,
             OrderType = type,
             TimeInForce = timeInForce,
             Quantity = quantity,
+            ExecutedQuantity = executedQuantity,
+            RemainingQuantity = remainingQuantity,
             Status = status,
+            ClientOrderId = clientOrderId,
+            CreatedTimeUtc = createdTimeUtc,
         });
 
         return ErrorOr<Order>.With(order);
@@ -106,7 +110,11 @@ public sealed class Order : Entity<OrderId>
             OrderType = Type,
             TimeInForce = TimeInForce,
             Quantity = Quantity,
+            ExecutedQuantity = ExecutedQuantity,
+            RemainingQuantity = RemainingQuantity,
             Status = Status,
+            ClientOrderId = ClientOrderId,
+            CreatedTimeUtc = CreatedTimeUtc,
             Reason = reason,
         });
 
@@ -119,14 +127,18 @@ public sealed class Order : Entity<OrderId>
 
         RegisterDomainEvent(new OrderAcceptedDomainEvent
         {
-            AccountId = AccountId,
             OrderId = Id,
+            AccountId = AccountId,
             Symbol = Symbol,
             TradeType = TradeType,
             OrderType = Type,
             TimeInForce = TimeInForce,
             Quantity = Quantity,
+            ExecutedQuantity = ExecutedQuantity,
+            RemainingQuantity = RemainingQuantity,
             Status = Status,
+            ClientOrderId = ClientOrderId,
+            CreatedTimeUtc = CreatedTimeUtc,
         });
 
         return Result.Success;
@@ -139,6 +151,17 @@ public sealed class Order : Entity<OrderId>
         RegisterDomainEvent(new OrderCancelledDomainEvent
         {
             OrderId = Id,
+            AccountId = AccountId,
+            Symbol = Symbol,
+            TradeType = TradeType,
+            OrderType = Type,
+            TimeInForce = TimeInForce,
+            Quantity = Quantity,
+            ExecutedQuantity = ExecutedQuantity,
+            RemainingQuantity = RemainingQuantity,
+            Status = Status,
+            ClientOrderId = ClientOrderId,
+            CreatedTimeUtc = CreatedTimeUtc,
         });
 
         return Result.Success;
@@ -167,13 +190,18 @@ public sealed class Order : Entity<OrderId>
 
         RegisterDomainEvent(new OrderExecutedDomainEvent
         {
-            AccountId = AccountId,
             OrderId = Id,
+            AccountId = AccountId,
             Symbol = Symbol,
             TradeType = TradeType,
             OrderType = Type,
             TimeInForce = TimeInForce,
-            Quantity = quantity,
+            Quantity = Quantity,
+            ExecutedQuantity = ExecutedQuantity,
+            RemainingQuantity = RemainingQuantity,
+            Status = Status,
+            ClientOrderId = ClientOrderId,
+            CreatedTimeUtc = CreatedTimeUtc,
             Price = price,
         });
 

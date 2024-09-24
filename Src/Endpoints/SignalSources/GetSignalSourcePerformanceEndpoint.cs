@@ -4,9 +4,12 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
+using RichillCapital.Contracts;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.SignalSources;
 using RichillCapital.UseCases.SignalSources.Queries;
+
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RichillCapital.Api.Endpoints.SignalSources;
 
@@ -16,6 +19,11 @@ public sealed class GetSignalSourcePerformanceEndpoint(
     .WithRequest<string>
     .WithActionResult<SignalSourcePerformanceDto>
 {
+    [HttpGet(ApiRoutes.SignalSources.GetPerformance)]
+    [SwaggerOperation(
+        Summary = "Get signal source performance",
+        Description = "Get signal source performance by signal source id",
+        Tags = [ApiTags.SignalSources])]
     public override async Task<ActionResult<SignalSourcePerformanceDto>> HandleAsync(
         [FromRoute(Name = nameof(signalSourceId))] string signalSourceId,
         CancellationToken cancellationToken = default) =>

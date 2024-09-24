@@ -13,7 +13,7 @@ internal sealed class OrderCancelledDomainEventHandler(
         OrderCancelledDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("ORDER CANCELLED: {orderId}", domainEvent.OrderId);
+        _logger.LogOrderDomainEvent(domainEvent);
 
         return Task.CompletedTask;
     }

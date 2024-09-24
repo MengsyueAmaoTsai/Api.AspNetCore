@@ -13,15 +13,7 @@ internal sealed class OrderRejectedDomainEventHandler(
         OrderRejectedDomainEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("[OrderRejected] {tradeType} {quantity} {symbol} @ {price} {orderType} {timeInForce} reason: {reason} for order id: {orderId}",
-            domainEvent.TradeType,
-            domainEvent.Quantity,
-            domainEvent.Symbol,
-            domainEvent.OrderType,
-            domainEvent.OrderType,
-            domainEvent.TimeInForce,
-            domainEvent.Reason,
-            domainEvent.OrderId);
+        _logger.LogOrderDomainEvent(domainEvent);
 
         return Task.CompletedTask;
     }
