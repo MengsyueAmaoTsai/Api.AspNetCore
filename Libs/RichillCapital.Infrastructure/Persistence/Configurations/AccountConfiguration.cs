@@ -42,16 +42,31 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.HasData(
-        [
+        builder.HasData([.. CreateAccounts()]);
+    }
+
+    private static IEnumerable<Account> CreateAccounts()
+    {
+        var userId = "1";
+
+        return new List<Account>
+        {
+            CreateAccount(
+                id: "SIM-0000000000000000",
+                userId: userId,
+                connectionName: "RichillCapital.Exchange",
+                alias: "測試模擬帳戶",
+                currency: Currency.TWD,
+                createdTimeUtc: DateTimeOffset.UtcNow),
+
             CreateAccount(
                 id: "000-8283782",
-                userId: "1",
+                userId: userId,
                 connectionName: "RichillCapital.Kgi",
                 alias: "凱基期貨",
                 currency: Currency.TWD,
-                DateTimeOffset.UtcNow),
-        ]);
+                createdTimeUtc: DateTimeOffset.UtcNow),
+        };
     }
 
     private static Account CreateAccount(
