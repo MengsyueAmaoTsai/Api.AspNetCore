@@ -10,8 +10,10 @@ public static class DomainExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IMatchingEngine, FakeMatchingEngine>();
+        services.AddScoped<IPaperTradingService, PaperTradingService>();
 
         services.AddScoped<ISignalManager, SignalManager>();
+        services.AddScoped<ISignalSourceManager, SignalSourceManager>();
 
         services.AddScoped<ICopyTradingService, CopyTradingService>();
 

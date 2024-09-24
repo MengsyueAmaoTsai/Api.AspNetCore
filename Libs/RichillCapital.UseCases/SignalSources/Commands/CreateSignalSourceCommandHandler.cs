@@ -29,6 +29,7 @@ internal sealed class CreateSignalSourceCommandHandler(
             sourceId,
             command.Name,
             command.Description,
+            SignalSourceStatus.Draft,
             now);
 
         if (errorOrSignalSource.HasError)

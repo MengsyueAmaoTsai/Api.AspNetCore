@@ -7,6 +7,7 @@ public record SignalSourceResponse
     public required string Id { get; init; }
     public required string Name { get; init; }
     public required string Description { get; init; }
+    public required string Status { get; init; }
     public required DateTimeOffset CreatedTimeUtc { get; init; }
 }
 
@@ -22,6 +23,7 @@ public static class SignalSourceResponseMapping
             Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 
@@ -31,6 +33,7 @@ public static class SignalSourceResponseMapping
             Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
+            Status = dto.Status,
             CreatedTimeUtc = dto.CreatedTimeUtc,
         };
 }

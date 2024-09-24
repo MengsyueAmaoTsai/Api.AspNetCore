@@ -10,6 +10,7 @@ internal static class SignalSourceExtensions
             Id = source.Id.Value,
             Name = source.Name,
             Description = source.Description,
+            Status = source.Status.Name,
             CreatedTimeUtc = source.CreatedTimeUtc,
         };
 }

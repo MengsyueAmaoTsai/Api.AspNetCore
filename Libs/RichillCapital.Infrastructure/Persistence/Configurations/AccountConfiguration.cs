@@ -49,24 +49,21 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         var userId = "1";
 
-        return new List<Account>
-        {
-            CreateAccount(
+        yield return CreateAccount(
                 id: "SIM-0000000000000000",
                 userId: userId,
                 connectionName: "RichillCapital.Exchange",
                 alias: "測試模擬帳戶",
                 currency: Currency.TWD,
-                createdTimeUtc: DateTimeOffset.UtcNow),
+                createdTimeUtc: DateTimeOffset.UtcNow);
 
-            CreateAccount(
+        yield return CreateAccount(
                 id: "000-8283782",
                 userId: userId,
                 connectionName: "RichillCapital.Kgi",
                 alias: "凱基期貨",
                 currency: Currency.TWD,
-                createdTimeUtc: DateTimeOffset.UtcNow),
-        };
+                createdTimeUtc: DateTimeOffset.UtcNow);
     }
 
     private static Account CreateAccount(
