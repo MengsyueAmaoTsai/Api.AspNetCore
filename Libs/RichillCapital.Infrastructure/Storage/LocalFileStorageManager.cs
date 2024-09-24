@@ -41,6 +41,25 @@ internal sealed class LocalFileStorageManager(
 
         return Result.Success;
     }
+
+    public async Task<Result> DeleteAsync(FileEntry fileEntry, CancellationToken cancellationToken = default)
+    {
+        var path = Path.Combine(RootPath, fileEntry.Location);
+
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+
+        return await Task.FromResult(Result.Success);
+    }
+
+    public async Task<Result<byte[]>> ReadAsync(FileEntry fileEntry, CancellationToken cancellationToken = default)
+    {
+        var bytes = await File.ReadAllBytesAsync(Path.Combine(RootPath, fileEntry.Location), cancellationToken);
+
+        return Result<byte[]>.With(bytes);
+    }
 }
 
 public static class StorageExtensions

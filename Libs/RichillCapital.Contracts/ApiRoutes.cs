@@ -172,6 +172,7 @@ public static class ApiRoutes
         public const string List = FilesBase;
         public const string Create = FilesBase;
         public const string Get = $"{FilesBase}/{{fileId}}";
+        public const string Delete = $"{FilesBase}/{{fileId}}";
 
         public const string Download = $"{Get}/download";
     }

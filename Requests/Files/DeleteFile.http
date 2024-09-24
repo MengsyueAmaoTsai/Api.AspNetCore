@@ -1,0 +1,6 @@
+@Localhost = https://localhost:10000
+@FileId = 9442fe7c-12c6-41ac-9025-86a2fcca4e53
+
+### Delete file
+DELETE {{Localhost}}/api/v1/files/{{FileId}}
+
