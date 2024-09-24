@@ -20,7 +20,10 @@ public sealed class ListBrokeragesEndpoint(
     .WithActionResult<IEnumerable<BrokerageResponse>>
 {
     [HttpGet(ApiRoutes.Brokerages.List)]
-    [SwaggerOperation(Tags = [ApiTags.Brokerages])]
+    [SwaggerOperation(
+        Summary = "List all brokerages",
+        Description = "List all brokerages",
+        Tags = [ApiTags.Brokerages])]
     public override async Task<ActionResult<IEnumerable<BrokerageResponse>>> HandleAsync(
         CancellationToken cancellationToken = default) =>
         await ErrorOr<ListBrokeragesQuery>
