@@ -1,5 +1,5 @@
 @Localhost = https://localhost:10000
-@FileId = 1
+@FileId = d376b5e3-08a8-4199-b739-4ce190f297cc
 
 ### Get file
 GET {{Localhost}}/api/v1/files/{{FileId}}
