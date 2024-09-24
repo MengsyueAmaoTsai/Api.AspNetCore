@@ -30,6 +30,7 @@ public sealed class CreateFileEndpoint(
             {
                 Name = req.Name,
                 Description = req.Description,
+                Size = req.FromFile.Length,
                 FileName = req.FromFile.FileName,
                 FileStream = req.FromFile.OpenReadStream(),
                 Encrypted = req.Encrypted,
