@@ -3,12 +3,13 @@ using System.Net.Mime;
 
 using Asp.Versioning;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 using RichillCapital.Contracts;
-using RichillCapital.Domain.Abstractions;
-using RichillCapital.Domain.Errors;
-using RichillCapital.Domain.Files;
+using RichillCapital.SharedKernel.Monads;
+using RichillCapital.UseCases.Files.Queries;
 
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,8 +17,7 @@ namespace RichillCapital.Api.Endpoints.Files;
 
 [ApiVersion(EndpointVersion.V1)]
 public sealed class DownloadFileEndpoint(
-    IReadOnlyRepository<FileEntry> _fileRepository,
-    IFileStorageManager _fileManager) : AsyncEndpoint
+    IMediator _mediator) : AsyncEndpoint
     .WithRequest<string>
     .WithActionResult
 {
@@ -28,37 +28,18 @@ public sealed class DownloadFileEndpoint(
         Tags = [ApiTags.Files])]
     public override async Task<ActionResult> HandleAsync(
         [FromRoute(Name = nameof(fileId))] string fileId,
-        CancellationToken cancellationToken = default)
-    {
-        var validationResult = FileEntryId.From(fileId);
-
-        if (validationResult.IsFailure)
-        {
-            return HandleFailure(validationResult.Error);
-        }
-
-        var id = validationResult.Value;
-
-        var maybeFile = await _fileRepository.GetByIdAsync(id, cancellationToken);
-
-        if (maybeFile.IsNull)
-        {
-            return HandleFailure(FileErrors.NotFound(id));
-        }
-
-        var file = maybeFile.Value;
-
-        var rawDataResult = await _fileManager.ReadAsync(file, cancellationToken);
-
-        if (rawDataResult.IsFailure)
-        {
-            return HandleFailure(rawDataResult.Error);
-        }
-
-        var rawData = rawDataResult.Value;
-
-        // TODO: Decryption logic here
-
-        return File(rawData, MediaTypeNames.Application.Octet, WebUtility.HtmlEncode(file.FileName));
-    }
+        CancellationToken cancellationToken = default) =>
+        await ErrorOr<string>
+            .With(fileId)
+            .Then(id => new DownloadFileQuery
+            {
+                FileId = id,
+            })
+            .Then(query => _mediator.Send(query, cancellationToken))
+            .Match(
+                HandleFailure,
+                file => File(
+                    file.Content,
+                    MediaTypeNames.Application.Octet,
+                    WebUtility.HtmlEncode(file.Name)));
 }
