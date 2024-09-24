@@ -1,0 +1,8 @@
+@Localhost = https://localhost:10000
+
+### Create file
+GET {{Localhost}}/api/v1/files
+Content-Type: application/json
+
+{
+}

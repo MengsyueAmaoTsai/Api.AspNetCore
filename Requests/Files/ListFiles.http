@@ -1,0 +1,5 @@
+@Localhost = https://localhost:10000
+
+### List files
+GET {{Localhost}}/api/v1/files
+

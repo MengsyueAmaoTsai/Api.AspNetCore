@@ -16,4 +16,5 @@ internal sealed class ApiTags
     internal const string Signals = nameof(Signals);
     internal const string SignalSubscriptions = nameof(SignalSubscriptions);
     internal const string SignalReplicationPolicies = nameof(SignalReplicationPolicies);
+    internal const string Files = nameof(Files);
 }

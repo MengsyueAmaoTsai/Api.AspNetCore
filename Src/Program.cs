@@ -13,6 +13,7 @@ using RichillCapital.Infrastructure.Logging;
 using RichillCapital.Infrastructure.Persistence;
 using RichillCapital.UseCases;
 using RichillCapital.Infrastructure.DataFeeds;
+using RichillCapital.Infrastructure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,7 @@ builder.Services.AddDateTimeProvider();
 builder.Services.AddDomainEvents();
 
 // Infrastructure - Storage
-// builder.Services.AddLocalFileStorageManager();
+builder.Services.AddLocalFileStorage();
 
 // Infrastructure - Notifications
 builder.Services.AddLineNotification();

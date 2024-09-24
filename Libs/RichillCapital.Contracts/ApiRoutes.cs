@@ -164,5 +164,14 @@ public static class ApiRoutes
 
         public const string Get = $"{SignalReplicationPoliciesBase}/{{signalReplicationPolicyId}}";
     }
+
+    public static class Files
+    {
+        private const string FilesBase = $"{ApiBase}/files";
+
+        public const string List = FilesBase;
+        public const string Create = FilesBase;
+        public const string Get = $"{FilesBase}/{{fileId}}";
+    }
 }
 
