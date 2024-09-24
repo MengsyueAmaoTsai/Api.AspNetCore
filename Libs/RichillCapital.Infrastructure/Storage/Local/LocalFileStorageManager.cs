@@ -1,25 +1,26 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using RichillCapital.Domain.Abstractions;
 using RichillCapital.Domain.Files;
 using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 
-namespace RichillCapital.Infrastructure.Storage;
+namespace RichillCapital.Infrastructure.Storage.Local;
 
 internal sealed class LocalFileStorageManager(
-    ILogger<LocalFileStorageManager> _logger) :
+    ILogger<LocalFileStorageManager> _logger,
+    IOptions<StorageOptions> options) :
     IFileStorageManager
 {
-    private const string RootPath = @"C:\Data\Files";
+    private readonly LocalStorageOptions _options = options.Value.Local;
 
     public async Task<Result> CreateAsync(
         FileEntry fileEntry,
         Stream stream,
         CancellationToken cancellationToken = default)
     {
-        var filePath = Path.Combine(RootPath, fileEntry.Location);
+        var filePath = Path.Combine(_options.Path, fileEntry.Location);
         var directory = Path.GetDirectoryName(filePath);
 
         if (string.IsNullOrEmpty(directory))
@@ -44,7 +45,7 @@ internal sealed class LocalFileStorageManager(
 
     public async Task<Result> DeleteAsync(FileEntry fileEntry, CancellationToken cancellationToken = default)
     {
-        var path = Path.Combine(RootPath, fileEntry.Location);
+        var path = Path.Combine(_options.Path, fileEntry.Location);
 
         if (File.Exists(path))
         {
@@ -56,17 +57,8 @@ internal sealed class LocalFileStorageManager(
 
     public async Task<Result<byte[]>> ReadAsync(FileEntry fileEntry, CancellationToken cancellationToken = default)
     {
-        var bytes = await File.ReadAllBytesAsync(Path.Combine(RootPath, fileEntry.Location), cancellationToken);
+        var bytes = await File.ReadAllBytesAsync(Path.Combine(_options.Path, fileEntry.Location), cancellationToken);
 
         return Result<byte[]>.With(bytes);
-    }
-}
-
-public static class StorageExtensions
-{
-    public static IServiceCollection AddLocalFileStorage(this IServiceCollection services)
-    {
-        services.AddSingleton<IFileStorageManager, LocalFileStorageManager>();
-        return services;
     }
 }

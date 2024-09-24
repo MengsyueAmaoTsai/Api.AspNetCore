@@ -39,7 +39,7 @@ builder.Services.AddDateTimeProvider();
 builder.Services.AddDomainEvents();
 
 // Infrastructure - Storage
-builder.Services.AddLocalFileStorage();
+builder.Services.AddStorage();
 
 // Infrastructure - Notifications
 builder.Services.AddLineNotification();
