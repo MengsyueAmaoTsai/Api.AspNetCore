@@ -72,7 +72,7 @@ internal sealed class RcexBrokerage(
         var result = await _restClient.CreateOrderAsync(
             new CreateOrderRequest
             {
-                AccountId = "000-8283782",
+                AccountId = "SIM-0000000000000000",
                 Symbol = symbol.Value,
                 TradeType = tradeType.Name,
                 OrderType = orderType.Name,
