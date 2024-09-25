@@ -7,5 +7,6 @@ Content-Type: application/json
 {
     "id": "test",
     "name": "Test signal source",
-    "description": "test signal source created from vscode rest client"
+    "description": "test signal source created from vscode rest client",
+    "visibility": "Public"
 }

@@ -15,13 +15,14 @@ public sealed record SignalSourceCreatedDomainEventHandler(
     {
         _logger.LogInformation(
             "[{EventName}] Signal source {SourceId} has been {Status} at {CreatedTimeUtc}. " +
-            "Name: {Name}, Description: {Description}.",
+            "Name: {Name}, Description: {Description} Visibility: {Visibility}.",
             typeof(SignalSourceCreatedDomainEvent).Name,
             domainEvent.SignalSourceId,
             domainEvent.Status,
             domainEvent.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss"),
             domainEvent.Name,
-            domainEvent.Description);
+            domainEvent.Description,
+            domainEvent.Visibility);
 
         return Task.CompletedTask;
     }

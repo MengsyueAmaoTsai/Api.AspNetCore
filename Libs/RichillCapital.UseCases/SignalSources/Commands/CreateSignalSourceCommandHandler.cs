@@ -1,5 +1,6 @@
 using RichillCapital.Domain;
 using RichillCapital.Domain.Abstractions;
+using RichillCapital.SharedKernel;
 using RichillCapital.SharedKernel.Monads;
 using RichillCapital.UseCases.Abstractions;
 
@@ -14,14 +15,17 @@ internal sealed class CreateSignalSourceCommandHandler(
         CreateSignalSourceCommand command,
         CancellationToken cancellationToken)
     {
-        var validationResult = SignalSourceId.From(command.Id);
+        var validationResult = Result<(SignalSourceId, SignalSourceVisibility)>.Combine(
+            SignalSourceId.From(command.Id),
+            SignalSourceVisibility.FromName(command.Visibility)
+                .ToResult(Error.Invalid($"Invalid visibility: {command.Visibility}")));
 
         if (validationResult.IsFailure)
         {
             return ErrorOr<SignalSourceId>.WithError(validationResult.Error);
         }
 
-        var sourceId = validationResult.Value;
+        var (sourceId, visibility) = validationResult.Value;
 
         var now = DateTimeOffset.UtcNow;
 
@@ -29,6 +33,7 @@ internal sealed class CreateSignalSourceCommandHandler(
             sourceId,
             command.Name,
             command.Description,
+            visibility,
             SignalSourceStatus.Draft,
             now);
 

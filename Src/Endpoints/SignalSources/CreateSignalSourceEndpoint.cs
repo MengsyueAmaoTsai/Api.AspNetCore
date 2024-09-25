@@ -33,6 +33,7 @@ public sealed class CreateSignalSourceEndpoint(
                 Id = req.Id,
                 Name = req.Name,
                 Description = req.Description,
+                Visibility = req.Visibility,
             })
             .Then(query => _mediator.Send(query, cancellationToken))
             .Then(id => new SignalSourceCreatedResponse

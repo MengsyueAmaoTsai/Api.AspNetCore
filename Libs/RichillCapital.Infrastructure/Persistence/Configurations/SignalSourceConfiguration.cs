@@ -23,6 +23,11 @@ internal sealed class SignalSourceConfiguration : IEntityTypeConfiguration<Signa
             .IsRequired();
 
         builder
+            .Property(source => source.Visibility)
+            .HasEnumerationValueConversion()
+            .IsRequired();
+
+        builder
             .Property(source => source.Status)
             .HasEnumerationValueConversion()
             .IsRequired();
@@ -33,6 +38,7 @@ internal sealed class SignalSourceConfiguration : IEntityTypeConfiguration<Signa
                 id: "TV-Long-Task",
                 name: "TradingView Long Task",
                 description: "TradingView Long Task Signal Source",
+                visibility: SignalSourceVisibility.Public,
                 status: SignalSourceStatus.Draft,
                 createdTimeUtc: DateTimeOffset.UtcNow),
         ]);
@@ -42,12 +48,14 @@ internal sealed class SignalSourceConfiguration : IEntityTypeConfiguration<Signa
         string id,
         string name,
         string description,
+        SignalSourceVisibility visibility,
         SignalSourceStatus status,
         DateTimeOffset createdTimeUtc) => SignalSource
         .Create(
             SignalSourceId.From(id).ThrowIfFailure().Value,
             name,
             description,
+            visibility,
             status,
             createdTimeUtc)
         .ThrowIfError().Value;

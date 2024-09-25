@@ -14,18 +14,21 @@ public sealed class SignalSource : Entity<SignalSourceId>
         SignalSourceId id,
         string name,
         string description,
+        SignalSourceVisibility visibility,
         SignalSourceStatus status,
         DateTimeOffset createdTimeUtc)
         : base(id)
     {
         Name = name;
         Description = description;
+        Visibility = visibility;
         Status = status;
         CreatedTimeUtc = createdTimeUtc;
     }
 
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public SignalSourceVisibility Visibility { get; private set; }
     public SignalSourceStatus Status { get; private set; }
     public DateTimeOffset CreatedTimeUtc { get; private set; }
 
@@ -37,6 +40,7 @@ public sealed class SignalSource : Entity<SignalSourceId>
         SignalSourceId id,
         string name,
         string description,
+        SignalSourceVisibility visibility,
         SignalSourceStatus status,
         DateTimeOffset createdTimeUtc)
     {
@@ -49,6 +53,7 @@ public sealed class SignalSource : Entity<SignalSourceId>
             id,
             name,
             description,
+            visibility,
             status,
             createdTimeUtc);
 
@@ -57,6 +62,7 @@ public sealed class SignalSource : Entity<SignalSourceId>
             SignalSourceId = source.Id,
             Name = source.Name,
             Description = source.Description,
+            Visibility = source.Visibility,
             Status = source.Status,
             CreatedTimeUtc = source.CreatedTimeUtc,
         });

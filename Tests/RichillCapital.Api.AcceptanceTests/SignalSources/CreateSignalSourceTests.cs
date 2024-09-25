@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 
 using RichillCapital.Contracts.SignalSources;
+using RichillCapital.Domain;
 
 namespace RichillCapital.Api.AcceptanceTests.SignalSources;
 
@@ -17,7 +18,8 @@ public sealed class CreateSignalSourceTests(
         {
             Id = "test-signal-source",
             Name = "Test Signal Source",
-            Description = "Test Signal Source Description"
+            Description = "Test Signal Source Description",
+            Visibility = SignalSourceVisibility.Public.Name,
         };
 
         var response = await Client.PostAsJsonAsync("api/v1/signal-sources", request);
@@ -34,5 +36,6 @@ public sealed class CreateSignalSourceTests(
         signalSource!.Id.Should().Be(request.Id);
         signalSource.Name.Should().Be(request.Name);
         signalSource.Description.Should().Be(request.Description);
+        signalSource.Visibility.Should().Be(request.Visibility);
     }
 }
