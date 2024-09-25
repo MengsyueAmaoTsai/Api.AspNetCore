@@ -18,10 +18,11 @@ using RichillCapital.Infrastructure.Storage;
 var builder = WebApplication.CreateBuilder(args);
 
 // Domain
-builder.Services.AddOrderPlacementEvaluator();
+builder.Services.AddDomainServices();
 
 // Application
 builder.Services.AddUseCases();
+
 // Infrastructure - Logging
 builder.WebHost.UseCustomLogger();
 // builder.Services.AddSerilog();
