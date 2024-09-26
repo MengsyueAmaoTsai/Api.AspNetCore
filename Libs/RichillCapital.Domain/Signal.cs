@@ -33,15 +33,17 @@ public sealed class Signal : Entity<SignalId>
         CreatedTimeUtc = createdTimeUtc;
     }
 
-    public SignalSourceId SourceId { get; init; }
-    public SignalOrigin Origin { get; init; }
-    public Symbol Symbol { get; init; }
-    public DateTimeOffset Time { get; init; }
-    public TradeType TradeType { get; init; }
-    public decimal Quantity { get; init; }
-    public long Latency { get; init; }
+    public SignalSourceId SourceId { get; private set; }
+    public SignalOrigin Origin { get; private set; }
+    public Symbol Symbol { get; private set; }
+    public DateTimeOffset Time { get; private set; }
+    public TradeType TradeType { get; private set; }
+    public decimal Quantity { get; private set; }
+    public long Latency { get; private set; }
     public SignalStatus Status { get; private set; }
-    public DateTimeOffset CreatedTimeUtc { get; init; }
+    public DateTimeOffset CreatedTimeUtc { get; private set; }
+
+    public SignalSource Source { get; private set; }
 
     public static ErrorOr<Signal> Create(
         SignalId id,
@@ -126,6 +128,11 @@ public sealed class Signal : Entity<SignalId>
 
     public Result Emit()
     {
+        if (Source.Status == SignalSourceStatus.Draft || Source.Status == SignalSourceStatus.Deprecated)
+        {
+            return Result.Failure(Error.Conflict($"Cannot emit signal from source in {Source.Status} status"));
+        }
+
         Status = SignalStatus.Emitted;
         RegisterDomainEvent(new SignalEmittedDomainEvent
         {

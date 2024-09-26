@@ -54,7 +54,7 @@ internal sealed class SignalConfiguration : IEntityTypeConfiguration<Signal>
             .IsRequired();
 
         builder
-            .HasOne<SignalSource>()
+            .HasOne(signal => signal.Source)
             .WithMany(source => source.Signals)
             .HasForeignKey(signal => signal.SourceId)
             .OnDelete(DeleteBehavior.Cascade)

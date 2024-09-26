@@ -23,7 +23,30 @@ internal sealed class SignalCreatedDomainEventHandler(
     {
         _logger.LogSignalDomainEvent(domainEvent);
 
+        await SendNotificationAsync(domainEvent, cancellationToken);
 
+        var signal = (await _signalRepository
+            .GetByIdAsync(domainEvent.SignalId, cancellationToken)
+            .ThrowIfNull())
+            .Value;
+
+        if (domainEvent.Latency > Signal.MaxLatencyInMilliseconds)
+        {
+            await _signalManager.MarkAsDelayedAsync(signal);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return;
+        }
+
+        await _signalManager.EmitAsync(signal, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task SendNotificationAsync(
+        SignalCreatedDomainEvent domainEvent,
+        CancellationToken cancellationToken = default)
+    {
         var message = new StringBuilder()
             .AppendLine($"Time: {domainEvent.Time:yyyy-MM-dd HH:mm:ss.fff}")
             .AppendLine($"SourceId: {domainEvent.SourceId}")
@@ -42,36 +65,5 @@ internal sealed class SignalCreatedDomainEventHandler(
                 "Failed to send Line notification: {message}",
                 notifyResult.Error.Message);
         }
-
-        var signal = (await _signalRepository
-            .GetByIdAsync(domainEvent.SignalId, cancellationToken)
-            .ThrowIfNull())
-            .Value;
-
-        if (domainEvent.Latency > Signal.MaxLatencyInMilliseconds)
-        {
-            await _signalManager.MarkAsDelayedAsync(signal);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return;
-        }
-
-        await _signalManager.EmitAsync(signal, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-
-    private void LogEvent(SignalCreatedDomainEvent @event) =>
-        _logger.LogInformation(
-            "[SignalCreated] - Signal {SignalId} from {SourceId} ({Origin}) has been {Status} at {CreatedTimeUtc}. " +
-            "Latency: {Latency}ms. " +
-            "Trading info: {Time} {TradeType} {Quantity} {Symbol}",
-            @event.SignalId,
-            @event.SourceId,
-            @event.Origin,
-            @event.Status,
-            @event.CreatedTimeUtc.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-            @event.Latency,
-            @event.Time.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-            @event.Symbol,
-            @event.TradeType,
-            @event.Quantity);
 }
