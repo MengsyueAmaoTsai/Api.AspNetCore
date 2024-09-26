@@ -25,8 +25,6 @@ internal sealed class ConfigureSwaggerOptions(
 
     private static OpenApiInfo CreateOpenApiInfo(ApiVersionDescription description)
     {
-        var assemblyVersion = typeof(Program).Assembly.GetName().Version;
-
         var info = new OpenApiInfo
         {
             Title = $"RichillCapital.Api v{description.ApiVersion}",
