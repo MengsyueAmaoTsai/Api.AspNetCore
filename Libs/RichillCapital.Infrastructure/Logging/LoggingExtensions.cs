@@ -63,6 +63,7 @@ public static class LoggingExtensions
                     flushToDiskInterval: TimeSpan.FromSeconds(1),
                     restrictedToMinimumLevel: LogEventLevel.Information,
                     outputTemplate: FileTemplate)
+                .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
         });
 

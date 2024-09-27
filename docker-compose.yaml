@@ -1,7 +1,19 @@
 services:
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+
+    environment:
+      - ACCEPT_EULA=Y
+
+    ports:
+      - "5341:5341"
+      - "8081:80"
+
   mssql:
+    container_name: mssql
     image: mcr.microsoft.com/mssql/server:2022-latest
-    
+
     environment:
       SA_PASSWORD: Pa55w0rd!
       MSSQL_PID: Developer
