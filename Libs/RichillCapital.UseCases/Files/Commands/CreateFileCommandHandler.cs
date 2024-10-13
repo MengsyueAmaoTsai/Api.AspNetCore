@@ -25,7 +25,7 @@ internal sealed class CreateFileCommandHandler(
             newId,
             command.Name,
             command.Description,
-            size: 0,
+            size: command.Size,
             command.FileName,
             fileLocation,
             command.Encrypted,
